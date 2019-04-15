@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>奖分池</title>
+		<link rel="stylesheet" href="__STATIC__/css/bonuspool2.css">
+		
+	</head>
+	<body>
+		<!--头部-->
+		<div class="bonuspool_header">
+			<p class="returnBut_lb" data-num="{:U('shop/Index/index')}" onclick="returnFun()">
+				<img src="__STATIC__/images/back.png"/>
+			</p>
+			<span>奖金池</span>
+		</div>
+		
+		<!--下面内容区块-->
+		<div class="bonuspool_text">
+		   <div class="bonuspool_priceear">  	   	   
+		   	   <div  >	   	   	
+		   	   	   <p>{$rank[0]['bonus_total']|default=0}</p>
+		   	   	   <p>上期奖金池总额(元)</p> 
+		   	   </div>		   	   
+		   </div>
+		   
+		   <div class="bonuspool_paiming">  
+		   	  <span class="paiming_title">上期获奖排名</span> 
+		   	  <ul>
+		   	  	  <li>	   	  	  	
+		   	  	  	<span>名次</span>
+		   	  	  	<span>用户</span>
+	   	  	  		<span>奖励金额</span>
+	   	  	  		<span>时间</span>		   	  	  	
+		   	  	  </li>
+
+		   	  	  <empty name="rank">
+	   	  	  		<div class="rank_none">
+	   	  	  			<span>暂无排名记录</span>
+	   	  	  		</div>
+		   	  	  <else/>
+		   	  	  	<foreach name="rank" item="item" key="key">
+		   	  	  		<li>
+				   	  	  	<span>
+				   	  	  		<img src="__STATIC__/images/icon{$item.ranking}.png"/>
+				   	  	  	</span>
+				   	  	  	<span>{$item.nickname}</span>
+				   	  	  	<span>{$item.money}</span>
+				   	  	  	<span class="jiage">{$item['create_time']|date="Y-m-d", ###}</span>
+		   	  	  		</li>
+		   	  	  	</foreach>
+		   	  	  </empty>
+
+		   	  	  <!--  <li>
+		   	  	  	<span>
+		   	  	  		<img src="__STATIC__/images/icon2.png"/>
+		   	  	  	</span>
+		   	  	  	<span>李三</span>
+		   	  	  	<span>35</span>
+		   	  	  	<span class="jiage">22.1</span>
+		   	  	  </li>
+
+		   	  	   <li>	
+		   	  	  	<span>
+		   	  	  		<img src="__STATIC__/images/icon3.png"/>
+		   	  	  	</span>
+		   	  	  	<span>张名</span>
+		   	  	  	<span>25</span>
+		   	  	  	<span class="jiage">12.5</span>
+		   	  	  </li>	 -->
+		   	  </ul>  	
+		   </div>
+
+		   <div class="bonuspool_paiming" style="margin-top: 15px;">
+				<span class="paiming_title">我的奖励记录</span>
+				<empty name="my_rank">
+					<div class="rank_none">
+						<span>暂无记录</span>
+					</div>
+				<else/>
+					<ul>
+						<li>	   	  	  	
+			   	  	  		<span>名次</span>
+			   	  	  		<span>奖励金额</span>
+			   	  	  		<span>奖金池金额</span>
+			   	  	  		<span>时间</span>		   	  	  	
+			   	  	    </li>
+						<foreach name="my_rank" item="item">
+							<li>	
+					   	  	  	<span>{$item['ranking']}</span>
+					   	  	  	<span>{$item['money']}</span>
+					   	  	  	<span>{$item['bonus_total']}</span>
+					   	  	  	<span class="jiage">{$item['create_time']|date="Y-m-d", ###}</span>
+			   	  	  		</li>	
+						</foreach>
+					</ul>
+				</empty>
+			</div>
+
+		   <!--注意提示-->
+		   <div class="notice">
+		   	  <p class="rank_none">我的奖励仅显示这一年的记录</p>
+		   	  <p>注：任意领取商品付的费用显示，根据直推人领取产品数量排名，排名前三名可得相应的返利。</p>
+		   </div>	
+	  </div>
+	  <script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
+	  <script src="__STATIC__/js/public/public_lb.js"></script>
+	</body>
+</html>

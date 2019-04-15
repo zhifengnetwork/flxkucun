@@ -1,0 +1,201 @@
+<include file="public/layout" />
+<script src="__ROOT__/public/static/js/layer/laydate/laydate.js"></script>
+<body style="background-color: rgb(255, 255, 255); overflow: auto; cursor: default; -moz-user-select: inherit;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+	<div class="fixed-bar">
+		<div class="item-title">
+			<div class="subject">
+				<h3>产品领取日志</h3>
+				<h5>产品领取日志信息查看</h5>
+			</div>
+		</div>
+	</div>
+
+	<!-- 操作说明 -->
+	<div id="explanation" class="explanation" style="color: rgb(44, 188, 163); background-color: rgb(237, 251, 248); width: 99%; height: 100%;">
+		<div id="checkZoom" class="title"><i class="fa fa-lightbulb-o"></i>
+		  <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+		  <span title="收起提示" id="explanationZoom" style="display: block;"></span>
+		</div>
+		 <ul>
+			<li>查看产品领取日志信息</li>
+		</ul>
+	</div>
+	
+	<div class="flexigrid">
+		<div class="mDiv">
+			<div class="ftitle">
+				<h3>日志列表</h3>
+				<h5>(共{$pager->totalRows}条记录)</h5>
+			</div>
+			<div title="刷新数据" class="pReload"><i class="fa fa-refresh"></i></div>
+
+			<form class="navbar-form form-inline" id="search-form" method="POST" action="" onSubmit="return check_form();">
+				<input type="hidden" name="timegap" id="timegap" value="{$timegap}">
+				<div class="sDiv">
+					<div class="sDiv2" style="margin-right: 10px;">
+						<input type="text" size="30" id="start_time" value="{$begin}" placeholder="起始时间" class="qsbox">
+						<input type="button" class="btn" value="起始时间">
+					</div>
+					<div class="sDiv2" style="margin-right: 10px;">
+						<input type="text" size="30" id="end_time" value="{$end}" placeholder="截止时间" class="qsbox">
+						<input type="button" class="btn" value="截止时间">
+					</div>
+					<div class="sDiv2">
+						<select class="select" name="search_type">
+                            <option value="user_id" <if condition="$search_type eq 'user_id'">selected</if>>上级ID</option>
+                            <option value="nickname" <if condition="$search_type eq 'nickname'">selected</if>>上级昵称</option>
+                            <option value="account" <if condition="$search_type eq 'account'">selected</if>>上级账户</option>
+                        </select>
+                        <input type="text" size="30" name="search_value" value="{$search_value}" placeholder="模糊查询" class="qsbox">
+						<input type="button" onclick="clickSearch(this,'search-form')"  class="btn" value="搜索">
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<div class="hDiv">
+			<div class="hDivBox">
+				<table cellspacing="0" cellpadding="0">
+					<thead>
+					<tr>
+						<th class="sign" axis="col0">
+							<div style="width: 24px;"><i class="ico-check"></i></div>
+						</th>
+						<th align="center" abbr="article_title" axis="col3" class="">
+							<div style="text-align: center; width: 50px;" class="">记录ID</div>
+						</th>
+						<th align="center" abbr="ac_id" axis="col4" class="">
+							<div style="text-align: center; width: 200px;" class="">用户</div>
+						</th>
+						<th align="center" abbr="ac_id" axis="col4" class="">
+							<div style="text-align: center; width: 200px;" class="">上级用户</div>
+						</th>
+						<th align="center" abbr="article_show" axis="col5" class="">
+							<div style="text-align: center; width: 100px;" class="">领取产品数量</div>
+						</th>
+						<th align="center" abbr="article_time" axis="col6" class="">
+							<div style="text-align: center; width: 200px;" class="">放入奖金池金额</div>
+						</th>
+						<!-- <th align="center" abbr="article_time" axis="col6" class="">
+							<div style="text-align: center; width: 200px;" class="">邮费</div>
+						</th> -->
+						<th align="center" abbr="article_time" axis="col6" class="">
+							<div style="text-align: center; width: 200px;" class="">时间</div>
+						</th>
+						<th align="center" abbr="article_time" axis="col6" class="">
+							<div style="text-align: center; width: 200px;" class="">描述</div>
+						</th>
+						<th style="width:100%" axis="col7">
+							<div></div>
+						</th>
+					</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+		<div class="bDiv" style="height: auto;">
+			<div id="flexigrid" cellpadding="0" cellspacing="0" border="0">
+				<table>
+					<tbody>
+					<foreach name="receive_list" item="vo" key="k" >
+						<tr>
+							<td class="sign">
+								<div style="width: 24px;"><i class="ico-check"></i></div>
+							</td>
+							<td align="center" class="">
+								<div style="text-align: center; width: 50px;">{$vo.id}</div>
+							</td>
+							<td align="center" class="">
+								<div style="text-align: center; width: 200px;">{$vo.user_name}</div>
+							</td>
+							<td align="center" class="">
+								<div style="text-align: center; width: 200px;">{$vo.leader}</div>
+							</td>
+							<td align="center" class="">
+								<div style="text-align: center; width: 100px;">{$vo.nums}</div>
+							</td>
+							<td align="center" class="">
+								<div style="text-align: center; width: 200px;">{$vo.money}</div>
+							</td>
+							<!-- <td align="center" class="">
+								<div style="text-align: center; width: 200px;">{$vo.postage}</div>
+							</td> -->
+							<td align="center" class="">
+								<div style="text-align: center; width: 200px;">{$vo.create_time|date='Y-m-d H:i', ###}</div>
+							</td>
+							<td align="center" class="">
+								<div style="text-align: center; width: 200px;">{$vo.desc}</div>
+							</td>
+							<td align="" class="" style="width: 100%;">
+								<div>&nbsp;</div>
+							</td>
+						</tr>
+					</foreach>
+					</tbody>
+				</table>
+			</div>
+			<div class="iDiv" style="display: none;"></div>
+		</div>
+		<!--分页位置-->
+			{$pager->show()}
+		 </div>
+</div>
+<script src="__ROOT__/public/static/js/layer/laydate/laydate.js"></script>
+<script>
+	$(document).ready(function(){
+		// 表格行点击选中切换
+		$('#flexigrid > table>tbody >tr').click(function(){
+			$(this).toggleClass('trSelected');
+		});
+
+		// 点击刷新数据
+		$('.fa-refresh').click(function(){
+			location.href = location.href;
+		});
+
+		// 起始位置日历控件
+        $('#start_time').layDate();
+        $('#end_time').layDate();
+
+        //选中全部
+	    $('.hDivBox .sign').click(function(){
+	       var sign = $('#flexigrid > table>tbody>tr');
+	       if($(this).parent().hasClass('trSelected')){
+	           sign.each(function(){
+	               $(this).removeClass('trSelected');
+	           });
+	           $(this).parent().removeClass('trSelected');
+	       }else{
+	           sign.each(function(){
+	               $(this).addClass('trSelected');
+	           });
+	           $(this).parent().addClass('trSelected');
+	       }
+	    })
+	});
+
+	function check_form(){
+		var start_time = $.trim($('#start_time').val());
+		var end_time =  $.trim($('#end_time').val());
+		if(start_time == '' ^ end_time == ''){
+			layer.alert('请选择完整的时间间隔', {icon: 2});
+			return false;
+		}	
+		if(start_time > end_time){
+			layer.alert('请选择正确的起始时间', {icon: 2});
+			return false;
+		}
+		if(start_time !== '' && end_time !== ''){
+            $('#timegap').val(start_time+","+end_time);
+        }
+        if(start_time == '' && end_time == ''){
+            $('#timegap').val('');
+        }		 
+		return true;
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+body{
+    background-color: #f5f5f5;
+}
+.wrapper{
+    padding-bottom: 1.1rem;
+}
+/* 头部 */
+.header{
+    width: 100%;
+    height: 0.88rem;
+    background: -moz-linear-gradient(top, #fe44a0 0%, #e81295 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fe44a0), color-stop(100%, #e81295));
+	background: -webkit-linear-gradient(top, #fe44a0 0%, #e81295 100%);
+	background: -o-linear-gradient(top, #fe44a0 0%, #e81295 100%);
+	background: -ms-linear-gradient(top, #fe44a0 0%, #e81295 100%);
+    display: flex;
+    align-items: center;
+    padding: 0 0.2rem;
+    box-sizing: border-box;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 99;
+}
+.header .scan img{
+    width: 0.48rem;
+}
+.header .search{
+    width: 100%;
+    height: 0.56rem;
+    flex: 1;
+    margin: 0 0.2rem;
+    background-color: #fff;
+    border-radius: 0.28rem;
+    display: flex;
+    align-items: center;
+}
+.header .search .search-btn img{
+    width: 0.36rem;
+    margin: 0.1rem 0.15rem 0.1rem 0.3rem;
+}
+.header .search .search-input{
+    height: 0.4rem;
+    line-height: 0.4rem;
+    border-left: 0.01rem solid #d0d0d0;
+    font-size: 0.24rem;
+    color: #8a8a8a;
+    padding-left: 0.18rem;
+    box-sizing: border-box;
+}
+.header .login-btn img{
+    width: 0.47rem;
+}
+
+/* 轮播图 */
+.banner-wrap-zp{
+    padding-top: 0.88rem;
+}
+.banner-wrap-zp img{
+    width: 100%;
+}
+.swiper-bg{
+    width: 100%;
+    height: 0.13rem;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 99;
+}
+.swiper-bg img{
+    width: 100%;
+}
+
+/* 菜单导航 */
+.nav-wrap-zp ul{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 0.25rem;
+}
+.nav-wrap-zp ul li{
+    width: 25%;
+    text-align: center;
+    margin-top: 0.2rem;
+}
+.nav-wrap-zp ul li a{
+    color: #151515;
+}
+.nav-wrap-zp ul li img{
+    width: 1.1rem;
+    margin: 0 auto 0.1rem;
+    display: block;
+}
+.nav-wrap-zp ul li span{
+    font-size: 0.24rem;
+}
+
+/* 秒杀 */
+.floors{
+    padding: 0 0.2rem;
+    box-sizing: border-box;
+    display: flex;
+}
+.seckill-wrap,.find-good{
+    width: 50%;
+    background-color: #ffffff;
+}
+.seckill-wrap {
+    border-right:0.01rem solid #e6e6e6;
+}
+.seckill-wrap .up i img{
+    width: 1.1rem;
+}
+.floors .up{
+    height: 0.66rem;
+    margin-left: 0.25rem;
+    display: flex;
+    align-items: center;
+} 
+
+/* 倒计时 */
+.seckill-wrap .downTime{
+    margin-left: 0.1rem;
+    font-size: 0.24rem;
+    color: #ff0054;
+} 
+.seckill-wrap a{
+    width: 100%
+}
+.seckill-wrap .downTime span{
+    background-color: #ff0054;
+    color: #fff;
+    padding: 0.04rem 0.02rem;
+    box-sizing: border-box;
+    min-width: 0.32rem;
+    min-height: 0.27rem;
+    display: inline-block;
+}
+
+/* 秒杀列表 */
+.floors .down{
+    display: flex;
+    padding-bottom: 0.15rem;
+}
+.floors .down a{
+    width: 100%
+}
+.floors .down .item{
+    width: 50%;
+    text-align: center;
+}
+.floors .down .item .picture{
+    width: 100%;
+    height: 1.2rem;
+    margin-bottom: 0.1rem;
+}
+.floors .down .item img{
+    width: 1.24rem;
+}
+.floors .down .item p{
+    font-size: 0.24rem;
+    color: #f60606;
+}
+
+/* 发现好货 */
+.find-good .up i img{
+    width: 0.26rem;
+    vertical-align: middle;
+}
+.find-good .up h3{
+    color: #f60677;
+    font-size: 0.24rem;
+    margin-left: 0.08rem;
+}
+
+/* 为你推荐 */
+.recommend-wrap .title{
+    margin: 0.2rem 0;
+}
+.recommend-wrap .title h3{
+    color: #e907b7;
+    font-size: 0.24rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.recommend-wrap .title h3::before{
+    width: 3rem;
+    height: 0.03rem;
+    margin-right: 0.1rem;
+    content: '';
+    display: inline-block;
+    background: url(../images/home_zp/line-left.png) no-repeat;
+    background-size: 100%;
+}
+.recommend-wrap .title h3::after{
+    width: 3rem;
+    height: 0.03rem;
+    margin-left: 0.1rem;
+    content: '';
+    display: inline-block;
+    background: url(../images/home_zp/line-right.png) no-repeat;
+    background-size: 100%;
+}
+
+/* 推荐列表 */
+.recommend-wrap .recommend-list{
+    padding: 0 0.2rem;
+    box-sizing: border-box;
+}
+.recommend-wrap .recommend-list ul{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.recommend-wrap .recommend-list ul li{
+    width: 49%;
+    padding: 0.1rem;
+    box-sizing: border-box;
+    background-color: #fff;
+    margin-bottom: 0.1rem;
+}
+.recommend-wrap .recommend-list ul li .img-wrap{
+    width: 3.3rem;
+    height: 3.3rem;
+}
+.recommend-wrap .recommend-list ul li .img-wrap img{
+    display: block;
+    width: 100%;
+}
+.recommend-wrap .recommend-list ul li .tit a{
+    color: #151515;
+    font-size: 0.24rem;
+    margin: 0.1rem auto 0.15rem;
+}
+.recommend-wrap .recommend-list ul li .line2 .price{
+    color: #f60808;
+    font-size: 0.3rem;
+}
+.recommend-wrap .recommend-list ul li .line2 .guess-btn{
+    font-size: 0.18rem;
+    color: #585858;
+    float: right;
+}
+
+/* 蒙层 
+.model{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(9,9,9,.5);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#7F000000,endColorstr=#7F000000);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    display: none;
+}*/
+/* 免费领取面膜弹框 */
+.free-receive{
+    position: fixed;
+    left: 12%;
+    top: 40%;
+    transform: translate(-50%,-50%);
+    z-index: 100;
+    display: none;
+}
+
+.free-receive .dialog-content img{
+    width: 1.26rem;
+}
+

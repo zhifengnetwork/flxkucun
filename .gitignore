@@ -1,0 +1,15 @@
+/runtime
+/application/database.php
+/public/upload/goods/thumb/*
+/vendor/topthink/think-captcha/assets/bgs/*
+.vscode
+.project
+.idea
+/public/upload/goods/thumb/
+/public/upload/*
+cron.txt
+cron_team.sh
+/sql
+*.txt
+/public/share/*
+/logs

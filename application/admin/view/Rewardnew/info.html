@@ -1,0 +1,124 @@
+<include file="public/layout" />
+<load href="__ROOT__/public/plugins/Ueditor/ueditor.config.js"/>
+<load href="__ROOT__/public/plugins/Ueditor/ueditor.all.min.js"/>
+<script type="text/javascript" charset="utf-8" src="__ROOT__/public/plugins/Ueditor/lang/zh-cn/zh-cn.js"></script>
+<style type="text/css">
+    html, body {
+        overflow: visible;
+    }
+</style>
+<body style="background-color: #FFF; overflow: auto;">
+<div id="toolTipLayer" style="position: absolute; z-index: 9999; display: none; visibility: visible; left: 95px; top: 573px;"></div>
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title"><a class="back" href="javascript:history.back();" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3>奖励管理 - 编辑奖励</h3>
+                <h5>网站系统专题索引与管理</h5>
+            </div>
+        </div>
+    </div>
+    <form class="form-horizontal" id="handleposition"  method="post">
+        <div class="ncap-form-default">
+            <dl class="row">
+                <dt class="tit">
+                    <label><em>*</em>奖励范围</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="reward_up" value="{$info.reward_up}" id="reward_up" class="input-txt"> - 
+                     <input type="text" name="reward_du" value="{$info.reward_du}" id="reward_du" class="input-txt">
+                    <span class="err" id="err_topic_title"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label><em>*</em>奖励比例</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="rate" value="{$info.rate}" id="rate" class="input-txt">
+                    <span class="err" id="err_topic_title"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+         <div class="bot">
+                <a href="JavaScript:void(0);"  onclick="adsubmit(1)" class="ncap-btn-big ncap-btn-green">保存</a>
+
+            </div>
+           
+        </div>
+        <input type="hidden" name="act" value="{$act}">
+        <input type="hidden" name="reward_id" value="{$info.reward_id}">
+        <input type="hidden" id="topic_state" name="topic_state" value="2">
+    </form>
+</div>
+<script type="text/javascript">
+	var url="{:url('Ueditor/index',array('savePath'=>'topic'))}";
+	var ue = UE.getEditor('topic_content',{
+	    serverUrl :url,
+	    zIndex: 999,
+	    initialFrameWidth: "90%", //初化宽度
+	    initialFrameHeight: 300, //初化高度            
+	    focus: false, //初始化时，是否让编辑器获得焦点true或false
+	    maximumWords: 99999, removeFormatAttributes: 'class,style,lang,width,height,align,hspace,valign',//允许的最大字符数 'fullscreen',
+	    pasteplain:false, //是否默认为纯文本粘贴。false为不使用纯文本粘贴，true为使用纯文本粘贴
+	    autoHeightEnabled: true
+	});
+
+	var submitStatus = true;
+    function adsubmit(state) {
+        if(submitStatus == false){ return false;}
+        submitStatus = false;
+        var topic_title = $('#topic_title').val();
+        var topic_image = $('#topic_image').val();
+        if (topic_title == ''){
+            submitStatus = true;
+            layer.msg('请输入专题标题！', {icon: 2,time: 1000});
+            return false;
+        }
+        if (topic_image == ''){
+            submitStatus = true;
+            layer.msg('请上传专题封面！', {icon: 2,time: 1000});
+            return false;
+        }
+
+        $('span.err').hide();
+        $('#topic_state').val(state);
+        $.ajax({
+            type: "POST",
+            url: "{:U('Admin/Rewardnew/rewardaction')}",
+            data: $('#handleposition').serialize(),
+            dataType: "json",
+            error: function () {
+                layer.alert("服务器繁忙, 请联系管理员!");
+            },
+            success: function (data) {
+                if (data.status === 1) {
+                    layer.msg(data.msg, {icon: 1,time: 1000}, function() {
+                        location.href = "{:U('Admin/Rewardnew/lists')}";
+                    });
+                } else if(data.status === 0) {
+                    submitStatus = true;
+                    layer.msg(data.msg, {icon: 2,time: 1000});
+                    $.each(data.result, function(index, item) {
+                        $('#err_' + index).text(item).show();
+                    });
+                } else {
+                    submitStatus = true;
+                    layer.msg(data.msg, {icon: 2,time: 1000});
+                }
+            }
+        });
+    }
+    
+    function img_call_back(fileurl_tmp)
+    {
+        $("#topic_image").val(fileurl_tmp);
+        $("#img_a").attr('href', fileurl_tmp);
+        $("#img_i").attr('onmouseover', "layer.tips('<img src="+fileurl_tmp+">',this,{tips: [1, '#fff']});");
+    }
+</script>
+</body>
+</html>

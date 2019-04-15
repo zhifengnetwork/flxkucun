@@ -1,0 +1,222 @@
+<include file="public/layout" />
+<body style="background-color: #FFF; overflow: auto;">
+<div id="toolTipLayer" style="position: absolute; z-index: 9999; display: none; visibility: visible; left: 95px; top: 573px;"></div>
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title"><a class="back" href="javascript:history.back();" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3>会员等级管理 - 编辑会员等级</h3>
+                <h5>网站系统会员等级管理</h5>
+            </div>
+        </div>
+    </div>
+	<div class="explanation" id="explanation">
+	  <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+	    <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+	    <span id="explanationZoom" title="收起提示"></span>
+	  </div>
+	  <ul>
+	    <li></li>
+	  </ul>
+	</div>
+    <form class="form-horizontal" id="handleposition" method="post">
+        <!-- <input type="hidden" name="act" value="{$act}"> -->
+        <input type="hidden" name="id" value="{$info.id}">
+        <div class="ncap-form-default">
+            <dl class="row">
+                <dt class="tit">
+                    <label for="level_name"><em>*</em>等级名称</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="level_name" value="{$info.level_name}" id="level_name" class="input-txt">
+                    <span class="err" id="err_level_name"></span>
+                    <p class="notic">设置会员等级名称</p>
+                </dd>
+            </dl>
+			<dl class="row">
+			    <dt class="tit">
+			        <label for="level_name"><em>*</em>等级</label>
+			    </dt>
+			    <dd class="opt">
+			        <input type="text" name="level" value="{$info.level}" id="level" class="input-txt" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
+			        <span>级</span>
+			        <p class="notic">设置会员等级大小</p>
+			    </dd>
+			</dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="amount"><em>*</em>等级所需条件</label>
+                </dt>
+                <dd class="opt">
+					<div style="margin-bottom: 10px;">
+					<select name="type" onchange="showMsg(this)">
+						<option value="0">选择条件</option>
+						<option value="101"<if condition="$info['type'] eq 101"> selected</if>>购买任意商品</option>
+						<option value="201"<if condition="$info['type'] eq 201"> selected</if>>直推人数</option>
+						<option value="301"<if condition="$info['type'] eq 301"> selected</if>>分享购物金额</option>
+						<option value="401"<if condition="$info['type'] eq 401"> selected</if>>申请</option>
+					</select>
+					</div>
+					<div id="numsshow" style="display: none;">
+						<input type="text" name="con_name" value="{$info.con_name}"  class="input-txt" onkeyup="this.value=this.value.replace(/[^\d]/g,'')"><span id="nums_is"></span>
+					</div>
+                    <span class="err" id="err_amount"></span>
+                    <p class="notic">达到该等级所需条件。不设则为会员默认最低等级。</p>
+                </dd>
+            </dl>
+			
+            <dl class="row">
+                <dt class="tit">
+                    <label for="discount">直推分享购物返利</label>
+                </dt>
+                <dd class="opt">
+					<select name="rebate">
+						<option value="0">选择返利等级</option>
+						<volist name="level" id="vo">
+						<option value="{$vo.level}" <if condition="$info['rebate'] eq $vo['rebate']"> selected</if>>{$vo.level_name}</option>
+						</volist>
+					</select>
+                    <input type="text" name="rate" value="{$info.rate}" id="discount" class="input-txt" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
+                    <span>%</span>
+                    <p class="notic">返利单位为百分比，如输入10，表示该会员等级的用户分享商品原价的10%。</p>
+                </dd>
+            </dl>
+			<dl class="row">
+			    <dt class="tit">
+			        直推奖励
+			    </dt>
+			    <dd class="opt">
+			        <select name="reward_id">
+						<option value="0">选择直推等级</option>
+						<volist name="level" id="vv">
+						<option <if condition="$info['reward_id'] eq $vv['reward_id']"> selected</if> value="{$vv.level}">{$vv.level_name}</option>
+						</volist>
+					</select>
+					<input type="text" name="reward" value="{$info.reward}" class="input-txt" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
+			        <span>元</span>
+			        <p class="notic">直推一名达到一定等级获得奖励！</p>
+			    </dd>
+			</dl>
+			<dl class="row">
+			    <dt class="tit">
+			        <label for="level_name">领取产品数量</label>
+			    </dt>
+			    <dd class="opt">
+			        <input type="text" name="get" value="{$info.get}" id="get" class="input-txt" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
+			        <p class="notic">设置免费领取产品数量(付邮费)。</p>
+			    </dd>
+			</dl>
+			<if condition="$info['level'] eq 4">
+			<dl class="row">
+                <dt class="tit">
+                    直属店主邀店主
+                </dt>
+                <dd class="opt">
+                         <input type="text" name="y_reward" value="{$info.y_reward}" id="discount" class="input-txt" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
+                    <span class="err" id="err_describe"></span>
+                    <p class="notic">直属店主邀店主得到奖励</p>
+                </dd>
+            </dl>
+            </if>
+            <if condition="$info['level'] eq 5">
+			<dl class="row">
+                <dt class="tit">
+                   直属店主邀店主
+                </dt>
+                <dd class="opt">
+                         <input type="text" name="y_reward" value="{$info.y_reward}" id="discount" class="input-txt" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
+                    <span class="err" id="err_describe"></span>
+                    <p class="notic">直属店主邀店主得到奖励</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                   直属总监邀店主
+                </dt>
+                <dd class="opt">
+                         <input type="text" name="s_reward" value="{$info.s_reward}" id="discount" class="input-txt" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
+                    <span class="err" id="err_describe"></span>
+                    <p class="notic">总监的店主邀店主得到奖励</p>
+                </dd>
+            </dl>
+                <dl class="row">
+                <dt class="tit">
+                   直属总监的店主邀店主
+                </dt>
+                <dd class="opt">
+                         <input type="text" name="k_reward" value="{$info.k_reward}" id="discount" class="input-txt" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
+                    <span class="err" id="err_describe"></span>
+                    <p class="notic">直属总监的店主邀店主得到奖励</p>
+                </dd>
+            </dl>
+            </if>
+            <if condition="$info['level'] gt 3">
+            <dl class="row">
+                <dt class="tit">
+                   管理津贴
+                </dt>
+                <dd class="opt">
+                         <input type="text" name="jintie" value="{$info.jintie}" id="discount" class="input-txt" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
+                    <span class="err" id="err_describe"></span>
+                    <p class="notic">单位%</p>
+                </dd>
+            </dl>
+            </if>
+            <dl class="row">
+                <dt class="tit">
+                    等级描述
+                </dt>
+                <dd class="opt">
+                    <textarea  name="describe" class="tarea" rows="6">{$info.describe}</textarea>
+                    <span class="err" id="err_describe"></span>
+                    <p class="notic">会员等级描述信息</p>
+                </dd>
+            </dl>
+            <div class="bot"><a href="JavaScript:void(0);" onclick="verifyForm()" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a></div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    function verifyForm(){
+        $('span.err').show();
+        $.ajax({
+            type: "POST",
+            url: "{:U('Admin/User/levelHandle')}",
+            data: $('#handleposition').serialize(),
+            dataType: "json",
+            error: function () {
+                layer.alert("服务器繁忙, 请联系管理员!");
+            },
+            success: function (data) {
+                if (data.status == 1) {
+                    layer.msg(data.msg, {icon: 1});
+                    location.href = "{:U('Admin/User/levelList')}";
+                } else {
+                    layer.msg(data.msg, {icon: 2});
+                    $.each(data.result, function (index, item) {
+                        $('#err_' + index).text(item).show();
+                    });
+                }
+            }
+        });
+    }
+	
+	function showMsg(obj) {
+	var opt = obj.options[obj.selectedIndex]
+	// alert("The option you select is:"+opt.text+"("+opt.value+")");
+		if(obj.value==201){
+			// alert();
+			document.getElementById("numsshow").style.display="block";
+			document.getElementById("nums_is").innerHTML="人";
+		}else if(obj.value==301){
+			document.getElementById("numsshow").style.display="block";
+			document.getElementById("nums_is").innerHTML="元";
+		}else{
+			document.getElementById("numsshow").style.display="none";
+		}
+	}
+</script>
+</body>
+</html>

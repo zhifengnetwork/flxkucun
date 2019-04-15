@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link rel="stylesheet" href="__STATIC__/css/Distribution member/member.css" />
+        <script type="text/javascript" src="__STATIC__/js/public/rem.js" ></script>
+		<title>微分销会员</title>
+	</head>
+	<body>
+		  <div class="wtf_top">
+		  	 <div class="wtf_wrap">
+		  	 	<div class="wtf_top_left">
+		  	 		<span>
+		  	 		    <a href="{:U('Shop/User/index')}" ><img src="__STATIC__/images/Distributionmember/wtf_xingzhuang-1.png" /></a>	
+		  	 		</span>
+		  	 		<p>微分销会员</p>
+		  	 	</div>
+		  	 </div>
+		  </div>
+		  <div class="wtf_banner">
+		  	  <img src="__STATIC__/images/Distributionmember/wtf_banner-2.png" />
+		  </div>
+		     <div class="wtf_main">
+            	<div class="wtf_wrap clear">
+                        <p class="wtf_p1">团队总人数:<span>{$underling_number|default=0}</span></p>
+            		</p>
+            	</div>
+            </div>
+            <!--
+            <div class="wtf_main">
+            	<div class="wtf_wrap clear">
+            		<p class="wtf_p1">
+            			总业绩<span>￥{$money_total.money_total|default=0}</span><i class="wtf_main_i"></i>
+                        <p class="wtf_p2">团队总人数:<span>{$underling_number|default=0}</span></p>
+            		</p>
+            	</div>
+            </div>-->
+        <if condition="($user.is_distribut == 1)">
+        	<!--
+            <div class="wtf_main1">
+              	<div class="wtf_wrap clear">
+              		<p class="wtf_p3">
+              			剩余业绩之和￥{$money_total.moneys|default=0}<i class="wtf_main_i"></i>
+                        <p class="wtf_p2">最大用户业绩￥{$money_total.max_moneys|default=0}</p>
+              		</p> 			
+              	</div>
+            </div>-->
+        </if>
+
+		     <div class="wtf_nav">
+		     	<div class="wtf_wrap">
+		     	<ul>
+		     		<li><a href="#"><img src="__STATIC__/images/Distributionmember/wtf_shengji.png" />上级ID：{$leader.user_id}</a></li>
+		     		<li><a href="{:U('Shop/User/performance_log')}"><img src="__STATIC__/images/Distributionmember/wtf_shangping.png" />业绩明细</a></li>
+		     		<li><a href="{:U('Shop/User/commision')}"><img src="__STATIC__/images/Distributionmember/wtf_huiyuan-(1).png"/>明细记录</a></li>
+		     		<li><a href="{:U('Shop/User/team_list')}"><img src="__STATIC__/images/Distributionmember/wtf_guanli-(2).png"/>团队列表</a></li>
+		     	</ul>	
+		     	</div>
+
+                <empty name="leader">
+                    <span style="font-size: .14rem; vertical-align: middle; font-weight: normal; margin-left: .21333rem;">上级:无上级</span>
+                <else/>
+                    <span style="font-size: .14rem; vertical-align: middle; font-weight: normal; margin-left: .21333rem;">上级名称: {$leader.nickname}</span>
+                </empty>
+		     </div>
+	</body>
+</html>

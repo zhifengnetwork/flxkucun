@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title>首页-{$tpshop_config['shop_info_store_title']}</title>
+
+	<script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
+
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/reset.css?v=111" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/swiper.min.css?v=111" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/index_zp.css?v=111" />
+
+
+</head>
+
+<body>
+	<div class="wrapper">
+		<!-- 头部 -->
+		<div class="header">
+			<div class="scan">
+				<a href="/shop/Goods/categoryList.html">
+					<img src="__STATIC__/images/home_zp/scan@2x.png" />
+				</a>
+			</div>
+
+			<!-- <div class="searchInput">搜索</div> -->
+			<div class="search">
+				<span class="search-btn"><img src="__STATIC__/images/home_zp/search-icon-index@2x.png" /></span>
+				<span class="search-input">连衣裙</span>
+			</div>
+
+			<div class="login-btn">
+				<a href="{:U('Shop/User/index')}">
+					<img src="__STATIC__/images/home_zp/login-btn-index@2x.png" />
+				</a>
+			</div>
+		</div>
+
+		<!-- 轮播图 -->
+		<div class="swiper-container banner-wrap-zp">
+			<div class="swiper-wrapper">
+				<adv pid="9" limit="5" item="v">
+					<div class="swiper-slide">
+						<a href="{$v.ad_link}">
+							<img src="{$v[ad_code]}" title="{$v[title]}" style="{$v[style]}" alt="">
+						</a>
+					</div>
+				</adv>
+			</div>
+			<div class="swiper-pagination"></div>
+			<!-- 装饰条bg -->
+			<div class="swiper-bg"><img src="__STATIC__/images/home_zp/swiper-bg.png" /></div>
+		</div>
+
+		<!-- 菜单导航 -->
+		<div class="nav-wrap-zp">
+			<ul>
+				<li>
+					<a href="{:U('shop/activity/auction_list')}">
+						<img src="__STATIC__/images/home_zp/Auction@2x.png">
+						<span>竞拍</span>
+					</a>
+				</li>
+				<li>
+					<a href="{:U('shop/groupbuy/grouplist')}">
+						<img src="__STATIC__/images/home_zp/Assemble@2x.png">
+						<span>拼团</span>
+					</a>
+				</li>
+				<li>
+					<a href="/shop/sign/index">
+						<img src="__STATIC__/images/home_zp/Sign in@2x.png">
+						<span>签到</span>
+					</a>
+				</li>
+				<li>
+					<a href="{:U('shop/Goods/goodsList',array('id'=>DISTRIBUT))}">
+						<img src="__STATIC__/images/home_zp/commodity@2x.png">
+						<span>签到领取商品</span>
+					</a>
+				</li>
+				<li>
+					<a href="{:U('Shop/Pool/index')}">
+						<img src="__STATIC__/images/home_zp/Bonus@2x.png">
+						<span>奖金池</span>
+					</a>
+				</li>
+				<li>
+					<a href="{:U('Shop/Material/index')}">
+						<img src="__STATIC__/images/home_zp/Material@2x.png">
+						<span>素材区</span>
+					</a>
+				</li>
+				<li>
+					<a href="{:U('Shop/Order/order_list')}">
+						<img src="__STATIC__/images/home_zp/Order@2x.png">
+						<span>我的订单</span>
+					</a>
+				</li>
+				<li>
+					<a href="{:U('shop/Goods/goodsList',array('id'=>BONUS))}">
+						<img src="__STATIC__/images/home_zp/Products@2x.png">
+						<span>奖金池产品</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+
+
+		<div class="floors">
+			<!-- 秒杀 -->
+			<div class="seckill-wrap">
+				<a href="{:U('Shop/Activity/flash_sale_list')}">
+					<div class="up">
+						<i><img src="__STATIC__/images/home_zp/Second kill@2x.png" /></i>
+						<div class="downTime">
+							<span id="downTime-h"></span> : <span id="downTime-m"></span> : <span
+								id="downTime-s"></span>
+						</div>
+					</div>
+				</a>
+				<div class="down">
+					<foreach name="flash_sale_list" item="v" length='2'>
+						<div class="item">
+							<a href="{:U('Shop/Goods/goodsInfo',array('id'=>$v[goods_id],'item_id'=>$v[item_id]))}">
+								<div class="picture">
+									<img src="{$v[goods_id]|goods_thum_images=200,200}">
+								</div>
+							</a>
+							<p class="price">￥<span>{$v[price]}</span>元</p>
+						</div>
+					</foreach>
+				</div>
+				<if condition="count($flash_sale_list) eq nll">
+					<div style="text-align: center; color: #6f6d6d; font-size: .1rem;">暂无抢购商品...</div>
+				</if>
+			</div>
+
+			<!-- 发现好货 -->
+			<div class="find-good">
+				<div class="up">
+					<i><img src="__STATIC__/images/home_zp/goods-icon@2x.png" /></i>
+					<h3>发现好货</h3>
+				</div>
+				<div class="down">
+					<volist name="is_new" id="vo" length='2'>
+						<div class="item">
+							<a href="{:U('Shop/Goods/goodsInfo',array('id'=>$vo[goods_id],'item_id'=>$vo[item_id]))}">
+								<div class="picture">
+									<img src="{$vo[goods_id]|goods_thum_images=200,200}">
+								</div>
+								<p class="price">￥<span>{$vo[shop_price]}</span>元</p>
+							</a>
+						</div>
+					</volist>
+					<!-- <div class="item">
+						<div class="picture">
+							<img src="__STATIC__/images/home_zp/tuanpian3@2x.png" >
+						</div>
+						<p class="price">¥3360.00</p>
+					</div> -->
+				</div>
+			</div>
+		</div>
+
+		<!-- 为你推荐 -->
+		<div class="recommend-wrap">
+			<div class="title">
+				<h3>为你推荐</h3>
+			</div>
+
+			<div class="recommend-list">
+				<ul>
+					<foreach name="favourite_goods" id="v">
+						<li>
+							<div class="img-wrap">
+								<a href="{:U('Shop/Goods/goodsInfo',array('id'=>$v[goods_id],'shareid'=>$shareid))}"><img
+										src="{$v[goods_id]|goods_thum_images=400,400}" /></a>
+							</div>
+							<div class="text">
+								<p class="tit"><a
+										href="{:U('Shop/goods/goodsInfo',array('id'=>$v['goods_id'],'shareids'=>1))}">{$v.goods_name|getSubstr=0,33}</a>
+								</p>
+								<p class="line2">
+									<span class="price">￥{$v.shop_price}</span>
+									<a href="{:U('Goods/goodsList',['id'=>$v['cat_id']])}" class="guess-btn">看同款</a>
+								</p>
+							</div>
+						</li>
+					</foreach>
+				</ul>
+			</div>
+		</div>
+
+		<!--底部导航-start-->
+		<include file="public/footer_nav" />
+
+		<!-- 免费领取面膜弹框 -->
+        <if condition="$is_code eq 1">
+    		<div class="free-receive">
+    			<a href="{:U('shop/Goods/goodsInfo',['id'=>6])}">
+    				<div class="dialog-content">
+    					<img src="__STATIC__/images/home_zp/free-receive-bg.png" />
+    				</div>
+    			</a>
+    		</div>
+        </if>
+		
+
+	</div>
+
+	<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
+	<script src="__STATIC__/js/swiper.min.js"></script>
+	<!-- <script src="__STATIC__/js/home/index_zp.js?v=111"></script> -->
+	<script>
+
+		$(document).ready(function () {
+
+			function downTime(endTime) {
+				//1.1获取当前时间戳
+				var currentTime = new Date().getTime();
+
+				//1.2剩下时间戳
+				var allTime = endTime - currentTime;
+
+				//1.3把剩下的时间戳转为秒,取整
+				var allSecond = parseInt(allTime / 1000);
+
+				// 1.4判断时间是否截止
+				if (allSecond <= 0) {
+					$(".downTime").html("活动已结束");
+				} else {
+					//1.4.1转化
+					var h = checkTime(parseInt(allSecond / 3600 % 24));
+					console.log(h)
+					var m = checkTime(parseInt(allSecond / 60 % 60));
+					var s = checkTime(parseInt(allSecond % 60));
+					//1.4.2注入时间
+					$("#downTime-h").html(h);
+					$("#downTime-m").html(m);
+					$("#downTime-s").html(s);
+				}
+			}
+
+			function setendTime() {
+				//自定义结束时间戳
+				var endTime = new Date('2019/04/02 12:00:00').getTime();
+				// console.log({$end_time})
+				var text = downTime({$end_time} * 1000);
+			}
+			// 倒计时补零操作
+			function checkTime(i) {
+				return i >= 10 ? i : "0" + i;
+			}
+
+			setInterval(setendTime, 1000);
+			// 首页轮播图
+			var swiper = new Swiper('.banner-wrap-zp', {
+				loop: true,
+				pagination: '.swiper-pagination',
+				paginationClickable: true,
+				spaceBetween: 30,
+				autoplay: 3000,
+				autoplayDisableOnInteraction: false
+			});
+
+		})
+
+		/**
+			* 继续加载猜您喜欢
+			* */
+		var before_request = 1; // 上一次请求是否已经有返回来, 有才可以进行下一次请求
+		var page = 0;
+		function ajax_sourch_submit() {
+			// $('.loading-box').show();
+			if (before_request == 0)// 上一次请求没回来 不进行下一次请求
+				return false;
+			before_request = 0;
+			page++;
+			$.ajax({
+				type: "get",
+				url: "/index.php?m=Shop&c=Index&a=ajaxGetMore&p=" + page,
+				success: function (data) {
+					if (data) {
+						$("#J_ItemList").append(data);
+						before_request = 1;
+						$('.loading-box').show();
+					} else {
+						$('.loading-box').hide();
+					}
+				}
+			});
+		}
+		/**
+		* 搜索
+		* */
+		$(function () {
+			$(".search").click(function () {
+				$(window).attr('location', ` /shop/Goods/ajaxSearch`);
+			})
+			$(document).keydown(function (event) {
+				if (event.keyCode == 13) {
+					$('.search').triggerHandler('click');
+				}
+			});
+		})
+
+		//阻止默认事件，禁止滑动
+		function stop(name) {
+			var $name = $(name);
+				$name.bind("touchmove","touchstart",function(e){
+				e.preventDefault();
+			})
+		}
+
+		/**
+		 * 弹框
+		 * */
+		function showDialog(){
+			$(".model").show();
+			$(".free-receive").show();
+			stop(".model");
+		};
+
+		showDialog();
+
+		// 弹框关闭
+		$(".model").click(function(){
+			$(".model").hide();
+			$(".free-receive").hide();
+		})
+
+
+	</script>
+</body>
+
+</html>
