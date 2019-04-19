@@ -18,24 +18,34 @@ body{
     top: 0;
     z-index: 99;
 }
-.header .scan img{
-    width: 0.48rem;
-}
+
 .header .search{
     width: 100%;
     height: 0.56rem;
-    flex: 1;
     margin: 0 0.2rem;
     background-color: #f2f2f2;
     border-radius: 0.28rem;
-    display: flex;
+    flex: 1;
+}
+.header .search form{
+    height: 100%;
+	display: -webkit-flex;  /* 新版本语法: Chrome 21+ */
+	display: -webkit-box;   /* 老版本语法: Safari, iOS, Android browser,older WebKit browsers. */
+	display: -moz-box;      /* 老版本语法: Firefox (buggy) */
+    display: -ms-flexbox;   /* 混合版本语法: IE 10 */ 
+    display: flex;/* 新版本语法: Opera 12.1, Firefox 22+ */
     align-items: center;
 }
-.header .search .search-btn img{
+.header .search .searchBtn{
     width: 0.36rem;
+    height: .36rem;
+    background: url(../images/home_zp/search-icon-index@2x.png) center center no-repeat;
+    background-size: 100%;
     margin: 0.1rem 0.15rem 0.1rem 0.3rem;
+    border: none;
+    outline: none;
 }
-.header .search .search-input{
+.header .search .searchText{
     height: 0.4rem;
     line-height: 0.4rem;
     border-left: 0.01rem solid #d0d0d0;
@@ -43,29 +53,123 @@ body{
     color: #8a8a8a;
     padding-left: 0.18rem;
     box-sizing: border-box;
+    border: none;
+    border-left: .01rem solid #cfcfcf;
+    background: none;
+    outline: none;
 }
-.header .login-btn img{
+.header .loginBtn img{
     width: 0.47rem;
 }
 
-/* 轮播图 */
-.banner-wrap-zp{
-    padding-top: 0.88rem;
+/* 视频轮播 */
+.bannerWrap{
+    padding-top: 0.78rem;
+    overflow: hidden;
 }
-.banner-wrap-zp img{
-    width: 100%;
+.bannerWrap .swiper-slide{    
+    position: relative;
 }
-.swiper-bg{
-    width: 100%;
-    height: 0.13rem;
+.bannerWrap .swiper-slide>img{
     position: absolute;
     left: 0;
-    bottom: 0;
-    z-index: 99;
-}
-.swiper-bg img{
+    top: 0;
     width: 100%;
 }
+.bannerWrap .playBtn{
+    width: .67rem;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 3;
+    transform: translate(-50%,-50%);
+}
+.bannerWrap .playBtn img{
+    width: 100%;
+}
+
+/* 商品介绍 */
+.video_goods .title{
+    height: .68rem;
+    line-height: .68rem;
+}
+
+/* 标题 */
+.video_goods .title h3{
+    display: -webkit-flex;  /* 新版本语法: Chrome 21+ */
+	display: -webkit-box;   /* 老版本语法: Safari, iOS, Android browser,older WebKit browsers. */
+	display: -moz-box;      /* 老版本语法: Firefox (buggy) */
+    display: -ms-flexbox;   /* 混合版本语法: IE 10 */ 
+    display: flex;/* 新版本语法: Opera 12.1, Firefox 22+ */
+    align-items: center;
+    justify-content: center;
+    font-size: .3rem;
+    color: #6b6b6b;
+    
+}
+.video_goods .title h3::before{
+    content: '';
+    display: inline-block;
+    width: 2.74rem;
+    height: 1px;
+    background: url(../../static/images/home_zp/line-1.png) no-repeat left center; 
+    margin-right:.08rem;
+}
+.video_goods .title h3::after{
+    content: '';
+    display: inline-block;
+    width: 2.74rem;
+    height: 1px;
+    background: url(../../static/images/home_zp/line-1.png) no-repeat left center; 
+    margin-left:.08rem;
+}
+
+/* 列表 */
+.video_list{
+    padding:0 .2rem;
+    box-sizing: border-box;
+}
+.video_list ul{
+    display: -webkit-flex;  /* 新版本语法: Chrome 21+ */
+	display: -webkit-box;   /* 老版本语法: Safari, iOS, Android browser,older WebKit browsers. */
+	display: -moz-box;      /* 老版本语法: Firefox (buggy) */
+    display: -ms-flexbox;   /* 混合版本语法: IE 10 */ 
+    display: flex;/* 新版本语法: Opera 12.1, Firefox 22+ */
+    justify-content:space-between;
+    flex-flow: wrap;
+}
+.video_list .item{
+    width: 49%;
+    height: 5.52rem;
+    background-color: #fff;
+    padding: .1rem;
+    box-sizing: border-box;
+    margin-bottom: .1rem;
+}
+.video_list .item .img_wrap{
+    width: 100%;
+    position: relative;
+}
+.video_list .item .img_wrap img{
+    width: 100%;
+    display: block;
+}
+.video_list .item .img_wrap .playBtn_sm{
+    width: .39rem;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 3;
+    transform: translate(-50%,-50%);
+}
+.video_list .item p{
+    font-size: .2rem;
+    color: #151515;
+    line-height: .52rem;
+}
+
+
+
 
 /* 菜单导航 */
 .nav-wrap-zp ul{
