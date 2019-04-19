@@ -1,0 +1,163 @@
+.wrapper {
+	padding-top: .88rem;
+}
+img {
+	display: block;
+	max-width: 100%;
+	margin: 0 auto;
+}
+.content {
+	font-size: 0;
+}
+.content .push_wrap {
+	position: relative;
+}
+.content .push_wrap .push {
+	padding: 2.13rem 0 0;
+	margin: .2rem auto;
+	width: 7.02rem;
+	height: 7.02rem;
+	background: #e7e7e7;
+	border-radius: 6px;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+.content .push_wrap .push .niu {
+	margin: 0 auto;
+	width: 1.28rem;
+	height: 1.17rem;
+}
+.content .push_wrap .push p {
+	font-size: .28rem;
+	color: #848484;
+	text-align: center;
+	line-height: .65rem;
+}
+
+.content .state {
+	padding: 0 0 0 .2rem;
+	font-size: .26rem;
+	color: #989898;
+	line-height: .45rem;
+}
+
+.content .inp {
+	margin: .2rem 0 .2rem .2rem;
+	padding: .15rem;
+	width: 55%;
+	border: 1px solid #dadada;
+	border-radius: 6px;
+}
+.content .inp input {
+	width: 55%;
+}
+.content .text {
+	padding: .1rem;
+	margin-left: .2rem;
+	width: 7.02rem;
+	height: 1.6rem;
+	outline-style: none;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	border-radius: 6px;
+	border: 1px solid #dadada;
+}
+
+.content .ack_btn {
+	margin: .65rem auto;
+	width: 7.02rem;
+	height: .6rem;
+	text-align: center;
+	line-height: .6rem;
+	color: #fff;
+	font-size: .26rem;
+	background: #e31a49;
+	border-radius: 3px;
+}
+/*视频上传中按钮状态*/
+.ack_btn_on {
+	background: #858585;
+}
+
+.content .cross {
+	display: none;
+	padding: 2.13rem 0 0;
+	position: absolute;
+	top: 0;
+	left: .25rem;
+	width: 7.02rem;
+	height: 7.02rem;
+	background: #161616;
+	opacity: 0.7;
+	border-radius: 6px;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+.content .cross .niu_z {
+	margin: 0 auto;
+	width: 1.28rem;
+	height: 1.17rem;
+}
+.content .cross p {
+	font-size: .28rem;
+	color: #fff;
+	text-align: center;
+	line-height: .65rem;
+}
+
+.content .up_box {
+	position: absolute;
+	top: 0;
+	left: .25rem;
+	z-index: 5;
+	width: 7.02rem;
+	height: 7.02rem;
+	border-radius: 6px;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+.content .pop {
+	padding-top: .25rem;
+	margin: 1.84rem auto 0;
+	width: 2.5rem;
+	height: 2.5rem;
+	background-color: #fff;
+	border-radius: 6px;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+.content .pop p {
+	font-size: .26rem;
+	letter-spacing: 1px;
+	color: #333;
+	text-align: center;
+	line-height: .6rem;
+}
+.content .pop .img {
+	margin: 0 auto .25rem;
+	width: .69rem;
+	height: .69rem;
+}
+.content .pop .acc {
+	margin: .1rem auto 0;
+	width: 1.5rem;
+	height: .4rem;
+	border-radius: 6px;
+	background: #e31a49;
+	text-align: center;
+	line-height: .4rem;
+	color: #fff;
+	font-size: .26rem;
+}
+
+.up_view {
+	position: absolute;
+	top: 0;
+	left: .25rem;
+	z-index: 0;
+	width: 7.02rem;
+	height: 7.02rem;
+	background: #131313;
+	opacity: 0.37;
+	border-radius: 6px;
+}
