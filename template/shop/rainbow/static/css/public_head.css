@@ -1,0 +1,43 @@
+.headWrap{
+	
+	position:relative;
+	width: 100%;
+	height: .9rem;
+	line-height: .9rem;
+	/*border: 1px solid green;*/
+	text-align: center;
+	color: black;
+	font-weight: bolder;
+	
+
+}
+.lb_headWrap_return_img{
+	
+	position: absolute;
+	left: .5rem;
+	top: 0;
+	bottom: 0;
+	width: .4rem;
+	height: .4rem;
+	margin: auto 0;
+
+}
+.lb_header_righticon{
+	
+	position: absolute;
+	right: .5rem;
+	top: 0;
+	bottom: 0;
+	width: .4rem;
+	height: .4rem;
+	margin: auto 0;	
+}
+.touxiang_ear{
+	
+	text-align: center;
+	margin-top: 20px;
+	
+}
+
+
+
