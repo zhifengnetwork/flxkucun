@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+	<title>视频播放</title>
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/reset.css?v=111" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/swiper.min.css?v=112" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/index_zp.css?v=112" />
+	
+	<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.8.1/skins/default/aliplayer-min.css" />
+	<script type="text/javascript" charset="utf-8" src="https://g.alicdn.com/de/prismplayer/2.8.1/aliplayer-min.js"></script>
+	<!-- <script type="text/javascript" src="https://g.alicdn.com/de/prismplayer/2.5.0/aliplayer-h5-min.js"></script> -->
+	<style>
+		body{
+			overflow: hidden;
+		}
+		.header {
+			width: 100%;
+			height: .88rem;
+			line-height: .88rem;
+			background-color: #f2f2f2;
+			font-size: .3rem;
+			color: #151515;
+			text-align: center;
+			position: relative;
+			display: flex;
+			align-items: center;
+		}
+
+		.header .backBtn {
+			width: .18rem;
+			height: .32rem;
+			padding: .2rem;
+			background: url(./images/backBtn.png) no-repeat center center;
+			background-size: .18rem .32rem;
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+
+		.header h3 {
+			flex: 1;
+		}
+
+		.content {
+			padding: 0 .2rem;
+			box-sizing: border-box;
+		}
+
+		.date {
+			font-size: .2rem;
+			color: #595959;
+		}
+
+		.playWrap {
+			width: 100%;
+			border-radius: .06rem;
+			position: relative;
+		}
+
+		.playWrap img {
+			width: 100%;
+		}
+
+		#playVideo {
+			height: 7.02rem;
+		}
+
+		.playControll {
+			width: 100%;
+			height: .6rem;
+			background: rgba(0, 0, 0, .3);
+			position: absolute;
+			bottom: 0;
+			left: 0;
+		}
+	
+		.prism-player .prism-big-play-btn{
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%,-50%);
+			-ms-transform: translate(-50%,-50%);
+			-moz-transform: translate(-50%,-50%);
+			-webkit-transform: translate(-50%,-50%);
+			-o-transform: translate(-50%,-50%);
+		}
+		.prism-player .prism-cover{
+			background-size:100%;
+		}
+	
+	</style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<div class="header">
+			<div class="backBtn"></div>
+			<h3>视频播放</h3>
+		</div>
+
+		<div class="content">
+			<h3>夏季吊带连衣裙超夏季吊带连衣裙超</h3>
+			<p class="date">2019-04-17 02:27:25 发布者:倾城小美人</p>
+			<div class="playWrap">
+				<div class="prism-player" id="player-con" style="object-fit:cover"></div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+	</div>
+	<script>
+			var player = new Aliplayer({
+			  "id": "player-con",
+			  "source": "http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4",//视频地址
+			  "width": "100%",
+			  "height": "7.02rem",
+			  "autoplay": false,
+			  "isLive": false,
+			  "rePlay": true,
+			  "playsinline": true,
+			  "preload": false,
+			  "cover": "./images/3.jpg",//视频封面
+			  "controlBarVisibility": "always",//控制面板的实现
+			  "videoWidth": "100%",
+			  "useH5Prism": true,
+			  "skinLayout": [
+				{
+				  "name": "bigPlayButton"//大播放按钮
+				//   "align": "blabs",
+				//   "x": 160,
+				//   "y": 160
+				},
+				{
+				  "name": "H5Loading",
+				  "align": "cc"
+				},
+				{
+				  "name": "errorDisplay",
+				  "align": "tlabs",
+				  "x": 0,
+				  "y": 0
+				},
+				{
+				  "name": "infoDisplay"
+				},
+				{
+				  "name": "tooltip",
+				  "align": "blabs",
+				  "x": 0,
+				  "y": 56
+				},
+				{
+				  "name": "thumbnail"
+				},
+				{
+				  "name": "controlBar",
+				  "align": "blabs",
+				  "x": 0,
+				  "y": 0,
+				  "children": [
+					{
+					  "name": "progress",//进度条
+					  "align": "blabs",
+					  "x": 0,
+					  "y": 44
+					},
+					{
+					  "name": "playButton",//播放按钮
+					  "align": "tl",
+					  "x": 15,
+					  "y": 12
+					},
+					{
+					  "name": "timeDisplay",//进度时间
+					  "align": "tl",
+					  "x": 10,
+					  "y": 7
+					},
+					{
+					  "name": "fullScreenButton",//全屏
+					  "align": "tr",
+					  "x": 10,
+					  "y": 12
+					},
+					{
+						"name": "setting",
+						"align": "tr",
+						"x": 15,
+						"y": 12
+					},
+					{
+					  "name": "volume",//声音
+					  "align": "tr",
+					  "x": 5,
+					  "y": 10
+					}
+				  ]
+				}
+			  ]
+			}, function (player) {
+				player._switchLevel = 0;
+				console.log("播放器创建了。");
+			  }
+			);
+			</script>
+	<!-- <script type="text/javascript">
+		var player = new Aliplayer({
+			"id": "player-con",
+			"source": "http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4",//视频地址
+			"width": "100%",
+			"height": "7rem",
+			"autoplay": false,
+			"isLive": true,//是否是直播
+			"rePlay": false,
+			"playsinline": true,
+			"preload": false,
+			"controlBarVisibility": "hover",
+			"useH5Prism": true, //采用h5模式播放
+			"skinLayout": [
+				{
+					"name": "bigPlayButton",
+					"align": "blabs",
+					"x": 30,
+					"y": 80
+				},
+				{
+					"name": "H5Loading",
+					"align": "cc"
+				},
+				{
+					"name": "errorDisplay",
+					"align": "tlabs",
+					"x": 0,
+					"y": 0
+				},
+				{
+					"name": "infoDisplay"
+				},
+				{
+					"name": "tooltip",
+					"align": "blabs",
+					"x": 0,
+					"y": 56
+				},
+				{
+					"name": "thumbnail"
+				},
+				{
+					"name": "controlBar",
+					"align": "blabs",
+					"x": 0,
+					"y": 0,
+					"children": [
+						{
+							"name": "progress",
+							"align": "blabs",
+							"x": 0,
+							"y": 44
+						},
+						{
+							"name": "playButton",
+							"align": "tl",
+							"x": 15,
+							"y": 12
+						},
+						{
+							"name": "timeDisplay",
+							"align": "tl",
+							"x": 10,
+							"y": 7
+						},
+						{
+							"name": "fullScreenButton",
+							"align": "tr",
+							"x": 10,
+							"y": 12
+						},
+						{
+							"name": "setting",
+							"align": "tr",
+							"x": 15,
+							"y": 12
+						},
+						{
+							"name": "volume",
+							"align": "tr",
+							"x": 5,
+							"y": 10
+						}
+					]
+				}
+			]
+		}, function (player) {
+			player._switchLevel = 0;
+			console.log("播放器创建了。");
+		}
+		);
+
+	</script> -->
+</body>
+
+</html>

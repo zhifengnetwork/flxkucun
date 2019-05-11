@@ -6,7 +6,7 @@
 		<title>添加视频</title>
 		<script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
 		<link rel="stylesheet" href="__STATIC__/css/public_lb/public.css" />
-		<link rel="stylesheet" type="text/css" href="__STATIC__/css/addvideo/addvideo.css" />
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/video/addvideo.css" />
 	</head>
 	<body>
 		<div class="wrapper">
@@ -23,17 +23,17 @@
 	        	<div class="push_wrap">
 	        		<!--上传按钮-->
 	        		<div class="push">
-	        			<input type="file" style="display: none;" />
 	        			<div class="niu">
-	        				<img src="__STATIC__/images/addvideo/002v.png" />
+	        				<img src="__STATIC__/images/video/002v.png" />
 	        			</div>
 	        			
+	        			<input type="file" value="添加您要上传的视频" />
 	        			<p>添加您要上传的视频</p>
 	        		</div>
 	        		<!--上传中状态-->
 		        	<div class="cross">
 		        		<div class="niu_z">
-	        				<img src="__STATIC__/images/addvideo/003v.png" />
+	        				<img src="__STATIC__/images/video/003v.png" />
 	        			</div>
 	        			
 	        			<p>正常上传中 请耐心等待......</p>
@@ -42,11 +42,12 @@
 		        	<div class="up_box">
 		        		<div class="pop">
 		        			<div class="img">
-		        				<img src="__STATIC__/images/addvideo/004v.png" />
+		        				<img src="__STATIC__/images/video/004v.png" />
 		        			</div>
-		        			<p>上传成功</p>
-		        			
-		        			<a class="acc">完成</a>
+							<p>上传成功</p>
+							<a href="{:U('shop/video/video_list')}">
+								<div class="acc">完成</div>
+							</a>
 		        			
 		        		</div>
 		        	</div>
