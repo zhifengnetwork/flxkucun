@@ -14,48 +14,48 @@
             </div>
             <!--扫货码 弹窗s-->
             <div class="Scavenging-pop-wrap" style="display: none;">
-                <div class="package-pop-bg-opacity" ></div>
-                <div class="Scavenging-pop-head" >
-                    <i></i>
-                    <h5>查看提货码</h5>
-                </div>
-                <div class="Scavenging-pop" >
-                    <div class="Scavenging-pop-header">
-                        自提订单提货凭证
-                    </div>
-                    <div class="Scavenging-pop-img-one">
-                        <img src="__STATIC__/images/z-saohuoma.png"/>
-                    </div>
-                    <p class="Scavenging-pop-img-title">提货码:{$order['shop_order']['shop_order_id']}</p>
-                    <div class="Scavenging-pop-img-two">
-                        <img src="__STATIC__/images/z-gongzonghao.png"/>
-                    </div>
-                    <div class="Scavenging-pop-cont">
-                        <ul>
-                            <li>
-                                提<b></b> 货<b></b>人：<em>{$order['consignee']}</em><i>{$order['mobile']}</i>
-                            </li>
-                            <li>
-                                提货地址：<em>{$order['full_address']}</em>
-                            </li>
-                            <li>
-                                提货时间：<em>{$order['shop_order']['take_time']}</em>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="Scavenging-pop-footer">
-                        <ul>
-                            <li>
-                                订单编号：{$order['order_sn']}
-                            </li>
-                            <li>
-                                实付金额：{$order['order_amount']}元
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="Scavenging-pop-close"></div>
-            </div>
+		            <div class="package-pop-bg-opacity" ></div>
+		            <div class="Scavenging-pop-head" >
+		                <i></i>
+		                <h5>查看提货码</h5>
+		            </div>
+		            <div class="Scavenging-pop" >
+		                <div class="Scavenging-pop-header">
+		                    自提订单提货凭证
+		                </div>
+		                <div class="Scavenging-pop-img-one">
+		                    <img src="__STATIC__/images/z-saohuoma.png"/>
+		                </div>
+		                <p class="Scavenging-pop-img-title">提货码:{$order['shop_order']['shop_order_id']}</p>
+		                <div class="Scavenging-pop-img-two">
+		                    <img src="__STATIC__/images/z-gongzonghao.png"/>
+		                </div>
+		                <div class="Scavenging-pop-cont">
+		                    <ul>
+		                        <li>
+		                            提<b></b> 货<b></b>人：<em>{$order['consignee']}</em><i>{$order['mobile']}</i>
+		                        </li>
+		                        <li>
+		                            提货地址：<em>{$order['full_address']}</em>
+		                        </li>
+		                        <li>
+		                            提货时间：<em>{$order['shop_order']['take_time']}</em>
+		                        </li>
+		                    </ul>
+		                </div>
+		                <div class="Scavenging-pop-footer">
+		                    <ul>
+		                        <li>
+		                            订单编号：{$order['order_sn']}
+		                        </li>
+		                        <li>
+		                            实付金额：{$order['order_amount']}元
+		                        </li>
+		                    </ul>
+		                </div>
+		            </div>
+		            <div class="Scavenging-pop-close"></div>
+             </div>
             <!--扫货码 弹窗e-->
             <!--扫货码 弹窗功能s-->
             <script type="text/javascript">
@@ -193,17 +193,18 @@
             联系客服
         </a>-->
         <if condition="$order['cancel_btn'] eq 1">
+            <a class="giftGiving" style="color: white; background-color: #f23030; border: 0;">转给上级</a>
             <a class="closeorder_butt" >取消订单</a>
         </if>
         <if condition="$order['cancel_info'] eq 1">
-            <a class="" href="{:U('Order/cancel_order_info',['order_id'=>$order['order_id']])}">取消进度</a>
+            <a class="" href="{:U('Seller/cancel_order_info',['order_id'=>$order['order_id']])}">取消进度</a>
         </if>
     </div>
 </div>
 <div class="information_dr ma-to-20">
     <div class="maleri30">
         <div class="tit">
-            <!-- if condition="$order['pay_code'] eq 'cod'"><i class="tits-ions">货到付款</i></if -->
+        	<!-- if condition="$order['pay_code'] eq 'cod'"><i class="tits-ions">货到付款</i></if -->
             <h2>基本信息</h2>
         </div>
         <div class="xx-list">
@@ -216,21 +217,27 @@
                 <span class="fr"><span>{:date('Y-m-d  H:i:s', $order.add_time)}</span></span>
             </p>
             <p class="p">
-                <span class="fl">收货人</span>
-                <span class="fr"><span>{$order.consignee}</span><span>{$order.mobile}</span></span>
-            </p>
-            <p class="p">
                 <span class="fl">收货地址</span>
                 <span class="fr" style="max-width: 10rem; line-height: 0.80rem;overflow: hidden;">{$order.full_address}</span>
+            </p>
+            <p class="p">
+                <span class="fl">收货人</span>
+                <span class="fr"><span>{$order.consignee}</span><span>{$order.mobile}</span></span>
             </p>
             <p class="p">
                 <span class="fl">支付方式</span>
                 <span class="fr">
                     <if condition="$order[pay_status] eq 1 and empty($order.pay_name)">
                         在线支付
-                    <else/>
+                        <else/>
                         {$order.pay_name}
                     </if>
+                </span>
+            </p>
+            <p class="p">
+                <span class="fl">配送方式</span>
+                <span class="fr">{$order.delivery_method}
+                    <if condition="$order['shop_id'] eq 0"><foreach name="order['delivery_doc']" item="v">{$v.shipping_name}</foreach></if>
                 </span>
             </p>
             <p class="p">
@@ -285,42 +292,7 @@
                     <span class="fl">运费</span>
                     <span class="fr"><span>￥</span><span>{$order.shipping_price}</span>元</span>
                 </p>
-                <p class="p">
-                    <span class="fl">活动优惠</span>
-                    <span class="fr"><span>-￥</span><span>{$order.order_prom_amount}</span>元</span>
-                </p>
             </if>
-
-            <!-- 预售商品 start -->
-            <if condition="$order.prom_type eq 4" >
-                <if condition="$order.paid_money gt 0">
-                    <if condition="$order.pay_status eq 1">
-                        <p class="p">
-                            <span class="fl">已付尾款</span>
-                            <span class="fr"><span>-￥</span><span>{$order.order_amount}</span>元</span>
-                        </p>
-                    </if>
-                    <p class="p">
-                        <span class="fl">已付订金</span>
-                        <span class="fr"><span>-￥</span><span>{$order.paid_money}</span>元</span>
-                    </p>
-                    <p class="p">
-                        <span class="fl">发货时间</span>
-                        <span class="fr"><span>{$order['pre_sell']['delivery_time_desc']}</span></span>
-                    </p>
-                </if>
-                <if condition="$order.pay_status eq 0 AND $order.pre_sell.deposit_price gt 0">
-                    <p class="p">
-                        <span class="fl">应付订金</span>
-                        <span class="fr"><span>-￥</span><span>{$order.order_amount}</span>元</span>
-                    </p>
-                    <p class="p">
-                        <span class="fl">尾款</span>
-                        <span class="fr"><span>-￥</span><span>{$order.total_amount - $order.order_amount}</span>元</span>
-                    </p>
-                </if>
-            </if>
-            <!-- 预售商品 end -->
 
             <p class="p">
                 <span class="fl">订单总额</span>
@@ -340,7 +312,7 @@
                 <a class="are" onclick="cancel_order({$order.order_id})">确定</a>
             </if>
             <if condition="$order.pay_status eq 1">
-                <a class="are" href="{:U('Order/refund_order', ['order_id'=>$order['order_id']])}">取消订单</a>
+                <a class="are" href="{:U('Seller/refund_order', ['order_id'=>$order['order_id']])}">取消订单</a>
             </if>
         </div>
     </div>
@@ -359,17 +331,11 @@
     <!--&lt;!&ndash;<p class="deel"><a href="{:U('Mobile/User/order_del',array('order_id'=>$order.order_id))}">删除订单</a></p>&ndash;&gt;-->
     <!--</div>-->
     <div class="fr s">
-        <if condition="$order['pay_btn'] eq 1">
-            <a href="{:U('Mobile/Cart/cart4',array('order_id'=>$order['order_id']))}">立即付款</a>
-        </if>
         <if condition="$order['receive_btn'] eq 1">
-            <a href="{:U('Mobile/Order/order_confirm',array('id'=>$order['order_id']))}">收货确认</a>
+            <a href="{:U('Mobile/Seller/order_confirm',array('id'=>$order['order_id']))}">收货确认</a>
         </if>
         <if condition="$order['shipping_btn'] eq 1">
-            <a href="{:U('Mobile/Order/express',array('order_id'=>$order['order_id']))}" >查看物流</a>
-        </if>
-        <if condition="$order.pay_tail_btn eq 1">
-            <a href="{:U('/Mobile/Cart/cart4',array('order_id'=>$order[order_id]))}">支付尾款</a>
+            <a href="{:U('Mobile/Seller/express',array('order_id'=>$order['order_id']))}" >查看物流</a>
         </if>
     </div>
 </div>
@@ -392,7 +358,7 @@
         $.ajax({
             type: 'GET',
             dataType:'JSON',
-            url:"/index.php?m=Mobile&c=Order&a=cancel_order&id="+id,
+            url:"/index.php?m=Mobile&c=Seller&a=cancel_order&id="+id,
             success:function(data){
                 if(data.code == 1){
                     layer.open({content:data.msg,time:2});

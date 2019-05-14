@@ -6,12 +6,14 @@ namespace app\shop\controller;
 use app\common\logic\CartLogic;
 use app\common\logic\Message;
 use app\common\logic\UsersLogic;
+use app\common\logic\UserApply;
 use app\common\logic\DistributLogic;
 use app\common\logic\OrderLogic;
 use app\common\model\MenuCfg;
 use app\common\model\UserAddress;
 use app\common\model\Users as UserModel;
 use app\common\model\UserMessage;
+use app\common\model\UserStock;
 use app\common\util\TpshopException;
 use think\Cache;
 use think\Page;
@@ -2054,7 +2056,6 @@ class User extends MobileBase
 
         $logic = new ShareLogic();
         $ticket = $logic->get_ticket($user_id);
-
         
         if(strlen($ticket) < 3){
             $this->error("ticket不能为空");
@@ -2150,6 +2151,64 @@ class User extends MobileBase
         $this->assign('nickname',$nickname);
 
         return $this->fetch();
+    }
+
+    /**
+     * 我的库存
+     */
+    public function userStock()
+    {
+
+        $user = new UserStock();
+        $c = $user->where('user_id', $this->user_id)
+            ->limit(10)
+            ->order('stock', 'asc')
+            ->select();
+        dump($c[0]->goods);exit;
+
+    }
+
+    /**
+     * 申请列表
+     */
+    public function apply_list()
+    {
+        $userApply = new UserApply();
+        $data = $userApply->applyList($data);
+        $this->assign('secondCategoryList',$secondCategoryList);
+    }
+
+    /**
+     * 邀请列表
+     */
+    public function invite_list()
+    {
+        $userApply = new UserApply();
+        $data = $userApply->inviteList($data);
+        $this->assign('secondCategoryList',$secondCategoryList);
+    }
+
+    /**
+     * 申请代理
+     */
+    public function apply_upgrade()
+    {
+
+//        $userLevel = M('UserLevel')->where('level','>',$this->user['level'])->select();
+//        if (IS_POST) {
+            $data['mobile'] = '15975561571';//I('mobile');
+            $data['level'] = '3';//I('level');
+
+            $userApply = new UserApply();
+            $data = $userApply->applyUpgrade($this->user, $data);
+
+
+            $this->ajaxReturn($data);
+            exit;
+//        }
+//        $this->assign('userLevel', $userLevel);
+//        $this->assign('user', $this->user);
+//        return $this->fetch();
     }
 
     // public function logout()
