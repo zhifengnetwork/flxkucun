@@ -15,3 +15,6 @@ if (is_file($_SERVER["DOCUMENT_ROOT"] . $_SERVER["REQUEST_URI"])) {
 } else {
     require __DIR__ . "/index.php";
 }
+
+
+
