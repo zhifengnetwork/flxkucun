@@ -625,6 +625,12 @@ class Goods extends MobileBase
 
         if(empty($user)){
             $result = ['status' => -9, 'msg' => '未找到用户', 'result' => ''];
+            $this->ajaxReturn($result);
+        }
+
+        if($user['first_leader'] == 0 && $user['second_leader'] == 0 && $user['level'] < 2){
+            $result = (['status' => 0, 'msg' => '没有上级无法购买', 'result' => '']);
+            $this->ajaxReturn($result);
         }
 
         $result = provingReceive($user, $type, $goods_num);

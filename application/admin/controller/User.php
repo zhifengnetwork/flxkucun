@@ -535,6 +535,8 @@ class User extends Base
             $s_reward = I('s_reward');
              $k_reward = I('k_reward');
             $jintie = I('jintie');
+            $discount = I('discount');
+            $describe = I('describe');
 			if($level==""){
 				$this->ajaxReturn(['status' => 0, 'msg' => '等级不可为空']);
 			}
@@ -563,6 +565,7 @@ class User extends Base
                 's_reward'=>$s_reward,
                 'k_reward'=>$k_reward,
                 'jintie'=>$jintie,
+                'discount' => $discount,
 			);
 			if($id>0){
 				$res = M('user_level')->where('id',$id)->data($data)->save();
