@@ -1,0 +1,56 @@
+/* 视频播放页 */
+body{
+    overflow: hidden;
+}
+
+.content {
+    padding:.2rem;
+    box-sizing: border-box;
+}
+
+.content h3{
+    font-size: .24rem;
+    color: #151515;
+    line-height: .4rem;
+}
+
+.content .date{
+    font-size: .2rem;
+    color: #595959;
+}
+.content .date span{
+    margin-right: .15rem;
+}
+
+.content .playWrap{
+    width: 100%;
+    border-radius: .06rem;
+    position: relative;
+    margin: .2rem 0;
+}
+
+/* .playControll {
+    width: 100%;
+    height: .6rem;
+    background: rgba(0, 0, 0, .3);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+} */
+
+.prism-player .prism-big-play-btn{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    -o-transform: translate(-50%,-50%);
+}
+
+.content p{
+    font-size: .2rem;
+    color: #828282;
+    line-height: .3rem;
+}

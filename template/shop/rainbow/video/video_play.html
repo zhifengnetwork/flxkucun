@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+	<title>视频播放</title>
+	<script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/reset.css?v=111" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/public_lb/public_header.css?v=111" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/video/video_play.css?v=111" />
+
+
+	<link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.8.1/skins/default/aliplayer-min.css" />
+	<script type="text/javascript" charset="utf-8"
+		src="https://g.alicdn.com/de/prismplayer/2.8.1/aliplayer-min.js"></script>
+	<!-- <script type="text/javascript" src="https://g.alicdn.com/de/prismplayer/2.5.0/aliplayer-h5-min.js"></script> -->
+
+	<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
+	<script src="__STATIC__/js/public.js"></script>
+	<style>
+		/* 视频封面 */
+		.prism-player .prism-cover {
+			background-size: 100%;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<div class="header">
+			<div class="backBtn" onclick="returnFun()"></div>
+			<h3>视频播放</h3>
+		</div>
+
+		<div class="content">
+			<h3>夏季吊带连衣裙超夏季吊带连衣裙超</h3>
+			<p class="date">
+				<span>2019-04-17</span>
+				<span>02:27:25</span>
+				<span>发布者:倾城小美人</span>
+			</p>
+			<div class="playWrap">
+				<div class="prism-player" id="player-con"></div>
+			</div>
+			<p>据香港媒体报道，TVB艺人黄心颖因出轨人夫许志安，形象一落千丈，跌到谷底。之前，她曾为电视剧倾情献唱主题曲，但受出轨事件的影响，公司将
+				其演唱的主题曲作了消音处理，只放纯音乐。</p>
+			<p>4月16日，许志安跟马国明女友车内缠绵画面曝光后，引起轩然大波。随后许志安召开记者会，现场痛哭承认出轨，表示对不起太太郑秀文，同时宣
+					布暂停演艺事业，进行深刻反省。</p>
+		</div>
+	</div>
+	</div>
+	<script>
+		var player = new Aliplayer({
+			"id": "player-con",
+			"source": "http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4",//视频地址
+			"width": "100%",
+			"height": "7.02rem",
+			"autoplay": false,
+			"isLive": false,
+			"rePlay": true,
+			"playsinline": true,
+			"preload": false,
+			"cover": "__STATIC__/images/video/00cover-img.jpg",//视频封面
+			"controlBarVisibility": "always",//控制面板的实现
+			"videoWidth": "100%",
+			"useH5Prism": true,
+			"skinLayout": [
+				{
+					"name": "bigPlayButton"//大播放按钮
+					//   "align": "blabs",
+					//   "x": 160,
+					//   "y": 160
+				},
+				{
+					"name": "H5Loading",
+					"align": "cc"
+				},
+				{
+					"name": "errorDisplay",
+					"align": "tlabs",
+					"x": 0,
+					"y": 0
+				},
+				{
+					"name": "infoDisplay"
+				},
+				{
+					"name": "tooltip",
+					"align": "blabs",
+					"x": 0,
+					"y": 56
+				},
+				{
+					"name": "thumbnail"
+				},
+				{
+					"name": "controlBar",
+					"align": "blabs",
+					"x": 0,
+					"y": 0,
+					"children": [
+						{
+							"name": "progress",//进度条
+							"align": "blabs",
+							"x": 0,
+							"y": 44
+						},
+						{
+							"name": "playButton",//播放按钮
+							"align": "tl",
+							"x": 15,
+							"y": 12
+						},
+						{
+							"name": "timeDisplay",//进度时间
+							"align": "tl",
+							"x": 10,
+							"y": 7
+						},
+						{
+							"name": "fullScreenButton",//全屏
+							"align": "tr",
+							"x": 10,
+							"y": 12
+						},
+						// {
+						// 	"name": "setting",//设置
+						// 	"align": "tr",
+						// 	"x": 15,
+						// 	"y": 12
+						// },
+						{
+							"name": "volume",//声音
+							"align": "tr",
+							"x": 5,
+							"y": 10
+						}
+					]
+				}
+			]
+		}, function (player) {
+			player._switchLevel = 0;
+			console.log("播放器创建了。");
+		}
+		);
+	</script>
+	<!-- <script type="text/javascript">
+		var player = new Aliplayer({
+			"id": "player-con",
+			"source": "http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4",//视频地址
+			"width": "100%",
+			"height": "7rem",
+			"autoplay": false,
+			"isLive": true,//是否是直播
+			"rePlay": false,
+			"playsinline": true,
+			"preload": false,
+			"controlBarVisibility": "hover",
+			"useH5Prism": true, //采用h5模式播放
+			"skinLayout": [
+				{
+					"name": "bigPlayButton",
+					"align": "blabs",
+					"x": 30,
+					"y": 80
+				},
+				{
+					"name": "H5Loading",
+					"align": "cc"
+				},
+				{
+					"name": "errorDisplay",
+					"align": "tlabs",
+					"x": 0,
+					"y": 0
+				},
+				{
+					"name": "infoDisplay"
+				},
+				{
+					"name": "tooltip",
+					"align": "blabs",
+					"x": 0,
+					"y": 56
+				},
+				{
+					"name": "thumbnail"
+				},
+				{
+					"name": "controlBar",
+					"align": "blabs",
+					"x": 0,
+					"y": 0,
+					"children": [
+						{
+							"name": "progress",
+							"align": "blabs",
+							"x": 0,
+							"y": 44
+						},
+						{
+							"name": "playButton",
+							"align": "tl",
+							"x": 15,
+							"y": 12
+						},
+						{
+							"name": "timeDisplay",
+							"align": "tl",
+							"x": 10,
+							"y": 7
+						},
+						{
+							"name": "fullScreenButton",
+							"align": "tr",
+							"x": 10,
+							"y": 12
+						},
+						{
+							"name": "setting",
+							"align": "tr",
+							"x": 15,
+							"y": 12
+						},
+						{
+							"name": "volume",
+							"align": "tr",
+							"x": 5,
+							"y": 10
+						}
+					]
+				}
+			]
+		}, function (player) {
+			player._switchLevel = 0;
+			console.log("播放器创建了。");
+		}
+		);
+
+	</script> -->
+</body>
+
+</html>

@@ -5,55 +5,20 @@
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>我的</title>  
     <link rel="stylesheet" type="text/css" href="__STATIC__/css/reset.css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/public_head.css"/>
     <link rel="stylesheet" type="text/css" href="__STATIC__/css/user_zp/index.css?v=1"/>
 </head>
 
 <body>
 	<div class="wrapper">
-		<div class="user-wrap">
-			<!--顶部-->
-			<div class="user-head-zp">
-				<div class="user-top-zp">
-					<div class="user-info-zp">
-						<a href="/shop/User/personal">
-							<div class="user-avatar-zp">
-								<img src="{$user['head_pic']}"/>
-							</div>
-						</a>
-						<p class="user-name-zp">{$user['nickname']}&nbsp&nbspID:{$user['user_id']}</p>
-						<span class="sign">
-                            <!-- <if condition="($user.is_distribut == 1)">
-                                分销商
-                            <else/>
-                                普通用户
-                            </if> -->
-                            {$level.0.level_name}
-                        </span>
-					</div>
-					<!-- <div class="sign-wrap-zp">
-						<span class="sign-in-zp"><i></i> 签到</span>
-						<span class="receive-zp">10天签到领取礼品</span>
-					</div> -->
-				</div>
-				<div class="user-down-zp">
-					<ul class="user-down-list">
-
-                        <a href="/Shop/User/collect_list">
-    						<li>
-    							<span class="num-zp">{$user.collect_count}</span>
-    							<span>我的收藏</span>
-    						</li>
-                        </a>
-						<a href="{:U('Shop/User/visit_log')}">
-							<li>
-								<span class="num-zp">{$user.visit_count}</span>
-								<span>足迹</span>
-							</li>
-						</a>
-					</ul>
-				</div>
+		    <!--头部-->
+			<div class="headWrap">		
+				<!--<img class="lb_headWrap_return_img" src="__STATIC__/images/user_zp/shezhi@2x.png" onclick="returnFun()"/>-->
+				<span>个人中心</span>
+			    <img class="lb_header_righticon" src="__STATIC__/images/user_zp/shezhi@2x.png"/>
 			</div>
 			
+
 			<div class="user-list-zp">
 				<div class="user-list-item">
 					<div class="tit-zp">
@@ -261,15 +226,39 @@
 						</ul>
 					</div>
 				</div>
+
+			<div class="touxiang_ear">
+				
+				<img  src="__STATIC__/images/user_zp/3@2x.png" />
+				<br/>
+				<span>倾城小美人</span><img src="__STATIC__/images/user_zp/zy22@2x.png" />
+
 				
 			</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			
 			
 			<!--底部导航-start-->
     		<include file="public/footer_nav"/>
     		
-		</div>
+		
 	</div>
 	<script src="__STATIC__/js/public/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
@@ -292,6 +281,7 @@
 }
 </style>
 <script src="__STATIC__/js/mobile-location.js"></script>
+<script src="__STATIC__/js/public.js"></script>
     <script type="text/javascript">
 
 		$(function(){
