@@ -12,7 +12,23 @@ img {
 .content .push_wrap {
 	position: relative;
 }
-.content .push_wrap .push {
+
+.up_btn {
+	position: relative;
+	margin: 0 auto;
+	width: 2.9rem;
+	height: 1.85rem;
+}
+.put {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 2.9rem;
+	height: 1.85rem;
+	opacity: 0;
+}
+
+.content .push_wrap {
 	padding: 2.13rem 0 0;
 	margin: .2rem auto;
 	width: 7.02rem;
@@ -109,7 +125,7 @@ img {
 	-display: none;
 	position: absolute;
 	top: 0;
-	left: .25rem;
+	left: 0;
 	z-index: 5;
 	width: 7.02rem;
 	height: 7.02rem;
@@ -135,7 +151,7 @@ img {
 	line-height: .6rem;
 }
 .content .pop .img {
-	margin: 0 auto .25rem;
+	margin: 0 auto .1rem;
 	width: .69rem;
 	height: .69rem;
 }
@@ -156,7 +172,7 @@ img {
 	-display: none;
 	position: absolute;
 	top: 0;
-	left: .25rem;
+	left: 0;
 	z-index: 0;
 	width: 7.02rem;
 	height: 7.02rem;
