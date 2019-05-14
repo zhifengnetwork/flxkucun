@@ -1,0 +1,181 @@
+<include file="public/header" title="支付,提交订单" body=""/>
+<include file="public/header_nav" title="支付,提交订单" href="/index.php/Shop/Order/order_list/type/WAITPAY"/>
+<style>
+    .around {
+        text-align: center;
+        margin: .64rem;
+        background-color: white;
+    }
+    .around img {
+        max-width: 16rem;
+        width: 100% !important;
+        height: auto !important;
+    }
+</style>
+    <form action="{:U('Shop/Payment/getVoucher')}" method="post" name="head_pic" id="head_pic" enctype="multipart/form-data">
+        <div class="ddmoney">
+            <div class="maleri30">
+                <span class="fl">订单号</span>
+                <span class="fr">{$order[order_sn]}</span>
+            </div>
+        </div>
+        <div class="ddmoney">
+            <div class="maleri30">
+                <span class="fl">订单金额</span>
+                <span class="fr">{$order[order_amount]}元</span>
+            </div>
+        </div>
+        <!--其他支付方式-s-->
+        <div class="paylist">
+            <div class="myorder debit otherpay p">
+                <div class="content30">
+                    <a href="javascript:void(0);">
+                        <div class="order">
+                            <div class="fl">
+                                <span>支付方式</span>
+                            </div>
+                            <div class="fr">
+                                <!--<i class="Mright xjt"></i>-->
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="pay-list-4 p">
+            <div class="maleri30">
+                <ul>
+                    <foreach name="paymentList" key="k" item="v">
+                        <li  onClick="changepay(this);">
+                            <label>
+                            <div class="radio fl">
+                                <span class="che {$k}">
+                                    <i>
+                                        <input type="radio" value="pay_code={$v['code']}" class="c_checkbox_t" name="pay_radio" style="display:none;"/>
+                                    </i>
+                                </span>
+                            </div>
+                                <div class="pay-list-img fl">
+                                    <img src="/plugins/{$v['type']}/{$v['code']}/{$v['icon']}"/>
+                                </div>
+                                <div class="pay-list-font fl">
+                                    {$v[name]}
+                                </div>
+                            </label>
+                        </li>
+                    </foreach>
+                </ul>
+            </div>
+        </div>
+        <!--其他支付方式-s-->
+        <!--上传凭证-s-->
+        <div class="paylist">
+            <span></span>
+                <label class="file" style="cursor:pointer;">
+                    <div class="around" id="fileList">
+                        <img src="__STATIC__/images/upload.png"/>
+                        <input  type="file" accept="image/*" name="head_pic"  onchange="handleFiles(this)" style="display:none">
+                        <input type="hidden" name="order_id" value="{$order['order_id']}" id="order_id"/>
+                    </div>
+                </label>
+
+        </div>
+        <div class="paiton">
+            <div class="maleri30">
+                <a class="soon" id="asubmit" style="display:none;" href="javascript:;" onclick="javascript:$('#head_pic').submit();"><span>上传凭证</span></a>
+            </div>
+        </div>
+        <!--上传凭证-e-->
+    </form>
+
+<div class="mask-filter-div" style="display: none;"></div>
+
+<script type="text/javascript">
+    $(function(){
+        //默认选中第一个
+        $('.pay-list-4 div ul li:first').find('.che').addClass('check_t').end().find(':radio').prop('checked',true);
+    })
+    //切换支付方式
+    function changepay(obj){
+        $(obj).find('.che').addClass('check_t').parents('li').siblings('li').find('.che').removeClass('check_t');
+        //改变中状态
+        if($(obj).find('.che').hasClass('check_t')){
+            $(obj).find(':radio').prop('checked',true);//选中
+            $(obj).siblings('li').find(':radio').prop('checked',false);
+        }else{
+            $(obj).find(':radio').prop('checked',false);//取消选中
+        }
+    }
+
+
+    //显示上传照片
+    window.URL = window.URL || window.webkitURL;
+    function handleFiles(obj) {
+        fileList = document.getElementById("fileList");
+        var files = obj.files;
+        img = new Image();
+        if(window.URL){
+            img.src = window.URL.createObjectURL(files[0]); //创建一个object URL，并不是你的本地路径
+            // img.width = 60;
+            // img.height = 60;
+            img.onload = function(e) {
+                window.URL.revokeObjectURL(this.src); //图片加载后，释放object URL
+            }
+            if(fileList.firstElementChild){
+                fileList.removeChild(fileList.firstElementChild);
+            }
+            $('#fileList').find('img').remove();
+            fileList.appendChild(img);
+        }else if(window.FileReader){
+            //opera不支持createObjectURL/revokeObjectURL方法。我们用FileReader对象来处理
+            var reader = new FileReader();
+            reader.readAsDataURL(files[0]);
+            reader.onload = function(e){
+                img.src = this.result;
+                img.width = 60;
+                img.height = 60;
+                $('#fileList').find('img').remove();
+                fileList.appendChild(img);
+            }
+        }else{
+            //ie
+            obj.select();
+            obj.blur();
+            var nfile = document.selection.createRange().text;
+            document.selection.empty();
+            img.src = nfile;
+            img.width = 60;
+            img.height = 60;
+            img.onload=function(){
+
+            }
+            $('#fileList').find('img').remove();
+            fileList.appendChild(img);
+        }
+        $('#asubmit').show();
+        $('#logout').hide();
+        // $('#head_pic').submit();
+    }
+
+
+
+</script>
+<!--支付返回弹窗-->
+		<div class="package-pop-bg-opacity" style="display: none;"></div>
+		<div class="package-pop p "  style="display: none;">
+			<p>便宜不等人，请三思而行</p>
+			<div class="package-pop-select p">
+				<a href="" class="fl">
+					我再想想
+				</a>
+				<a href="" class="fr">
+					去意已决
+				</a>
+				<div class="package-pop-icon">
+					
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

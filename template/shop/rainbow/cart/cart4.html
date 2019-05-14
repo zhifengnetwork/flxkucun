@@ -1,88 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8" />
-    <title>提交订单--{$tpshop_config['shop_info_store_title']}</title>
-    <link rel="stylesheet" href="__STATIC__/css/style.css">
-    <link rel="stylesheet" type="text/css" href="__STATIC__/css/iconfont.css"/>
-    <link rel="stylesheet" href="__STATIC__/css/login_zjy/login_zjy.css">
-    <script src="__STATIC__/js/jquery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>
-    <!--<script src="__STATIC__/js/zepto-1.2.0-min.js" type="text/javascript" charset="utf-8"></script>-->
-    <script src="__STATIC__/js/style.js" type="text/javascript" charset="utf-8"></script>
-    <script src="__STATIC__/js/mobile-util.js" type="text/javascript" charset="utf-8"></script>
-    <script src="__PUBLIC__/js/global.js"></script>
-    <script src="__STATIC__/js/layer.js"  type="text/javascript" ></script>
-    <script src="__STATIC__/js/swipeSlide.min.js" type="text/javascript" charset="utf-8"></script>
-    <link rel="shortcut icon" type="image/x-icon" href="{$tpshop_config.shop_info_store_ico|default='/public/static/images/logo/storeico_default.png'}" media="screen"/>
-	
-</head>
-<body>
-
-        <div class="classreturn loginsignup ">
-                <div class="content">
-                    <div class="ds-in-bl return">
-                        <a href="/index.php/Shop/Order/order_list/type/WAITPAY"><img src="__STATIC__/images/return.png" alt="返回"></a>
-                    </div>
-                    <div class="ds-in-bl search center">
-                        <span>提交订单</span>
-                    </div>
-                    <div class="ds-in-bl menu">
-                        <a href="javascript:void(0);"><img src="__STATIC__/images/class1.png" alt="菜单"></a>
-                    </div>
-                </div>
-            </div>
-            <div class="flool up-tpnavf-wrap tpnavf [top-header]">
-                <div class="footer up-tpnavf-head">
-                    <div class="up-tpnavf-i"> </div>
-                    <ul>
-                        <li>
-                            <a class="yello" href="{:U('Index/index')}">
-                                <div class="icon">
-                                    <i class="icon-shouye iconfont"></i>
-                                    <p>首页</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{:U('Goods/categoryList')}">
-                                <div class="icon">
-                                    <i class="icon-fenlei iconfont"></i>
-                                    <p>分类</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{:U('Cart/index')}">
-                                <div class="icon">
-                                    <i class="icon-gouwuche iconfont"></i>
-                                    <p>购物车</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{:U('User/index')}">
-                                <div class="icon">
-                                    <i class="icon-wode iconfont"></i>
-                                    <p>我的</p>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <script type="text/javascript">
-                
-            $(function(){	
-                $(window).scroll(function() {		
-                    if($(window).scrollTop() >= 1){ 
-                        $('.tpnavf').hide()
-                    }
-                })
-            })
-            </script>
-
-
-
+<include file="public/header" title="支付,提交订单" body=""/>
+<include file="public/header_nav" title="支付,提交订单" href="/index.php/Shop/Order/order_list/type/WAITPAY"/>
 <form action="{:U('Shop/Payment/getCode')}" method="post" name="cart4_form" id="cart4_form">
     <div class="ddmoney">
         <div class="maleri30">
@@ -291,7 +208,7 @@
 					去意已决
 				</a>
 				<div class="package-pop-icon">
-					
+
 				</div>
 			</div>
 		</div>
