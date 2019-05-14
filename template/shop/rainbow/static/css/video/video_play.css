@@ -1,10 +1,9 @@
 /* 视频播放页 */
-body{
-    overflow: hidden;
-}
+
 
 .content {
     padding:.2rem;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 
@@ -27,6 +26,7 @@ body{
     border-radius: .06rem;
     position: relative;
     margin: .2rem 0;
+    overflow: hidden;
 }
 
 /* .playControll {
@@ -52,5 +52,52 @@ body{
 .content p{
     font-size: .2rem;
     color: #828282;
-    line-height: .3rem;
+    line-height: .36rem;
+}
+
+/* 商品 */
+.goods-item{
+    height: 1.44rem;
+    background-color: #f8f8f8;
+    border-radius: .08rem;
+    margin-top: .3rem;
+}
+.goods-item a{
+    height:100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.goods-item .img-wrap{
+    width: 1.2rem;
+    margin-right: .2rem;
+    text-align: right;
+}
+.goods-item .img-wrap img{
+    width: .65rem;
+}
+.goods-item .text{
+    flex: 1;
+}
+.goods-item .text h3{
+    font-size: .2rem;
+    color: #151515;
+    line-height: .36rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical; 
+    -webkit-line-clamp: 2; 
+    overflow: hidden;
+    margin-bottom: .1rem;
+} 
+.goods-item .text .price{
+    color: #f90707;
+}
+.goods-item .more{
+    margin: 0 .35rem 0 .8rem;
+}
+.goods-item .more img{
+    width: .11rem;
 }

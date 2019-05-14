@@ -737,7 +737,8 @@ filter:progid:DXImageTransform.Microsoft.gradient(enabled='true', startColorstr=
 .unfold .nav-tabs dl dt span.ico-shop-0 { background-position: -360px 0; }
 .unfold .nav-tabs dl dt span.ico-shop-1 { background-position: -150px 0; }
 .unfold .nav-tabs dl dt span.ico-shop-2 { background-position: -270px -30px; }
-.unfold .nav-tabs dl dt span.ico-shop-3 { background-position: -210px -30px; }
+.unfold .nav-tabs dl dt span.ico-shop-3 { background-position: -510px -30px; }
+/*.unfold .nav-tabs dl dt span.ico-shop-3 { background-position: -210px -30px; }*/
 .unfold .nav-tabs dl dt span.ico-shop-4 { background-position: -240px -30px; }
 .unfold .nav-tabs dl dt span.ico-shop-5 { background-position: -450px 0; }
 .unfold .nav-tabs dl dt span.ico-shop-6 { background-position: -300px -30px; }
@@ -765,7 +766,8 @@ filter:progid:DXImageTransform.Microsoft.gradient(enabled='true', startColorstr=
 .unfold .nav-tabs dl.active dt span.ico-shop-0 { background-position: -360px 0; }
 .unfold .nav-tabs dl.active dt span.ico-shop-1 { background-position: -150px 0; }
 .unfold .nav-tabs dl.active dt span.ico-shop-2 { background-position: -270px -30px; }
-.unfold .nav-tabs dl.active dt span.ico-shop-3 { background-position: -210px 0; }
+.unfold .nav-tabs dl.active dt span.ico-shop-3 { background-position: -510px 0; }
+/*.unfold .nav-tabs dl.active dt span.ico-shop-3 { background-position: -210px 0; }*/
 .unfold .nav-tabs dl.active dt span.ico-shop-4 { background-position: -240px 0; }
 .unfold .nav-tabs dl.active dt span.ico-shop-5 { background-position: -450px 0; }
 .unfold .nav-tabs dl.active dt span.ico-shop-6 { background-position: -300px 0; }

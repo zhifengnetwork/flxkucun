@@ -1533,4 +1533,5 @@ class UsersLogic extends Model
         $info = M('user_extend')->field($field)->where($map)->find();
         return !empty($info) ? $info : '';
     }
+
 }
