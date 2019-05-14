@@ -42,13 +42,8 @@ ol, ul, li, dl {
 }
 
 body {
-	font-family: "PingFangMedium", tahoma, verdana, arial, sans-serif;
 	line-height: 1;
 	font-size: 0.341334rem;
-}
-
-body {
-	/*font-family:"PingFangBold";*/
 }
 
 i, a, big, small, b, span, em, strong, font {

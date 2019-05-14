@@ -1,0 +1,24 @@
+.header {
+    width: 100%;
+    height: .88rem;
+    line-height: .88rem;
+    background-color: #f2f2f2;
+    font-size: .3rem;
+    color: #151515;
+    text-align: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.header .backBtn {
+    width: .18rem;
+    height: .32rem;
+    padding: .2rem;
+    background: url(../../images/video/backBtn.png) no-repeat center center;
+    background-size: .18rem .32rem;
+}
+
+.header h3 {
+    flex: 1;
+}
