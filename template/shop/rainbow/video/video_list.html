@@ -2,11 +2,61 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>我的视频</title>
+    <script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="__STATIC__/css/public_lb/public.css" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/video/video_list.css"/>
 </head>
 <body>
-    视频列表
+    <div class="wrapper">
+    	<!--public head-->
+	        <div class="lb_headWrap topBox_backgroundColor">
+	            <p class="lb_headWrap_return" data-num="1" onclick="returnFun()">
+	                <img class="lb_headWrap_return_img" src="__STATIC__/images/public_lb/returnImg666_lb.png"/>
+	            </p>
+	            <span>添加视频</span>
+	            <!--选择按钮-->
+	        	<div class="opt_btn">选择</div>
+	        </div>
+	        <!--内容-->
+	        <div class="content">
+	        	<div class="list_wrap">
+	        		
+	        		<div class="checkbox">
+	        			<input type="checkbox" />
+	        		</div>
+	        		
+	        		<div class="img">
+	        			<img src="__STATIC__/images/video/001v.png" />
+	        		</div>
+	        		
+	        		<div class="ziti">
+	        			<p>自然堂化妆品补水防晒虎虎生风副书记粉红色看好的撒几何</p>
+	        			<div>2019-04-19</div>
+	        		</div>
+	        		
+	        		<div class="not">未通过</div>
+	        	</div>
+	        	
+	        	<!--扫货按钮-->
+	        	<div class="goods_btn">扫码发货</div>
+	        </div>
+	        
+	        
+    </div>
+    
+    <script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
+	<script src="__STATIC__/js/public/public_lb.js"></script>
+	<script>
+		$(function() {
+			$('.opt_btn').on('click',function(){
+				$('.opt_btn').html('完成');
+				$('.checkbox').show();
+				$('.goods_btn').show();
+			});
+		})
+	</script>
 </body>
 </html>
