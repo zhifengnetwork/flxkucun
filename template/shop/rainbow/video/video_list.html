@@ -22,10 +22,11 @@
 	        </div>
 	        <!--内容-->
 	        <div class="content">
+	        	<form method="post" action="./video_del">
 	        	<foreach name ='video' item='v' >
 	        	<div class="list_wrap">
 	        		<!--点击选择状态框-->
-	        		<input class="check" type="checkbox" />
+	        		<input class="check" name='del_id[]' type="checkbox" value="{$v['id']}" />
 	        		
 	        		<div class="img">
 	        			<img src="__STATIC__/images/video/001v.png" />
@@ -35,31 +36,14 @@
 	        			<p>{$v['title']}</p>
 	        			<div><?php echo date("Y-m-d ",$v['update_time']) ?></div>
 	        		</div>
-	        		
 	        		<div class="{$v['status']?'not pass':'not'}">{$v['status']? '通过':'不通过'}</div>
 	        	</div>
 	        	</foreach>
-	     
-	        	
-	        	<!-- <div class="list_wrap">
-	        	
-	        		<input class="check" type="checkbox" />
-	        		
-	        		<div class="img">
-	        			<img src="__STATIC__/images/video/001v.png" />
-	        		</div>
-	        		
-	        		<div class="ziti">
-	        			<p>自然堂化妆品补水防晒虎虎生风副书记粉红色看好的撒几何</p>
-	        			<div>2019-04-19</div>
-	        		</div>
-	        		
-	        		<div class="not pass">已通过</div> 
-	        	</div>-->
-	        	
-	        	
-	        	
-	        	<div class="goods_btn" id="btn">删除</div>
+	     			        	
+	        	<div class="goods_btn" id="btn" >
+	        		<input style="display:block;  height: 100%; width: 100%;" type="submit"   name="">
+	        	</div>
+	        	</form>
 	        </div>
 	        
 	        
@@ -81,6 +65,7 @@
                 statu = 1;
                 for(var i=0;i<check.length;i++) {
                 	check[i].style.display = 'block';
+
                 }
                 Btn.style.display = 'block';
             } else {
@@ -88,6 +73,7 @@
                 statu = 0;
                 for(var i=0;i<check.length;i++) {
                 	check[i].style.display = 'none';
+                	//del_id[i].value ='';
                 }
                 Btn.style.display = 'none';
             }
