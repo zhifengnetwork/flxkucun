@@ -10,14 +10,16 @@ img {
 	position: absolute;
 	top: 0;
 	right: .2rem;
+	color: #2f2f2f;
 }
 input {
 	-webkit-appearance: checkbox;
 }
 .content {
-	padding: 0 .25rem;
+	padding: .29rem .25rem 0;
 }
 .content .list_wrap {
+	margin-bottom: .2rem;
 	padding: .15rem 0;
 	height: 1.5rem;
 	border: solid 1px #dadada;
@@ -27,13 +29,32 @@ input {
 	float: left;
 }
 
-.content .list_wrap .checkbox {
-	display: none;
+.content .list_wrap .chebox {
+	/*display: none;
 	margin: .47rem 0 0 .17rem;
 	width: .36rem;
 	height: .36rem;
 	border: 1px solid #7a7a7a;
+	border-radius: 50%;*/
+}
+.content .list_wrap input{
+	display: none;
+	float: left;
+	margin: .47rem 0 0 .17rem;
+	width: .36rem;
+    height: .36rem;
+    -webkit-appearance:none;
+    border: 1px solid #7a7a7a;
 	border-radius: 50%;
+}
+input:checked:after{
+	margin: .1rem 0 0 .07rem;
+    width: .18rem;
+    height: .15rem;
+    content: '';
+    background: url(../../images/video/checkbox.png) center center no-repeat;
+    background-size: cover;
+    display: block;
 }
 
 .content .list_wrap .img {
@@ -61,21 +82,27 @@ input {
 	font-size: .2rem;
 	color: #505050;
 }
-.content .list_wrap .not{
+.not{
 	margin: .55rem 0 0 .4rem;
 	font-size: .2rem;
 	color: #22d891;
 }
 
 .content .goods_btn {
-	margin: 1.5rem 0 0;
 	display: none;
+	margin: 1.5rem 0 0;
 	width: 7.02rem;
 	height: .6rem;
 	background: #e31a49;
 	border-radius: 4px;
+	letter-spacing: 2px;
 	font-size: .3rem;
 	color: #fff;
 	text-align: center;
 	line-height: .6rem;
 }
+
+.pass {
+	color: #f90029;
+}
+

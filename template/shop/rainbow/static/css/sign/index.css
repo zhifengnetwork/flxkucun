@@ -1,5 +1,5 @@
 body {
-	background-color: #fff;
+	background-color: #f8f8f8;
 }
 /*最外边框*/
 .wrap_signin {
@@ -19,6 +19,8 @@ body {
 .content_si {
 	width: 100%;
 	height: auto;
+	padding-bottom: .88rem;
+	box-sizing: border-box;
 }
 /*顶部大图*/
 .topImgBox {
@@ -171,4 +173,28 @@ body {
 	height: 1.6rem;
 	/*line-height: .8rem;*/
 	font-size: .26rem;
+}
+
+/* 规则 */
+.rules{
+	width: 92%;
+	height: 1.88rem;
+	background-color: #ffffff;
+	border-radius: .08rem;
+	margin: 0 auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction:column;
+}
+
+.rules h5{
+	font-size: .3rem;
+	color: #111111;
+	line-height: .5rem;
+	font-weight: normal;
+}
+.rules p{
+	color: #666666;
+	font-size: .24rem;
 }

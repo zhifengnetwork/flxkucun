@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title>发现-{$tpshop_config['shop_info_store_title']}</title>
+
+	<script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
+
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/reset.css?v=111" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/swiper.min.css?v=111" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/find/find.css?v=111" />
+
+
+</head>
+
+<body>
+	<div class="wrapper">
+		<!-- 头部搜索 -->
+		<div class="header">
+			<div class="search">
+				<form action="#">
+					<input type="button" class="searchBtn">
+					<input type="text" class="searchText" placeholder="连衣裙">
+				</form>
+			</div>
+
+			<div class="loginBtn">
+				<a href="{:U('Shop/User/index')}">
+					<img src="__STATIC__/images/home_zp/login-btn-index@2x.png" />
+				</a>
+			</div>
+		</div>
+
+		<!-- 视频轮播 -->
+		<div class="swiper-container bannerWrap">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+					<video src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
+						loop="loop" poster="__STATIC__/images/home_zp/00video-img01.png" webkit-playsinline=""
+						id="myVideo">
+					</video>
+					<span class="playBtn" id="playBtn1"><img src="__STATIC__/images/home_zp/playBtn-big.png" /></span>
+				</div>
+				<div class="swiper-slide">
+					<video src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
+						loop="loop" poster="__STATIC__/images/home_zp/00video-img01.png" webkit-playsinline="">
+					</video>
+					<span class="playBtn"><img src="__STATIC__/images/home_zp/playBtn-big.png" /></span>
+				</div>
+				<div class="swiper-slide">
+					<video src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
+						loop="loop" poster="__STATIC__/images/home_zp/00video-img01.png" webkit-playsinline="">
+					</video>
+					<span class="playBtn"><img src="__STATIC__/images/home_zp/playBtn-big.png" /></span>
+				</div>
+			</div>
+		</div>
+
+		<!-- 商品介绍 -->
+		<div class="video_goods">
+			<div class="title">
+                <h3>商品介绍</h3>
+                <a href="#" class="more"><span>查看更多</span><i></i></a>
+			</div>
+			<div class="video_list">
+				<ul>
+					<li class="item">
+						<a href="{:U('shop/video/video_play')}">
+							<div class="img_wrap">
+								<img src="__STATIC__/images/home_zp/00product-img01.png" />
+								<span class="playBtn_sm">
+									<img src="__STATIC__/images/home_zp/playBtn-sm.png" />
+								</span>
+							</div>
+							<p>自然堂化妆品补水防晒</p>
+						</a>
+					</li>
+					<li class="item">
+						<a href="{:U('shop/video/video_play')}">
+							<div class="img_wrap">
+								<img src="__STATIC__/images/home_zp/00product-img01.png" />
+								<span class="playBtn_sm">
+									<img src="__STATIC__/images/home_zp/playBtn-sm.png" />
+								</span>
+							</div>
+							<p>自然堂化妆品补水防晒自然堂化妆品补水防晒妆品补水防晒</p>
+						</a>
+					</li>
+					<li class="item">
+						<a href="{:U('shop/video/video_play')}">
+							<div class="img_wrap">
+								<img src="__STATIC__/images/home_zp/00product-img01.png" />
+								<span class="playBtn_sm">
+									<img src="__STATIC__/images/home_zp/playBtn-sm.png" />
+								</span>
+							</div>
+							<p>自然堂化妆品补水防晒</p>
+						</a>
+					</li>
+					<li class="item">
+						<a href="{:U('shop/video/video_play')}">
+							<div class="img_wrap">
+								<img src="__STATIC__/images/home_zp/00product-img01.png" />
+								<span class="playBtn_sm">
+									<img src="__STATIC__/images/home_zp/playBtn-sm.png" />
+								</span>
+							</div>
+							<p>自然堂化妆品补水防晒</p>
+						</a>
+					</li>
+				</ul>
+			</div>
+
+			<!-- 用户专区 -->
+			<div class="video_goods">
+				<div class="heading">
+					<h3>用户专区</h3>
+				</div>
+				<div class="video_list">
+					<ul>
+						<li class="item">
+							<a href="{:U('shop/video/video_play')}">
+								<div class="img_wrap">
+									<img src="__STATIC__/images/home_zp/00product-img01.png" />
+									<span class="playBtn_sm">
+										<img src="__STATIC__/images/home_zp/playBtn-sm.png" />
+									</span>
+								</div>
+								<p>自然堂化妆品补水防晒</p>
+								<div class="userInfo">
+									<span class="acatav"><img src="__STATIC__/images/home_zp/00user-avatar.png"/></span>
+									<span class="name">倾城小美人</span>
+								</div>
+							</a>
+						</li>
+						<li class="item">
+							<a href="{:U('shop/video/video_play')}">
+								<div class="img_wrap">
+									<img src="__STATIC__/images/home_zp/00product-img01.png" />
+									<span class="playBtn_sm">
+										<img src="__STATIC__/images/home_zp/playBtn-sm.png" />
+									</span>
+								</div>
+								<p>自然堂化妆品补水防晒</p>
+								<div class="userInfo">
+									<span class="acatav"><img src="__STATIC__/images/home_zp/00user-avatar.png"/></span>
+									<span class="name">倾城小美人</span>
+								</div>
+							</a>
+						</li>
+						<li class="item">
+							<a href="{:U('shop/video/video_play')}">
+								<div class="img_wrap">
+									<img src="__STATIC__/images/home_zp/00product-img01.png" />
+									<span class="playBtn_sm">
+										<img src="__STATIC__/images/home_zp/playBtn-sm.png" />
+									</span>
+								</div>
+								<p>自然堂化妆品补水防晒</p>
+								<div class="userInfo">
+									<span class="acatav"><img src="__STATIC__/images/home_zp/00user-avatar.png"/></span>
+									<span class="name">倾城小美人</span>
+								</div>
+							</a>
+						</li>
+						<li class="item">
+							<a href="{:U('shop/video/video_play')}">
+								<div class="img_wrap">
+									<img src="__STATIC__/images/home_zp/00product-img01.png" />
+									<span class="playBtn_sm">
+										<img src="__STATIC__/images/home_zp/playBtn-sm.png" />
+									</span>
+								</div>
+								<p>自然堂化妆品补水防晒</p>
+								<div class="userInfo">
+									<span class="acatav"><img src="__STATIC__/images/home_zp/00user-avatar.png"/></span>
+									<span class="name">倾城小美人</span>
+								</div>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+
+
+			<!--底部导航-start-->
+			<include file="public/footer_nav" />
+
+		</div>
+
+		<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
+		<script src="__STATIC__/js/swiper.min.js"></script>
+		<script>
+			// 首页轮播图
+			var swiper = new Swiper('.bannerWrap', {
+				loop: true,
+				pagination: '.swiper-pagination',
+				paginationClickable: true,
+				autoplay: 3000,
+				autoplayDisableOnInteraction: false
+			});
+		</script>
+		<script type="text/javascript">
+			//播放/暂停，采用同一个方法实现
+			function playPause() {
+				//获取视频DOM元素
+				var myVideo = document.getElementById("myVideo");
+				if (myVideo.paused)//判断当前是否处于暂停状态
+					myVideo.play();        //调用play()方法开发播放
+				else
+					myVideo.pause();        //调用pause()方法暂停视频播放
+			}
+			//从中间开始播放
+			function playInMid() {
+				//获取视频DOM元素
+				var myVideo = document.getElementById("myVideo");
+				//得到视频的总时长
+				var duration = myVideo.duration;
+				//得到当前的进度
+				var currentTime = myVideo.currentTime;
+				//判断是否暂停中
+				if (!myVideo.paused)
+					myVideo.pause();
+				//从总时长的一半的位置开始播放
+				myVideo.currentTime = duration / 2;
+				//继续播放视频
+				myVideo.play();
+			}
+		</script>
+		<script>
+			$(function () {
+				$(".bannerWrap").click(function () {
+					$(this).find(".playBtn").hide();
+					playPause();
+				})
+
+			})
+		</script>
+</body>
+
+</html>

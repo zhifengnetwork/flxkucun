@@ -24,13 +24,6 @@ a {
 	-moz-user-select: none;
 }
 
-.fl {
-	float: left;
-}
-
-.fr {
-	float: right;
-}
 
 table {
 	border-collapse: collapse;
@@ -73,7 +66,69 @@ input:-ms-input-placeholder {
 	padding: 0;
 }
 
-@font-face {
+
+.fl {
+	float: left;
+}
+
+.fr {
+	float: right;
+}
+
+
+/*清除浮动*/	
+.clearfix:before{
+	display:block;
+	clear:both;
+	content:"";
+	visibility:hidden;
+	height:0;
+}
+.clearfix:after{
+	display:block;
+	clear:both;
+	content:"";
+	visibility:hidden;
+	height:0;
+} 
+.clearfix{zoom:1}  /*是在处理兼容性问题*/
+
+
+/*public 省略号*/
+.publicEllipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/*透明度*/
+.publicOpacity {
+	filter:alpha(opacity=0);          
+	-moz-opacity:0;          
+	-khtml-opacity: 0;          
+	opacity: 0; 
+}
+/*垂直居中*/
+.publicDrooping {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 1;
+	margin: auto;
+}
+
+/* 不定宽高垂直居中 */
+.publicVetically{
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	z-index: 1;
+	transform: translate(-50%,-50%);
+}
+
+/* @font-face {
 	font-family: 'PingFangMedium';
 	src: url("/template/mobile/rainbow/static/font/PingFangMedium.ttf")
-}
+} */
