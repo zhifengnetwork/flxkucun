@@ -171,3 +171,55 @@ body{
 .cate-more a{
     color: #151515;
 }
+
+/* 商品 */
+.product ul{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap:wrap;
+    padding: 0 .25rem;
+    box-sizing: border-box;
+}
+.product .item{
+    width: 49%;
+    background-color: #fff;
+    padding: .1rem;
+    box-sizing: border-box;
+    position: relative;
+    margin-right: .1rem;
+    margin-bottom: .1rem;
+}
+.product .item:nth-child(even){
+    margin-right: 0;
+}
+
+.product .img-wrap{
+    width: 3.26rem;
+    height: 3.26rem;
+}
+.product .img-wrap img{
+    width: 100%;
+}
+.product .text h3 a{
+    color: #151515;
+    font-size: .2rem;
+}
+.product .price .original-price{
+    color: #fa0707;
+    font-size: .24rem;
+}
+.product .price .discount-price{
+    color: #979696;
+    font-size: .18rem;
+    text-decoration: line-through;
+}
+.product .item .cartBtn{
+    width: .3rem;
+    height: .28rem;
+    position: absolute;
+    right: .1rem;
+    bottom: .16rem;
+}
+.product .item .cartBtn img{
+    width: 100%;
+} 

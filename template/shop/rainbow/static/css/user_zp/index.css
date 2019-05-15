@@ -1,0 +1,22 @@
+.userInfo{
+    text-align: center;
+}
+.userInfo .avatar{
+    width: 1rem;
+    height: 1rem;
+    margin: 0 auto;
+    border-radius: 50%;
+    
+}
+.userInfo .avatar img{
+    width: 100%;
+}
+.userInfo .userName .name{
+    font-size: .24rem;
+}
+.userInfo .userName .sign{
+    font-size: .18rem;
+    background: url(../../images/user_zp/member-icon.png) left center no-repeat;
+    background-size: .29rem .2rem;
+    padding-left: .4rem;
+}
