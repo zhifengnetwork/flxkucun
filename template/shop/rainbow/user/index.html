@@ -23,20 +23,99 @@
         
         <!-- 主内容 -->
         <div class="content">
+            <!-- 用户信息 -->
             <div class="userInfo">
                 <div class="avatar"><img src="__STATIC__/images/user_zp/000avatar-01.png" /></div>
                 <div class="userName">
                     <span class="name">倾城小美人</span>
                     <span class="sign">会员</span>
                 </div>
-                <div class="user-msg"></div>
+                <div class="user-msg">
+                    <span><img src="__STATIC__/images/user_zp/girl-icon.png"></span>
+                    <span>完善个人资料<i></i></span>
+                    <span>团队人数：10</span>
+                    <span>推荐人：凡露希--5662</span>
+                </div>
             </div>
+
+            <!-- 列表项 -->
+            <div class="user-list">
+                <ul>
+                    <li class="list-item">
+                        <a href="{:U('Shop/User/store_manage')}">
+                            <div class="fl">
+                                <i class="icon"><img src="__STATIC__/images/user_zp/store-icon.png"/></i>仓库管理
+                            </div>
+                            <div class="fr">
+                                <span>待发货<i class="num">3</i></span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="list-item">
+                        <a href="{:U('Sign/index')}">
+                            <div class="fl">
+                                <i class="icon"><img src="__STATIC__/images/user_zp/sign-in-icon.png"/></i>每日签到
+                            </div>
+                            <div class="fr">
+                                <span></span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="list-item">
+                        <a href="{:U('User/team_data')}">
+                            <div class="fl">
+                                <i class="icon"><img src="__STATIC__/images/user_zp/tream-data-icon.png"/></i>团队数据
+                            </div>
+                            <div class="fr">
+                                <span></span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="list-item">
+                        <a href="{:U('Video/video_list')}">
+                            <div class="fl">
+                                <i class="icon"><img src="__STATIC__/images/user_zp/video-icon.png"/></i>我的视频
+                            </div>
+                            <div class="fr">
+                                <span></span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="list-item">
+                        <a href="{:U('User/invitation_agent')}">
+                            <div class="fl">
+                                <i class="icon"><img src="__STATIC__/images/user_zp/Invitation-icon.png"/></i>邀请代理
+                            </div>
+                            <div class="fr">
+                                <span></span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="list-item">
+                        <a href="###">
+                            <div class="fl">
+                                <i class="icon"><img src="__STATIC__/images/user_zp/Apply-icon.png"/></i>申请等级
+                            </div>
+                            <div class="fr">
+                                <span></span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="list-item">
+                        <a href="{:U('Order/order_list')}">
+                            <div class="fl">
+                                <i class="icon"><img src="__STATIC__/images/user_zp/order-icon.png"/></i>我的订单
+                            </div>
+                            <div class="fr">
+                                <span></span>
+                            </div>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+
         </div>
-        
-        
-		<!-- <a href="{:U('Shop/User/store_manage')}">仓库管理</a>
-		<a href="{:U('User/team_data')}">团队数据</a>
-		<a href="{:U('User/invitation_agent')}">邀请代理</a> -->
 
         <!--底部导航-start-->
         <include file="public/footer_nav"/>
