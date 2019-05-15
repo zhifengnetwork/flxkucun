@@ -93,19 +93,21 @@ body{
     background-color: #fff;
 }
 .nav-wrap ul{
-    display: -webkit-box; 
-    display: -moz-box; 
-    display: -webkit-flex;
+    display: -webkit-box;
     display: -moz-flex;
     display: -ms-flexbox;  
     display: flex;
-    justify-content: space-around;
+    -ms-flex-flow: wrap;
+    flex-flow: wrap;
     padding:0.3rem 0 0.2rem 0;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 .nav-wrap .navItem{
+    width: 25%;
     text-align: center;
     font-size: .24rem;
+    margin-bottom: .1rem;
 }
 .nav-wrap .navItem a{
     color: #000000;
@@ -116,6 +118,7 @@ body{
     display: block;
     margin: 0 auto .15rem;
 }
+
 .nav-wrap .navItem span{
     position: relative;
 }
@@ -197,6 +200,12 @@ body{
 }
 .product .img-wrap img{
     width: 100%;
+}
+.product .text h3{
+    width: 3.26rem;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
 }
 .product .text h3 a{
     color: #151515;
