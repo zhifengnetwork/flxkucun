@@ -94,6 +94,7 @@ input, select {
 	text-align: center;
 	color: #333;
 	letter-spacing: .02rem;
+	background-color: #f2f2f2;
 }
 /*头部 底部线*/
 .lb_headWrap_line {

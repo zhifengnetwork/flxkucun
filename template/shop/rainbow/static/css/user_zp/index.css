@@ -1,5 +1,10 @@
+.content{
+    padding-bottom: 1rem;
+}
+/* 用户信息 */
 .userInfo{
     text-align: center;
+    border-bottom: .01rem solid #e6e6e6;
 }
 .userInfo .avatar{
     width: 1rem;
@@ -13,10 +18,80 @@
 }
 .userInfo .userName .name{
     font-size: .24rem;
+    margin-right: .14rem;
 }
 .userInfo .userName .sign{
     font-size: .18rem;
     background: url(../../images/user_zp/member-icon.png) left center no-repeat;
     background-size: .29rem .2rem;
     padding-left: .38rem;
+}
+.userInfo .user-msg{
+    font-size: .18rem;
+    color: #151515;
+    margin: .2rem auto;
+}
+.userInfo .user-msg img{
+    width: .18rem;
+}
+.userInfo .user-msg span{
+    border-right: .01rem solid #e6e6e6;
+    padding: 0 .2rem;
+    box-sizing: border-box;
+}
+.userInfo .user-msg span i{
+    width: 0.07rem;
+    height: .11rem;
+    display: inline-block;
+    background: url(../../images/user_zp/right-arrow-sm.png) no-repeat;
+    background-size: 100%;
+    margin-left: .1rem;
+}
+.userInfo .user-msg span:last-child{
+    border-right: none;
+}
+
+/* 列表项 */
+.user-list{
+    padding: 0 .22rem;
+    box-sizing: border-box;
+}
+.user-list .list-item{
+    height: .6rem;
+    line-height: .6rem;
+    font-size: .24rem;
+    margin-top: .13rem;
+}
+.user-list .list-item a{
+    display: block;
+    overflow: hidden;
+    color: #151515;
+}
+.user-list .list-item .fl .icon{
+    width: .22rem;
+    height: .22rem;
+    position: relative;
+    margin-right: .1rem;
+}
+.user-list .list-item .fl .icon img{
+    width: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: 0 auto;
+}
+.user-list .list-item .fr{
+    font-size: .18rem;
+}
+.user-list .list-item .fr span{
+    min-width: .07rem;
+    min-height: .13rem;
+   background: url(../../images/user_zp/right-arrow-sm01.png) no-repeat center right;
+   background-size: .07rem .13rem;
+   padding-right: .15rem;
+}
+.user-list .list-item .fr .num{
+    color:#ff0000;
 }
