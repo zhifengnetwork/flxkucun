@@ -14,6 +14,7 @@ class Index extends MobileBase {
         if (session('?user') && empty($shareid)) {
             $user = session('user');
             $user = M('users')->where("user_id", $user['user_id'])->find();
+            $user = M('usersStock')->where("user_id", $user['user_id'])->find();
             $shareid =  $user['user_id'];
             $this->assign('is_code',$user['is_code']);
         }
@@ -29,6 +30,7 @@ class Index extends MobileBase {
             return $this->fetch('index2');
             exit();
         }
+
          $this->assign('shareid',$shareid);
         /*
             //获取微信配置
@@ -45,29 +47,10 @@ class Index extends MobileBase {
         $this->assign('thems',$thems);
         $this->assign('hot_goods',$hot_goods);
         $favourite_goods = M('goods')->where("is_recommend=1 and is_on_sale=1")->order('sort DESC')->limit(20)->cache(true,TPSHOP_CACHE_TIME)->select();//首页推荐商品
-        $is_new = M('goods')->where("is_new=1 and is_on_sale=1")->order('sort DESC')->limit(2)->select();
-        // var_dump($is_new);exit;
 
-        //秒杀商品
-        $now_time = time();  //当前时间
-        if(is_int($now_time/7200)){      //双整点时间，如：10:00, 12:00
-            $start_time = $now_time;
-        }else{
-            $start_time = floor($now_time/7200)*7200; //取得前一个双整点时间
-        }
-        $end_time = $start_time+7200;   //结束时间
-        $flash_sale_list = Db::name('goods')->alias('g')
-            ->field('g.goods_id,f.price,s.item_id')
-            ->join('flash_sale f','g.goods_id = f.goods_id','LEFT')
-            ->join('__SPEC_GOODS_PRICE__ s','s.prom_id = f.id AND g.goods_id = s.goods_id','LEFT')
-            ->where("start_time >= $start_time and end_time <= $end_time and f.is_end=0")
-            ->limit(3)->select();
-        $this->assign('flash_sale_list',$flash_sale_list);
-        $this->assign('start_time',$start_time);
-        $this->assign('end_time',$end_time);
+
         $this->assign('favourite_goods',$favourite_goods);
-        $this->assign('is_new',$is_new);
-       
+
         return $this->fetch();
     }
 
