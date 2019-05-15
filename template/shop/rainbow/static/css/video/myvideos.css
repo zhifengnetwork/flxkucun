@@ -6,6 +6,9 @@ img {
 	max-width: 100%;
 	margin: 0 auto;
 }
+.lb_headWrap {
+	background: #F2F2F2;
+}
 .opt_btn {
 	position: absolute;
 	top: 0;
