@@ -14,7 +14,6 @@ use think\Cache;
 class ShareLogic
 {
 
-  
     /**
      * 获取 ticket
      */

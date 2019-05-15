@@ -23,7 +23,7 @@ class Pool extends MobileBase {
         $this->user_id = $user['user_id'];
     }
 
-    //排名
+    //奖金排名
 	public function index()
 	{
 		$user_id = $this->user_id;

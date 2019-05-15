@@ -70,10 +70,7 @@ body{
 .bannerWrap .swiper-slide{    
     position: relative;
 }
-.bannerWrap .swiper-slide>img{
-    position: absolute;
-    left: 0;
-    top: 0;
+.bannerWrap .swiper-slide img{
     width: 100%;
 }
 .bannerWrap .playBtn{
@@ -86,6 +83,7 @@ body{
 }
 .bannerWrap .playBtn img{
     width: 100%;
+
 }
 
 /* 菜单导航 */
