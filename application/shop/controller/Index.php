@@ -14,7 +14,6 @@ class Index extends MobileBase {
         if (session('?user') && empty($shareid)) {
             $user = session('user');
             $user = M('users')->where("user_id", $user['user_id'])->find();
-            $user = M('usersStock')->where("user_id", $user['user_id'])->find();
             $shareid =  $user['user_id'];
             $this->assign('is_code',$user['is_code']);
         }
