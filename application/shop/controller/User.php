@@ -99,6 +99,19 @@ class User extends MobileBase
         return $this->fetch();
     }
 
+    // 仓库管理
+    public function store_manage(){
+        return $this->fetch();
+    }
+    // 团队数据
+    public function team_data(){
+        return $this->fetch();
+    }
+    // 邀请代理
+    public function invitation_agent(){
+        return $this->fetch();
+    }
+
     //zp
     public function welfare_zp(){
         return $this->fetch();
