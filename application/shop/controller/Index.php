@@ -6,6 +6,7 @@ namespace app\shop\controller;
 use Think\Db;
 use app\common\logic\wechat\WechatUtil;
 use app\common\util\Session;
+use app\admin\logic\GoodsLogic;
 class Index extends MobileBase {
 
     public function index(){
@@ -46,7 +47,9 @@ class Index extends MobileBase {
         $this->assign('thems',$thems);
         $this->assign('hot_goods',$hot_goods);
         $favourite_goods = M('goods')->where("is_recommend=1 and is_on_sale=1")->order('sort DESC')->limit(20)->cache(true,TPSHOP_CACHE_TIME)->select();//首页推荐商品
-
+        $GoodsLogic = new GoodsLogic();
+        $cat_list = $GoodsLogic->getSortCategoryList();
+        $this->assign('cat_list',$cat_list);
 
         $this->assign('favourite_goods',$favourite_goods);
 

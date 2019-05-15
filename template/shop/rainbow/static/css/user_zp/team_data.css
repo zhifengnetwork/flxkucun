@@ -1,0 +1,37 @@
+.content{
+    padding-top: .88rem;
+    box-sizing: border-box;
+}
+.query-wrap{
+    height: .5rem;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.query-wrap span{
+    width: 1.64rem;
+    height: .3rem;
+    line-height: .3rem;
+    border: .01rem solid #a7a7a7;
+    display: inline-block;
+    background: url(../../images/user_zp/drop-down-icon.png) no-repeat;
+    background-size: .08rem .05rem;
+    background-position: 1.46rem center ;
+    padding-right: .2rem;
+    box-sizing: border-box;
+}
+.query-wrap span input{
+    width: 100%;
+    height: 100%;
+    font-size: .18rem;
+    display: inline-block;
+    vertical-align:top;
+}
+.query-wrap .line{
+    width: .18rem;
+    height: .01rem;
+    background-color: #595959;
+    display: inline-block;
+    margin: 0 .05rem;
+}
