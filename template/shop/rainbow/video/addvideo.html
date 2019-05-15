@@ -11,6 +11,7 @@
 	<body>
 		<div class="wrapper">
 			<!--public head-->
+			<form method="post" action="./addvideo" enctype='multipart/form-data'>
 	        <div class="lb_headWrap topBox_backgroundColor">
 	            <p class="lb_headWrap_return" data-num="1" onclick="returnFun()">
 	                <img class="lb_headWrap_return_img" src="__STATIC__/images/public_lb/returnImg666_lb.png"/>
@@ -27,11 +28,11 @@
 	        				<img src="__STATIC__/images/video/002v.png" />
 	        			</div>
 	        			
-	        			<input type="file" value="添加您要上传的视频" />
+	        			<input type="file" name="video" value="添加您要上传的视频" />
 	        			<p>添加您要上传的视频</p>
 	        		</div>
 	        		<!--上传中状态-->
-		        	<div class="cross">
+		        	<div class="cross" style="display: none">
 		        		<div class="niu_z">
 	        				<img src="__STATIC__/images/video/003v.png" />
 	        			</div>
@@ -39,7 +40,7 @@
 	        			<p>正常上传中 请耐心等待......</p>
 		        	</div>
 		        	<!--上传完成弹框-->
-		        	<div class="up_box">
+		        	<div class="up_box" style="display: none;">
 		        		<div class="pop">
 		        			<div class="img">
 		        				<img src="__STATIC__/images/video/004v.png" />
@@ -51,20 +52,22 @@
 		        			
 		        		</div>
 		        	</div>
-		        	<div class="up_view"></div>
+		        	<div class="up_view" style='display: none'></div>
 	        	</div>
 	        	
 	        	<!--文字说明-->
         		<div class="state">上传视频需知时长30S</div>
         		<!--标题输入框-->
         		<div class="inp">
-        			<input type="text" placeholder="输入标题" />
+        			<input type="text" name="title" placeholder="输入标题" />
+        			<input type="hidden" name='user_id' value="40">
         		</div>
         		<!--文本输入框-->
-        		<textarea class="text" placeholder="输入您想说的话"></textarea>
+        		<textarea class="text" name='describe' placeholder="输入您想说的话"></textarea>
         		<!--确认按钮-->
-        		<div class="ack_btn">确定上传</div>
+        		<div><input type="submit" class="ack_btn">确定上传</div>
 	        </div>
+	        </form>
 		</div>
 		
 		<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>

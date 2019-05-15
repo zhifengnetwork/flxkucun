@@ -379,7 +379,6 @@ class File extends SplFileObject
         // 返回 File 对象实例
         $file = new self($filename);
         $file->setSaveName($saveName)->setUploadInfo($this->info);
-
         return $file;
     }
 
