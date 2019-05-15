@@ -29,14 +29,6 @@ input {
 	float: left;
 }
 
-.content .list_wrap .chebox {
-	/*display: none;
-	margin: .47rem 0 0 .17rem;
-	width: .36rem;
-	height: .36rem;
-	border: 1px solid #7a7a7a;
-	border-radius: 50%;*/
-}
 .content .list_wrap input{
 	display: none;
 	float: left;

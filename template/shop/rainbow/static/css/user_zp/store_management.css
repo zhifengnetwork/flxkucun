@@ -1,0 +1,17 @@
+.wrapper {
+    padding-top: .88rem;
+}
+img {
+	display: block;
+	max-width: 100%;
+	margin: 0 auto;
+}
+.info_btn {
+	position: absolute;
+	top: 0;
+	right: .2rem;
+	width: .32rem;
+	height: .32rem;
+	background: url(../../images/mess.png) no-repeat;
+	background-size: 100% 100%;
+}

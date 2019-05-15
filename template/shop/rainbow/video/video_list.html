@@ -54,6 +54,22 @@
 	        		<div class="not pass">已通过</div>
 	        	</div>
 	        	
+	        	<div class="list_wrap">
+	        		<!--点击选择状态框-->
+	        		<input class="check" type="checkbox" />
+	        		
+	        		<div class="img">
+	        			<img src="__STATIC__/images/video/001v.png" />
+	        		</div>
+	        		
+	        		<div class="ziti">
+	        			<p>自然堂化妆品补水防晒虎虎生风副书记粉红色看好的撒几何</p>
+	        			<div>2019-04-19</div>
+	        		</div>
+	        		
+	        		<div class="not pass">已通过</div>
+	        	</div>
+	        	
 	        	<!--删除按钮-->
 	        	<div class="goods_btn" id="btn">删除</div>
 	        </div>
@@ -78,70 +94,28 @@
                 for(var i=0;i<check.length;i++) {
                 	check[i].style.display = 'block';
                 }
+                Btn.style.display = 'block';
             } else {
                 edit.innerHTML= '选择';
                 statu = 0;
                 for(var i=0;i<check.length;i++) {
                 	check[i].style.display = 'none';
                 }
+                Btn.style.display = 'none';
             }
             return false;
         }
         
-//      $(".check:checkbox").each(function(){
-//      	Btn.style.display = 'block';
-//      })
-		
-		
-//			var b=document.getElementsByName("checkbox");
-//			console.log(b)
-//	  			for(var i=0;i<b.length;i++){
-//	  				if(b[i].checked==true){
-//						Btn.style.display = 'block';
-//					} else {
-//						Btn.style.display = 'none';
-//						console.log(222)
-//					}
-//	  			}
-        	
-//      	for(var i=0;i<check.length;i++) {
-//      		console.log(check[i])
-//	        	check[i].addEventListener('click',function (){
-//	        		
-//	        		if(check[i].checked == true) { 
-//						Btn.style.display = 'block';
-//						console.log(111)
-//					} else {
-//						Btn.style.display = 'none';
-//						console.log(222)
-//					}
-//					
-//	        	})
-//      	}
-        	
-//		function Check()
-// {
-// if(checkboxs("checkboxname") == false){ // checkboxname: checkbox的名字
-//alert('请至少选择一项！');
-//return false;
-//}
-//return true;
-//}
-//
-// function checkboxs(objNam){
-// var obj = document.getElementsByName(objNam); // 获取对象
-// var objLen= obj.length; // 获取数组长度
-// var objYN; // bool
-// var i;
-// objYN=false;
-// for (i = 0;i< objLen;i++){
-// if (obj[i].checked==true) {
-// objYN= true;
-// break;
-// }
-// }
-// return objYN;
-// }
+//      $(".check").change(function() {
+//      	//当所有input中有一个被选择时删除按钮出现
+//	    	if(this.checked == true) {
+//	    		$(".goods_btn").show();
+//	    			//当input被选择时的长度为0时删除按钮隐藏
+//	    	} else if($("[name = 'sendEmailBtn']:checkbox:checked").length == 0) {
+//	    		$(".goods_btn").hide();
+//	    		return;
+//	    	}
+//	    })
 	</script>
 </body>
 </html>
