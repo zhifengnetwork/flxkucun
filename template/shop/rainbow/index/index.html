@@ -22,7 +22,7 @@
 			<div class="search">
 				<form action="#">
 					<input type="button" class="searchBtn">
-					<input type="text" class="searchText" placeholder="连衣裙">
+					<input type="text" class="searchText" placeholder="面膜">
 				</form>
 			</div>
 
@@ -36,48 +36,30 @@
 		<!-- 视频轮播 -->
 		<div class="swiper-container bannerWrap">
 			<div class="swiper-wrapper">
-				<div class="swiper-slide">
-					<a href="{:U('Shop/video/video_play')}">
-						<img src="__STATIC__/images/home_zp/00video-img01.png" >
-						<span class="playBtn"><img src="__STATIC__/images/home_zp/playBtn-big.png" /></span>
-					</a>
-				</div>
-				<div class="swiper-slide">
-					<a href="{:U('Shop/video/video_play')}">
-						<img src="__STATIC__/images/home_zp/00video-img01.png" >
-						<span class="playBtn"><img src="__STATIC__/images/home_zp/playBtn-big.png" /></span>
-					</a>
-				</div>
-				<div class="swiper-slide">
-					<a href="{:U('Shop/video/video_play')}">
-						<img src="__STATIC__/images/home_zp/00video-img01.png" >
-						<span class="playBtn"><img src="__STATIC__/images/home_zp/playBtn-big.png" /></span>
-					</a>
-				</div>
+				<adv pid="1" limit="5" item="v">
+					<div class="swiper-slide">
+						<a href="{$v.ad_link}">
+							<img src="{$v[ad_code]}" >
+							<span class="playBtn"><img src="__STATIC__/images/home_zp/playBtn-big.png" /></span>
+						</a>
+					</div>
+				</adv>
 			</div>
 		</div>
 
 		<!-- 菜单导航 -->
 		<div class="nav-wrap">
 			<ul>
-				<li class="navItem">
-					<a href="###">
-						<span><img src="__STATIC__/images/home_zp/skin-care-icon.png"></span>
-						<span>护肤</span>
-					</a>
-				</li>
-				<li class="navItem">
-					<a href="###">
-						<span><img src="__STATIC__/images/home_zp/cosmetics-icon.png"></span>
-						<span>彩妆</span>
-					</a>
-				</li>
-				<li class="navItem">
-					<a href="###">
-						<span><img src="__STATIC__/images/home_zp/women-wear-icon.png" ></span>
-						<span>女装</span>
-					</a>
-				</li>
+
+				<foreach name="cat_list" id="cat">
+					<li class="navItem">
+						<a href="{:U('shop/Goods/goodsList',array('id'=>$cat['id']))}">
+							<span><img src="{$cat['image']}"></span>
+							<span>{$cat['name']}</span>
+						</a>
+					</li>
+				</foreach>
+
 				<li class="navItem">
 					<a href="###">
 						<span><img src="__STATIC__/images/home_zp/store-icon.png" alt=""></span>
@@ -122,39 +104,23 @@
 		<!-- 商品 -->
 		<div class="product">
 			<ul>
-				<li class="item">
-					<div class="img-wrap"><a href="###"><img src="__STATIC__/images/home_zp/000product-img01.png" /></a></div>
-					<div class="text">
-						<h3><a href="###">自然堂化妆品补水防晒</a></h3>
-						<p class="price">
-							<span class="original-price">¥369.00</span>
-							<span class="discount-price">¥700.00</span>
-						</p>
-						<span class="cartBtn"><img src="__STATIC__/images/home_zp/cartBtn-icon.png" /></span>
-					</div>
-				</li>
-				<li class="item">
-					<div class="img-wrap"><a href="###"><img src="__STATIC__/images/home_zp/000product-img01.png" /></a></div>
-					<div class="text">
-						<h3><a href="###">自然堂化妆品补水防晒</a></h3>
-						<p class="price">
-							<span class="original-price">¥369.00</span>
-							<span class="discount-price">¥700.00</span>
-						</p>
-						<span class="cartBtn"><img src="__STATIC__/images/home_zp/cartBtn-icon.png" /></span>
-					</div>
-				</li>
-				<li class="item">
-					<div class="img-wrap"><a href="###"><img src="__STATIC__/images/home_zp/000product-img01.png" /></a></div>
-					<div class="text">
-						<h3><a href="###">自然堂化妆品补水防晒</a></h3>
-						<p class="price">
-							<span class="original-price">¥369.00</span>
-							<span class="discount-price">¥700.00</span>
-						</p>
-						<span class="cartBtn"><img src="__STATIC__/images/home_zp/cartBtn-icon.png" /></span>
-					</div>
-				</li>
+				<foreach name="favourite_goods" id="v">
+					<li class="item">
+						<div class="img-wrap">
+							<a href="{:U('Shop/Goods/goodsInfo',array('id'=>$v[goods_id],'item_id'=>$v[item_id]))}">
+								<img src="{$v[goods_id]|goods_thum_images=200,200}?v={:date('Ymd')}" />
+							</a>
+						</div>
+						<div class="text">
+							<h3><a href="{:U('Shop/Goods/goodsInfo',array('id'=>$vo[goods_id],'item_id'=>$vo[item_id]))}">{$v.goods_name|getSubstr=0,33}</a></h3>
+							<p class="price">
+								<span class="original-price">¥{$v[shop_price]}</span>
+								<span class="discount-price">¥{$v[market_price]}</span>
+							</p>
+							<span class="cartBtn"><img src="__STATIC__/images/home_zp/cartBtn-icon.png" /></span>
+						</div>
+					</li>
+				</foreach>
 			</ul>
 		</div>
 

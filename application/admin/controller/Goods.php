@@ -23,7 +23,7 @@ class Goods extends Base {
     /**
      *  商品分类列表
      */
-    public function categoryList(){                
+    public function categoryList(){
         /* $GoodsLogic = new GoodsLogic();               
         $cat_list = $GoodsLogic->goods_cat_list();
         $this->assign('cat_list',$cat_list); */ 
