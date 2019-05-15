@@ -2070,7 +2070,7 @@ class User extends MobileBase
         $logic = new ShareLogic();
         $ticket = $logic->get_ticket($user_id);
         
-        if( strlen($ticket) < 3){
+        if(strlen($ticket) < 3){
             $this->error("ticket不能为空");
             exit;
         }
@@ -2236,5 +2236,71 @@ class User extends MobileBase
     //     header("Location:" . U('Mobile/Index/index'));
     //     exit();
     // }
+    // 
+    public function addVideo(){
+        return $this->fetch();
+    }
 
-}
+    //实现视频上传
+    public function upload(){
+        
+       $file = request()->file('video');
+       $data = I('post.');
+      $video_title = $data['video_title'];
+      $video_instro = $data['video_instro'];
+      if($video_title)
+       // halt($video_title);
+    // 移动到框架应用根目录/public/uploads/ 目录下
+        $path = './public/uploads/';
+        if(!is_dir){
+             @mkdir( $path, 0777, true ); //如果目录不存在，则生成
+        }
+        $info = $file->validate(['size'=>1024*1024*6,'ext'=>'avi,mp4,dat,mkv,flv,vob'])->move($path);
+         if($info){
+        // 成功上传后 获取上传后组装文件信息准备插入数据库
+            $video_size = $info->getSize(); //大小
+            $user_id = session('user.user_id'); //用户id
+            $url = $info->getSaveName(); // 文件路径
+            $video_name = $info->getFilename(); //文件名
+            $video_type = $info->getExtension(); //文件格式
+            $up_time = time();
+
+            //halt($up_time);
+            //入库数据
+            $data = [
+                'userid'=>$user_id, 
+                'video_size'=>$video_size,
+                 'url'=>$url,
+                 'video_name' =>$video_name,
+                'video_title' =>$video_title,
+                'video_instro' => $video_instro,
+                'up_time' =>$up_time,
+            ];
+
+            $validate = Loader::validate('VideUpload');
+           $res = $validate->check($data);
+           {}
+            $res = Db::name('shop_video')->insert($data);
+            if($res){
+                echo'上传成功';
+            }
+        }else{
+        // 上传失败获取错误信息
+            echo $file->getError();
+         }
+    }    
+    //实现视频展示
+    //
+   
+    //生成唯一文件名
+    public function uniqidReal($lenght = 13) {
+        $bytes = openssl_random_pseudo_bytes(ceil($lenght / 2));
+        return substr(bin2hex($bytes), 0, $lenght);
+    }
+
+
+
+
+
+
+} ?>
