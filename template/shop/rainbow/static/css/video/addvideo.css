@@ -14,7 +14,9 @@ img {
 }
 
 .up_btn {
-	position: relative;
+	position: absolute;
+	top: 2.13rem;
+	left: 2.2rem;
 	margin: 0 auto;
 	width: 2.9rem;
 	height: 1.85rem;
@@ -29,7 +31,7 @@ img {
 }
 
 .content .push_wrap {
-	padding: 2.13rem 0 0;
+	position: relative;
 	margin: .2rem auto;
 	width: 7.02rem;
 	height: 7.02rem;
@@ -79,7 +81,7 @@ img {
 	border: 1px solid #dadada;
 }
 
-.content .ack_btn {
+.ack_btn {
 	margin: .65rem auto;
 	width: 7.02rem;
 	height: .6rem;
@@ -179,4 +181,13 @@ img {
 	background: #131313;
 	opacity: 0.37;
 	border-radius: 6px;
+}
+
+.storage {
+	width: 7.02rem;
+	height: 7.02rem;
+}
+.vid {
+	width: 100%;
+	height: 100%;
 }
