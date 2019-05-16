@@ -104,6 +104,14 @@ class User extends MobileBase
     public function apply_grade(){
         return $this->fetch();
     }
+    // 下级订单
+    public function sub_order(){
+        return $this->fetch();
+    }
+    // 我的订单
+    public function order(){
+        return $this->fetch();
+    }
 
     //zp
     public function welfare_zp(){

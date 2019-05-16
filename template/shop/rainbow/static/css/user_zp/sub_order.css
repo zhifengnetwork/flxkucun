@@ -1,0 +1,88 @@
+body{
+    background-color: #f8f8f8;
+}
+.content{
+    padding-top: .88rem;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/* 查询 */
+.query-wrap{
+    height: .5rem;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    margin-bottom: .15rem;
+    padding: 0 .24rem;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.query-wrap .id{
+    margin-right: .33rem;
+    font-size: .24rem;
+}
+.query-wrap span{
+    width: 1.64rem;
+    height: .3rem;
+    line-height: .3rem;
+    border: .01rem solid #a7a7a7;
+    display: inline-block;
+    background: url(../../images/user_zp/drop-down-icon.png) no-repeat;
+    background-size: .08rem .05rem;
+    background-position: 1.46rem center ;
+    padding-right: .2rem;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.query-wrap span input{
+    width: 100%;
+    height: 100%;
+    font-size: .18rem;
+    display: inline-block;
+    vertical-align:top;
+    padding: 0 .07rem;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.query-wrap .line{
+    width: .18rem;
+    height: .01rem;
+    background-color: #595959;
+    display: inline-block;
+    margin: 0 .05rem;
+}
+.query-wrap .queryBtn{
+    width: .8rem;
+    height: .3rem;
+    font-size: .18rem;
+    background-color: #c9e3ea;
+    border: none;
+    outline: none;
+    display: inline-block;
+    margin-left: .17rem;
+}
+
+.order-list .thead{
+    height: .62rem;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 .24rem;
+    box-sizing: border-box;
+}
+.order-list .thead span{
+    width: 20%;
+    text-align: center;
+}
+
+.order-list .tbody{
+    padding: 0 .24rem;
+    box-sizing: border-box;
+}
+.order-list .tbody li{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
