@@ -8,6 +8,7 @@ ul {
 img {
 	display: block;
 	max-width: 100%;
+	max-height: 100%;
 	margin: 0 auto;
 }
 .lb_headWrap {
@@ -53,7 +54,7 @@ img {
 	color: #151515;
 }
 .right_cont {
-	width: 4rem;
+	width: 3.97rem;
 	height: .36rem;
 	border: 1px solid #808080;
 }
@@ -82,11 +83,11 @@ img {
 }
 .list_wrap {
 	display: none;
-	background: #e6e6e6;
+	background: #fff;
 }
 .list {
 	display: none;
-	background: #e6e6e6;
+	background: #fff;
 }
 .list_wrap li {
 	padding-right: .45rem;
@@ -101,7 +102,7 @@ img {
 	line-height: .36rem;
 }
 .inp {
-	padding: .02rem 0;
+	padding: .02rem .15rem;
 	width: 4rem;
 	border: 1px solid #808080;
 	font-size: .24rem;
@@ -109,4 +110,20 @@ img {
 	line-height: .35rem;
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
+}
+
+.btn_wrap {
+	padding-left: .45rem;
+	margin: 1.92rem auto 0;
+}
+.btn {
+	width: 6.02rem;
+	height: .6rem;
+	background-color: #f7062e;
+	border-radius: 6px;
+	font-size: .24rem;
+	text-align: center;
+	line-height: .6rem;
+	letter-spacing: 1px;
+	color: #fff;
 }

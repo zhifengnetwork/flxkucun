@@ -43,11 +43,13 @@ img {
 .order {
 	margin-top: .2rem;
 }
-.order div {
-	display: inline-block;
-	vertical-align: top;
+.order .stock,.hue {
+	float: left;
 	font-size: .2rem;
 	color: #505050;
+}
+.order .stock {
+	margin-right: .2rem;
 }
 .BuyTake {
 	position: fixed;

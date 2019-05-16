@@ -74,22 +74,6 @@
 	        				<input class="inp" type="text" />
 	        			</div>
         			</div>
-        			<!--授权地区-->
-        			<div></div>
-        			<!--用户类型-->
-        			<div class="cont_wrap">
-	        			<div class="left_cont">用户类型:</div>
-	        			<div class="right_cont her">
-	        				<div id="tresult" class="wrap_com">类型</div>
-	        				<!--下拉图标-->
-	        				<div class="icon"></div>
-	        				<ul class="list">
-	        					<li>类型1</li>
-	        					<li>类型2</li>
-	        					<li>类型3</li>
-	        				</ul>
-	        			</div>
-        			</div>
         			<!--微信名-->
         			<div class="cont_wrap">
 	        			<div class="left_cont">微信名:</div>
@@ -98,9 +82,10 @@
 	        			</div>
         			</div>
         		</div>
-        		<!--上传头像区-->
-        		<div class="up_photo">
-        			
+        		
+        		<!--按钮-->
+        		<div class="btn_wrap">
+        			<input class="btn" type="submit" value="点击确定" />
         		</div>
         	</div>
         </div>
@@ -116,10 +101,7 @@
     		$('.her').on('click',function(){
     			$('.list').slideToggle();
     		})
-        })
-		
-		
-  		
+       	})
 	</script>
 </body>
 </html>
