@@ -23,16 +23,17 @@ ul {
 	color: #170202;
 }
 .num {
-	padding-right: .15rem;
-	margin-top: .1rem;
+	margin-top: .15rem;
 	float: right;
 	display: inline-block;
-	width: 20%;
+	width: .25rem;
+	height: .25rem;
 	background: #fff;
+	font-size: .2rem;
 	color: #f60840;
-	text-align: right;
-	line-height: .35rem;
-	border-radius: 4px;
+	text-align: center;
+	line-height: .25rem;
+	border-radius: 50%;
 }
 
 .the_area {
