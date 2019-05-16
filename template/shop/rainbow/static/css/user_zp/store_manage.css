@@ -53,10 +53,11 @@ img {
 }
 .BuyTake {
 	position: fixed;
-	left: .9rem;
+	left: .25rem;
 	bottom: .55rem;
 }
 .BuyTake a {
+	margin-right: .1rem;
 	display: inline-block;
 	width: 2.2rem;
 	height: .6rem;
@@ -66,7 +67,4 @@ img {
 	color: #fff;
 	text-align: center;
 	line-height: .6rem;
-}
-.buy_btn {
-	margin-right: .95rem;
 }
