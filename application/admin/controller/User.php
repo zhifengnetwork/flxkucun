@@ -537,6 +537,8 @@ class User extends Base
             $jintie = I('jintie');
             $discount = I('discount');
             $describe = I('describe');
+            $stock = I('stock');
+            $replenish = I('replenish');
 			if($level==""){
 				$this->ajaxReturn(['status' => 0, 'msg' => '等级不可为空']);
 			}
@@ -566,6 +568,8 @@ class User extends Base
                 'k_reward'=>$k_reward,
                 'jintie'=>$jintie,
                 'discount' => $discount,
+                'stock'=>$stock,
+                'replenish' => $replenish,
 			);
 			if($id>0){
 				$res = M('user_level')->where('id',$id)->data($data)->save();
