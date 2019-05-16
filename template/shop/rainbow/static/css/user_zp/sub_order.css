@@ -86,3 +86,7 @@ body{
     align-items: center;
     justify-content: space-between;
 }
+.order-list .tbody li div{
+    width: 20%;
+    text-align: center;
+}
