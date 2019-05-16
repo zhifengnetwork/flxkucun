@@ -1,18 +1,45 @@
 <?php
 
 namespace app\shop\controller;
+use app\common\model\Users;
 use think\Db;
-class Video extends MobileBase{
-    // 跳转到视频播放页
-    public function video_play(){
 
+class Video extends MobileBase{
+   
+    public $user_id = 0;
+    public $user = array();
+
+    /*
+    * 初始化操作
+    */
+    public function _initialize()
+    {
+        parent::_initialize();
+        if (!session('user')) {
+            header('location:'.U('Mobile/User/login'));
+            exit;
+        }
+
+        $user = session('user');
+        session('user', $user);  //覆盖session 中的 user
+        $this->user = $user;
+        $this->user_id = $user['user_id'];
+    }
+
+
+     // 跳转到视频播放页
+    public function video_play(){
+        
         return $this->fetch();
     }
+
 
     // 添加视频
     public function addvideo(){
         if(request()->isPost()){
-            $user_id = input('user_id');
+            $user_id = session('user.user_id');
+            $this->assign('user_id', $user_id);
+
             $file = request()->file('video');
             $title = input('title');
             $describe = input('describe');
@@ -70,13 +97,30 @@ class Video extends MobileBase{
         return $uploadDir.$path;
     }
 
-
-
     // 跳转到视频列表
     public function video_list(){
-        $user_id = input('user_id');
+        
+        $user_id = session('user.user_id');
+        $this->assign('user_id', $user_id);
         $video_data = Db::table('tp_video')->where('user_id',$user_id)->select();
         return $this->fetch('',['video' =>$video_data]);
     }
 
+    //视频删除
+    public function video_del(){
+
+        $user_id = session('user.user_id');
+        $this->assign('user_id', $user_id);
+        $del_id = request()->post('del_id/a'); 
+        if(!empty($del_id)){
+            $result = Db::table('tp_video')->delete($del_id);
+            if($result){
+                $this->success('删除成功！');
+            }else{
+                $this->error('删除错误，请重试');
+            }
+        }else{
+            $this->error('请选择您要删除的视频!');
+        }
+    }
 }
