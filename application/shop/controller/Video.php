@@ -85,7 +85,7 @@ class Video extends MobileBase{
 
     //上传公共方法
     public function upload(){
-        $uploadDir = './public/uploads/';
+        $uploadDir = './public/uploads/video/';
         $path = '';
         $file = request()->file('video');
         $info = $file->validate(['size' =>1024*1024*5,'ext'=>'avi,mp4,flw'])->move($uploadDir);
