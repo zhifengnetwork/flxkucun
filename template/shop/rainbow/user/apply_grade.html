@@ -4,9 +4,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>申请等级</title>
+    <script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="__STATIC__/css/public_lb/public.css" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/user_zp/apply_grade.css"/>
 </head>
 <body>
-        申请等级
+    <div class="wrapper">
+    	<!--public head-->
+        <div class="lb_headWrap topBox_backgroundColor">
+            <p class="lb_headWrap_return" data-num="1" onclick="returnFun()">
+                <img class="lb_headWrap_return_img" src="__STATIC__/images/public_lb/returnImg666_lb.png"/>
+            </p>
+            <span>邀请代理</span>
+        </div>
+        <!--内容-->
+        <div class="content">
+        	<div class="section">
+        		<!---->
+        		<div class="top_wrap">
+        			<span class="invite">我受到的邀请</span>
+        			<span class="num">1</span>
+        		</div>
+        		<!--填写区-->
+        		<div class="the_area">
+        			<!--申请等级-->
+        			<div class="cont_wrap">
+	        			<div class="left_cont">申请等级:</div>
+	        			<div class="right_cont ht">
+	        				<div id="tresult" class="wrap_com">申请等级</div>
+	        				<!--下拉图标-->
+	        				<div class="icon"></div>
+	        				<ul class="list_wrap">
+	        					<li>等级1</li>
+	        					<li>等级2</li>
+	        					<li>等级3</li>
+	        				</ul>
+	        			</div>
+        			</div>
+        			<!--姓名-->
+        			<div class="cont_wrap">
+	        			<div class="left_cont">姓名:</div>
+	        			<div class="right_ht">
+	        				<div class="com">
+	        					<input class="inp" type="text" />
+	        				</div>
+	        			</div>
+        			</div>
+        			<!--联系电话-->
+        			<div class="cont_wrap">
+	        			<div class="left_cont">联系电话:</div>
+	        			<div class="right_ht">
+	        				<div class="com">
+	        					<input class="inp" type="text" />
+	        				</div>
+	        			</div>
+        			</div>
+        		</div>
+        		<!--申请说明-->
+        		<div class="state">
+        			<h2>申请说明</h2>
+        			<textarea class="text" placeholder="填写至少5个字"></textarea>
+        		</div>
+        		<!--确定申请按钮-->
+        		<div class="btn_wrap">
+        			<input class="btn" type="submit" value="确定申请" />
+        		</div>
+        	</div>
+        </div>
+    </div>
+    
+    <script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
+	<script src="__STATIC__/js/public/public_lb.js"></script>
+	<script>
+		$(function() {
+    		$('.ht').on('click',function(){
+    			$('.list_wrap').slideToggle();
+    		})
+    	})	
+	</script>
 </body>
 </html>
