@@ -97,6 +97,9 @@ class User extends MobileBase
         return $this->fetch();
     }
     // 邀请代理
+    public function vite_agent(){
+        return $this->fetch();
+    }
     public function invitation_agent(){
         return $this->fetch();
     }

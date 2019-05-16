@@ -1,0 +1,125 @@
+body{
+    background-color: #ffffff;
+}
+.content{
+    padding: 1.18rem .24rem 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.content .certificate{
+    width: 100%;
+    margin-bottom: .37rem;
+}
+.content .certificate img{
+    width: 100%;
+}
+.content .row-line{
+    width: 75%;
+    margin: 0 auto .2rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+.content .row-line label{
+    width: 1.1rem;
+    text-align: right;
+    margin-right: .28rem;
+}
+
+/* 下拉菜单 */
+.content .row-line .drop-down{
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    height: .3rem;
+    border: .01rem solid #818181;
+    position: relative;
+}
+.content .row-line .drop-down span{
+    width: 97%;
+    height: 100%;
+    display: inline-block;
+    background: url(../../images/user_zp/T2.png) no-repeat center right;
+    background-size: .16rem 0.09rem;
+    padding: 0 .2rem 0 .1rem;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.content .row-line .drop-list{
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: .31rem;
+    background-color: #e6e6e6;
+    display: none;
+}
+.content .row-line .drop-list li{
+    width: 100%;
+    height: .4rem;
+    line-height: .4rem;
+    padding: 0 .2rem;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.row-line .right{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+.row-line .right input{
+    width: 2.52rem;
+    height: .3rem;
+    border: .01rem solid #818181;
+    margin-right: .14rem;
+    padding: 0 .1rem;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.row-line .right .verificationBtn{
+    height: .3rem;
+    line-height: .3rem;
+    background: #cfdce7;
+    text-align: center;
+    padding: 0 .12rem;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.agent-info{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin: .27rem auto .4rem;
+}
+.agent-info .avatar{
+    width: .6rem;
+    height: .6rem;
+    margin-right: .25rem;
+}
+.agent-info .avatar img{
+    width: 100%;
+}
+
+/* 邀请按钮 */
+.inviteBtn{
+    width: 100%;
+    height: .6rem;
+    line-height: .6rem;
+    text-align: center;
+    background-color: #f7062e;
+    border: none;
+    border-radius: .08rem;
+    color: #fff;
+    font-size: .3rem;
+}
