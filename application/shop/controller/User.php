@@ -111,6 +111,10 @@ class User extends MobileBase
     public function invitation_agent(){
         return $this->fetch();
     }
+    // 申请等级
+    public function apply_grade(){
+        return $this->fetch();
+    }
 
     //zp
     public function welfare_zp(){

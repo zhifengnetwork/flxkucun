@@ -1,13 +1,20 @@
+body{
+    background-color: #f8f8f8;
+}
 .content{
     padding-top: .88rem;
+    padding:.88rem .24rem 0 .24rem;
     box-sizing: border-box;
 }
+
+/* 查询 */
 .query-wrap{
     height: .5rem;
     background-color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: .15rem;
 }
 .query-wrap span{
     width: 1.64rem;
@@ -27,6 +34,8 @@
     font-size: .18rem;
     display: inline-block;
     vertical-align:top;
+    padding: 0 .07rem;
+    box-sizing: border-box;
 }
 .query-wrap .line{
     width: .18rem;
@@ -35,3 +44,82 @@
     display: inline-block;
     margin: 0 .05rem;
 }
+.query-wrap .queryBtn{
+    width: .8rem;
+    height: .3rem;
+    font-size: .18rem;
+    background-color: #c9e3ea;
+    border: none;
+    outline: none;
+    display: inline-block;
+    margin-left: .17rem;
+}
+
+/* 选项卡切换 */
+.tab-wrap .tab-tit{
+    width: 100%;
+    height: .66rem;
+    line-height: .66rem;
+    background-color: #fff;
+    
+    text-align: center;
+}
+.tab-wrap .tab-tit span{
+    margin: 0 .9rem;
+}
+.tab-wrap .tab-tit .active{
+    color: #f10909;
+}
+
+/* tab选项卡切换内容 */
+.tab-wrap .tab-content .main{
+    display: none;
+    font-size: .18rem;
+}
+.tab-wrap .tab-content .active{
+    display: block;
+}
+.tab-wrap .tab-content .main .list{
+    margin-bottom: .13rem;
+    background-color: #fff;
+}
+.tab-wrap .tab-content .main ul li{
+    margin-bottom: .08rem;
+}
+.tab-wrap .tab-content .main h4,.tab-wrap .tab-content .main h3{
+    width: 1.1rem;
+    height: .38rem;
+    line-height: .38rem;
+    font-size: .18rem;
+    text-align: center;
+}
+.tab-wrap .tab-content .main h4{
+    color: #f70d0d;
+}
+.tab-wrap .tab-content .main h3{
+    color: #8d8d8d;
+}
+.tab-wrap .tab-content .main .item{
+    display: flex;
+    align-items: center;
+}
+.tab-wrap .tab-content .main .item .img-wrap{
+    width: 1.1rem;
+    border-radius: 50%;
+    margin-right: .5rem;
+}
+.tab-wrap .tab-content .main .item .img-wrap img{ 
+    width: 100%;
+}
+.tab-wrap .tab-content .main .item .text{
+    display: flex;
+    flex-flow: wrap;
+}
+.tab-wrap .tab-content .main .item span{
+    width: 50%;
+    line-height: .3rem;
+    display: block;
+}
+/* .tab-wrap .tab-content .main .item span:nth-child(odd){
+    margin-right: .5rem;
+} */
