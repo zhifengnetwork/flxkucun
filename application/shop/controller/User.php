@@ -108,8 +108,9 @@ class User extends MobileBase
     public function sub_order(){
         return $this->fetch();
     }
-    // 我的订单
-    public function order(){
+ 
+    // 订单发货
+    public function order_send(){
         return $this->fetch();
     }
 
