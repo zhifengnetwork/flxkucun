@@ -19,6 +19,14 @@ body {
 }
 a {
 	text-decoration: none;
+	color: #151515;
+}
+a {
+	text-decoration: none;
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+	-webkit-user-select: none;
+	-moz-user-focus: none;
+	-moz-user-select: none;
 }
 /*去除IOS下 => input, select默认样式*/
 input, select {

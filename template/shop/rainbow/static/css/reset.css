@@ -15,7 +15,9 @@ input, select, textarea {
 textarea {
 	resize: none;
 }
-
+a {
+	color: #151515;
+}
 a {
 	text-decoration: none;
 	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
