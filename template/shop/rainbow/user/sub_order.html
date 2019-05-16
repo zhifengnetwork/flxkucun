@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>团队数据</title>
+        <script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
+        <link rel="stylesheet" href="__STATIC__/css/public_lb/picker.css" />
+		<link rel="stylesheet" href="__STATIC__/css/public_lb/public.css" />
+		<link rel="stylesheet" href="__STATIC__/css/user_zp/sub_order.css?v=111" />
+		
+	</head>
+	<body>
+		<div class="wrapper">
+			<!--public head-->
+			
+	        <div class="lb_headWrap topBox_backgroundColor">
+	            <p class="lb_headWrap_return" data-num="1" onclick="returnFun()">
+	                <img class="lb_headWrap_return_img" src="__STATIC__/images/public_lb/returnImg666_lb.png"/>
+	            </p>
+	            <span>下级订单</span>
+            </div>
+            
+            <!-- 主内容 -->
+            <div class="content">
+                <!-- 查询 -->
+                <div class="query-wrap">
+                    <div class="id">ID:81345</div>
+                    <span class="date-start">
+                        <input type="text" placeholder="请选择开始日期" readonly="readonly" id="nowValue-start" onclick="dateStart()">
+                    </span>
+                    <i class="line"></i>
+                    <span class="date-end">
+                        <input type="text" placeholder="请选择结束日期" readonly="readonly" id="nowValue-end" onclick="dateEnd()">
+                    </span>
+                    <button class="queryBtn">查询</button>
+                </div>
+
+                <!-- 订单列表 -->
+                <div class="order-list">
+                    <div class="thead">
+                        <span>商品名称</span>
+                        <span>日期</span>
+                        <span>订单号</span>
+                        <span>数量</span>
+                        <span>金额</span>
+                    </div>
+                    <div class="tbody">
+                        <ul>
+                            <li>
+                                <div class="good-name">面膜</div>
+                                <div class="date">2019/04/05</div>
+                                <div class="order-num">6489389869</div>
+                                <div class="number">50</div>
+                                <div class="amount-money">9521.00</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                
+            </div>
+	       
+		</div>
+		
+		<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
+        <script src="__STATIC__/js/public/public_lb.js"></script>
+        <script src="__STATIC__/js/public/datePicker.min.js"></script>
+        <script>
+            // 日期选择器
+            function dateStart() {
+                var nowValueStart = document.getElementById('nowValue-start');
+                new DatePicker({
+                    "type": "3",//0年, 1年月, 2月日, 3年月日
+                    "title": '请选择日期',//标题(可选)
+                    "maxYear": "",//最大年份（可选）
+                    "minYear": "",//最小年份（可选）
+                    "separator": "-",//分割符(可选)
+                    "defaultValue": nowValueStart.value,//默认值（可选）
+                    "callBack": function (val) {
+                        //回调函数（val为选中的日期）
+                        nowValueStart.value = val;
+                    }
+                });
+            }
+            function dateEnd() {
+                var nowValueEnd = document.getElementById('nowValue-end');
+                new DatePicker({
+                    "type": "3",//0年, 1年月, 2月日, 3年月日
+                    "title": '请选择日期',//标题(可选)
+                    "maxYear": "",//最大年份（可选）
+                    "minYear": "",//最小年份（可选）
+                    "separator": "-",//分割符(可选)
+                    "defaultValue": nowValueEnd.value,//默认值（可选）
+                    "callBack": function (val) {
+                        //回调函数（val为选中的日期）
+                        nowValueEnd.value = val;
+                    }
+                });
+            }
+
+            /**
+            * 选项卡切换
+            * */
+            $(".tab-tit span").click(function(){
+                $(this).addClass("active").siblings().removeClass("active");
+                $(".tab-content").children().eq($(this).index()).addClass("active").siblings().removeClass("active");
+            })
+
+        </script>
+
+	</body>
+</html>

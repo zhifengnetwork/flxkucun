@@ -32,9 +32,234 @@
                     <span class="date-end">
                         <input type="text" placeholder="请选择结束日期" readonly="readonly" id="nowValue-end" onclick="dateEnd()">
                     </span>
-                    
-                   
+                    <button class="queryBtn">查询</button>
                 </div>
+
+                <!-- 选项卡切换 -->
+				<div class="tab-wrap">
+					<!-- 切换标题 -->
+					<div class="tab-tit">
+						<span class="active">配货下级</span>
+						<span>推荐下级</span>
+                    </div>
+                    <!-- 切换内容 -->
+                    <div class="tab-content">
+                        <div class="main active">
+                            <div class="list">
+                                <h4>上级列表</h4>
+                                <ul>
+                                    <li>
+                                        <a href="{:U('User/sub_order')}">
+                                            <div class="item">
+                                                <div class="img-wrap">
+                                                    <img src="__STATIC__/images/user_zp/000avatar-02.png" />
+                                                </div>
+                                                <div class="text">
+                                                    <span>昵称：倾城小美人</span>
+                                                    <span>DI：81345</span>
+                                                    <span>手机号：18005239654</span>
+                                                    <span>等级：大区</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <h3>平级上级</h3>
+                                    </li>
+                                    <li>
+                                        <a href="{:U('User/sub_order')}">
+                                            <div class="item">
+                                                <div class="img-wrap">
+                                                    <img src="__STATIC__/images/user_zp/000avatar-02.png" />
+                                                </div>
+                                                <div class="text">
+                                                    <span>昵称：倾城小美人</span>
+                                                    <span>DI：81345</span>
+                                                    <span>手机号：18005239654</span>
+                                                    <span>等级：大区</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <h3>配货上级</h3>
+                                    </li>
+                                    <li>
+                                        <a href="{:U('User/sub_order')}">
+                                            <div class="item">
+                                                <div class="img-wrap">
+                                                    <img src="__STATIC__/images/user_zp/000avatar-02.png" />
+                                                </div>
+                                                <div class="text">
+                                                    <span>昵称：倾城小美人</span>
+                                                    <span>DI：81345</span>
+                                                    <span>手机号：18005239654</span>
+                                                    <span>等级：大区</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <h3>推荐上级</h3>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="sub-list" >
+                                <h4>推荐下级</h4>
+                                <a href="{:U('User/sub_order')}">
+                                    <div class="item">
+                                        <div class="img-wrap">
+                                            <img src="__STATIC__/images/user_zp/000avatar-02.png" />
+                                        </div>
+                                        <div class="text">
+                                            <span>昵称：好货上场</span>
+                                            <span>DI：81345</span>
+                                            <span>手机号：18005239654</span>
+                                            <span>等级：大区</span>
+                                            <span>数量：1000</span>
+                                            <span>金额：100000</span>
+                                            <span>推荐ID：86523</span>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="{:U('User/sub_order')}">
+                                    <div class="item">
+                                        <div class="img-wrap">
+                                            <img src="__STATIC__/images/user_zp/000avatar-02.png" />
+                                        </div>
+                                        <div class="text">
+                                            <span>昵称：好货上场</span>
+                                            <span>DI：81345</span>
+                                            <span>手机号：18005239654</span>
+                                            <span>等级：大区</span>
+                                            <span>数量：1000</span>
+                                            <span>金额：100000</span>
+                                            <span>推荐ID：86523</span>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="{:U('User/sub_order')}">
+                                    <div class="item">
+                                        <div class="img-wrap">
+                                            <img src="__STATIC__/images/user_zp/000avatar-02.png" />
+                                        </div>
+                                        <div class="text">
+                                            <span>昵称：好货上场</span>
+                                            <span>DI：81345</span>
+                                            <span>手机号：18005239654</span>
+                                            <span>等级：大区</span>
+                                            <span>数量：1000</span>
+                                            <span>金额：100000</span>
+                                            <span>推荐ID：86523</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="main">
+                            <div class="list">
+                                <h4>上级列表</h4>
+                                <ul>
+                                    <li>
+                                        <a href="{:U('User/sub_order')}">
+                                            <div class="item">
+                                                <div class="img-wrap">
+                                                    <img src="__STATIC__/images/user_zp/000avatar-02.png" />
+                                                </div>
+                                                <div class="text">
+                                                    <span>昵称：小辣鸡</span>
+                                                    <span>DI：81345</span>
+                                                    <span>手机号：18005239654</span>
+                                                    <span>等级：大区</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <h3>平级上级</h3>
+                                    </li>
+                                    <li>
+                                        <a href="{:U('User/sub_order')}">
+                                            <div class="item">
+                                                <div class="img-wrap">
+                                                    <img src="__STATIC__/images/user_zp/000avatar-02.png" />
+                                                </div>
+                                                <div class="text">
+                                                    <span>昵称：倾城小美人</span>
+                                                    <span>DI：81345</span>
+                                                    <span>手机号：18005239654</span>
+                                                    <span>等级：大区</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <h3>配货上级</h3>
+                                    </li>
+                                    <li>
+                                        <a href="{:U('User/sub_order')}">
+                                            <div class="item">
+                                                <div class="img-wrap">
+                                                    <img src="__STATIC__/images/user_zp/000avatar-02.png" />
+                                                </div>
+                                                <div class="text">
+                                                    <span>昵称：倾城小美人</span>
+                                                    <span>DI：81345</span>
+                                                    <span>手机号：18005239654</span>
+                                                    <span>等级：大区</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <h3>推荐上级</h3>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="sub-list" >
+                                <h4>推荐下级</h4>
+                                <a href="{:U('User/sub_order')}">
+                                    <div class="item">
+                                        <div class="img-wrap">
+                                            <img src="__STATIC__/images/user_zp/000avatar-02.png" />
+                                        </div>
+                                        <div class="text">
+                                            <span>昵称：好货上场</span>
+                                            <span>DI：81345</span>
+                                            <span>手机号：18005239654</span>
+                                            <span>等级：大区</span>
+                                            <span>数量：1000</span>
+                                            <span>金额：100000</span>
+                                            <span>推荐ID：86523</span>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="{:U('User/sub_order')}">
+                                    <div class="item">
+                                        <div class="img-wrap">
+                                            <img src="__STATIC__/images/user_zp/000avatar-02.png" />
+                                        </div>
+                                        <div class="text">
+                                            <span>昵称：好货上场</span>
+                                            <span>DI：81345</span>
+                                            <span>手机号：18005239654</span>
+                                            <span>等级：大区</span>
+                                            <span>数量：1000</span>
+                                            <span>金额：100000</span>
+                                            <span>推荐ID：86523</span>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="{:U('User/sub_order')}">
+                                    <div class="item">
+                                        <div class="img-wrap">
+                                            <img src="__STATIC__/images/user_zp/000avatar-02.png" />
+                                        </div>
+                                        <div class="text">
+                                            <span>昵称：好货上场</span>
+                                            <span>DI：81345</span>
+                                            <span>手机号：18005239654</span>
+                                            <span>等级：大区</span>
+                                            <span>数量：1000</span>
+                                            <span>金额：100000</span>
+                                            <span>推荐ID：86523</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
 	       
 		</div>
@@ -74,6 +299,15 @@
                     }
                 });
             }
+
+            /**
+            * 选项卡切换
+            * */
+            $(".tab-tit span").click(function(){
+                $(this).addClass("active").siblings().removeClass("active");
+                $(".tab-content").children().eq($(this).index()).addClass("active").siblings().removeClass("active");
+            })
+
         </script>
 
 	</body>

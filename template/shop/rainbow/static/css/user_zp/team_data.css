@@ -1,13 +1,29 @@
+body{
+    background-color: #f8f8f8;
+}
 .content{
     padding-top: .88rem;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
+
+/* 查询 */
 .query-wrap{
     height: .5rem;
     background-color: #fff;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    margin-bottom: .15rem;
+    padding: .0 .24rem;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
 }
 .query-wrap span{
     width: 1.64rem;
@@ -19,6 +35,7 @@
     background-size: .08rem .05rem;
     background-position: 1.46rem center ;
     padding-right: .2rem;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 .query-wrap span input{
@@ -27,6 +44,9 @@
     font-size: .18rem;
     display: inline-block;
     vertical-align:top;
+    padding: 0 .07rem;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
 }
 .query-wrap .line{
     width: .18rem;
@@ -34,4 +54,122 @@
     background-color: #595959;
     display: inline-block;
     margin: 0 .05rem;
+}
+.query-wrap .queryBtn{
+    width: .8rem;
+    height: .3rem;
+    font-size: .18rem;
+    background-color: #c9e3ea;
+    border: none;
+    outline: none;
+    display: inline-block;
+    margin-left: .17rem;
+}
+
+/* 选项卡切换 */
+
+.tab-wrap .tab-tit{
+    width: 100%;
+    height: .66rem;
+    line-height: .66rem;
+    background-color: #fff;
+    text-align: center;
+    margin-bottom: .1rem;
+    padding: .0 .24rem;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.tab-wrap .tab-tit span{
+    margin: 0 .9rem;
+}
+.tab-wrap .tab-tit .active{
+    color: #f10909;
+}
+
+/* tab选项卡切换内容 */
+.tab-wrap .tab-content .main{
+    display: none;
+    font-size: .18rem;
+}
+.tab-wrap .tab-content .active{
+    display: block;
+}
+.tab-wrap .tab-content .list{
+    margin-bottom: .13rem;
+    background-color: #fff;
+    padding: .0 .24rem;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.tab-wrap .tab-content .main ul li{
+    margin-bottom: .08rem;
+}
+.tab-wrap .tab-content .main h4,.tab-wrap .tab-content .main h3{
+    width: 1.1rem;
+    height: .38rem;
+    line-height: .38rem;
+    font-size: .18rem;
+    text-align: center;
+}
+.tab-wrap .tab-content .main h4{
+    color: #f70d0d;
+}
+.tab-wrap .tab-content .main h3{
+    color: #8d8d8d;
+}
+.tab-wrap .tab-content .main .item{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.tab-wrap .tab-content .main .item .img-wrap{
+    width: 1.1rem;
+    height: 1.1rem;
+    border-radius: 50%;
+    margin-right: .5rem;
+}
+.tab-wrap .tab-content .main .img-wrap img{ 
+    width: 100%;
+}
+.tab-wrap .tab-content .main .text{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-flow: wrap;
+    flex-flow: wrap;
+}
+
+.tab-wrap .tab-content .list .item span{
+    width: 50%;
+    line-height: .3rem;
+    display: block;
+}
+
+/* 配货下级 */
+.tab-wrap .tab-content .sub-list{
+    background-color: #fff;
+    padding: .0 .24rem;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.tab-wrap .tab-content .sub-list .item{
+    margin-bottom: .2rem;
+}
+.tab-wrap .tab-content .sub-list .item .img-wrap{
+    margin-right: .2rem;
+}
+.tab-wrap .tab-content .sub-list .item .text{
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+}
+.tab-wrap .tab-content .sub-list .item .text span{
+    line-height: .34rem;
+    margin-right: .2rem;
+}
+.tab-wrap .tab-content .sub-list .item .text span:last-child{
+    margin-right: 0;
 }
