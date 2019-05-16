@@ -32,6 +32,10 @@ class Index extends MobileBase {
         }
 
          $this->assign('shareid',$shareid);
+
+        $GoodsLogic = new GoodsLogic();
+        $cat_list = $GoodsLogic->getSortCategoryList();
+        $this->assign('cat_list',$cat_list);
         /*
             //获取微信配置
             $wechat_list = M('wx_user')->select();
@@ -46,11 +50,8 @@ class Index extends MobileBase {
         $thems = M('goods_category')->order('sort_order')->limit(9)->cache(true,TPSHOP_CACHE_TIME)->select();
         $this->assign('thems',$thems);
         $this->assign('hot_goods',$hot_goods);
-        $favourite_goods = M('goods')->where("is_recommend=1 and is_on_sale=1")->order('sort DESC')->limit(20)->cache(true,TPSHOP_CACHE_TIME)->select();//首页推荐商品
-        $GoodsLogic = new GoodsLogic();
-        $cat_list = $GoodsLogic->getSortCategoryList();
-        $this->assign('cat_list',$cat_list);
 
+        $favourite_goods = M('goods')->where("is_recommend=1 and is_on_sale=1")->order('sort DESC')->limit(20)->cache(true,TPSHOP_CACHE_TIME)->select();//首页推荐商品
         $this->assign('favourite_goods',$favourite_goods);
 
         return $this->fetch();
