@@ -6,14 +6,14 @@ img {
 	max-width: 100%;
 	margin: 0 auto;
 }
+.lb_headWrap {
+	background: #F2F2F2;
+}
 .opt_btn {
 	position: absolute;
 	top: 0;
 	right: .2rem;
 	color: #2f2f2f;
-}
-input {
-	-webkit-appearance: checkbox;
 }
 .content {
 	padding: .29rem .25rem 0;
@@ -82,6 +82,9 @@ input:checked:after{
 
 .content .goods_btn {
 	display: none;
+	
+}
+.btn_inp {
 	margin: 1.5rem 0 0;
 	width: 7.02rem;
 	height: .6rem;
@@ -93,7 +96,6 @@ input:checked:after{
 	text-align: center;
 	line-height: .6rem;
 }
-
 .pass {
 	color: #f90029;
 }

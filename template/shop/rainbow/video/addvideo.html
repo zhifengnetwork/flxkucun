@@ -27,16 +27,6 @@
 	        			<video class="vid"></video>
 	        		</div>
 	        		<!--上传按钮-->
-	        		<div class="push">
-	        			<div class="niu">
-	        				<img src="__STATIC__/images/video/002v.png" />
-	        			</div>
-	        			
-	        			<input type="file" name="video" value="添加您要上传的视频" />
-	        			<p>添加您要上传的视频</p>
-	        		</div>
-	        		<!--上传中状态-->
-		        	<div class="cross" style="display: none">
 	        		<div class="up_btn">
 		        		<div class="push">
 		        			<div class="niu">
@@ -46,7 +36,6 @@
 		        		</div>
 		        		<input class="put" type="file" value="添加您要上传的视频" accept="video/*" />
 	        		</div>
-	        	
 	        		<!--上传中状态显示，没有上传默认隐藏-->
 		        	<div class="cross">
 		        		<div class="niu_z">
@@ -55,8 +44,8 @@
 	        			<!---->
 	        			<p>正常上传中 请耐心等待......</p>
 		        	</div>
-		        	<!--上传完成弹框-->
-		        	<div class="up_box" style="display: none;">
+		        	<!--上传完成弹框,没有上传完成默认隐藏-->
+		        	<div class="up_box">
 		        		<div class="pop">
 		        			<div class="img">
 		        				<img src="__STATIC__/images/video/004v.png" />
@@ -70,8 +59,7 @@
 		        	</div>
 		        	<!--上传完成弹框蒙板-->
 		        	<div class="up_view"></div>
-		        	<div class="up_view" style='display: none'></div>
-	        	</div>
+		        </div>
 	        	
 	        	<!--文字说明-->
         		<div class="state">上传视频需知时长30S</div>

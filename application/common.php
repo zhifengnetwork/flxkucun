@@ -134,6 +134,16 @@ function getAllUp($invite_id,&$userList=array())
     
 }
 
+/*
+ * 获取推荐上级
+ */
+function get_uper_users($invite_id)
+{
+    $field  = "user_id,nickname,first_leader,is_lock";
+    $UpInfo = M('users')->field($field)->where(['user_id'=>$invite_id])->find();
+    return $UpInfo;
+
+}
 
 /**
  * 极差代理

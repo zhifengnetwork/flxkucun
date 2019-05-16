@@ -29,7 +29,7 @@ class Video extends MobileBase{
 
      // 跳转到视频播放页
     public function video_play(){
-
+        
         return $this->fetch();
     }
 
@@ -97,8 +97,6 @@ class Video extends MobileBase{
         return $uploadDir.$path;
     }
 
-
-
     // 跳转到视频列表
     public function video_list(){
         
@@ -113,12 +111,16 @@ class Video extends MobileBase{
 
         $user_id = session('user.user_id');
         $this->assign('user_id', $user_id);
-        // $video_id = $videos_id;
-        // $result = Db::table('video')->where('user_id' =>$userid)->delete($video_id);
-        // if($result){
-        //     $this->success('删除成功')；
-        // }else{
-        //     $this -> error('删除失败请重试！')
-        // }
+        $del_id = request()->post('del_id/a'); 
+        if(!empty($del_id)){
+            $result = Db::table('tp_video')->delete($del_id);
+            if($result){
+                $this->success('删除成功！');
+            }else{
+                $this->error('删除错误，请重试');
+            }
+        }else{
+            $this->error('请选择您要删除的视频!');
+        }
     }
 }

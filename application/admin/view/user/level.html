@@ -53,10 +53,10 @@
 					<div style="margin-bottom: 10px;">
 					<select name="type" onchange="showMsg(this)">
 						<option value="0">选择条件</option>
-						<option value="101"<if condition="$info['type'] eq 101"> selected</if>>购买任意商品</option>
-						<option value="201"<if condition="$info['type'] eq 201"> selected</if>>直推人数</option>
-						<option value="301"<if condition="$info['type'] eq 301"> selected</if>>分享购物金额</option>
-						<option value="401"<if condition="$info['type'] eq 401"> selected</if>>申请</option>
+						<option value="101"<if condition="$info['type'] eq 101"> selected</if>>补货{$info.replenish}(元)</option>
+						<option value="201"<if condition="$info['type'] eq 201"> selected</if>>补货{$info.replenish}(元)</option>
+						<option value="301"<if condition="$info['type'] eq 301"> selected</if>>补货{$info.replenish}(元)</option>
+						<option value="401"<if condition="$info['type'] eq 401"> selected</if>>首次进货{$info.stock}(元)</option>
 					</select>
 					</div>
 					<div id="numsshow" style="display: none;">
@@ -66,7 +66,27 @@
                     <p class="notic">达到该等级所需条件。不设则为会员默认最低等级。</p>
                 </dd>
             </dl>
-			
+            <dl class="row">
+                <dt class="tit">
+                    <label for="discount">首次进货金额设置</label>
+                </dt>
+            
+                <dd class="opt">
+                    <input type="text" name="stock" value="{$info.stock}" id="stock" class="input-txt" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
+                    <p class="notic">单位元</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="discount">补货货金额设置</label>
+                </dt>
+            
+                <dd class="opt">
+                    <input type="text" name="replenish" value="{$info.replenish}" id="replenish" class="input-txt" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
+                    <p class="notic">单位元</p>
+                </dd>
+            </dl>
+			<!--
             <dl class="row">
                 <dt class="tit">
                     <label for="discount">直推分享购物返利</label>
@@ -98,7 +118,7 @@
 			        <span>元</span>
 			        <p class="notic">直推一名达到一定等级获得奖励！</p>
 			    </dd>
-			</dl>
+			</dl>-->
 			<dl class="row">
 			    <dt class="tit">
 			        <label for="level_name">领取产品数量</label>

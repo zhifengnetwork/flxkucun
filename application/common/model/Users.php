@@ -23,6 +23,11 @@ class Users extends Model
         return $this->hasOne('UserLevel', 'level', 'level');
     }
 
+    public function userLeader()
+    {
+        return $this->hasOne('Users', 'user_id', 'first_leader');
+    }
+
     /**
      * 用户下线分销金额
      * @param $value
@@ -67,5 +72,6 @@ class Users extends Model
         $third_leader = Users::where(['third_leader'=>$data['user_id']])->count();
         return  $third_leader;
     }
+
 
 }

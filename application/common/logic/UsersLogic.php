@@ -538,7 +538,8 @@ class UsersLogic extends Model
             
          return ['status' => 1, 'msg' => '获取成功', 'result' => $user];
      }
-     
+
+
     /*
      * 获取最近一笔订单
      */
