@@ -32,10 +32,11 @@
         			<div class="cont_wrap">
 	        			<div class="left_cont">申请等级:</div>
 	        			<div class="right_cont ht">
-	        				<div id="tresult" class="wrap_com">申请等级</div>
+	        				<div class="wrap_com">申请等级</div>
 	        				<!--下拉图标-->
 	        				<div class="icon"></div>
 	        				<ul class="list_wrap">
+	        					<li>申请等级</li>
 	        					<li>等级1</li>
 	        					<li>等级2</li>
 	        					<li>等级3</li>
@@ -78,10 +79,17 @@
 	<script src="__STATIC__/js/public/public_lb.js"></script>
 	<script>
 		$(function() {
-    		$('.ht').on('click',function(){
-    			$('.list_wrap').slideToggle();
-    		})
-    	})	
+    		// 下拉列表
+			$(".wrap_com").click(function(){
+				$(".list_wrap").toggle();
+			})
+    		// 取值
+			$(".list_wrap li").click(function(){
+				var val = $(this).html();
+				$(".wrap_com").html(val);
+				$(".list_wrap").toggle();
+			})
+       	})
 	</script>
 </body>
 </html>
