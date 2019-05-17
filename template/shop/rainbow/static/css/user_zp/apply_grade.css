@@ -111,6 +111,7 @@ ul {
     width: 7.02rem;
     height: 4.2rem;
     outline-style: none;
+    resize: none;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     border: 1px solid #cdcdcd;
