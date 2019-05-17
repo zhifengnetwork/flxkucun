@@ -36,7 +36,7 @@
         			<div class="cont_wrap">
 	        			<div class="left_cont">代理级别:</div>
 	        			<div class="right_cont ht">
-	        				<div id="tresult" class="wrap_com">代理级别</div>
+	        				<div class="wrap_com">代理级别</div>
 	        				<!--下拉图标-->
 	        				<div class="icon"></div>
 	        				<ul class="list_wrap">
@@ -95,12 +95,16 @@
 	<script src="__STATIC__/js/public/public_lb.js"></script>
 	<script>
 		$(function() {
-    		$('.ht').on('click',function(){
-    			$('.list_wrap').slideToggle();
-    		})
-    		$('.her').on('click',function(){
-    			$('.list').slideToggle();
-    		})
+    		// 下拉列表
+			$(".wrap_com").click(function(){
+				$(".list_wrap").toggle();
+			})
+    		// 取值
+			$(".list_wrap li").click(function(){
+				var val = $(this).html();
+				$(".wrap_com").html(val);
+				$(".list_wrap").toggle();
+			})
        	})
 	</script>
 </body>

@@ -26,17 +26,7 @@
 	        		<div class="storage">
 	        			<video class="vid"></video>
 	        		</div>
-	        		<!--上传按钮-->
-	        		<div class="push">
-	        			<div class="niu">
-	        				<img src="__STATIC__/images/video/002v.png" />
-	        			</div>
-	        			
-	        			<input type="file" name="video" value="添加您要上传的视频" />
-	        			<p>添加您要上传的视频</p>
-	        		</div>
-	        		<!--上传中状态-->
-		        	<div class="cross" style="display: none">
+	        		<!--上传点击区-->
 	        		<div class="up_btn">
 		        		<div class="push">
 		        			<div class="niu">
@@ -48,7 +38,7 @@
 	        		</div>
 	        	
 	        		<!--上传中状态显示，没有上传默认隐藏-->
-		        	<div class="cross">
+		        	<div class="hide">
 		        		<div class="niu_z">
 	        				<img src="__STATIC__/images/video/003v.png" />
 	        			</div>
@@ -65,12 +55,9 @@
 							<a href="{:U('shop/video/video_list')}">
 								<div class="acc">完成</div>
 							</a>
-		        			
 		        		</div>
 		        	</div>
-		        	<!--上传完成弹框蒙板-->
-		        	<div class="up_view"></div>
-		        	<div class="up_view"></div>
+		        	
 	        	</div>
 	        	
 	        	<!--文字说明-->
@@ -84,8 +71,10 @@
         		<textarea class="text" name='describe' placeholder="输入您想说的话"></textarea>
         		<!--确认按钮-->
         		<!--视频上传中按钮按钮添加class:ack_btn_on-->
-        		<div class="ack_btn">确定上传</div>
-        		<div><input type="submit" class="ack_btn">确定上传</div>
+        		<!--<div class="ack_btn">确定上传</div>-->
+        		<div class="btn_wrap">
+        			<input type="submit" class="ack_btn">
+        		</div>
 	        </div>
 	        </form>
 		</div>
@@ -95,7 +84,7 @@
 		<script>
 			$(function (){
 				$('.ack_btn').click(function (){
-					$('cross').show();
+					$('.up_box').show();
 					$('.ack_btn').addClass('ack_btn_on');
 				})
 			})
