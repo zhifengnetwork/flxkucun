@@ -29,22 +29,25 @@ class Video extends MobileBase{
 
      // 跳转到视频播放页
     public function video_play(){
-        
-        return $this->fetch();
+        $video_id = input('video_id');
+        $video = Db::table('tp_video')->where('id',$video_id)->find();
+        $pople_id = Db::table('tp_video')->where('id',$video_id)->value('user_id');
+        $pople = Db::table('tp_users')->where('user_id',$pople_id)->value('nickname');
+        return $this->fetch('',[
+            'video'=>$video,
+            'pople' =>$pople
+        ]);
+
     }
-
-
     // 添加视频
     public function addvideo(){
         if(request()->isPost()){
             $user_id = session('user.user_id');
             $this->assign('user_id', $user_id);
-
             $file = request()->file('video');
             $title = input('title');
             $describe = input('describe');
             $time = time();
-        
             if(!empty($user_id)){
 
                 if(empty($file)){
@@ -90,11 +93,11 @@ class Video extends MobileBase{
         $file = request()->file('video');
         $info = $file->validate(['size' =>1024*1024*5,'ext'=>'avi,mp4,flw'])->move($uploadDir);
         if($info){
-            $path = $info ->getSaveName();
+            $path = str_replace("\\","/",$info->getSaveName());
         }else{
             echo $file->getError();
         }
-        return $uploadDir.$path;
+        return ltrim($uploadDir.$path,'.');
     }
 
     // 跳转到视频列表
@@ -114,11 +117,11 @@ class Video extends MobileBase{
             $result = Db::table('tp_video')->delete($video_id);
             if($result){
                 foreach ($video_info as $v){
-                    @unlink($v['video_url']);
+                    @unlink('.'.$v['video_url']); 
                 }
                 $this->success('删除成功！');
             }else{
-                $this->error('删除错误，请重试');
+                $this->error('删除失败，请重试');
             }
         }else{
             $this->error('请选择您要删除的视频!');
@@ -127,77 +130,58 @@ class Video extends MobileBase{
 
     //视频修改
     public function video_update(){
-       if(request()->isPost()){
-    
+        $id = input('video_id');
+        if(empty($id)){
+            return $this->error('请选择您要更新的视频！');
+        };
+
+        $video = M("video");
+        $info = $video->where(['id'=>$id])->find();
+        $olde_path = Db::table('tp_video')->where(['id'=>$id])->value('video_url'); 
+       if(request()->isPost()){ 
             $file = request()->file('video');
             $title = input('title');
             $describe = input('describe');
-            $id = input('video_id');
             $time = time();
-            
+            $data = [
+                'video_url' => $file,
+                'title' => $title,
+                'describe' => $describe,
+                'update_time' => $time,
+            ];
+
+            $data2 = [
+                'title' => $title,
+                'describe' => $describe,
+                'update_time' => $time,
+            ];
+
             if(!empty($file)){
-                $olde_path = Db::table('tp_video')->where('id','in',$video_id)->value('video_url'); 
-                $video = $this -> upload();
-                if($video){
-                    $data = [
-                        'video_url' => $video,
-                        'update_time' => $time
-                    ];
-                }
- 
-            };
-            if(!empty($title)){
-                $data = [
-                    'title' => $title,
-                    'update_time' => $time
-                ];
-            };
-            if(!empty($describe)){
-                $data = [
-                    'describe' => $describe,
-                    'update_time' => $time
-                ];
-            };
-            
-            if((!empty($file)) && (!empty($title))){
-                $olde_path = Db::table('tp_video')->where('id','in',$video_id)->value('video_url');
-                $video = $this -> upload();
-                $data = [
-                    'title' => $title,
-                    'update_time' => $time,
-                    'video_url' => $video
-                ];
-            };
-
-            if((!empty($title)) && (!empty($describe))){
-                $data = [
-                    'title' => $title,
-                    'update_time' => $time,
-                    'describe' => $describe
-                ];
-            };
-
-            if((!empty($file)) && (!empty($title))&&(!empty($describe))){
-                $olde_path = Db::table('tp_video')->where('id','in',$video_id)->value('video_url');
-                $video = $this -> upload();
-                $data = [
-                    'title' => $title,
-                    'describe' => $describe,
-                    'video_url' => $file,
-                    'update_time' => $time,
-                ];
-            };
-
-            $result = Db::table('tp_video')->where('id',$id)->upate($data);
-            if($result){
-                @unlink($olde_path);
-                $this->success('修改成功！',url("/shop/video/video_list"));
+                
+                $file = $this->upload();
+                if($file){
+                    
+                   $result = $video->where(['id'=>$id])->save($data);
+                   if($result){
+                        $this->success('修改成功',url("/shop/video/video_list"));
+                       
+                        // @unlink('.'.$olde_path);
+                   }else{
+                     $this->error('修改失败，请重试!');
+                   }
+                }  
             }else{
-                $this->error('修改失败，请重试!');
+                $result = $video->where(['id'=>$id])->save($data2);
+                if($result){
+                     $this->success('修改成功',url("/shop/video/video_list"));
+                }else{
+                  $this->error('修改失败，请重试!');
+                }
             }
             
         };
-       
+        $this->assign('info', $info);
         return $this->fetch();
     }
+
 }

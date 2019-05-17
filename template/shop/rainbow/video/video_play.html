@@ -35,20 +35,16 @@
 		</div>
 
 		<div class="content">
-			<h3>夏季吊带连衣裙超夏季吊带连衣裙超</h3>
+			<h3>{$video['title']}</h3>
 			<p class="date">
-				<span>2019-04-17</span>
-				<span>02:27:25</span>
-				<span>发布者:倾城小美人</span>
+				<span><?php echo date("Y-m-d",$video['update_time']) ?></span>
+				<span><?php echo date("H:i:s",$video['update_time']) ?></span>
+				<span>发布者:{$pople}</span>
 			</p>
 			<div class="playWrap">
 				<div class="prism-player" id="player-con"></div>
 			</div>
-			<p>据香港媒体报道，TVB艺人黄心颖因出轨人夫许志安，形象一落千丈，跌到谷底。之前，她曾为电视剧倾情献唱主题曲，但受出轨事件的影响，公司将
-				其演唱的主题曲作了消音处理，只放纯音乐。</p>
-			<p>4月16日，许志安跟马国明女友车内缠绵画面曝光后，引起轩然大波。随后许志安召开记者会，现场痛哭承认出轨，表示对不起太太郑秀文，同时宣
-					布暂停演艺事业，进行深刻反省。</p>
-			
+			<p>{$video['describe']}</p>
 			<div class="goods-item">
 				<a href="#">
 					<div class="img-wrap">
@@ -67,7 +63,7 @@
 	<script>
 		var player = new Aliplayer({
 			"id": "player-con",
-			"source": "http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4",//视频地址
+			"source": "http:{$video['video_url']}",//视频地址
 			"width": "100%",
 			"height": "7.02rem",
 			"autoplay": false,

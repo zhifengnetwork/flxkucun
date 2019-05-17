@@ -34,7 +34,7 @@
 		        			</div>
 		        			<p>添加您要上传的视频</p>
 		        		</div>
-		        		<input class="put" name="video" type="file" value="添加您要上传的视频" accept="video/*" />
+		        		<input class="put" name="video" type="file" value="" accept="video/*" />
 	        		</div>
 	        	
 	        		<!--上传中状态显示，没有上传默认隐藏-->
@@ -63,10 +63,11 @@
         		<div class="state">上传视频需知时长30S</div>
         		<!--标题输入框-->
         		<div class="inp">
-        			<input type="text" name="title" placeholder="输入标题" value="{$video['title']}" />
+        			<input type="text" name="title" placeholder="输入标题" value="{$info['title']}" />
+        			<input type="hidden" name="video_id" value="{$info['id']}" />
         		</div>
         		<!--文本输入框-->
-        		<textarea class="text" name='describe' placeholder="输入您想说的话">{$video['describe']}</textarea>
+        		<textarea class="text" name='describe' placeholder="输入您想说的话">{$info['describe']}</textarea>
         		<!--确认按钮-->
         		<!--视频上传中按钮按钮添加class:ack_btn_on-->
         		<div class="btn_wrap">
