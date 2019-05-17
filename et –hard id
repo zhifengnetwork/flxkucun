@@ -1,0 +1,411 @@
+[33mcommit fdeb7687c8d654f83e657fddc14d23acbdb91e25[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: chenios <2085764901@qq.com>
+Date:   Thu May 16 16:09:44 2019 +0800
+
+    添加页
+
+[33mcommit 3c4b4e71f80bbb4d9e47adff0e66862a9c1ee444[m
+Merge: 737d771 5aaddd9
+Author: chenios <2085764901@qq.com>
+Date:   Thu May 16 16:04:02 2019 +0800
+
+    m
+
+[33mcommit 737d771b9c4d68c60228ad88c6d791af46256359[m
+Author: chenios <2085764901@qq.com>
+Date:   Thu May 16 15:54:25 2019 +0800
+
+    视频修改
+
+[33mcommit 5aaddd98b19ee87b92888a5db838a7cf3661050b[m
+Merge: a23a902 40164d1
+Author: webhzp <1225613448@qq.com>
+Date:   Thu May 16 15:49:43 2019 +0800
+
+    Merge branch 'master' of https://github.com/zhifengnetwork/flxkucun
+
+[33mcommit a23a90257ebb7c01036f6e47b5ace2bb06a05fdf[m
+Author: webhzp <1225613448@qq.com>
+Date:   Thu May 16 15:49:35 2019 +0800
+
+    添加我的订单页面
+
+[33mcommit 40164d11fc7ce8c893d4c53ecae040ccd19f6eb7[m
+Author: unknown <1017074715@qq.com>
+Date:   Thu May 16 15:48:27 2019 +0800
+
+    申请等级
+
+[33mcommit 2d04d736d164620ed68db240701fe6017e32fbce[m
+Author: webhzp <1225613448@qq.com>
+Date:   Thu May 16 12:20:33 2019 +0800
+
+    添加申请等级页面
+
+[33mcommit 7ad09151cf009566b5dd6ffa89901e9ec55c5fcd[m
+Merge: 98fe752 dcf3daa
+Author: webhzp <1225613448@qq.com>
+Date:   Thu May 16 12:17:46 2019 +0800
+
+    Merge branch 'master' of https://github.com/zhifengnetwork/flxkucun
+
+[33mcommit 98fe752b09bd263f729564269b106674d52a799c[m
+Author: webhzp <1225613448@qq.com>
+Date:   Thu May 16 12:17:39 2019 +0800
+
+    添加申请等级页面
+
+[33mcommit dcf3daa7651a906aaba5a17a77ac2b17b7a79308[m
+Author: unknown <1017074715@qq.com>
+Date:   Thu May 16 12:14:18 2019 +0800
+
+    默认样式修改
+
+[33mcommit 5d28f2af690b995d57b86010a13deedafe4060c2[m
+Merge: 41c719e 98e4856
+Author: unknown <1017074715@qq.com>
+Date:   Thu May 16 11:56:32 2019 +0800
+
+    Merge branch 'master' of https://github.com/zhifengnetwork/flxkucun
+
+[33mcommit 41c719e2cf616bb471d70cae9af7c199d5cfa23e[m
+Author: unknown <1017074715@qq.com>
+Date:   Thu May 16 11:56:26 2019 +0800
+
+    邀请代理修改
+
+[33mcommit 98e4856388dc7cbeae0a7876860abd78533ffba1[m
+Merge: f4259c1 4c6c859
+Author: liutianiang <360033789@qq.com>
+Date:   Thu May 16 11:18:30 2019 +0800
+
+    Merge branch 'ceshi'
+
+[33mcommit f4259c12da748b9fbe53acc0bd0ea00dcddb0acd[m
+Author: d-Lijiawei <824918825@qq.com>
+Date:   Thu May 16 11:16:58 2019 +0800
+
+    个人中心
+
+[33mcommit 4c6c859518e2c79336bb2323598b576b758684a4[m
+Author: liutianiang <360033789@qq.com>
+Date:   Thu May 16 11:16:31 2019 +0800
+
+    level
+
+[33mcommit 4ff6084c55e1118cde42cccd70bc14da2bfffe90[m
+Author: d-Lijiawei <824918825@qq.com>
+Date:   Thu May 16 11:01:06 2019 +0800
+
+    个人中心
+
+[33mcommit 0d2aad600c3c4a0878216c6fc3606cac93571292[m
+Merge: 6327702 23f3df0
+Author: unknown <1017074715@qq.com>
+Date:   Thu May 16 10:13:35 2019 +0800
+
+    aa
+
+[33mcommit 23f3df0d584d534b350c8654df9abae0f0d1cf99[m
+Merge: ba4437e 2735a02
+Author: chenios <2085764901@qq.com>
+Date:   Wed May 15 21:32:09 2019 +0800
+
+    Merge branch 'master' of https://github.com/zhifengnetwork/flxkucun
+
+[33mcommit ba4437e27f6a7e4c6453afef9c22c07e8e4c70ee[m
+Author: chenios <2085764901@qq.com>
+Date:   Wed May 15 21:31:54 2019 +0800
+
+    视频删除
+
+[33mcommit 632770234eb153ff5211f86971e2b123a3e8b50c[m
+Author: unknown <1017074715@qq.com>
+Date:   Wed May 15 19:09:06 2019 +0800
+
+    邀请代理
+
+[33mcommit 2735a024a65bb9c5283531b164dca81dd226bbd0[m
+Merge: 49e43ea 0149535
+Author: webhzp <1225613448@qq.com>
+Date:   Wed May 15 19:07:37 2019 +0800
+
+    Merge branch 'master' of https://github.com/zhifengnetwork/flxkucun
+
+[33mcommit 49e43eaf01a332111a531cc2bd407c37c009f74e[m
+Author: webhzp <1225613448@qq.com>
+Date:   Wed May 15 19:07:25 2019 +0800
+
+    团队数据start
+
+[33mcommit 014953587178d5013d3ecbd69adb285fb3799a3b[m
+Author: d-Lijiawei <824918825@qq.com>
+Date:   Wed May 15 18:39:40 2019 +0800
+
+    冲突
+
+[33mcommit 9b98b190da700246fe8c8e2e6b64627c057fdc95[m
+Merge: f61b3d2 0f8557a
+Author: d-Lijiawei <824918825@qq.com>
+Date:   Wed May 15 18:37:35 2019 +0800
+
+    冲突
+
+[33mcommit 0f8557a317001304c3367dd6983e1015d395393c[m
+Merge: 49cf7f8 83ecb5f
+Author: chenios <2085764901@qq.com>
+Date:   Wed May 15 18:20:32 2019 +0800
+
+    Merge branch 'master' of https://github.com/zhifengnetwork/flxkucun
+
+[33mcommit 49cf7f8a2450afcc825fc84cd82e39fa1e81dea9[m
+Author: chenios <2085764901@qq.com>
+Date:   Wed May 15 18:17:27 2019 +0800
+
+    视频列表
+
+[33mcommit f61b3d25db4ae945f24166aa119cbd0a090a843c[m
+Author: d-Lijiawei <824918825@qq.com>
+Date:   Wed May 15 18:10:08 2019 +0800
+
+    首页
+
+[33mcommit 83ecb5fc963d2f9dd4c49c2fbbe26affd369d687[m
+Author: webhzp <1225613448@qq.com>
+Date:   Wed May 15 17:46:54 2019 +0800
+
+    首页样式调整
+
+[33mcommit f3e03cbe5dc4a7c7e368e147baeafcb294f5fa7b[m
+Merge: 402e9b5 5d5d7d4
+Author: webhzp <1225613448@qq.com>
+Date:   Wed May 15 16:05:18 2019 +0800
+
+    Merge branch 'master' of https://github.com/zhifengnetwork/flxkucun
+
+[33mcommit 402e9b5f5f943ac9c6a079c6701666e04fb662b0[m
+Author: webhzp <1225613448@qq.com>
+Date:   Wed May 15 15:55:40 2019 +0800
+
+    用户中心首页
+
+[33mcommit 5d5d7d4ec955ad8ca0bc7f13a2d27bfd122b8412[m
+Author: d-Lijiawei <824918825@qq.com>
+Date:   Wed May 15 15:28:02 2019 +0800
+
+    首页
+
+[33mcommit 47721d78dfd765fca063a240ea9201382d5a169f[m
+Author: d-Lijiawei <824918825@qq.com>
+Date:   Wed May 15 15:11:40 2019 +0800
+
+    首页
+
+[33mcommit e0c4196af4912083023cd1c72c993b279146f960[m
+Merge: f978dcf 390f35e
+Author: unknown <1017074715@qq.com>
+Date:   Wed May 15 14:53:58 2019 +0800
+
+    xx
+
+[33mcommit f978dcff916cf466e71d2a422aeb98abda668d6d[m
+Author: unknown <1017074715@qq.com>
+Date:   Wed May 15 14:52:12 2019 +0800
+
+    xx
+
+[33mcommit 5cf94713fd6f4513529a389e5f71ef8eabf4ac2a[m
+Author: unknown <1017074715@qq.com>
+Date:   Wed May 15 14:28:45 2019 +0800
+
+    仓库管理
+
+[33mcommit 9748883431bc4fa81b74be9488f9731fb4f3de54[m
+Author: unknown <1017074715@qq.com>
+Date:   Wed May 15 14:20:49 2019 +0800
+
+    仓库管理
+
+[33mcommit 390f35edca2dd9896593d91144233e89fba83706[m
+Merge: 7329c1d fd4ecb7
+Author: webhzp <1225613448@qq.com>
+Date:   Wed May 15 14:18:11 2019 +0800
+
+    Merge branch 'master' of https://github.com/zhifengnetwork/flxkucun
+
+[33mcommit 7329c1d3e5b5cae1dec34cc7788b5b6a0ae0b6da[m
+Author: webhzp <1225613448@qq.com>
+Date:   Wed May 15 14:17:40 2019 +0800
+
+    “更改首页视频轮播图&添加用户中心跳转页面
+
+[33mcommit fd4ecb7bbc8e5166799d36a5bdfbfbf48ec4b614[m
+Merge: 25d4575 d46ec2c
+Author: chenios <2085764901@qq.com>
+Date:   Wed May 15 12:34:50 2019 +0800
+
+    视频上传
+
+[33mcommit 25d4575335025cc47eaa9c0b001683255de1109d[m
+Author: chenios <2085764901@qq.com>
+Date:   Wed May 15 12:29:57 2019 +0800
+
+    视频上传
+
+[33mcommit d46ec2c7ba1e2a13fc3120e9ccb983851ca7c803[m
+Author: webhzp <1225613448@qq.com>
+Date:   Wed May 15 12:01:09 2019 +0800
+
+    首页
+
+[33mcommit 5a74e2d48226e803b2f967c75bd0162a5c95da59[m
+Merge: 4e46706 fd72db1
+Author: webhzp <1225613448@qq.com>
+Date:   Wed May 15 11:59:27 2019 +0800
+
+    Merge branch 'master' of https://github.com/zhifengnetwork/flxkucun
+
+[33mcommit 4e467061132035838694a749828fcc4563b4915c[m
+Author: webhzp <1225613448@qq.com>
+Date:   Wed May 15 11:59:19 2019 +0800
+
+    首页
+
+[33mcommit fd72db10100c28ad97c76868433ef790a7e82e72[m
+Author: d-Lijiawei <824918825@qq.com>
+Date:   Wed May 15 11:22:27 2019 +0800
+
+    购物流程
+
+[33mcommit e175739f09f3a2e29db49b901dd9a52e6ac80ec8[m
+Merge: 8a53ae0 1ad23d8
+Author: unknown <1017074715@qq.com>
+Date:   Tue May 14 19:24:43 2019 +0800
+
+    Merge branch 'master' of https://github.com/zhifengnetwork/flxkucun
+
+[33mcommit 8a53ae03b1656d85b11ff11fe48e10abba0cef75[m
+Author: unknown <1017074715@qq.com>
+Date:   Tue May 14 19:24:34 2019 +0800
+
+    我的视频修改
+
+[33mcommit 1ad23d89c500ce76c5c401357fa599ba952cb969[m
+Merge: 7e9c234 5f1d8f1
+Author: webhzp <1225613448@qq.com>
+Date:   Tue May 14 19:20:13 2019 +0800
+
+    Merge branch 'master' of https://github.com/zhifengnetwork/flxkucun
+
+[33mcommit 7e9c234895c862806f43b5677918cacfb4b75c74[m
+Author: webhzp <1225613448@qq.com>
+Date:   Tue May 14 19:20:02 2019 +0800
+
+    20190514
+
+[33mcommit 7a44f2bf82c8330eb55b86b0865a6b4fbf029e69[m
+Merge: 5695a4c 5f1d8f1
+Author: chenios <2085764901@qq.com>
+Date:   Tue May 14 17:46:25 2019 +0800
+
+    Merge branch 'master' of https://github.com/zhifengnetwork/flxkucun
+
+[33mcommit 5695a4c6ee4583c38d4712ed75cb205a60002d10[m
+Author: chenios <2085764901@qq.com>
+Date:   Tue May 14 17:44:22 2019 +0800
+
+    放弃
+
+[33mcommit 5f1d8f16c291a23d401f8a28ba0794dd6e365674[m
+Merge: e18f456 ad1d630
+Author: d-Lijiawei <824918825@qq.com>
+Date:   Tue May 14 17:32:50 2019 +0800
+
+    冲突
+
+[33mcommit e18f4565f0678d6da99414f44a5c68bc59e6321b[m
+Author: d-Lijiawei <824918825@qq.com>
+Date:   Tue May 14 17:09:38 2019 +0800
+
+    更新
+
+[33mcommit ad1d63030ba9706d2648f9ec32e82075568629ad[m
+Merge: f685022 7a98217
+Author: unknown <1017074715@qq.com>
+Date:   Tue May 14 14:01:20 2019 +0800
+
+    Merge branch 'master' of https://github.com/zhifengnetwork/flxkucun
+
+[33mcommit f685022408635ce40bf24903db5f33b9706959d0[m
+Author: unknown <1017074715@qq.com>
+Date:   Tue May 14 14:01:10 2019 +0800
+
+    添加视频
+
+[33mcommit 8a6fca5435f16c2c560cdcc4dc2469338378389f[m
+Merge: 2347960 acd7c22
+Author: unknown <1017074715@qq.com>
+Date:   Sat May 11 18:53:44 2019 +0800
+
+    Merge branch 'master' of https://github.com/zhifengnetwork/flxkucun
+
+[33mcommit 7a98217ca452be4b5b0141d27b136de9cc376040[m
+Author: webhzp <1225613448@qq.com>
+Date:   Mon Apr 22 14:16:29 2019 +0800
+
+    我的视频&公共头部
+
+[33mcommit 2347960d0c35fd5676370eae5b3d031ba000d793[m
+Author: unknown <1017074715@qq.com>
+Date:   Mon Apr 22 11:19:54 2019 +0800
+
+    我的视频
+
+[33mcommit acd7c2212fe4fdfa06d06ef701c251cbf14704e2[m
+Author: webhzp <1225613448@qq.com>
+Date:   Mon Apr 22 11:18:32 2019 +0800
+
+    首页
+
+[33mcommit c8f86467b5ceaa562e170975d7378098c2314e67[m
+Author: ZZZhangYunfei <86975943@qq.com>
+Date:   Sun Apr 21 14:37:54 2019 +0800
+
+    my
+
+[33mcommit fc82b83110fc7c3d25a46bdb6dce566b3ade0dd3[m
+Merge: 4df52e1 7128c22
+Author: unknown <1017074715@qq.com>
+Date:   Fri Apr 19 19:08:25 2019 +0800
+
+    Merge branch 'master' of https://github.com/zhifengnetwork/flxkucun
+
+[33mcommit 4df52e16c94d817d0d6cecbef440d86e7191442f[m
+Author: unknown <1017074715@qq.com>
+Date:   Fri Apr 19 19:07:59 2019 +0800
+
+    添加视频
+
+[33mcommit 7128c2250915d9bc46debc42618bd97669f9460c[m
+Author: webhzp <1225613448@qq.com>
+Date:   Fri Apr 19 19:04:20 2019 +0800
+
+    首页
+
+[33mcommit e047360d0f117acfffc117f1b0cb645a5c8e12e6[m
+Author: webhzp <1225613448@qq.com>
+Date:   Fri Apr 19 16:10:20 2019 +0800
+
+    公共底部
+
+[33mcommit 49978fae8f0ff527fcf078789e422a5c57d7238a[m
+Author: unknown <1017074715@qq.com>
+Date:   Fri Apr 19 15:58:05 2019 +0800
+
+    视频专区
+
+[33mcommit efa541598d15cf48b4856640c6b8458d5c324c45[m
+Author: d-Lijiawei <824918825@qq.com>
+Date:   Mon Apr 15 17:03:11 2019 +0800
+
+    库存系统
