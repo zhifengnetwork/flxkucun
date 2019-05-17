@@ -78,6 +78,7 @@ img {
 	width: 7.02rem;
 	height: 1.6rem;
 	outline-style: none;
+	resize: none;
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	border-radius: 6px;
@@ -192,7 +193,6 @@ img {
 }
 
 .storage {
-	-display: none;
 	width: 7.02rem;
 	height: 7.02rem;
 }
