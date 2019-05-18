@@ -52,47 +52,47 @@
         <table cellspacing="0" cellpadding="0">
           <thead>
 	        	<tr>
-	              <th class="sign" axis="col0" onclick="checkAllSign(this)">
+	              <th class="sign" axis="col0" onclick="checkAllSign(this)" width="5%">
 	                <div style="width: 24px;"><i class="ico-check"></i></div>
 	              </th>
-                <th align="left" abbr="id" axis="col1" class="">
-                  <div style="text-align: left; width: 50px;" class="">id</div>
+                <th align="left" abbr="id" axis="col1" class="" width="5%">
+                  <div style="text-align: left;" class="">视频ID</div>
                 </th>
-	              <th align="left" abbr="username" axis="col3" class="">
-	                <div style="text-align: left; width: 150px;" class="">用户</div>
+	              <th align="left" abbr="username" axis="col3" class="" width="10%">
+	                <div style="text-align: left; " class="">用户昵称</div>
 	              </th>
-                 <th align="left" abbr="username" axis="col3" class="">
-                  <div style="text-align: left; width: 150px;" class="">账号</div>
+                 <th align="left" abbr="username" axis="col3" class="" width="10%">
+                  <div style="text-align: left; " class="">OPENID</div>
                 </th>
-	              <th align="left" abbr="consignee" axis="col4" class="">
-	                <div style="text-align: left; width: 200px;" class="">标题</div>
+	              <th align="left" abbr="consignee" axis="col4" class="" width="10%">
+	                <div style="text-align: left; " class="">标题</div>
 	              </th>	
-                <th align="left" abbr="consignee" axis="col4" class="">
-                  <div style="text-align: left; width: 200px;" class="">简介</div>
+                <th align="left" abbr="consignee" axis="col4" class="" width="10%">
+                  <div style="text-align: left; " class="">简介</div>
                 </th>   
-                 <th align="left" abbr="consignee" axis="col4" class="">
-                  <div style="text-align: left; width: 200px;" class="">视频</div>
+                 <th align="left" abbr="consignee" axis="col4" class="" width="8%">
+                  <div style="text-align: left; " class="">视频</div>
                 </th>            
-	              <th align="left" abbr="article_show" axis="col5" class="">
-	                <div style="text-align: left; width: 50px;" class="">封面</div>
+	              <th align="left" abbr="article_show" axis="col5" class="" width="5%">
+	                <div style="text-align: left; " class="">封面</div>
 	              </th>
-	              <th align="center" abbr="article_time" axis="col6" class="">
-	                <div style="text-align: center; width: 50px;" class="">显示</div>
+	              <th align="center" abbr="article_time" axis="col6" class="" width="5%">
+	                <div style="text-align: center;"  class="">显示</div>
 	              </th>
-                 <th align="center" abbr="article_time" axis="col6" class="">
-                  <div style="text-align: center; width: 50px;" class="">分类</div>
+                 <th align="center" abbr="article_time" axis="col6" class="" width="10%">
+                  <div style="text-align: center; " class="">分类</div>
                 </th>
-                 <th align="center" abbr="article_time" axis="col6" class="">
-                  <div style="text-align: center; width: 50px;" class="">排序</div>
+                 <th align="center" abbr="article_time" axis="col6" class="" width="8%">
+                  <div style="text-align: center; " class="">排序</div>
                 </th>
-	              <th align="center" abbr="article_time" axis="col6" class="">
-	                <div style="text-align: center; width: 120px;" class="">上传时间</div>
+	              <th align="center" abbr="article_time" axis="col6" class="" width="10%">
+	                <div style="text-align: center; " class="">上传时间</div>
 	              </th>
-                 <th align="center" abbr="article_time" axis="col6" class="">
-                  <div style="text-align: center; width: 120px;" class="">状态</div>
+                 <th align="center" abbr="article_time" axis="col6" class="" width="15%">
+                  <div style="text-align: center; " class="">状态</div>
                 </th>
-	              <th align="center" abbr="article_time" axis="col6" class="">
-	                <div style="text-align: center; width: 160px;" class=""> 操作</div>
+	              <th align="center" abbr="article_time" axis="col6" class="" width="10%">
+	                <div style="text-align: center;" class=""> 操作</div>
 	              </th>
 	            </tr>
               
@@ -103,11 +103,19 @@
                 <td>{$v['id']}</td>
                 <td>{$v['nickname']}</td>
                 <td>账号</td>
-                <td>{$v['title']}</td>
-                <td>{$v['describe']}</td>
+                <td>
+                  <div style="height: 30px;width: 120px; overflow:hidden">{$v['title']}</div>
+                </td>
+                <td>
+                  <div style="height: 30px;width: 150px; overflow:hidden">
+                    {$v['describe']}
+                  </div>
+                </td>
                 <td>
                   <div>
+                    <a href="">
                      <video src="{$v['video_url']}" style="height: 80px; width:80px;" controls="controls"></video>
+                   </a>
                   </div>
                 </td>
                 <td>{$v['video_img']}</td>
@@ -115,7 +123,7 @@
                 <td>{$v['category']}</td>
                 <td>{$v['sort']}</td>
                 <td><?php echo date("Y.m.d ",$v['update_time'])?></td>
-                <td>{$v['status']? '通过':'不通过'}</td>
+                <td>{$v['status']? '通过':'未通过'}</td>
                 <td>审核</td>
               </tr>
             </foreach>

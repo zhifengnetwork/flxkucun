@@ -4,7 +4,9 @@ namespace app\shop\controller;
 class Find extends MobileBase{
     // 跳转到发现页面
     public function find(){
-        return $this -> fetch();
+    	$id = input('video_id');
+    	$videos = Db::table('tp_video')->select();
+        return $this -> fetch('',$videos);
     } 
 
 }
