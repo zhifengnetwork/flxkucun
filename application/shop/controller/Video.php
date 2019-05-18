@@ -43,10 +43,13 @@ class Video extends MobileBase{
     public function addvideo(){
         if(request()->isPost()){
             $user_id = session('user.user_id');
+
             $this->assign('user_id', $user_id);
+            $nickname = Db::table('tp_users')->where('user_id',$user_id)->value('nickname');
             $file = request()->file('video');
             $title = input('title');
             $describe = input('describe');
+            $category = input('category');
             $time = time();
             if(!empty($user_id)){
 
@@ -73,13 +76,16 @@ class Video extends MobileBase{
                 'describe' => $describe,
                 'video_url' => $video,
                 'update_time' => $time,
+                'category' =>$category,
+                'nickname' =>$nickname
             ];
 
            $result = Db::name('video')->insert($data);
            if($result){
+             //$this->ajaxReturn(['status'=>1,'msg'=>'操作成功']);
              $this->success('视频上传成功',url("/shop/video/video_list"));
            }else{
-            $this->erro('视频上传视频，请重试');
+            $this->erro('视频上传失败，请重试');
            }
         };
        
@@ -137,47 +143,22 @@ class Video extends MobileBase{
 
         $video = M("video");
         $info = $video->where(['id'=>$id])->find();
-        $olde_path = Db::table('tp_video')->where(['id'=>$id])->value('video_url'); 
        if(request()->isPost()){ 
-            $file = request()->file('video');
             $title = input('title');
             $describe = input('describe');
             $time = time();
             $data = [
-                'video_url' => $file,
                 'title' => $title,
                 'describe' => $describe,
                 'update_time' => $time,
             ];
-
-            $data2 = [
-                'title' => $title,
-                'describe' => $describe,
-                'update_time' => $time,
-            ];
-
-            if(!empty($file)){
-                
-                $file = $this->upload();
-                if($file){
-                    
-                   $result = $video->where(['id'=>$id])->save($data);
-                   if($result){
-                        $this->success('修改成功',url("/shop/video/video_list"));
-                       
-                        // @unlink('.'.$olde_path);
-                   }else{
-                     $this->error('修改失败，请重试!');
-                   }
-                }  
+            $result = $video->where(['id'=>$id])->save($data);
+            if($result){
+                 $this->success('修改成功',url("/shop/video/video_list"));
             }else{
-                $result = $video->where(['id'=>$id])->save($data2);
-                if($result){
-                     $this->success('修改成功',url("/shop/video/video_list"));
-                }else{
-                  $this->error('修改失败，请重试!');
-                }
+              $this->error('修改失败，请重试!');
             }
+            
             
         };
         $this->assign('info', $info);

@@ -151,4 +151,6 @@ class Video extends Base {
 			$this->ajaxReturn(['status'=>0,'msg'=>'操作失败','result'=>'']);
     	}
     }
+
+
 }

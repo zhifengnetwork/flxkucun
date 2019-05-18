@@ -113,8 +113,8 @@ return array(
 //        )),
 
         array('name' => '视频', 'child' => array(
-            array('name' => '视频列表', 'act' => 'videoList', 'op' => 'Video'),
-            array('name' => '用户专区', 'act' => 'userVideoList', 'op' => 'Video'),
+            array('name' => '商品视频', 'act' => 'videoList', 'op' => 'Video'),
+            array('name' => '用户视频', 'act' => 'video_list', 'op' => 'UserVideo'),
         )),
     )),
 
