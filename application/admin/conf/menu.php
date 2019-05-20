@@ -116,6 +116,9 @@ return array(
             array('name' => '视频列表', 'act' => 'videoList', 'op' => 'Video'),
             array('name' => '用户专区', 'act' => 'userVideoList', 'op' => 'Video'),
         )),
+            array('name' => '仓库', 'child' => array(
+            array('name' => '添加库存列表', 'act' => 'index', 'op' => 'Warehouse'),
+        )),
     )),
 
     /*'marketing' => array('name' => '营销', 'child' => array(

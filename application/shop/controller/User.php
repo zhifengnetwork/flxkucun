@@ -94,6 +94,15 @@ class User extends MobileBase
     }
     // 团队数据
     public function team_data(){
+
+        /******我的上级*****/
+        //直推上级
+        $first_leader = M('users')->where('user_id',$this->user['first_leader'])->find();
+        //平级上级
+        //配货上级
+        /******我的配货下级*****/
+        /******直推下级*****/
+        $this->assign('user_info',$this->user); //用户信息
         return $this->fetch();
     }
     // 邀请代理

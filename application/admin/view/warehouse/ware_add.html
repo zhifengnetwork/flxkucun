@@ -8,8 +8,8 @@
     <div class="fixed-bar">
         <div class="item-title"><a class="back" href="javascript:history.back();" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
             <div class="subject">
-                <h3>团购管理 - 编辑团购</h3>
-                <h5>网站系统抢购活动详情页</h5>
+                <h3>库存管理 - 编辑会员库存</h3>
+                <h5>添加会员库存详情页</h5>
             </div>
         </div>
     </div>
@@ -21,37 +21,18 @@
         <div class="ncap-form-default">
             <dl class="row">
                 <dt class="tit">
-                    <label><em>*</em>团购标题</label>
+                    <label><em>*</em>会员ID</label>
                 </dt>
                 <dd class="opt">
                     <input type="text" name="title" id="title" value="{$info.title}" class="input-txt">
                     <span class="err" id="err_title"></span>
-                    <p class="notic">请填写团购标题</p>
+                    <p class="notic">请填会员ID</p>
                 </dd>
             </dl>
+
             <dl class="row">
                 <dt class="tit">
-                    <label><em>*</em>开始时间</label>
-                </dt>
-                <dd class="opt">
-                    <input type="text" id="start_time" name="start_time" value="{$info.start_time}"  class="input-txt">
-                    <span class="err" id="err_start_time"></span>
-                    <p class="notic">团购开始时间</p>
-                </dd>
-            </dl>
-            <dl class="row">
-                <dt class="tit">
-                    <label><em>*</em>结束时间</label>
-                </dt>
-                <dd class="opt">
-                    <input type="text" id="end_time" name="end_time" value="{$info.end_time}" class="input-txt">
-                    <span class="err" id="err_end_time"></span>
-                    <p class="notic">团购结束时间</p>
-                </dd>
-            </dl>
-            <dl class="row">
-                <dt class="tit">
-                    <label><em>*</em>选择团购商品</label>
+                    <label><em>*</em>选择添加商品库存</label>
                 </dt>
                 <dd class="opt">
                     <input type="text" readonly  id="goods_name" name="goods_name" value="{$info.goods_name}" class="input-txt">
@@ -78,45 +59,15 @@
                     </p>
                 </dd>
             </dl>
+      
             <dl class="row">
                 <dt class="tit">
-                    <label><em>*</em>团购价格</label>
-                </dt>
-                <dd class="opt">
-                    <input type="text" id="price" name="price" value="{$info.price}"  onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" class="input-txt">
-                    <input type="hidden" id="goods_price" name="goods_price" value="{$info.goods_price}">
-                    <span class="err" id="err_price"></span>
-                    <p class="notic">商品团购价格,单位：元</p>
-                </dd>
-            </dl>
-            <dl class="row">
-                <dt class="tit">
-                    <label><em>*</em>参团数量</label>
-                </dt>
-                <dd class="opt">
-                    <input type="text" name="goods_num" id="goods_num" value="{$info.goods_num}" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" class="input-txt">
-                    <span class="err" id="err_goods_num"></span>
-                    <p class="notic">此抢购活动最多允许抢购的商品数量</p>
-                </dd>
-            </dl>
-            <dl class="row">
-                <dt class="tit">
-                    <label><em>*</em>虚拟购买数</label>
-                </dt>
-                <dd class="opt">
-                    <input type="text" id="virtual_num" name="virtual_num" value="{$info.virtual_num}" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')"  class="input-txt">
-                    <span class="err" id="err_virtual_num"></span>
-                    <p class="notic">虚拟已购买参团人数</p>
-                </dd>
-            </dl>
-            <dl class="row">
-                <dt class="tit">
-                    <label>团购介绍</label>
+                    <label>描述</label>
                 </dt>
                 <dd class="opt">
                     <textarea placeholder="请输入活动介绍" name="intro" rows="6" class="tarea">{$info.intro}</textarea>
                     <span class="err" id="err_intro"></span>
-                    <p class="notic">团购描述介绍</p>
+                    <p class="notic">描述介绍</p>
                 </dd>
             </dl>
 
@@ -209,7 +160,6 @@
     }
 
     function call_back(goodsItem){
-        alert(goodsItem);return false;
         $('#goods_id').val(goodsItem.goods_id);
         var html = '';
         if(goodsItem.spec != null){
