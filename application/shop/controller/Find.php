@@ -1,6 +1,7 @@
 <?php
 namespace app\shop\controller;
 
+use think\Db;
 class Find extends MobileBase{
     // 跳转到发现页面
     public function find(){
