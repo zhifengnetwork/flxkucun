@@ -86,47 +86,7 @@
             </div>
         </div>
     </div>
-    
-    
-    <!--领取优惠券&促销活动 start------------------------------------------------------------------------------------>
-    <div class="floor list7 detailsfloo">
-        <div class="myorder p " id="zYHJ-POP">
-            <div class="content30">
-                <a href="javascript:void(0)">
-                    <div class="order">
-                        <div class="fl">
-                            <span class="firde">领券</span>
-                            <span class="deta-coupon"></span>
-                        </div>
-                        <div class="fr">
-                            <i class="Mright"></i>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="myorder p" style="display: none">
-            <div class="content30">
-                <a href="javascript:void(0)">
-                    <div class="order">
-                        <div class="fl">
-                            <span class="firde">促销</span>
-                            <span class="desal-proinfo">
-                                <b><i>换购</i>购买一件可换购更优惠商品</b>
-                                <b><i>组合购</i>加价可购买更优惠的xx商品</b>
-                                <b><i>加价购</i>优惠套餐更加实惠，总体打8折</b>
-                            </span>
-                        </div>
-                        <div class="fr">
-                            <i class="Mright"></i>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-    <!--领取优惠券&促销活动 end ------------------------------------------------------------------------------------------> 
-     
+
     <div class="floor list7 detailsfloo">
         <div class="myorder p">
             <div class="content30">
@@ -454,43 +414,6 @@
 <!--点赞弹窗-e-->
 
 
-<!--促销活动弹窗 start--------------------------------------------------------------------------------->
-<div class="salpro_aready p">
-    <div class="salpro-tit">
-        <b>促销信息</b>
-        <div class="price_or fr"><i class="xxgro"></i></div>
-    </div>
-    <div class="salpro-con">
-        <div class="salpro-list">
-            <span><i>换购</i>购买一件可换购更优惠商品</span>
-            <div class="fr"><i class="Mright"></i></div>
-        </div>
-        <div class="salpro-list">
-            <span><i>组合购</i>加价可购买更优惠的xx商品</span>
-            <div class="fr"><i class="Mright"></i></div>
-        </div>
-        <div class="salpro-list">
-            <span><i>加价购</i>优惠套餐更加实惠，总体打8折</span>
-            <div class="fr"><i class="Mright"></i></div>
-        </div>
-    </div>
-</div>
-<!--促销活动弹窗 end--------------------------------------------------------------------------------->
-
-<!--领取优惠券弹窗 start--------------------------------------------------------------------------------->
-<div class="recive_aready p" id="recive_aready_pop">
-    <div class="salpro-tit">
-        <b>优惠券列表</b>
-        <div class="price_or fr"><i class="xxgro"></i></div>
-    </div>
-    <div class="deta-coucon">
-
-    </div>
-</div>
-<!--领取优惠券弹窗 end--------------------------------------------------------------------------------->
-
-
-
 <!--选择属性的弹窗-s-->
 <form name="buy_goods_form" method="post" id="buy_goods_form">
     <input type="hidden" name="goods_id" value="{$goods.goods_id}"><!-- 商品id -->
@@ -584,16 +507,7 @@
 <div class="mask-filter-div" style="display: none;"></div>
 <script type="text/javascript" src="__STATIC__/js/mobile-location.js"></script>
 <include file="public/wx_share"/>
-<!--优惠卷弹窗打开和关闭-->
-<script type="text/javascript">
-    $(document).on("click","#zYHJ-POP",function  () {
-        $("#recive_aready_pop").show();
-    })
-    $(document).on("click","#recive_aready_pop .xxgro",function  () {
-        $("#recive_aready_pop").hide();
-    })
-    
-</script>
+
 <script type="text/javascript">
     $(function(){
         if(isWeiXin()){
@@ -608,7 +522,6 @@
     //页面加载后执行
     $(document).ready(function () {
         ajax_header_cart();
-        couponList();//领取优惠券
         ajaxComment(commentType, 1);// ajax 加载评价列表
         initSpec();
         sel(); //在已选栏中显示默认选择属性，数量
@@ -723,6 +636,9 @@
                     return;
                 }
             }
+            // else{
+            //     is_superior(goods_id,goods_num);
+            // }
 
             //普通流程
             if (goods_num <= store_count) {
@@ -735,6 +651,7 @@
         //加入购物车
         $(document).on('click', '#join_cart', function () {
 
+            var goods_id = $("input[name='goods_id']").val();
             var store_count = $("input[name='store_count']").attr('value');// 商品原始库存
             var goods_num = parseInt($("input[name='goods_num']").val());
             var is_sign = $('input[name="is_sign"]').attr('value'); //是否签到兑换商品
@@ -749,6 +666,8 @@
                     cart_sign_receive(is_sign,goods_num);
                     return;
                 }
+            }else{
+                is_superior(goods_id,goods_num);
             }
 
             var goods_id = $("input[name='goods_id']").val();
@@ -818,38 +737,38 @@
                 return false;
             }
         }
-        $.ajax({
-            type: 'post',
-            dataType: 'json',
-            data: {goods_id: goods_id, item_id: item_id, goods_num : goods_num},
-            url: "{:U('Shop/Goods/activity')}",
-            success: function (data) {
-                if (data.status == 1) {
-                    $('input[name="goods_prom_type"]').attr('value', data.result.goods.prom_type);//商品活动类型
-                    $('input[name="shop_price"]').attr('value', data.result.goods.shop_price);//商品价格
-                    $('input[name="store_count"]').attr('value', data.result.goods.store_count);//商品库存
-                    $('input[name="market_price"]').attr('value', data.result.goods.market_price);//商品原价
-                    $('input[name="start_time"]').attr('value', data.result.goods.start_time);//活动开始时间
-                    $('input[name="end_time"]').attr('value', data.result.goods.end_time);//活动结束时间
-                    $('input[name="activity_title"]').attr('value', data.result.goods.activity_title);//活动标题
-                    $('input[name="prom_detail"]').attr('value', data.result.goods.prom_detail);//促销详情
-                    $('input[name="buy_limit"]').attr('value', data.result.goods.buy_limit);//促销详情
-                    $('input[name="activity_is_on"]').attr('value', data.result.goods.activity_is_on);//活动是否正在进行中
-                    $('input[name="prom_id"]').attr('value', data.result.goods.prom_id);//活动Id
-                    $('input[name="deposit_price"]').attr('value', data.result.goods.deposit_price);//订金
-                    $('input[name="balance_price"]').attr('value', data.result.goods.balance_price);//尾款
-                    $('input[name="ing_amount"]').attr('value', data.result.goods.ing_amount);//已预订了多少个
-                    $('#market_price').html(data.result.goods.market_price);
-                    if(data.result.goods.is_virtual){
-                        $('.buy_limit').show();
-                    }else{
-                        $('.buy_limit').hide();
-                    }
+        // $.ajax({
+        //     type: 'post',
+        //     dataType: 'json',
+        //     data: {goods_id: goods_id, item_id: item_id, goods_num : goods_num},
+        //     url: "{:U('Shop/Goods/activity')}",
+        //     success: function (data) {
+        //         if (data.status == 1) {
+        //             $('input[name="goods_prom_type"]').attr('value', data.result.goods.prom_type);//商品活动类型
+        //             $('input[name="shop_price"]').attr('value', data.result.goods.shop_price);//商品价格
+        //             $('input[name="store_count"]').attr('value', data.result.goods.store_count);//商品库存
+        //             $('input[name="market_price"]').attr('value', data.result.goods.market_price);//商品原价
+        //             $('input[name="start_time"]').attr('value', data.result.goods.start_time);//活动开始时间
+        //             $('input[name="end_time"]').attr('value', data.result.goods.end_time);//活动结束时间
+        //             $('input[name="activity_title"]').attr('value', data.result.goods.activity_title);//活动标题
+        //             $('input[name="prom_detail"]').attr('value', data.result.goods.prom_detail);//促销详情
+        //             $('input[name="buy_limit"]').attr('value', data.result.goods.buy_limit);//促销详情
+        //             $('input[name="activity_is_on"]').attr('value', data.result.goods.activity_is_on);//活动是否正在进行中
+        //             $('input[name="prom_id"]').attr('value', data.result.goods.prom_id);//活动Id
+        //             $('input[name="deposit_price"]').attr('value', data.result.goods.deposit_price);//订金
+        //             $('input[name="balance_price"]').attr('value', data.result.goods.balance_price);//尾款
+        //             $('input[name="ing_amount"]').attr('value', data.result.goods.ing_amount);//已预订了多少个
+        //             $('#market_price').html(data.result.goods.market_price);
+        //             if(data.result.goods.is_virtual){
+        //                 $('.buy_limit').show();
+        //             }else{
+        //                 $('.buy_limit').hide();
+        //             }
                     goods_activity_theme();
                     buy_button();
-                }
-            }
-        });
+        //         }
+        //     }
+        // });
     }
     
     //验证是否可以免费领取
@@ -1464,69 +1383,6 @@ function combinationCurl(goods_id,item,combination_id) {
     location.href = "{:U('Goods/combination_details')}"+url;
     return false;
 }
-
-    //领取优惠券
-    function couponList() {
-        var goods_id = parseInt($("input[name='goods_id']").val());
-        var item_id = $("input[name='item_id']").val();
-        var url = "/index.php?m=Mobile&c=Goods&a=couponList";
-        $.ajax({
-            type: "Post",
-            url: url,
-            data: {goods_id: goods_id, item_id: item_id},
-            dataType: "json",
-            success: function (data) {
-                console.log(data);
-                var html = '';
-                $.each(data.result, function (i, o) {
-                    if(i <=3){
-                        var h = '<em>满'+parseInt(o.condition)+'-'+parseInt(o.money)+'</em>';
-                        $('.deta-coupon').append(h);
-                    }
-                    html += '<div class="deta-coulist"><div class="fl">' +
-                        '        <span>￥<b>'+o.money+'</b></span>' +
-                        '    <em>满'+o.condition+'元可用</em>'
-                    if(o.isget==1){
-                        html +=   '<i>已领取</i>'
-                    }
-                    html +=   '   </div><div class="fr"><p>'+o.name+'</p>' +
-                        '        <span><i>'+o.use_start_time+'-'+o.use_end_time+'</i>'
-                    if(o.isget==1){
-                        html  +='<a href="javascript:void(0)"class="couapply-pro">适用商品</a></span>'
-                    }else{
-                        html  +='<a href="javascript:void(0)" data-coupon-id="'+o.id+'"  onclick="getCoupon(this)">点击领取</a></span>'
-                    }
-                    html  +=   '</div></div>';
-                });
-                $('.deta-coucon').append(html);
-
-            }
-        });
-    }
-
-    // 领取
-    function getCoupon(obj){
-        $.ajax({
-            type: "POST",
-            url: "{:U('Shop/Activity/getCoupon')}",
-            data: {coupon_id: $(obj).data('coupon-id')},
-            dataType: "json",
-            error: function () {
-                layer.alert("服务器繁忙, 请联系管理员!");
-            },
-            success: function (data) {
-                if (data.status == 1) {
-                    layer.open({content: data.msg,skin: 'msg',time: 2});
-                    $(obj).parents('.deta-coulist').find('.fl').append('<i>已领取</i>');
-                    $(obj).addClass('couapply-pro');
-                    $(obj).attr('onclick','');
-                    $(obj).text('适用商品');
-                } else {
-                    layer.open({content: data.msg,skin: 'msg',time: 2});
-                }
-            }
-        });
-    }
 
 </script>
 

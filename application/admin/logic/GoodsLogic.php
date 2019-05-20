@@ -14,6 +14,23 @@ class GoodsLogic extends Model
 {
 
     /**
+     * 获取所有一级分类列表
+     * @param
+     * @return mixed
+     */
+    function getSortCategoryList()
+    {
+        $categoryList = S('categoryList');
+        if($categoryList)
+        {
+            return $categoryList;
+        }
+        $categoryList =  M("GoodsCategory")->cache(true)->getField('id,name,parent_id,image');
+
+        S('categoryList',$categoryList);
+        return $categoryList;
+    }
+    /**
      * 获得指定分类下的子分类的数组     
      * @access  public
      * @param   int     $cat_id     分类的ID

@@ -46,6 +46,7 @@
 						<th align="center" abbr="article_show" axis="col5" class="">
 							<div style="text-align: center; width: 150px;" class="">条件</div>
 						</th>
+						<!--
 						<th align="center" abbr="article_time" axis="col6" class="">
 							<div style="text-align: center; width: 60px;" class="">返利</div>
 						</th>
@@ -54,9 +55,12 @@
 						</th>
 						<th align="center" abbr="article_time" axis="col6" class="">
 							<div style="text-align: center; width: 150px;" class="">是否获得津贴(平级)</div>
-						</th>
+						</th>-->
 						<th align="center" abbr="article_time" axis="col6" class="">
 							<div style="text-align: center; width: 70px;" class="">领取数量</div>
+						</th>
+						<th align="center" abbr="article_time" axis="col6" class="">
+							<div style="text-align: center; width: 60px;" class="">折扣率</div>
 						</th>
 						<th align="center" abbr="article_time" axis="col6" class="">
 							<div style="text-align: center; width: 100px;" class="">等级描述</div>
@@ -100,16 +104,17 @@
 							<td align="center" class="">
 								<div style="text-align: center; width: 150px;">
 									<if condition="$vo['type'] eq 201">
-										直推{$vo.con_name}人
+										补货{$vo.replenish}(元)
 									<elseif condition="$vo['type'] eq 301"/>
-										分享购物金额{$vo.con_name}元
+										补货{$vo.replenish}(元)
 									<elseif condition="$vo['type'] eq 101">
-										购买任意商品
+										首次进货{$vo.stock}(元)
 									<elseif condition="$vo['type'] eq 401">
-										申请
+										补货{$vo.replenish}(元)
 									</if>
 								</div>
 							</td>
+							<!--
 							<td align="center" class="">
 								<div style="text-align: center; width: 60px;">{$vo.rate}%</div>
 							</td>
@@ -124,9 +129,12 @@
 									  <span class="no" onClick="changeTableVal('user_level','id','{$vo.id}','is_benefit',this)" ><i class="fa fa-ban"></i>否</span>
 									</if>
 								</div>
-							</td>
+							</td>-->
 							<td align="center" class="">
 								<div style="text-align: center; width: 70px;">{$vo.get}</div>
+							</td>
+							<td align="center" class="">
+								<div style="text-align: center; width: 60px;">{$vo.discount}%</div>
 							</td>
 							<td align="center" class="">
 								<div style="text-align: center; width: 100px;">{$vo.describe}</div>

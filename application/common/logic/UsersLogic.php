@@ -538,7 +538,8 @@ class UsersLogic extends Model
             
          return ['status' => 1, 'msg' => '获取成功', 'result' => $user];
      }
-     
+
+
     /*
      * 获取最近一笔订单
      */
@@ -1533,4 +1534,5 @@ class UsersLogic extends Model
         $info = M('user_extend')->field($field)->where($map)->find();
         return !empty($info) ? $info : '';
     }
+
 }

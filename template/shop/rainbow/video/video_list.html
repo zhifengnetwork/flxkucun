@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的视频</title>
+    <script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="__STATIC__/css/public_lb/public.css" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/video/myvideos.css"/>
+</head>
+<body>
+    <div class="wrapper">
+    	<!--public head-->
+	        <div class="lb_headWrap topBox_backgroundColor">
+	            <p class="lb_headWrap_return" data-num="1" onclick="returnFun()">
+	                <img class="lb_headWrap_return_img" src="__STATIC__/images/public_lb/returnImg666_lb.png"/>
+	            </p>
+	            <span><a style="text-decoration:none; color:#000; " href="/shop/video/addvideo">添加视频</a></span>
+	            <!--选择按钮-->
+	        	<div class="opt_btn" id="edit">选择</div>
+	        </div>
+	        <!--内容-->
+	        <div class="content">
+	        	<form method="post" action="./video_del">
+	        	<foreach name ='video' item='v' >
+	        	<div class="list_wrap">
+	        		<!--点击选择状态框-->
+	        		<input class="check" name='video_id[]' type="checkbox" value="{$v['id']}" />
+	        		
+	        		<div class="img">
+	        			<img src="__STATIC__/images/video/001v.png" />
+	        		</div>
+	        		
+	        		<div class="ziti">
+	        			<p>{$v['title']}</p>
+	        			<div><?php echo date("Y-m-d ",$v['update_time']) ?></div>
+	        		</div>
+	        		<div class="{$v['status']?'not pass':'not'}">{$v['status']? '通过':'不通过'}</div>
+	        	</div>
+	        	</foreach>
+	     			        	
+	        	<div class="goods_btn" id="btn" >
+	        		<input class="btn_inp" type="submit"  value="删除"  name="">
+	        	</div>
+	        	</form>
+	        </div>
+	        
+	        
+    </div>
+    
+    <script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
+	<script src="__STATIC__/js/public/public_lb.js"></script>
+	<script>	
+        
+        var statu = 0;
+        var edit = document.getElementById('edit');
+        var check = document.getElementsByClassName('check');
+        var Btn = document.getElementById('btn');
+        
+        //点击选择和完成
+        edit.onclick = function() {
+            if(statu == 0){
+                edit.innerHTML= '完成';
+                statu = 1;
+                for(var i=0;i<check.length;i++) {
+                	check[i].style.display = 'block';
+
+                }
+                Btn.style.display = 'block';
+            } else {
+                edit.innerHTML= '选择';
+                statu = 0;
+                for(var i=0;i<check.length;i++) {
+                	check[i].style.display = 'none';
+                	//del_id[i].value ='';
+                }
+                Btn.style.display = 'none';
+            }
+            return false;
+        }
+        
+//      $(".check").change(function() {
+//      	//当所有input中有一个被选择时删除按钮出现
+//	    	if(this.checked == true) {
+//	    		$(".goods_btn").show();
+//	    			//当input被选择时的长度为0时删除按钮隐藏
+//	    	} else if($("[name = 'sendEmailBtn']:checkbox:checked").length == 0) {
+//	    		$(".goods_btn").hide();
+//	    		return;
+//	    	}
+//	    })
+	</script>
+</body>
+</html>

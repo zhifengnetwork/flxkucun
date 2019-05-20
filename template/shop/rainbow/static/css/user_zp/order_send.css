@@ -1,0 +1,140 @@
+.wrapper {
+    padding-top: .88rem;
+}
+img {
+	display: block;
+	max-width: 100%;
+	margin: 0 auto;
+}
+
+.content .list_wrap .check,.img,.ziti {
+	display: inline-block;
+	vertical-align: top;
+}
+.list_wrap {
+	padding: .22rem 0;
+	margin: .2rem .24rem;
+	border: 1px solid #dadada;
+}
+.content .list_wrap input{
+	margin: .62rem 0 0 .17rem;
+	width: .36rem;
+    height: .36rem;
+    -webkit-appearance:none;
+    border: 1px solid #7a7a7a;
+	border-radius: 50%;
+}
+input:checked:after{
+	margin: .08rem 0 0 .07rem;
+    width: .18rem;
+    height: .15rem;
+    content: '';
+    background: url(../../images/video/checkbox.png) center center no-repeat;
+    background-size: cover;
+    display: block;
+}
+
+.img {
+	margin: .1rem .2rem 0 .15rem;
+	width: 1.41rem;
+	height: 1.41rem;
+}
+.ziti {
+	width: 63%;
+	font-size: .2rem;
+}
+
+.explain {
+	color: #151515;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.idnum {
+	color: #151515;
+	line-height: .35rem;
+}
+.nu {
+	margin-right: .1rem;
+}
+
+.order div {
+	float: left;
+	font-size: .18rem;
+	color: #505050;
+	line-height: .45rem;
+}
+.order .stock,.hue {
+	margin-right: .1rem;
+}
+
+.btn_wrap {
+	margin: 3rem 0 0;
+}
+.btn_wrap a {
+	display: inline-block;
+	width: 3.4rem;
+	height: .6rem;
+	border-radius: 6px;
+	font-size: .3rem;
+	letter-spacing: 2px;
+	color: #fff;
+	text-align: center;
+	line-height: .6rem;
+}
+.make_btn {
+	margin: 0 .15rem 0 .24rem;
+	background: #f7062e;
+}
+.call_btn {
+	background: #77797b;
+}
+
+.popup_wrap {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 26;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.3);
+}
+.up {
+	padding: .7rem 0 0;
+	margin: 5.1rem 0 0 1.25rem;
+	width: 5rem;
+	height: 3rem;
+	background-color: #fff;
+	border-radius: 10px;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+.pop {
+	margin: 0 0 0 .6rem;
+	font-size: .3rem;
+	color: #3d3d3d;
+}
+
+.btn_app {
+	margin: .5rem 0 0;
+}
+.btn_app a {
+	display: inline-block;
+	width: 1.5rem;
+	height: .5rem;
+	border-radius: 6px;
+	font-size: .3rem;
+	color: #fff;
+	text-align: center;
+	line-height: .5rem;
+}
+.ma_btn {
+	margin: 0 .45rem 0 .72rem;
+	background: #f60b26;
+}
+.ca_btn {
+	background: #5b5c5e;
+}

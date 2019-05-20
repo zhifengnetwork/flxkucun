@@ -6,6 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 		<title>编辑个人资料</title>
 		<link rel="stylesheet" href="__STATIC__/css/lj_personal.css" />
+		<link rel="stylesheet" href="__STATIC__/css/public_lb/public.css" />
 		<script type="text/javascript" src="__STATIC__/js/jquery-1.8.3.min.js"></script>
 		<script type="text/javascript" src="__STATIC__/js/public/rem.js"></script>
 		
@@ -33,9 +34,9 @@
 						<div class="lj_main_d_div">
 							<p>头像</p>
 							<form id="head_pic" method="post" enctype="multipart/form-data">
-								<label class="file" style="cursor:pointer;">
-										<div class="around" id="fileList">
-											<img class="lj_list_r_img1" src="{$user.head_pic}"/>
+								<label class="file">
+									<div class="around" id="fileList">
+										<img class="lj_list_r_img1" src="{$user.head_pic}"/>
 										<input  type="file" accept="image/*" name="head_pic"  onchange="handleFiles(this)" style="display:none">
 									</div>
 								</label>

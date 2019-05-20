@@ -737,7 +737,8 @@ filter:progid:DXImageTransform.Microsoft.gradient(enabled='true', startColorstr=
 .unfold .nav-tabs dl dt span.ico-shop-0 { background-position: -360px 0; }
 .unfold .nav-tabs dl dt span.ico-shop-1 { background-position: -150px 0; }
 .unfold .nav-tabs dl dt span.ico-shop-2 { background-position: -270px -30px; }
-.unfold .nav-tabs dl dt span.ico-shop-3 { background-position: -210px -30px; }
+.unfold .nav-tabs dl dt span.ico-shop-3 { background-position: -510px -30px; }
+/*.unfold .nav-tabs dl dt span.ico-shop-3 { background-position: -210px -30px; }*/
 .unfold .nav-tabs dl dt span.ico-shop-4 { background-position: -240px -30px; }
 .unfold .nav-tabs dl dt span.ico-shop-5 { background-position: -450px 0; }
 .unfold .nav-tabs dl dt span.ico-shop-6 { background-position: -300px -30px; }
@@ -765,7 +766,8 @@ filter:progid:DXImageTransform.Microsoft.gradient(enabled='true', startColorstr=
 .unfold .nav-tabs dl.active dt span.ico-shop-0 { background-position: -360px 0; }
 .unfold .nav-tabs dl.active dt span.ico-shop-1 { background-position: -150px 0; }
 .unfold .nav-tabs dl.active dt span.ico-shop-2 { background-position: -270px -30px; }
-.unfold .nav-tabs dl.active dt span.ico-shop-3 { background-position: -210px 0; }
+.unfold .nav-tabs dl.active dt span.ico-shop-3 { background-position: -510px 0; }
+/*.unfold .nav-tabs dl.active dt span.ico-shop-3 { background-position: -210px 0; }*/
 .unfold .nav-tabs dl.active dt span.ico-shop-4 { background-position: -240px 0; }
 .unfold .nav-tabs dl.active dt span.ico-shop-5 { background-position: -450px 0; }
 .unfold .nav-tabs dl.active dt span.ico-shop-6 { background-position: -300px 0; }
@@ -3274,3 +3276,9 @@ span.err {
 .bgd-opa:hover .bgdopa-list{ display:block;}
 .bgd-opa .bgdopa-list li a:hover{ background-color:#f0f0f0;}
 .bgd-opa:hover .opa-arow{ border-color:transparent transparent #fff transparent!important; margin-top:-6px;}
+
+/*后台视频模块*/
+.gray_button{border-radius: 10%;color: #fff;background: #8e8e8e;padding: 2px 6px;}
+.green_button{border-radius: 10%;color: #fff;background: #08a053;padding: 2px 6px;}
+.red_button{border-radius: 10%;color: #fff;background: #9c1405;padding: 2px 6px;}
+

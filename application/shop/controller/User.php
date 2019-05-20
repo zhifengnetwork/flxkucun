@@ -6,12 +6,14 @@ namespace app\shop\controller;
 use app\common\logic\CartLogic;
 use app\common\logic\Message;
 use app\common\logic\UsersLogic;
+use app\common\logic\UserApply;
 use app\common\logic\DistributLogic;
 use app\common\logic\OrderLogic;
 use app\common\model\MenuCfg;
 use app\common\model\UserAddress;
 use app\common\model\Users as UserModel;
 use app\common\model\UserMessage;
+use app\common\model\UserStock;
 use app\common\util\TpshopException;
 use think\Cache;
 use think\Page;
@@ -71,29 +73,47 @@ class User extends MobileBase
 
     public function index()
     {
-
         $map['user_id'] = $this->user_id;
-        if ($cat_id > 0) $map['a.cat_id'] = $cat_id;
+
         $this->user['visit_count'] = M('goods_visit')->where($map)->count();
         $this->user['collect_count'] = M('goods_collect')->where($map)->count();
 
-        $MenuCfg = new MenuCfg();
-        $menu_list = $MenuCfg->where('is_show', 1)->order('menu_id asc')->select();
-        $this->assign('menu_list', $menu_list);
 
         $level = Db::query('select level_name from tp_users as a,tp_user_level as b where a.level = b.level and a.user_id = '.$this->user_id);
         $this->assign('level',$level);
 
-        //当前登录用户信息
-        $logic = new UsersLogic();
-        $user_info = $logic->get_info($this->user_id); 
-        $order_info['waitPay'] = $user_info['result']['waitPay'];
-        $order_info['waitSend'] = $user_info['result']['waitSend'];
-        $order_info['waitReceive'] = $user_info['result']['waitReceive'];
-        $order_info['uncomment_count'] = $user_info['result']['uncomment_count'];
-        // dump($order_info);exit;
-        $this->assign('order_info', $order_info);
+        $leader = get_uper_users($this->user['first_leader']);
+        $this->assign('leader',$leader);
+        
+        return $this->fetch();
+    }
 
+    // 仓库管理
+    public function store_manage(){
+        return $this->fetch();
+    }
+    // 团队数据
+    public function team_data(){
+        return $this->fetch();
+    }
+    // 邀请代理
+    public function vite_agent(){
+        return $this->fetch();
+    }
+    public function invitation_agent(){
+        return $this->fetch();
+    }
+    // 申请等级
+    public function apply_grade(){
+        return $this->fetch();
+    }
+    // 下级订单
+    public function sub_order(){
+        return $this->fetch();
+    }
+ 
+    // 订单发货
+    public function order_send(){
         return $this->fetch();
     }
 
@@ -2054,9 +2074,8 @@ class User extends MobileBase
 
         $logic = new ShareLogic();
         $ticket = $logic->get_ticket($user_id);
-
         
-        if( strlen($ticket) < 3){
+        if(strlen($ticket) < 3){
             $this->error("ticket不能为空");
             exit;
         }
@@ -2152,6 +2171,64 @@ class User extends MobileBase
         return $this->fetch();
     }
 
+    /**
+     * 我的库存
+     */
+    public function userStock()
+    {
+
+        $user = new UserStock();
+        $c = $user->where('user_id', $this->user_id)
+            ->limit(10)
+            ->order('stock', 'asc')
+            ->select();
+        dump($c[0]->goods);exit;
+
+    }
+
+    /**
+     * 申请列表
+     */
+    public function apply_list()
+    {
+        $userApply = new UserApply();
+        $data = $userApply->applyList($data);
+        $this->assign('secondCategoryList',$secondCategoryList);
+    }
+
+    /**
+     * 邀请列表
+     */
+    public function invite_list()
+    {
+        $userApply = new UserApply();
+        $data = $userApply->inviteList($data);
+        $this->assign('secondCategoryList',$secondCategoryList);
+    }
+
+    /**
+     * 申请代理
+     */
+    public function apply_upgrade()
+    {
+
+//        $userLevel = M('UserLevel')->where('level','>',$this->user['level'])->select();
+//        if (IS_POST) {
+            $data['mobile'] = '15975561571';//I('mobile');
+            $data['level'] = '3';//I('level');
+
+            $userApply = new UserApply();
+            $data = $userApply->applyUpgrade($this->user, $data);
+
+
+            $this->ajaxReturn($data);
+            exit;
+//        }
+//        $this->assign('userLevel', $userLevel);
+//        $this->assign('user', $this->user);
+//        return $this->fetch();
+    }
+
     // public function logout()
     // {
     //     session_unset();
@@ -2164,5 +2241,71 @@ class User extends MobileBase
     //     header("Location:" . U('Mobile/Index/index'));
     //     exit();
     // }
+    // 
+    public function addVideo(){
+        return $this->fetch();
+    }
 
-}
+    //实现视频上传
+    public function upload(){
+        
+       $file = request()->file('video');
+       $data = I('post.');
+      $video_title = $data['video_title'];
+      $video_instro = $data['video_instro'];
+      if($video_title)
+       // halt($video_title);
+    // 移动到框架应用根目录/public/uploads/ 目录下
+        $path = './public/uploads/';
+        if(!is_dir){
+             @mkdir( $path, 0777, true ); //如果目录不存在，则生成
+        }
+        $info = $file->validate(['size'=>1024*1024*6,'ext'=>'avi,mp4,dat,mkv,flv,vob'])->move($path);
+         if($info){
+        // 成功上传后 获取上传后组装文件信息准备插入数据库
+            $video_size = $info->getSize(); //大小
+            $user_id = session('user.user_id'); //用户id
+            $url = $info->getSaveName(); // 文件路径
+            $video_name = $info->getFilename(); //文件名
+            $video_type = $info->getExtension(); //文件格式
+            $up_time = time();
+
+            //halt($up_time);
+            //入库数据
+            $data = [
+                'userid'=>$user_id, 
+                'video_size'=>$video_size,
+                 'url'=>$url,
+                 'video_name' =>$video_name,
+                'video_title' =>$video_title,
+                'video_instro' => $video_instro,
+                'up_time' =>$up_time,
+            ];
+
+            $validate = Loader::validate('VideUpload');
+           $res = $validate->check($data);
+           {}
+            $res = Db::name('shop_video')->insert($data);
+            if($res){
+                echo'上传成功';
+            }
+        }else{
+        // 上传失败获取错误信息
+            echo $file->getError();
+         }
+    }    
+    //实现视频展示
+    //
+   
+    //生成唯一文件名
+    public function uniqidReal($lenght = 13) {
+        $bytes = openssl_random_pseudo_bytes(ceil($lenght / 2));
+        return substr(bin2hex($bytes), 0, $lenght);
+    }
+
+
+
+
+
+
+} ?>

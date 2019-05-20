@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>邀请代理</title>
+        <script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" href="__STATIC__/css/public_lb/public.css" />
+		<link rel="stylesheet" href="__STATIC__/css/user_zp/vite_agent.css?v=111" />
+		
+	</head>
+	<body>
+		<div class="wrapper">
+			<!--public head-->
+	        <div class="lb_headWrap topBox_backgroundColor">
+	            <p class="lb_headWrap_return" data-num="1" onclick="returnFun()">
+	                <img class="lb_headWrap_return_img" src="__STATIC__/images/public_lb/returnImg666_lb.png"/>
+	            </p>
+	            <span>邀请代理</span>
+            </div>
+
+            <!-- 主内容 -->
+            <div class="content">
+                <!-- 证书 -->
+                <div class="certificate">
+                    <img src="__STATIC__/images/user_zp/000certificate-img.png" />
+                </div>
+
+                <div class="row-line">
+					<label>代理级别:</label>
+					<div class="drop-down">
+						<span class="select-level"></span>
+						<ul class="drop-list">
+							<li>一级会员</li>
+							<li>二级会员</li>
+							<li>三级会员</li>
+						</ul>
+					</div>
+				</div>
+				
+				<div class="row-line">
+					<label>邀请ID:</label>
+					<div class="right">
+						<input type="text">
+						<span class="verificationBtn">验证身份</span>
+					</div>
+				</div>
+
+				<div class="agent-info">
+					<div class="avatar">
+						<img src="__STATIC__/images/user_zp/000avatar-03.png" />
+					</div>
+					<div class="phone">15558882230</div>
+				</div>
+
+				<button class="inviteBtn">邀请代理</button>
+
+
+            </div>
+            
+		</div>
+		
+		<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
+        <script src="__STATIC__/js/public/public_lb.js"></script>
+		<script>
+			// 下拉列表
+			$(".select-level").click(function(){
+				$(".drop-list").toggle();
+			})
+
+			// 取值
+			$(".drop-list li").click(function(){
+				var val = $(this).html();
+				$(".select-level").html(val);
+				$(".drop-list").toggle();
+			})
+
+		</script>
+
+	</body>
+</html>

@@ -94,22 +94,27 @@ return array(
             array('name' => '广告列表', 'act' => 'adList', 'op' => 'Ad'),
             array('name' => '广告位置', 'act' => 'positionList', 'op' => 'Ad'),
         )),
-        array('name' => '文章', 'child' => array(
-            array('name' => '文章列表', 'act' => 'articleList', 'op' => 'Article'),
-            array('name' => '文章分类', 'act' => 'categoryList', 'op' => 'Article'),
+//        array('name' => '文章', 'child' => array(
+//            array('name' => '文章列表', 'act' => 'articleList', 'op' => 'Article'),
+//            array('name' => '文章分类', 'act' => 'categoryList', 'op' => 'Article'),
             //array('name' => '帮助管理', 'act'=>'help_list', 'op'=>'Article'),
             // array('name'=>'友情链接','act'=>'linkList','op'=>'Article'),
             // array('name' => '会员协议', 'act'=>'agreement', 'op'=>'Article'),
             //array('name' => '公告管理', 'act'=>'notice_list', 'op'=>'Article'),
             // array('name' => '专题列表', 'act'=>'topicList', 'op'=>'Topic'),
-        )),
-        array('name' => '新闻', 'child' => array(
-            array('name' => '新闻列表', 'act' => 'newsList', 'op' => 'News'),
-            array('name' => '新闻分类', 'act' => 'categoryList', 'op' => 'News'),
-        )),
-        array('name' => '素材', 'child' => array(
-            array('name' => '素材列表', 'act' => 'materialList', 'op' => 'Material'),
-            array('name' => '素材分类', 'act' => 'materialClass', 'op' => 'Material'),
+//        )),
+//        array('name' => '新闻', 'child' => array(
+//            array('name' => '新闻列表', 'act' => 'newsList', 'op' => 'News'),
+//            array('name' => '新闻分类', 'act' => 'categoryList', 'op' => 'News'),
+//        )),
+//        array('name' => '素材', 'child' => array(
+//            array('name' => '素材列表', 'act' => 'materialList', 'op' => 'Material'),
+//            array('name' => '素材分类', 'act' => 'materialClass', 'op' => 'Material'),
+//        )),
+
+        array('name' => '视频', 'child' => array(
+            array('name' => '商品视频', 'act' => 'videoList', 'op' => 'Video'),
+            array('name' => '用户视频', 'act' => 'video_list', 'op' => 'UserVideo'),
         )),
     )),
 
@@ -258,10 +263,10 @@ return array(
         // ))
     )),
 
-    'seller' => array('name' => '商家管理', 'child' => array(
-        array('name' => '商家管理', 'child' => array(
-            array('name' => '商家列表', 'act' => 'seller_list', 'op' => 'SellerManagement'),
+//    'seller' => array('name' => '商家管理', 'child' => array(
+//        array('name' => '商家管理', 'child' => array(
+//            array('name' => '商家列表', 'act' => 'seller_list', 'op' => 'SellerManagement'),
             //array('name' => '商家门店管理', 'act' => 'store_list', 'op' => 'SellerManagement'),
-        ))
-    )),
+//        ))
+//    )),
 );

@@ -1,0 +1,102 @@
+.wrapper {
+    padding-top: .88rem;
+}
+img {
+	display: block;
+	max-width: 100%;
+	margin: 0 auto;
+}
+.lb_headWrap {
+	background: #F2F2F2;
+}
+.opt_btn {
+	position: absolute;
+	top: 0;
+	right: .2rem;
+	color: #2f2f2f;
+}
+.content {
+	padding: .29rem .25rem 0;
+}
+.content .list_wrap {
+	margin-bottom: .2rem;
+	padding: .15rem 0;
+	height: 1.5rem;
+	border: solid 1px #dadada;
+	font-size: 0;
+}
+.content .list_wrap div {
+	float: left;
+}
+
+.content .list_wrap input{
+	display: none;
+	float: left;
+	margin: .47rem 0 0 .17rem;
+	width: .36rem;
+    height: .36rem;
+    -webkit-appearance:none;
+    border: 1px solid #7a7a7a;
+	border-radius: 50%;
+}
+input:checked:after{
+	margin: .1rem 0 0 .07rem;
+    width: .18rem;
+    height: .15rem;
+    content: '';
+    background: url(../../images/video/checkbox.png) center center no-repeat;
+    background-size: cover;
+    display: block;
+}
+
+.content .list_wrap .img {
+	margin: .1rem .15rem 0 .2rem;
+	width: 1.3rem;
+	height: 1.3rem;
+	
+}
+
+.content .list_wrap .ziti {
+	padding: .1rem 0 0;
+	width: 3.19rem;
+}
+.content .list_wrap .ziti p {
+	font-size: .2rem;
+	color: #151515;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.content .list_wrap .ziti div {
+	margin: .25rem 0 0;
+	font-size: .2rem;
+	color: #505050;
+}
+.not{
+	margin: .55rem 0 0 .4rem;
+	font-size: .2rem;
+	color: #22d891;
+}
+
+.content .goods_btn {
+	display: none;
+	
+}
+.btn_inp {
+	margin: 1.5rem 0 0;
+	width: 7.02rem;
+	height: .6rem;
+	background: #e31a49;
+	border-radius: 4px;
+	letter-spacing: 2px;
+	font-size: .3rem;
+	color: #fff;
+	text-align: center;
+	line-height: .6rem;
+}
+.pass {
+	color: #f90029;
+}
+

@@ -3,12 +3,17 @@
 	padding: 0;
 }
 /*字体库*/
-@font-face{
+/* @font-face{
 	font-family: 'PingFangMedium';
 	src:url("/template/mobile/rainbow/static/font/PingFangMedium.ttf");
 }
-body {
-	font-family:"PingFangMedium";
+ */
+ body {
+	/* font-family:"PingFangMedium"; */
+	font-size: .24rem;
+}
+ul{
+	list-style: none;
 }
 /*public 省略号*/
 .publicEllipsis {
@@ -16,12 +21,29 @@ body {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
+a {
+	text-decoration: none;
+	color: #151515;
+}
+a {
+	text-decoration: none;
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+	-webkit-user-select: none;
+	-moz-user-focus: none;
+	-moz-user-select: none;
+}
 /*去除IOS下 => input, select默认样式*/
 input, select {
 	-webkit-appearance:none; 
 	background: none;
 	border: none;
 	outline: none;
+}
+.fl{
+	float: left;
+}
+.fr{
+	float:right;
 }
 /*清除浮动代码 '父元素'*/
 .clearfloat:after{
@@ -90,6 +112,7 @@ input, select {
 	text-align: center;
 	color: #333;
 	letter-spacing: .02rem;
+	background-color: #f2f2f2;
 }
 /*头部 底部线*/
 .lb_headWrap_line {
