@@ -89,10 +89,10 @@
 	                <div style="text-align: center; " class="">上传时间</div>
 	              </th>
                  <th align="center" abbr="article_time" axis="col6" class="" width="15%">
-                  <div style="text-align: center; " class="">状态</div>
+                  <div style="text-align: center; " class="">&nbsp;&nbsp;状态&nbsp;&nbsp;</div>
                 </th>
 	              <th align="center" abbr="article_time" axis="col6" class="" width="10%">
-	                <div style="text-align: center;" class=""> 操作</div>
+	                <div style="text-align: center;" class=""> &nbsp;操作&nbsp;</div>
 	              </th>
 	            </tr>
               
@@ -123,8 +123,15 @@
                 <td>{$v['category']}</td>
                 <td>{$v['sort']}</td>
                 <td><?php echo date("Y.m.d ",$v['update_time'])?></td>
-                <td>{$v['status']? '通过':'未通过'}</td>
-                <td>审核</td>
+                <td>
+                    <if condition="$v['status'] eq 0"><span class="gray_button">待审核</span>
+                        <elseif condition="$v['status'] eq 1" />
+                        <span class="green_button">通过</span>
+                        <else/>
+                        <span class="red_button">失败</span>
+                    </if>
+                </td>
+                <td><i class="fa fa-pencil-square-o"></i>审核</td>
               </tr>
             </foreach>
         </table>
