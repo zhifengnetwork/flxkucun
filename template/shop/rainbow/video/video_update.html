@@ -64,10 +64,12 @@
         		<!--标题输入框-->
         		<div class="inp">
         			<input type="text" name="title" placeholder="输入标题" value="{$info['title']}" />
+					<input type="hidden" name="video_url" value="{$info['video_url']}" />
         			<input type="hidden" name="video_id" value="{$info['id']}" />
         		</div>
         		<!--文本输入框-->
-        		<textarea class="text" name='describe' placeholder="输入您想说的话">{$info['describe']}</textarea>
+        		<textarea class="text" name='content' placeholder="输入您想说的话">{$info['content']}</textarea>
+				<if $info.reason> <div class="state" style="margin-top: 5px;">不通过原因:&nbsp;&nbsp;<span class="text-red">{$info['reason']}</span></div></if>
         		<!--确认按钮-->
         		<!--视频上传中按钮按钮添加class:ack_btn_on-->
         		<div class="btn_wrap">

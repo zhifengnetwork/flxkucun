@@ -24,6 +24,7 @@
 	        <div class="content">
 	        	<form method="post" action="./video_del">
 	        	<foreach name ='video' item='v' >
+			    <a href="{:U('Shop/Video/video_update',array('video_id'=>$v['id']))}">
 	        	<div class="list_wrap">
 	        		<!--点击选择状态框-->
 	        		<input class="check" name='video_id[]' type="checkbox" value="{$v['id']}" />
@@ -45,7 +46,8 @@
 					</if>
 
 	        	</div>
-	        	</foreach>
+				</a>
+				</foreach>
 	        	<div class="goods_btn" id="btn" >
 	        		<input class="btn_inp" type="submit"  value="删除"  name="">
 	        	</div>
