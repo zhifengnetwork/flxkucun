@@ -201,7 +201,7 @@
             $('#submit').attr('disabled', true);
             $.ajax({
                 type: "POST",
-                url: "{:U('UserVideo/updateCheckVideo')}",
+                url: "{:U('VideoUser/updateCheckVideo')}",
                 data: $("#checkVideoForm").serialize(),
                 async:false,
                 dataType: "json",
@@ -212,9 +212,9 @@
                     if (data.status == 1) {
                         layer.msg(data.msg,{icon: 1,time: 2000},function(){
                             if(is_distribut > 0){
-                                location.href = "{:U('UserVideo/video_list')}";
+                                location.href = "{:U('VideoUser/video_list')}";
                             }else{
-                                location.href = "{:U('UserVideo/video_list')}";
+                                location.href = "{:U('VideoUser/video_list')}";
                             }
                         });
                     } else {
