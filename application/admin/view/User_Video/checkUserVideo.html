@@ -1,0 +1,234 @@
+<include file="public/layout" />
+<!--物流配置 css -start-->
+<script src="__ROOT__/public/static/js/layer/laydate/laydate.js"></script>
+<style>
+    ul.group-list {
+        width: 96%;min-width: 1000px; margin: auto 5px;list-style: disc outside none;
+    }
+    .err{color:#F00; display:none;}
+    ul.group-list li {
+        white-space: nowrap;float: left;
+        width: 150px; height: 25px;
+        padding: 3px 5px;list-style-type: none;
+        list-style-position: outside;border: 0px;margin: 0px;
+    }
+    .row .table-bordered td .btn,.row .table-bordered td img{
+        vertical-align: middle;
+    }
+    .row .table-bordered td{
+      padding: 8px;
+      line-height: 1.42857143;
+    }
+    .table-bordered{
+      width: 100%
+    }
+    .table-bordered tr td{
+      border: 1px solid #f4f4f4;
+    }
+    .btn-success {
+        color: #fff;background-color: #449d44;border-color: #398439 solid 1px;
+    }
+    .btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.col-xs-8 {
+    width: 66%;
+}
+.col-xs-4 {
+    width: 33%;
+}
+.col-xs-4, .col-xs-8 {
+    float: left;
+}
+.row .tab-pane h4{
+  padding: 10px 0;
+}
+.row .tab-pane h4 input{
+  vertical-align: middle;
+} 
+.table-striped>tbody>tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+.ncap-form-default .title{
+  border-bottom: 0
+}
+.ncap-form-default dl.row, .ncap-form-all dd.opt{
+    /*border-color: #F0F0F0;*/
+    border: none;
+}
+.ncap-form-default dl.row:hover, .ncap-form-all dd.opt:hover{
+    border: none;box-shadow: inherit;
+}
+.addprine{display: inline; }
+.alisth{margin-top: 10px}
+.p_plus strong{cursor: pointer;margin-left: 4px;}
+.freight_template {
+    font-size: 14px;
+    display: inline-block;
+    padding: 0px 10px;
+}
+    .err{color:#F00; display:none;}
+</style>
+<!--物流配置 css -end-->
+<!--以下是在线编辑器 代码 -->
+<load href="__ROOT__/public/plugins/Ueditor/ueditor.config.js"/>
+<load href="__ROOT__/public/plugins/Ueditor/ueditor.all.min.js"/>
+<script type="text/javascript" charset="utf-8" src="__ROOT__/public/plugins/Ueditor/lang/zh-cn/zh-cn.js"></script>
+<!--以上是在线编辑器 代码  end-->
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title">
+            <div class="subject">
+                <h3>用户专区视频管理</h3>
+                <h5>用户视频审核</h5>
+            </div>
+        </div>
+    </div>
+    <!--表单数据-->
+    <form method="post" id="checkVideoForm">
+        <!--通用信息-->
+        <div class="ncap-form-default tab_div_1">
+            <dl class="row">
+                <dt class="tit">
+                    <label>标题</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" value="{$userVideoInfo.title}" readonly="readonly" class="input-txt"/>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label>视频描述</label>
+                </dt>
+                <dd class="opt">
+                  <textarea cols="88" style="height: 105px;width: 280px;overflow: hidden;" readonly="readonly">{$userVideoInfo.describe}</textarea>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label>视频</label>
+                </dt>
+                <dd class="opt">
+                    <video src="{$userVideoInfo.video_url}" width="330" height="180" controls="controls">
+                        your browser does not support the video tag
+                    </video>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label>用户昵称</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" value="{$userVideoInfo.nickname}" readonly="readonly" class="input-txt"/>
+                </dd>
+            </dl>
+
+            <dl class="row">
+                <dt class="tit">审核是否通过</dt>
+                <dd class="opt">
+                    <input  type="radio" name="status" value="0" <if condition="$userVideoInfo['status'] eq 0">checked="checked"</if> ><label for="">待审核</label>
+                    <input  type="radio" name="status" value="1" <if condition="$userVideoInfo['status'] eq 1">checked="checked"</if>><label for="">审核通过</label>
+                    <input  type="radio" name="status" value="2" <if condition="$userVideoInfo['status'] eq 2">checked="checked"</if>><label for="">审核不通过</label>
+                    <span class="err" id="err_is_virtual"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label>不通过原因</label>
+                </dt>
+                <dd class="opt">
+                    <textarea  name="reason" cols="88" style="height: 105px;width: 200px;overflow: hidden;" >{$userVideoInfo.reason}</textarea>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">是否推荐</dt>
+                <dd class="opt">
+                    <div class="onoff">
+                        <label for="is_virtual1" class="cb-enable <if condition='$userVideoInfo[is_recommend] eq 1'>selected</if>">是</label>
+                        <label for="is_virtual0" class="cb-disable <if condition='$userVideoInfo[is_recommend] eq 0'>selected</if>">否</label>
+                        <input id="is_virtual1" name="is_recommend" <if condition="$userVideoInfo['is_recommend'] eq 1">checked="checked"</if> value="1" type="radio">
+                        <input id="is_virtual0" name="is_recommend" <if condition="$userVideoInfo['is_recommend'] eq 0">checked="checked"</if> value="0" type="radio">
+                    </div>
+                    <p class="notic">推荐将在首页优先展示</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label>排序</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" value="{$userVideoInfo.sort}" name="sort" class="input-txt"/>
+                </dd>
+            </dl>
+        </div>
+		<div class="ncap-form-default">
+            <div class="bot">
+                <input type="hidden" value="{$userVideoInfo.id}" name="id"   class="input-txt"/>
+                <a href="JavaScript:void(0);" id="submit" class="ncap-btn-big ncap-btn-green">确认提交</a>
+                <span class="err" id="err_goods_id"></span>
+            </div>
+        </div>
+     </form>
+    <!--表单数据-->
+</div>
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+<script>
+    //提交
+    $(function(){
+        $(document).on("click",'#submit',function(){
+            $('#submit').attr('disabled', true);
+            $.ajax({
+                type: "POST",
+                url: "{:U('UserVideo/updateCheckVideo')}",
+                data: $("#checkVideoForm").serialize(),
+                async:false,
+                dataType: "json",
+                error: function () {
+                    layer.alert("服务器繁忙, 请联系管理员!");
+                },
+                success: function (data) {
+                    if (data.status == 1) {
+                        layer.msg(data.msg,{icon: 1,time: 2000},function(){
+                            if(is_distribut > 0){
+                                location.href = "{:U('UserVideo/video_list')}";
+                            }else{
+                                location.href = "{:U('UserVideo/video_list')}";
+                            }
+                        });
+                    } else {
+                        $('#submit').attr('disabled',false);
+                        $.each(data.result, function (index, item) {
+                            $('span.err').show();
+                            $('#err_'+index).text(item);
+                        });
+                        layer.msg(data.msg, {icon: 2,time: 3000});
+                    }
+                }
+            });
+        })
+    })
+</script>
+</body>
+</html>

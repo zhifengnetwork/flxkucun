@@ -32,16 +32,16 @@
                 <h5></h5>
             </div>
             <a href=""><div title="刷新数据" class="pReload"><i class="fa fa-refresh"></i></div></a>
-            <form class="navbar-form form-inline"  method="post" name="search-form2" id="search-form2">
+            <form class="navbar-form form-inline"  method="post" action="{:U('Admin/UserVideo/video_list')}" method="post">
                 <div class="sDiv">
                     <div class="sDiv2">
-                        <input type="text" size="30" name="content" class="qsbox" placeholder="描述...">
+                        <input type="text" size="30" name="content" value="<if $content>{$content}</if>" class="qsbox" placeholder="描述...">
                     </div>
                     <div class="sDiv2">
-                        <input type="text" size="30" name="nickname" class="qsbox" placeholder="搜索用户">
+                        <input type="text" size="30" name="nickname" value="<if $nickname>{$nickname}</if>" class="qsbox" placeholder="搜索用户">
                     </div>
                     <div class="sDiv2">
-                        <input type="button" onClick="ajax_get_table('search-form2',1)"  class="btn" value="搜索">
+                        <input type="submit" class="btn" value="搜索">
                     </div>
                 </div>
             </form>
@@ -61,22 +61,19 @@
                             <div style="text-align: left;width: 80px; " class="">用户昵称</div>
                         </th>
                         <th align="left" abbr="username" axis="col3" class="" >
-                            <div style="text-align: left;width: 80px; " class="">OPENID</div>
+                            <div style="text-align: left;width: 80px; " class="">用户userID</div>
                         </th>
                         <th align="left" abbr="consignee" axis="col3" class="" >
                             <div style="text-align: left;width:80px; " class="">标题</div>
                         </th>
                         <th align="left" abbr="consignee" axis="col3" class="" >
-                            <div style="text-align: left;width: 60px; " class="">视频</div>
+                            <div style="text-align: left;width:180px; " class="">描述</div>
                         </th>
-                        <th align="left" abbr="article_show" axis="col5" class="" >
-                            <div style="text-align: left;width: 80px; " class="">封面</div>
+                        <th align="left" abbr="consignee" axis="col3" class="" >
+                            <div style="text-align: left;width: 60px; " class="">视频</div>
                         </th>
                         <th align="center" abbr="article_time" axis="col6" class="" >
                             <div style="text-align: center;width: 50px;"  class="">显示</div>
-                        </th>
-                        <th align="center" abbr="article_time" axis="col6" class="" >
-                            <div style="text-align: center;width: 80px; " class="">分类</div>
                         </th>
                         <th align="center" abbr="article_time" axis="col6" class="" >
                             <div style="text-align: center;width: 50px; " class="">排序</div>
@@ -104,29 +101,15 @@
                         </div>
                     </a>
                 </div>
-                <div class="fbutton">
-                    <a href="javascript:;" onclick="publicHandleAll('show')">
-                        <div class="add" title="显示">
-                            <span>显示</span>
-                        </div>
-                    </a>
-                </div>
-                <div class="fbutton">
-                    <a href="javascript:;" onclick="publicHandleAll('hide')">
-                        <div class="add" title="隐藏">
-                            <span>隐藏</span>
-                        </div>
-                    </a>
-                </div>
             </div>
             <div style="clear:both"></div>
         </div>
         <div class="bDiv" style="height: auto;">
-            <div id="flexigrid" cellpadding="0" cellspacing="0" border="0">
+            <div id="flexigrid" cellpadding="0" cellspacing="0" border="0" data-url="/index.php/admin/UserVideo/delManyVideo">
                 <table>
                     <tbody>
-                    <foreach name="videos" item="vo" key="k" >
-                        <tr>
+                    <foreach name="videoList" item="vo" key="k" >
+                        <tr data-id="{$vo[id]}">
                             <td class="sign">
                                 <div style="width: 24px;"><i class="ico-check"></i></div>
                             </td>
@@ -137,10 +120,13 @@
                                 <div style="text-align: left; width: 80px;">{$vo['nickname']}</div>
                             </td>
                             <td align="left" class="">
-                                <div style="text-align: left; width: 80px;">账号</div>
+                                <div style="text-align: left; width: 80px;">{$vo['user_id']}</div>
                             </td>
                             <td align="left" class="">
                                 <div style="text-align: left; width: 80px;">{$vo['title']}</div>
+                            </td>
+                            <td align="left" class="">
+                                <div style="text-align: left; width: 180px;">{$vo['content']}</div>
                             </td>
                             <td align="left" class="">
                                 <div style="text-align: left; width: 60px;height: 60px;">
@@ -148,13 +134,13 @@
                                 </div>
                             </td>
                          <td align="left" class="">
-                            <div style="text-align: left; width: 80px;">{$vo['video_img']}</div>
-                         </td>
-                         <td align="left" class="">
-                            <div style="text-align: left; width: 50px;">{$vo['is_on_sale']}</div>
-                        </td>
-                         <td align="left" class="">
-                            <div style="text-align: left; width: 80px;">{$vo['category']}</div>
+                            <div style="text-align: left; width: 50px;">
+                                    <if condition='$vo[is_on_sale] eq 1'>
+                                        <span class="yes" onClick="changeTableVal('video','id','{$vo.id}','is_on_sale',this)" ><i class="fa fa-check-circle"></i>是</span>
+                                        <else />
+                                        <span class="no" onClick="changeTableVal('video','id','{$vo.id}','is_on_sale',this)" ><i class="fa fa-ban"></i>否</span>
+                                    </if>
+                            </div>
                         </td>
                        <td align="left" class="">
                             <div style="text-align: left; width: 50px;">{$vo['sort']}</div>
@@ -171,18 +157,23 @@
                             </if></div>
                      </td>
             <td align="" class="" style="width: 100%;">
-                <div><a href="{:U('Video/info',array('id'=>$v['id']))}" class="btn blue"><i class="fa fa-pencil-square-o"></i>审核</a></div>
+                <div><a href="{:U('UserVideo/checkUserVideo',array('id'=>$vo['id']))}" class="btn blue"><i class="fa fa-pencil-square-o"></i>审核</a>
+                    <a class="btn red" onClick="delfunc(this)" data-url="{:U('UserVideo/delUserVideo')}" data-id="{$vo.id}"><i class="fa fa-trash-o"></i>删除</a>
+                </div>
+
             </td>
             </tr>
             </foreach>
             </tbody>
             </table>
-
+                <!--分页位置--> {$pager}
     </div>
 </div>
 </div>
 </div>
 <script>
+
+
     $(document).ready(function(){
         // 表格行点击选中切换
         $('#flexigrid > table>tbody >tr').click(function(){
@@ -219,6 +210,7 @@
             }
         );
     }
+
 </script>
 </body>
 </html>
