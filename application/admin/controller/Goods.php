@@ -353,6 +353,8 @@ class Goods extends Base {
         $GoodsLogic = new GoodsLogic();
         $Goods = new \app\common\model\Goods();
         $goods_id = input('id');
+        $level = Db::name('user_level')->field('level_name,level')->order('level desc')->select();
+
         if($goods_id){
             $goods = $Goods->where('goods_id', $goods_id)->find();
             if($goods['rebate'])
@@ -366,12 +368,22 @@ class Goods extends Base {
             $this->assign('goods', $goods);
             /* $this->assign('level_cat', $level_cat);
             $this->assign('level_cat2', $level_cat2);
-            $this->assign('brandList', $brandList); */
+            $thise->assign('brandList', $brandList); */
+            $level = Db::name('goods_level_price')
+                ->alias('p')
+                ->join('user_level u','p.level =u.level')
+                ->field('p.*,u.level,u.level_name')
+                ->where('p.goods_id',$goods_id)->select();
         }
+
         $cat_list = Db::name('goods_category')->select(); // 已经改成联动菜单
         $goodsType = Db::name("GoodsType")->select();
         $suppliersList = Db::name("suppliers")->where(['is_check'=>1])->select();
         $freight_template = Db::name('freight_template')->where('')->select();
+        $level_price = Db::name('goods_level_price')->where('goods_id',$goods_id)->select();
+
+        $this->assign('level',$level);
+        $this->assign('level_price',$level_price);
         $this->assign('freight_template',$freight_template);
         $this->assign('suppliersList', $suppliersList);
         $this->assign('cat_list', $cat_list);
@@ -384,29 +396,18 @@ class Goods extends Base {
         $data = input('post.');
         $spec_item = input('item/a');
         $validate = Loader::validate('Goods');// 数据验证
-        if(!empty($data['rebate']))
-        {
-            foreach($data['rebate'] as $k=>$v)
-            {
-                 if($v>=100)
-                 {
-                    $this->ajaxReturn(['status'=>0, 'msg' => '返利比例不能大于100','result'=>'']);
-                    exit;
-                 }
-                 
-            }
-            $data['rebate'] = serialize($data['rebate']);
-            $cart_update_data['rebate'] =$data['rebate'];
-        }
         if (!$validate->batch()->check($data)) {
             $error = $validate->getError();
             $error_msg = array_values($error);
             $return_arr = ['status' => 0, 'msg' => $error_msg[0], 'result' => $error];
             $this->ajaxReturn($return_arr);
         }
+
         if ($data['goods_id'] > 0) {
+
             $goods = \app\common\model\Goods::get($data['goods_id']);
             $store_count_change_num = $data['store_count'] - $goods['store_count'];//库存变化量
+
             $cart_update_data = ['market_price'=>$data['market_price'],'goods_price'=>$data['shop_price'],'member_goods_price'=>$data['shop_price']];
             db('cart')->where(['goods_id'=>$data['goods_id'],'spec_key'=>''])->save($cart_update_data);
             //编辑商品的时候需清楚缓存避免图片失效问题
@@ -422,6 +423,23 @@ class Goods extends Base {
         if(empty($spec_item)){
             update_stock_log(session('admin_id'), $store_count_change_num, ['goods_id' => $goods['goods_id'], 'goods_name' => $goods['goods_name']]);//库存日志
         }
+
+        //等级价格
+        if($data['goods_id'] > 0){
+            foreach ($data['level_price_id'] as $k=>$v){
+                $level_goods_data[$k]['id'] = $v;
+            }
+        }
+
+        foreach ($data['shop_price'] as $k=>$v){
+            $level_goods_data[$k]['level'] = $k;
+            $level_goods_data[$k]['price'] = $v;
+            $level_goods_data[$k]['goods_id'] = $goods['goods_id'];
+        }
+
+        model('goodsLevelPrice')->saveAll($level_goods_data);
+
+
         $GoodsLogic = new GoodsLogic();
         $GoodsLogic->afterSave($goods['goods_id']);
         $GoodsLogic->saveGoodsAttr($goods['goods_id'], $goods['goods_type']); // 处理商品 属性
