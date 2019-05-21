@@ -48,7 +48,7 @@ class Video extends MobileBase{
             $nickname = Db::table('tp_users')->where('user_id',$user_id)->value('nickname');
             $file = request()->file('video');
             $title = input('title');
-            $describe = input('describe');
+            $content = input('content');
             $category = input('category');
             $time = time();
             if(!empty($user_id)){
@@ -59,7 +59,7 @@ class Video extends MobileBase{
                 if(empty($title)){
                     $this->error('视频标题不能为空');
                 };
-                if(empty($describe)){
+                if(empty($content)){
                     $this->error('请输入您想说的话');
                 };
             };
@@ -73,7 +73,7 @@ class Video extends MobileBase{
             $data = [
                 'user_id' => $user_id,
                 'title' => $title,
-                'describe' => $describe,
+                'content' => $content,
                 'video_url' => $video,
                 'update_time' => $time,
                 'category' =>$category,

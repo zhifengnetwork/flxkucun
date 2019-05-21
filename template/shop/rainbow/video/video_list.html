@@ -16,9 +16,9 @@
 	            <p class="lb_headWrap_return" data-num="1" onclick="returnFun()">
 	                <img class="lb_headWrap_return_img" src="__STATIC__/images/public_lb/returnImg666_lb.png"/>
 	            </p>
-	            <span><a style="text-decoration:none; color:#000; " href="/shop/video/addvideo">添加视频</a></span>
+	            <span>视频列表</span>
 	            <!--选择按钮-->
-	        	<div class="opt_btn" id="edit">选择</div>
+	        	<div class="opt_btn" ><a href="/shop/video/addvideo" style="text-decoration:none; color:#000; ">添加</a>&nbsp;|&nbsp;<a id="edit">选择</a></div>
 	        </div>
 	        <!--内容-->
 	        <div class="content">
@@ -36,28 +36,29 @@
 	        			<p>{$v['title']}</p>
 	        			<div><?php echo date("Y-m-d ",$v['update_time']) ?></div>
 	        		</div>
-	        		<div class="{$v['status']?'not pass':'not'}">{$v['status']? '通过':'不通过'}</div>
+					<if condition="$v['status'] eq 0">
+						<div class="not wait">待审核</div>
+						<elseif condition="$v['status'] eq 1" />
+						<div class="not">通过</div>
+						<else/>
+						<div class="not pass">不通过</div>
+					</if>
+
 	        	</div>
 	        	</foreach>
-	     			        	
 	        	<div class="goods_btn" id="btn" >
 	        		<input class="btn_inp" type="submit"  value="删除"  name="">
 	        	</div>
 	        	</form>
 	        </div>
-	        
-	        
     </div>
-    
     <script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
 	<script src="__STATIC__/js/public/public_lb.js"></script>
-	<script>	
-        
+	<script>
         var statu = 0;
         var edit = document.getElementById('edit');
         var check = document.getElementsByClassName('check');
         var Btn = document.getElementById('btn');
-        
         //点击选择和完成
         edit.onclick = function() {
             if(statu == 0){
@@ -79,7 +80,6 @@
             }
             return false;
         }
-        
 //      $(".check").change(function() {
 //      	//当所有input中有一个被选择时删除按钮出现
 //	    	if(this.checked == true) {

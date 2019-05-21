@@ -99,4 +99,7 @@ input:checked:after{
 .pass {
 	color: #f90029;
 }
+.wait{
+	color:#7d7c7b;
+}
 
