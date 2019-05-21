@@ -3,7 +3,7 @@ namespace app\admin\controller;
 use think\Page;
 use think\Db;
 
-class UserVideo extends Base {
+class VideoUser extends Base {
 
 
 

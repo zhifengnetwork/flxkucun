@@ -5,9 +5,9 @@ use think\Page;
 use think\AjaxPage;
 use think\Db;
 
-class Video extends Base {
+class VideoGoods extends Base {
 
-    public function videoList(){
+    public function video_list(){
 
         $model = M('video');
 //        $username = I('nickname','','trim');

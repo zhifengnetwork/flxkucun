@@ -32,7 +32,7 @@
                 <h5></h5>
             </div>
             <a href=""><div title="刷新数据" class="pReload"><i class="fa fa-refresh"></i></div></a>
-            <form class="navbar-form form-inline"  method="post" action="{:U('Admin/UserVideo/video_list')}" method="post">
+            <form class="navbar-form form-inline"  method="post" action="{:U('Admin/VideoUser/video_list')}" method="post">
                 <div class="sDiv">
                     <div class="sDiv2">
                         <input type="text" size="30" name="content" value="<if $content>{$content}</if>" class="qsbox" placeholder="描述...">
@@ -105,7 +105,7 @@
             <div style="clear:both"></div>
         </div>
         <div class="bDiv" style="height: auto;">
-            <div id="flexigrid" cellpadding="0" cellspacing="0" border="0" data-url="/index.php/admin/UserVideo/delManyVideo">
+            <div id="flexigrid" cellpadding="0" cellspacing="0" border="0" data-url="/index.php/admin/VideoUser/delManyVideo">
                 <table>
                     <tbody>
                     <foreach name="videoList" item="vo" key="k" >
@@ -157,8 +157,8 @@
                             </if></div>
                      </td>
             <td align="" class="" style="width: 100%;">
-                <div><a href="{:U('UserVideo/checkUserVideo',array('id'=>$vo['id']))}" class="btn blue"><i class="fa fa-pencil-square-o"></i>审核</a>
-                    <a class="btn red" onClick="delfunc(this)" data-url="{:U('UserVideo/delUserVideo')}" data-id="{$vo.id}"><i class="fa fa-trash-o"></i>删除</a>
+                <div><a href="{:U('VideoUser/checkUserVideo',array('id'=>$vo['id']))}" class="btn blue"><i class="fa fa-pencil-square-o"></i>审核</a>
+                    <a class="btn red" onClick="delfunc(this)" data-url="{:U('VideoUser/delUserVideo')}" data-id="{$vo.id}"><i class="fa fa-trash-o"></i>删除</a>
                 </div>
 
             </td>
