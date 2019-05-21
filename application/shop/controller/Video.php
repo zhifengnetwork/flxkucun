@@ -48,7 +48,7 @@ class Video extends MobileBase{
             $nickname = Db::table('tp_users')->where('user_id',$user_id)->value('nickname');
             $file = request()->file('video');
             $title = input('title');
-            $describe = input('describe');
+            $content = input('content');
             $category = input('category');
             $time = time();
             if(!empty($user_id)){
@@ -59,7 +59,7 @@ class Video extends MobileBase{
                 if(empty($title)){
                     $this->error('视频标题不能为空');
                 };
-                if(empty($describe)){
+                if(empty($content)){
                     $this->error('请输入您想说的话');
                 };
             };
@@ -73,7 +73,7 @@ class Video extends MobileBase{
             $data = [
                 'user_id' => $user_id,
                 'title' => $title,
-                'describe' => $describe,
+                'content' => $content,
                 'video_url' => $video,
                 'update_time' => $time,
                 'category' =>$category,
@@ -140,26 +140,37 @@ class Video extends MobileBase{
         if(empty($id)){
             return $this->error('请选择您要更新的视频！');
         };
-
         $video = M("video");
         $info = $video->where(['id'=>$id])->find();
-       if(request()->isPost()){ 
+       if(request()->isPost()){
+            $videoId =  I('post.video_id');
             $title = input('title');
-            $describe = input('describe');
+            $video_url = input('video_url');
+            $content = input('content');
             $time = time();
+            $file = request()->file('video');
+            if(!empty($file)){
+                $video = $this -> upload();
+                $video_path = $video;
+            }else{
+                $video_path = $video_url;
+            };
             $data = [
                 'title' => $title,
-                'describe' => $describe,
+                'content' => $content,
+                'video_url' =>$video_path,
+                'status' => 0,
+                'reason' => null,
                 'update_time' => $time,
             ];
-            $result = $video->where(['id'=>$id])->save($data);
+            $result = M('video')->where(['id'=>$videoId])->update($data);
             if($result){
-                 $this->success('修改成功',url("/shop/video/video_list"));
+                @unlink('.'.$video_url);
+                $this->success('修改成功',url("/shop/video/video_list"));
             }else{
               $this->error('修改失败，请重试!');
             }
-            
-            
+
         };
         $this->assign('info', $info);
         return $this->fetch();

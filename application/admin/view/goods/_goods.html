@@ -193,46 +193,20 @@
                     <span class="err" id="err_sku"></span>
                 </dd>
             </dl> 
-            <dl class="row">
-                <dt class="tit">
-                    <label>商品品牌</label>
-                </dt>
-                <dd class="opt">
-                    <select name="brand_id" id="brand_id" class="small form-control">
-                        <option value="">所有品牌</option>
-                        <foreach name="brandList" item="v" key="k">
-                            <option value="{$v['id']}" <if condition="$v['id'] eq $goods['brand_id'] ">selected="selected"</if>>
-                            {$v['name']}
-                            </option>
-                        </foreach>
-                    </select>
-                </dd>
-            </dl>
-            <dl class="row">
-                <dt class="tit">
-                    <label>供应商</label>
-                </dt>
-                <dd class="opt">
-                    <select name="suppliers_id" id="suppliers_id" class="small form-control">
-                        <option value="0">不指定供应商属于本店商品</option>
-                        <foreach name="suppliersList" item="v" key="k">
-                            <option value="{$v['suppliers_id']}" <if condition="$v['suppliers_id'] eq $goods['suppliers_id'] ">selected="selected"</if>>
-                            {$v['suppliers_name']}
-                            </option>
-                        </foreach>
-                    </select>
-                </dd>
-            </dl>
-            <dl class="row">
-                <dt class="tit"><em>*</em>
-                    <label>本店售价</label>
-                </dt>
-                <dd class="opt">
-                    <input type="text" value="{$goods.shop_price}" name="shop_price" class="t_mane"
-                           onKeyUp="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"/>
-                    <span class="err" id="err_shop_price"></span>
-                </dd>
-            </dl>
+
+            <foreach name="level" item="lo" key="k">
+                <dl class="row">
+                    <dt class="tit"><em>*</em>
+                        <label>{$lo.level_name}价</label>
+                    </dt>
+                    <dd class="opt">
+                        <input type="hidden" value="{$lo.id}" name="level_price_id[{$lo.level}]" />
+                        <input type="text" value="{$lo.price}" name="shop_price[{$lo.level}]" class="t_mane"
+                               onKeyUp="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"/>
+                        <span class="err" id="err_shop_price"></span>
+                    </dd>
+                </dl>
+            </foreach>
             <dl class="row">
                 <dt class="tit"><em>*</em>
                     <label>市场价</label>
@@ -243,37 +217,28 @@
                     <span class="err" id="err_market_price"></span>
                 </dd>
             </dl>
-            <dl class="row">
-                <dt class="tit">
-                    <label>成本价</label>
-                </dt>
-                <dd class="opt">
-                    <input type="text" value="{$goods.cost_price}" name="cost_price" class="t_mane"
-                           onKeyUp="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"/>
-                    <span class="err" id="err_cost_price"></span>
-                </dd>
-            </dl>
-             <dl class="row">
-                <dt class="tit">
-                    <label>返利</label>
-                </dt>
-                <dd class="opt">
-                    vip返利<input type="text" value="{$goods['rebate'][2]}" name="rebate[2]" class="t_mane"
-                           onKeyUp="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"/>
-                    <span class="err" id="err_cost_price"></span> 
-              
-                    店主返利<input type="text" value="{$goods['rebate'][3]}" name="rebate[3]" class="t_mane"
-                           onKeyUp="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"/> 
-                    <span class="err" id="err_cost_price"></span>
-                    总监返利<input type="text" value="{$goods['rebate'][4]}" name="rebate[4]" class="t_mane"
-                           onKeyUp="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"/> 
-                    <span class="err" id="err_cost_price"></span>
-                    大区返利<input type="text" value="{$goods['rebate'][5]}" name="rebate[5]" class="t_mane"
-                           onKeyUp="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"/> 
-                    <span class="err" id="err_cost_price"></span>
-                    <p class="notic">单位是%</p>
-                </dd>
-            </dl>
+
+             <!--<dl class="row">-->
+                <!--<dt class="tit">-->
+                    <!--<label>返利</label>-->
+                <!--</dt>-->
+                <!--<dd class="opt">-->
+                    <!--vip返利<input type="text" value="{$goods['rebate'][2]}" name="rebate[2]" class="t_mane"-->
+                           <!--onKeyUp="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"/>-->
+                    <!--<span class="err" id="err_cost_price"></span> -->
+              <!---->
+                    <!--店主返利<input type="text" value="{$goods['rebate'][3]}" name="rebate[3]" class="t_mane"-->
+                           <!--onKeyUp="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"/> -->
+                    <!--<span class="err" id="err_cost_price"></span>-->
+                    <!--总监返利<input type="text" value="{$goods['rebate'][4]}" name="rebate[4]" class="t_mane"-->
+                           <!--onKeyUp="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"/> -->
+                    <!--<span class="err" id="err_cost_price"></span>-->
+                    <!--大区返利<input type="text" value="{$goods['rebate'][5]}" name="rebate[5]" class="t_mane"-->
+                           <!--onKeyUp="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"/> -->
+                    <!--<span class="err" id="err_cost_price"></span>-->
+                    <!--<p class="notic">单位是%</p>-->
+                <!--</dd>-->
+            <!--</dl>-->
             <!--<dl class="row">-->
                 <!--<dt class="tit">-->
                     <!--<label>佣金</label>-->
@@ -407,61 +372,6 @@
                     <p class="notic">多个关键词，用空格隔开</p>
                 </dd>
             </dl>
-            <dl class="row">
-                <dt class="tit">
-                    <label>是否为分销商品</label>
-                </dt>
-                <dd class="opt">
-                    <div class="onoff">
-                        <label id="is_distribut_label_1" for="is_distribut1" class="cb-enable <if condition='$goods.is_distribut eq 1'>selected</if>">是</label>
-                        <label id="is_distribut_label_0" for="is_distribut0" class="cb-disable <if condition='$goods.is_distribut eq 0'>selected</if>">否</label>
-                        <input id="is_distribut1" autocomplete="off" class="is_distribut" name="is_distribut" value="1" type="radio" <if condition="$goods[is_distribut] eq 1"> checked="checked"</if>>
-                        <input id="is_distribut0" autocomplete="off" class="is_distribut" name="is_distribut" value="0" type="radio" <if condition="$goods[is_distribut] eq 0"> checked="checked"</if>> -->
-                    </div>
-                    <span class="err" id="err_is_distribut"></span>
-                    <p class="notic"></p>
-                </dd>
-            </dl>
-            <dl class="row">
-                <dt class="tit">
-                    <label>是否为代理商品</label>
-                </dt>
-                <dd class="opt">
-                    <div class="onoff">
-                        <label id="is_agent_label_1" for="is_agent1" class="cb-enable <if condition='$goods.is_agent eq 1'>selected</if>">是</label>
-                        <label id="is_agent_label_0" for="is_agent0" class="cb-disable <if condition='$goods.is_agent eq 0'>selected</if>">否</label>
-                        <input id="is_agent1" autocomplete="off" class="is_agent" name="is_agent" value="1" type="radio" <if condition="$goods[is_agent] eq 1"> checked="checked"</if>>
-                        <input id="is_agent0" autocomplete="off" class="is_agent" name="is_agent" value="0" type="radio" <if condition="$goods[is_agent] eq 0"> checked="checked"</if>> -->
-                    </div>
-                    <span class="err" id="err_is_agent"></span>
-                    <p class="notic"></p>
-                </dd>
-            </dl>
-            <dl class="row">
-                <dt class="tit">
-                    <label>是否为虚拟商品</label>
-                </dt>
-                <dd class="opt">
-                    <if condition="$goods['goods_id'] gt 0">
-                        <if condition="$goods['is_virtual'] eq 1">
-                            <span>是</span>
-                            <input name="is_virtual" value="1" type="hidden" disabled="disabled">
-                        <else/>
-                            <span>否</span>
-                            <input name="is_virtual" value="0" type="hidden" disabled="disabled">
-                        </if>
-                    <else/>
-                    <div class="onoff">
-                        <label for="is_virtual1" class="cb-enable <if condition='$goods.is_virtual eq 1'>selected</if>">是</label>
-                        <label for="is_virtual0" class="cb-disable <if condition='$goods.is_virtual eq 0'>selected</if>">否</label>
-                        <input class="is_virtual" id="is_virtual1" name="is_virtual" value="1" type="radio" <if condition="$goods[is_virtual] eq 1"> checked="checked"</if>>
-                        <input class="is_virtual" id="is_virtual0" name="is_virtual" value="0" type="radio" <if condition="$goods[is_virtual] eq 0"> checked="checked"</if>>
-                    </div>
-                    </if>
-                    <span class="err" id="err_is_virtual"></span>
-                    <p class="notic"></p>
-                </dd>
-            </dl>
 
             <dl class="row">
                 <dt class="tit">
@@ -507,22 +417,6 @@
                     <p class="notic">购买后得10天签到权限</p>
                 </dd>
             </dl> -->
-
-            <dl class="row">
-                    <dt class="tit">
-                        <label>是否参加奖金池</label>
-                    </dt>
-                    <dd class="opt">
-                        <div class="onoff">
-                                <label for="is_bonus1" class="cb-enable <if condition='$goods.is_bonus eq 1'>selected</if>">是</label>
-                                <label for="is_bonus0" class="cb-disable <if condition='$goods.is_bonus eq 0'>selected</if>">否</label>
-                                <input class="is_bonus" id="is_bonus1" name="is_bonus" value="1" type="radio" <if condition="$goods[is_bonus] eq 1"> checked="checked"</if>>
-                                <input class="is_bonus" id="is_bonus0" name="is_bonus" value="0" type="radio" <if condition="$goods[is_bonus] eq 0"> checked="checked"</if>>
-                        </div>
-                        <span class="err" id="err_is_bonus"></span>
-                        <p class="notic"></p>
-                    </dd>
-                </dl>
 
             <!-- <dl class="row">
                 <dt class="tit">
