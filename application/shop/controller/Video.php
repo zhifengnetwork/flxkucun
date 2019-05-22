@@ -27,9 +27,21 @@ class Video extends MobileBase{
     }
 
 
-     // 跳转到视频播放页
+     // 跳转到商品视频播放页
     public function video_play(){
-        $video_id = input('video_id');
+        $goods_id = input('id');
+        $goodsInfo = Db::table('tp_goods')->where('goods_id',$goods_id)->find();
+        $videoImg=explode('.',$goodsInfo['video']);
+        $goodsInfo["video_img"]=$videoImg[0].".jpg";
+        return $this->fetch('',[
+            'goodsInfo'=>$goodsInfo,
+        ]);
+
+    }
+
+    //跳转到用户视频播放页
+    public function user_video_play(){
+        $video_id = input('id');
         $video = Db::table('tp_video')->where('id',$video_id)->find();
         $pople_id = Db::table('tp_video')->where('id',$video_id)->value('user_id');
         $pople = Db::table('tp_users')->where('user_id',$pople_id)->value('nickname');
@@ -37,8 +49,8 @@ class Video extends MobileBase{
             'video'=>$video,
             'pople' =>$pople
         ]);
-
     }
+
     // 添加视频
     public function addvideo(){
         if(request()->isPost()){

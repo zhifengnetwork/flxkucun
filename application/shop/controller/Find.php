@@ -7,7 +7,11 @@ class Find extends MobileBase{
     public function find(){
 
     	//平台商品视频
-        $goodsVideoList = Db::table('tp_goods')->where(['is_on_sale'=>1,'is_video'=>1,'is_recommend'=>1])->field('goods_name,goods_id,original_img')->order("sort DESC")->limit(4)->select();
+        $goodsVideoList = Db::table('tp_goods')->where(['is_on_sale'=>1,'is_video'=>1,'is_recommend'=>1])->field('goods_name,goods_id,original_img,video')->order("sort DESC")->limit(4)->select();
+        foreach ($goodsVideoList as $key => $value){
+                 $videoImg=explode('.',$value['video']);
+                 $goodsVideoList[$key]["original_img"]=$videoImg[0].".jpg";
+        }
         $this->assign('goodsVideo', $goodsVideoList);
 
     	//平台推荐用户视频

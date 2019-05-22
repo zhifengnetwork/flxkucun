@@ -72,7 +72,7 @@
 						<a href="{:U('shop/video/video_play',array('id'=>$v.goods_id))}">
 							<div class="img_wrap">
 								<if $v.original_img >
-									<img src="{$v.original_img}" />
+									<img src="{$v.original_img}" height="246.41" />
 									<else/>
 								    <img src="__STATIC__/images/home_zp/00product-img01.png" />
 								</if>
@@ -96,10 +96,10 @@
 					<ul>
 						<foreach name='userVideo' item='v' >
 						<li class="item">
-							<a href="{:U('shop/video/video_play')}">
+							<a href="{:U('shop/video/user_video_play',array('id'=>$v.id))}">
 								<div class="img_wrap">
 									<if $v.video_img >
-										<img src="{$v.video_img}" />
+										<img src="{$v.video_img}" height="246.41" />
 										<else/>
 										<img src="__STATIC__/images/home_zp/00product-img01.png" />
 									</if>
