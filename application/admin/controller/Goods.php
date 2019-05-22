@@ -835,7 +835,7 @@ class Goods extends Base {
             if($videoInfo['video']){
                 $videoPath=$videoInfo['video'];
             }
-            $data=['video'=> $videoPath];
+            $data=['video'=> $videoPath,'is_video'=>1];
             $res=$Goods->where(['goods_id'=>$videoInfo['goods_id']])->update($data);
             if($res){
                 @unlink($videoInfo['video_url']);
