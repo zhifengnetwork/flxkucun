@@ -824,8 +824,6 @@ class Goods extends Base {
     }
 
     public function  doUploadVideo(){
-
-
         $videoInfo=I('post.','');
         if(!empty($videoInfo['video'])||!empty($videoInfo['video_url'])){
             $Goods = new \app\common\model\Goods();
