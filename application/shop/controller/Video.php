@@ -27,9 +27,21 @@ class Video extends MobileBase{
     }
 
 
-     // 跳转到视频播放页
+     // 跳转到商品视频播放页
     public function video_play(){
-        $video_id = input('video_id');
+        $goods_id = input('id');
+        $goodsInfo = Db::table('tp_goods')->where('goods_id',$goods_id)->find();
+        $videoImg=explode('.',$goodsInfo['video']);
+        $goodsInfo["video_img"]=$videoImg[0].".jpg";
+        return $this->fetch('',[
+            'goodsInfo'=>$goodsInfo,
+        ]);
+
+    }
+
+    //跳转到用户视频播放页
+    public function user_video_play(){
+        $video_id = input('id');
         $video = Db::table('tp_video')->where('id',$video_id)->find();
         $pople_id = Db::table('tp_video')->where('id',$video_id)->value('user_id');
         $pople = Db::table('tp_users')->where('user_id',$pople_id)->value('nickname');
@@ -37,8 +49,8 @@ class Video extends MobileBase{
             'video'=>$video,
             'pople' =>$pople
         ]);
-
     }
+
     // 添加视频
     public function addvideo(){
         if(request()->isPost()){
@@ -65,9 +77,14 @@ class Video extends MobileBase{
             };
             
             $video = $this -> upload();
-
+            $this->setVideoImg($video);
+            $video_img='';
             if($video){     
                $video = $video;
+               $videoImg=explode('.',$video);
+               if(!empty($videoImg)){
+                   $video_img=$videoImg[0].".jpg";
+               }
             };
 
             $data = [
@@ -75,6 +92,7 @@ class Video extends MobileBase{
                 'title' => $title,
                 'content' => $content,
                 'video_url' => $video,
+                'video_img' => $video_img,
                 'update_time' => $time,
                 'category' =>$category,
                 'nickname' =>$nickname
@@ -123,7 +141,8 @@ class Video extends MobileBase{
             $result = Db::table('tp_video')->delete($video_id);
             if($result){
                 foreach ($video_info as $v){
-                    @unlink('.'.$v['video_url']); 
+                    @unlink('.'.$v['video_url']);
+                    @unlink('.'.$v['video_img']);
                 }
                 $this->success('删除成功！');
             }else{
@@ -151,14 +170,21 @@ class Video extends MobileBase{
             $file = request()->file('video');
             if(!empty($file)){
                 $video = $this -> upload();
+                $this->setVideoImg($video);
                 $video_path = $video;
+                $videoImg=explode('.',$video_path);
+                if(!empty($videoImg)){
+                    $video_img=$videoImg[0].".jpg";
+                }
             }else{
                 $video_path = $video_url;
+                $video_img =input('video_img');
             };
             $data = [
                 'title' => $title,
                 'content' => $content,
                 'video_url' =>$video_path,
+                'video_img' =>$video_img,
                 'status' => 0,
                 'reason' => null,
                 'update_time' => $time,
@@ -166,6 +192,7 @@ class Video extends MobileBase{
             $result = M('video')->where(['id'=>$videoId])->update($data);
             if($result){
                 @unlink('.'.$video_url);
+                @unlink('.'.input('video_img'));
                 $this->success('修改成功',url("/shop/video/video_list"));
             }else{
               $this->error('修改失败，请重试!');
@@ -174,6 +201,33 @@ class Video extends MobileBase{
         };
         $this->assign('info', $info);
         return $this->fetch();
+    }
+
+    //截取视频封面
+    public function setVideoImg($file){
+        $pre = dirname(dirname(dirname(__DIR__)));
+        if(IS_WIN) {
+            $ffmpeg = $pre . '/public/plugins/ffmpeg/bin/ffmpeg.exe';
+            if(!file_exists($ffmpeg))	return $ffmpeg.' /no ffmpeg';
+        }else{
+            $ffmpeg = '/monchickey/ffmpeg/bin/ffmpeg';
+
+            if(!file_exists($ffmpeg)){
+                //$ffmpeg = '/usr/bin/ffmpeg';
+                $ffmpeg = 'ffmpeg';
+            }
+        }
+        //if(!file_exists($ffmpeg))	return $ffmpeg.' /no ffmpeg';
+        $arr = explode('.', $file);
+        $jpg = $pre . $arr[0] . '.jpg';
+        $path = $pre . $file;
+        if(file_exists($path)){
+            // exec system
+            exec("$ffmpeg -i $path -ss 2 -vframes 1 $jpg",$re);
+            return $re;
+        }else{
+            return $path.' /no path';
+        }
     }
 
 }

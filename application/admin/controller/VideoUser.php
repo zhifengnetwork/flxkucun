@@ -77,11 +77,13 @@ class VideoUser extends Base {
     public function delUserVideo(){
         $id=I('del_id');
         if($id>0){
-            $videoInfo = M('Video')->where('id',$id)->field('video_url')->find();
+            $videoInfo = M('Video')->where('id',$id)->field('video_url,video_img')->find();
             $res = M('Video')->where('id',$id)->delete();
             if($res){
                 $path=$_SERVER['DOCUMENT_ROOT'].$videoInfo['video_url'];
+                $path_img=$_SERVER['DOCUMENT_ROOT'].$videoInfo['video_img'];
                 @unlink($path);
+                @unlink($path_img);
                 $this->ajaxReturn(['status'=>1,'msg'=>'操作成功']);
             }else{
                 $this->ajaxReturn(['status'=>1,'msg'=>'参数失败']);
@@ -98,13 +100,15 @@ class VideoUser extends Base {
         $ids = I('post.ids','');
         empty($ids) &&  $this->ajaxReturn(['status' => -1,'msg' =>"非法操作！",'data'  =>'']);
         $video_ids = rtrim($ids,",");
-        $videoPath=M('Video')->whereIn('id',$video_ids)->field('video_url')->select();
+        $videoPath=M('Video')->whereIn('id',$video_ids)->field('video_url,video_img')->select();
         $res=M('Video')->whereIn('id',$video_ids)->delete();
         if($res){
             //删除上传的视频
             foreach ($videoPath as $value){
                 $path=$_SERVER['DOCUMENT_ROOT'].$value['video_url'];
+                $path_img=$_SERVER['DOCUMENT_ROOT'].$value['video_img'];
                 @unlink($path);
+                @unlink($path_img);
             }
             $this->ajaxReturn(['status' => 1,'msg' => '操作成功','url'=>U("Admin/UserVideo/video_list")]);
         }else{

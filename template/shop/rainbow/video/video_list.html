@@ -28,9 +28,12 @@
 	        	<div class="list_wrap">
 	        		<!--点击选择状态框-->
 	        		<input class="check" name='video_id[]' type="checkbox" value="{$v['id']}" />
-	        		
 	        		<div class="img">
-	        			<img src="__STATIC__/images/video/001v.png" />
+						<if $v.video_img>
+	        			   <img src="{$v['video_img']}"  width="65" height="65"/>
+							<else/>
+							<img src="__STATIC__/images/video/001v.png" />
+						</if>
 	        		</div>
 	        		
 	        		<div class="ziti">

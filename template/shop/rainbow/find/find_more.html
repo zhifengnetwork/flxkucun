@@ -63,7 +63,6 @@
 		<div class="video_goods">
 			<div class="title">
                 <h3>商品介绍</h3>
-                <a href="{:U('shop/find/find_more')}" class="more"><span>查看更多</span><i></i></a>
 			</div>
 			<div class="video_list">
 				<ul>
@@ -86,44 +85,11 @@
 					</foreach>
 				</ul>
 			</div>
-
-			<!-- 用户专区 -->
-			<div class="video_goods">
-				<div class="heading">
-					<h3>用户专区</h3>
-				</div>
-				<div class="video_list">
-					<ul>
-						<foreach name='userVideo' item='v' >
-						<li class="item">
-							<a href="{:U('shop/video/user_video_play',array('id'=>$v.id))}">
-								<div class="img_wrap">
-									<if $v.video_img >
-										<img src="{$v.video_img}" height="246.41" />
-										<else/>
-										<img src="__STATIC__/images/home_zp/00product-img01.png" />
-									</if>
-									<span class="playBtn_sm">
-										<img src="__STATIC__/images/home_zp/playBtn-sm.png" />
-									</span>
-								</div>
-								<p>{$v.title}</p>
-								<div class="userInfo">
-									<span class="acatav"><img src="{$v.head_pic}"/></span>
-									<span class="name">{$v.nickname}</span>
-								</div>
-							</a>
-						</li>
-						</foreach>
-					</ul>
-				</div>
-			</div>
-
 			<!--底部导航-start-->
 			<include file="public/footer_nav" />
 
 		</div>
-	</div>
+	 </div>
 		<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
 		<script src="__STATIC__/js/swiper.min.js"></script>
 		<script>
@@ -173,5 +139,4 @@
 			})
 		</script>
 </body>
-
 </html>
