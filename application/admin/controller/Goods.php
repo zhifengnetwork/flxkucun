@@ -810,4 +810,41 @@ class Goods extends Base {
         ajaxReturn($html);
     }
 
+    /**
+     * 上传商品视频
+     */
+
+    public function uploadVideo(){
+
+        $goodsId = I('id');
+        $Goods = new \app\common\model\Goods();
+        $goodsInfo=$Goods->where(['goods_id'=>$goodsId])->field('goods_id,goods_name,video')->find();
+        $this->assign('goodsInfo',$goodsInfo);
+        return $this->fetch();
+    }
+
+    public function  doUploadVideo(){
+        $videoInfo=I('post.','');
+        if(!empty($videoInfo['video'])||!empty($videoInfo['video_url'])){
+            $Goods = new \app\common\model\Goods();
+            if($videoInfo['video_url']){
+                $videoPath=$videoInfo['video_url'];
+            }
+            if($videoInfo['video']){
+                $videoPath=$videoInfo['video'];
+            }
+            $data=['video'=> $videoPath,'is_video'=>1];
+            $res=$Goods->where(['goods_id'=>$videoInfo['goods_id']])->update($data);
+            if($res){
+                @unlink($videoInfo['video_url']);
+                $this->ajaxReturn(['status' => 1,'msg' => '操作成功','url'=>U('Admin/Goods/goodsList')]);
+            }else{
+                $this->ajaxReturn(['status' => 1,'msg' => '操作成功','url'=>U('Admin/Goods/goodsList')]);
+            }
+        }else{
+            $this->ajaxReturn(['status' => -1,'msg' =>"视频不存在，请重新上传！",'data'  =>'']);
+        }
+
+    }
+
 }
