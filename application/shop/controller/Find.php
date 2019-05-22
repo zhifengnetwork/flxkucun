@@ -8,11 +8,13 @@ class Find extends MobileBase{
 
     	//平台商品视频
         $goodsVideoList = Db::table('tp_goods')->where(['is_on_sale'=>1,'is_video'=>1,'is_recommend'=>1])->field('goods_name,goods_id,original_img')->order("sort DESC")->limit(4)->select();
-        $this->assign('userVideoList', $goodsVideoList);
+        $this->assign('goodsVideo', $goodsVideoList);
+
     	//平台推荐用户视频
-    	$userVideoList = Db::table('tp_video')->where(['status'=>1,'is_on_sale'=>1,'is_recommend'=>1])->order("sort DESC")->limit(4)->select();
-    	$this->assign('userVideoList',$userVideoList);
+    	$userVideoList = Db::table('tp_video')->where(['status'=>1,'is_on_sale'=>1,'is_recommend'=>1])->field('id,title,nickname,video_img')->order("sort DESC")->limit(4)->select();
+    	$this->assign('userVideo',$userVideoList);
         return $this -> fetch();
-    } 
+    }
+
 
 }
