@@ -92,7 +92,7 @@
 				<div class="heading">
 					<h3>用户专区</h3>
 				</div>
-				<div class="video_list">
+				<div class="video_list" id="video_list">
 					<ul>
 						<foreach name='userVideo' item='v' >
 						<li class="item">
@@ -118,7 +118,10 @@
 					</ul>
 				</div>
 			</div>
-
+			<div style="text-align: center;">
+				<span id="get_more" >商品加载中...</span>
+				<em id="no_more" style="display:none;">商品加载完毕...</em>
+			</div>
 			<!--底部导航-start-->
 			<include file="public/footer_nav" />
 
@@ -126,6 +129,7 @@
 	</div>
 		<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
 		<script src="__STATIC__/js/swiper.min.js"></script>
+	    <script type="text/javascript" src="__STATIC__/js/sourch_submit.js"></script>
 		<script>
 			// 首页轮播图
 			var swiper = new Swiper('.bannerWrap', {
@@ -171,6 +175,30 @@
 				})
 
 			})
+            /**
+             * 继续加载猜您喜欢
+             * */
+            var before_request = 1; // 上一次请求是否已经有返回来, 有才可以进行下一次请求
+            var page = 1;
+            function ajax_sourch_submit() {
+                if(before_request == 0) // 上一次请求没回来 不进行下一次请求
+                    return false;
+                before_request = 0;
+                page++;
+                $.ajax({
+                    type: "get",
+                    url: "/index.php/Shop/Find/ajaxUserVideo/page/" + page,
+                    success: function(data) {
+                        if(data) {
+                            $("#video_list>ul").append(data);
+                            before_request = 1;
+                        } else {
+                            $('#get_more').hide();
+                            $('#no_more').show();
+                        }
+                    }
+                });
+            }
 		</script>
 </body>
 

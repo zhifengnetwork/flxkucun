@@ -214,7 +214,7 @@ class Video extends MobileBase{
 
             if(!file_exists($ffmpeg)){
                 //$ffmpeg = '/usr/bin/ffmpeg';
-                $ffmpeg = 'ffmpeg';
+                 $ffmpeg = 'ffmpeg';
             }
         }
         //if(!file_exists($ffmpeg))	return $ffmpeg.' /no ffmpeg';
