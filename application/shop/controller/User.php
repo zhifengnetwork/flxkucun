@@ -98,11 +98,11 @@ class User extends MobileBase
     }
     // 邀请代理
     public function vite_agent(){
+		$levlist = M('user_level')->field('id,level,level_name')->where(['level'=>['elt',$this->user['level']]])->select();
+		$this->assign('levlist',$levlist);
         return $this->fetch();
     }
-    public function invitation_agent(){
-        return $this->fetch();
-    }
+
     // 申请等级
     public function apply_grade(){
         return $this->fetch();
@@ -2302,6 +2302,16 @@ class User extends MobileBase
         $bytes = openssl_random_pseudo_bytes(ceil($lenght / 2));
         return substr(bin2hex($bytes), 0, $lenght);
     }
+
+	public function ajax_get_userinfo(){
+		$uid = I('get.uid/d',0);
+		$info = M('users')->field('mobile,head_pic')->where(['user_id'=>$uid,'first_leader'=>$this->user_id])->find();
+
+		if($info)
+			$this->ajaxReturn(['status'=>0,'msg'=>'请求成功!','data'=>$info]);
+		else
+			$this->ajaxReturn(['status'=>-1,'msg'=>'未查询到该用户!','data'=>null]);
+	}
 
 
 
