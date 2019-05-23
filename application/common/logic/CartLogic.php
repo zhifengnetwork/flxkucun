@@ -53,7 +53,15 @@ class CartLogic extends Model
         if ($goods_id > 0) {
             $goodsModel = new Goods();
             $this->goods = $goodsModel::get($goods_id);
+            $this->goods['shop_price'] = $this->getGoodsPrices($this->goods['goods_id']);
         }
+    }
+
+    public function getGoodsPrices ($goodsId)
+    {
+        $level_price = M('goods_level_price')->where(['goods_id'=>$goodsId,'level'=>$this->user['level']])->order('level asc')->find();
+
+        return $level_price['price'];
     }
 
     /**
@@ -199,6 +207,7 @@ class CartLogic extends Model
                     $buyGoods['goods_price'] = $buyGoods['member_goods_price'] = $goodsLogic->getGoodsPriceByLadder($this->goodsBuyNum, $buyGoods['goods_price'], $price_ladder);
                 } else if ($this->user_id) {
                     $user = Users::get(['user_id' => $this->user_id]);
+
                     $discount = (empty((float)$user['discount'])) ? 1 : $user['discount'];
                     $buyGoods['goods_price'] = $buyGoods['member_goods_price'] = round($buyGoods['goods_price'] * $discount, 2);
                 }
