@@ -151,7 +151,7 @@ body{
 /* 配货下级 */
 .tab-wrap .tab-content .sub-list{
     background-color: #fff;
-    padding: .0 .24rem;
+    padding: 0 .24rem;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }

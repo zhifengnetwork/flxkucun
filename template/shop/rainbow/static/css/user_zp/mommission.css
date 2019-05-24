@@ -1,0 +1,96 @@
+.lb_headWrap {
+	position: relative;
+}
+.data_wrap {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 30%;
+}
+.arrows {
+	position: absolute;
+	right: .2rem;
+	top: .4rem;
+	width: .16rem;
+	height: .09rem;
+	background: url(../../images/user_zp/T2.png) no-repeat;
+	background-size: 100% 100%;
+}
+
+.title {
+	margin: .3rem .24rem 0 .35rem;
+	width: 7.02rem;
+	font-size: 0;
+}
+.title div {
+	display: inline-block;
+	vertical-align: top;
+	width: 50%;
+	font-size: .26rem;
+	letter-spacing: 2px;
+	color: #151515;
+	text-align: center;
+	line-height: .65rem;
+}
+.top_wrap .title .active {
+	color: #f10909;
+}
+
+.sum_wrap {
+	margin: .24rem .24rem .37rem .24rem;
+	width: 7.02rem;
+	height: 1.4rem;
+	background-color: #dadada;
+	border-radius: 6px;
+	font-size: 0;
+}
+.sum_wrap div {
+	display: inline-block;
+	vertical-align: top;
+	width: 50%;
+	font-size: .3rem;
+	color: #f70d0d;
+	text-align: center;
+	line-height: 1.4rem;
+}
+
+.main {
+	display: none;
+}
+.detail_list h4 {
+	padding-left: .24rem;
+	font-size: .26rem;
+	letter-spacing: 2px;
+	color: #151515;
+}
+
+.item_wrap {
+	margin: .35rem 0 0 .24rem;
+}
+.item {
+	margin-bottom: .25rem;
+}
+.item .img_wrap,.text {
+	display: inline-block;
+	vertical-align: middle;
+}
+.item .img_wrap {
+	margin-right: .2rem;
+	width: 1.5rem;
+	height: 1.5rem;
+}
+.item .img_wrap img {
+	display: block;
+	margin: 0 auto;
+	max-width: 100%;
+}
+.item .text div {
+	line-height: .35rem;
+}
+.item .text div span:nth-child(1) {
+	margin-right: .25rem;
+}
+
+.tab_content .active {
+	display: block;
+}
