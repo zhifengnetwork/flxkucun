@@ -21,25 +21,35 @@
         <!--内容-->
         <div class="content">
 			<input type="hidden" id='level' name='level' />
+			<input type="hidden" id='applyid' name='applyid' value={$applyinfo.id} />
         	<div class="section">
-        		<!---->
+        		<!--
         		<div class="top_wrap">
         			<span class="invite">我受到的邀请</span>
         			<span class="num">{$num}</span>
-        		</div>
+        		</div>-->
         		<!--填写区-->
         		<div class="the_area">
+        			<div class="cont_wrap">
+	        			<div class="left_cont">申请用户:</div>
+	        			<div class="right_ht">
+	        				<div class="com" style='border:0;'>
+								<img src="{$applyinfo.uidinfo.head_pic}" style='width:80px;height:80px;border-radius:50%;' />
+								<br />
+	        					{$applyinfo.uidinfo.mobile} -- {$applyinfo.uidinfo.nickname}
+	        				</div>
+	        			</div>
+        			</div>
+
         			<!--申请等级-->
         			<div class="cont_wrap">
 	        			<div class="left_cont">申请等级:</div>
 	        			<div class="right_cont ht">
-	        				<div class="wrap_com">申请等级</div>
+	        				<div class="wrap_com">{$applyinfo.level_name}</div>
 	        				<!--下拉图标-->
 	        				<div class="icon"></div>
 	        				<ul class="list_wrap">
-	        					<volist name='levlist' id='v'>
-									<li lev_id={$v.level} >{$v.level_name}</li>
-								</volist>
+									<li lev_id={$applyinfo.level} >{$applyinfo.level_name}</li>
 	        				</ul>
 	        			</div>
         			</div>
@@ -48,7 +58,7 @@
 	        			<div class="left_cont">姓名:</div>
 	        			<div class="right_ht">
 	        				<div class="com">
-	        					<input class="inp" type="text" id='name' name='name' />
+	        					<input class="inp" type="text" id='name' name='name' value='{$applyinfo.name}' disabled="true" />
 	        				</div>
 	        			</div>
         			</div>
@@ -57,7 +67,7 @@
 	        			<div class="left_cont">联系电话:</div>
 	        			<div class="right_ht">
 	        				<div class="com">
-	        					<input class="inp" type="text" id='tel' name='tel' />
+	        					<input class="inp" type="text" id='tel' name='tel' value='{$applyinfo.tel}' disabled="true"/>
 	        				</div>
 	        			</div>
         			</div>
@@ -65,11 +75,14 @@
         		<!--申请说明-->
         		<div class="state">
         			<h2>申请说明</h2>
-        			<textarea class="text" placeholder="填写至少5个字" id='msg' name='msg'></textarea>
+        			<textarea class="text" placeholder="填写至少5个字" id='msg' name='msg' disabled="true">{$applyinfo.msg}</textarea>
         		</div>
         		<!--确定申请按钮-->
+				<div class="btn_wrap">
+        			<input class="btn" style='background:#317ef3;' type="button" value="拒绝申请" onclick=refused() />
+        		</div>
         		<div class="btn_wrap">
-        			<input class="btn" type="button" value="确定申请" onclick=checkform() />
+        			<input class="btn" type="button" value="同意申请" onclick=agree() />
         		</div>
         	</div>
         </div>
@@ -77,6 +90,7 @@
     
     <script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
 	<script src="__STATIC__/js/public/public_lb.js"></script>
+	<script src="__PUBLIC__/js/layer/layer-min.js"></script>
 	<script>
 		$(function() {
     		// 下拉列表
@@ -92,53 +106,45 @@
 			})
        	});
 
-		function checkform(){ 
-			var level = $("#level").val();	alert(level); return;
-			var name = $.trim($('#name').val());
-			var tel = $.trim($('#tel').val());
-			var msg = $.trim($('#msg').val());
-
-			if (!level) {
-                layer.open({content: '请选择要申请的级别', time: 2000});
-				return;
-            }
-
-			if (!name) {
-                layer.open({content: '请输入正确的姓名', time: 2000});
-				return;
-            }
-
-			var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
-            if (!myreg.test(tel)) {
-                layer.open({content: '请输入正确的手机号码', time: 2000});
-				return;
-            }
-
-			if (!msg) {
-                layer.open({content: '请输入申请说明', time: 2000});
-				return;
-            }
-
-			if (msg.length > 590) {
-                layer.open({content: '申请说明超出长度限制', time: 2000});
-				return;
-            }
-
+		var applyid = $("#applyid").val();
+		//拒绝
+		function refused(){
 			$.ajax({
-				type : "post",
-				url:"/Shop/apply/submit_apply_for",
+				type : "GET",
+				url:"/Shop/apply/refused/id/"+applyid,
 				dataType:'json',
-				data : {level:level, name:name, tel:tel, msg:msg},// 你的formid
+				//data : $('#'+tab).serialize(),// 你的formid
 				success: function(data){
 					if(data.status != 0){
 						layer.open({content: data.msg, time: 2000});
+						location.href = "{:U('shop/user/index')}";
 						return;
 					}else{
 						layer.open({content: data.msg, time: 2000});
-						window.location.href = '/shop/User/index';
+						location.href = "{:U('shop/user/index')}";
 					}
 				}
-			});
+			});			
+		}
+
+		//同意
+		function agree(){
+			$.ajax({
+				type : "GET",
+				url:"/Shop/apply/agree/id/"+applyid,
+				dataType:'json',
+				//data : $('#'+tab).serialize(),// 你的formid
+				success: function(data){
+					if(data.status != 0){
+						layer.open({content: data.msg, time: 2000});
+						//location.href = "{:U('shop/user/index')}";
+						return;
+					}else{
+						layer.open({content: data.msg, time: 2000});
+						location.href = "{:U('shop/user/index')}";
+					}
+				}
+			});			
 		}
 	</script>
 </body>

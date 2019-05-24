@@ -110,8 +110,9 @@ class UserApply
     public function getLeaderTop($uid,$lev){
         $Users = M('Users');
         $topinfo = $Users->field('level,first_leader')->find($uid);
-        if($topinfo['level'] >= $lev)
-            return $uid;
+		$level = $Users->where(['user_id'=>$topinfo['first_leader']])->value('level');
+        if($level >= $lev)
+            return $topinfo['first_leader'];
         elseif($topinfo['first_leader'] > 0)
             return $this->getLeaderTop($topinfo['first_leader'],$lev);
         else
