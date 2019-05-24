@@ -209,6 +209,7 @@
     }
 
     function call_back(goodsItem){
+        alert(goodsItem);return false;
         $('#goods_id').val(goodsItem.goods_id);
         var html = '';
         if(goodsItem.spec != null){

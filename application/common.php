@@ -1987,3 +1987,101 @@ function provingReceive($user, $type, $num = 1)
 
     return array('status' => 2, 'msg' => '可领取', 'result' => array());
 }
+
+/*库存
+* $user_id 用户id
+* $goods_id 商品id
+* $num 变动数量
+* $type 默认0是进货，1是手动添加
+*/
+     function changekucun($goods_id,$user_id,$num,$type=0,$desc='')
+    {
+         if(($num) == 0)return false;
+
+         //查询库存产品表是否有记录
+         $warehouse_goods = M("warehouse_goods")->where(['goods_id'=>$goods_id,'user_id'=>$user_id])->find();
+            /* 插入用户商品库存记录 */
+            $warehouse_goods_log = array(
+                    'user_id'       => $user_id,
+                    'goods_id'    => $goods_id,
+                    'changenum'    => $num,
+                    'time'   => time(),
+                    'desc'   => $desc,
+                    'type' => $type,
+
+            );
+
+         if($warehouse_goods)
+         {
+            /* 更新用户单个商品库存信息 */
+             $update_data = array(
+                'nums'        => ['exp','nums+'.$num],
+                'change_time'=>time(),
+             );
+            $update = Db::name('warehouse_goods')->where(['goods_id'=>$goods_id,'user_id'=>$user_id])->save($update_data);
+            if($update){
+
+               $log_bool= M('warehouse_goods_log')->add($warehouse_goods_log);
+                //return true;
+            //}else{
+              //  return false;
+            }
+
+         }else
+         {
+             /* 插入用户单个商品库存信息 */
+             $insert_data = array(
+                'user_id'       => $user_id,
+                'goods_id'    => $goods_id,
+                'nums'        => ['exp','nums+'.$num],
+                'time'=>time(),
+                //'desc'=>$desc,
+
+             );
+            $data = Db::name('warehouse_goods')->add($insert_data);
+            if($data){
+               $log_bool= M('warehouse_goods_log')->add($warehouse_goods_log);
+            }
+
+         }
+         //记录总库存
+          $warehouse = M("warehouse")->where(['user_id'=>$user_id])->find();
+          if($warehouse)
+          {
+             /* 更新用户总商品库存信息 */
+             $update_data1 = array(
+                //'user_id'       => $user_id,
+                'totals'        => ['exp','totals+'.$num],
+                'update_time'=>time(),
+
+             );
+             if($type==1){
+                $update_data1['manual_num']=['exp','manual_num+'.$num];//统计手动库存
+             }
+              Db::name('warehouse')->where(['user_id'=>$user_id])->save($update_data1);
+              //echo Db::name('warehouse')->getlastsql();exit;
+          }else
+          {
+            /* 更新用户总商品库存信息 */
+             $insert_data1 = array(
+                'user_id'       => $user_id,
+                'totals'        => ['exp','totals+'.$num],
+                'create_time'=>time(),
+
+             );
+               if($type==1){
+                $insert_data1['manual_num']=['exp','manual_num+'.$num]; //统计手动库存
+             }
+              Db::name('warehouse')->add($insert_data1);
+          }
+
+          if($log_bool)
+          {
+            return ture;
+          }else
+          {
+            return false;
+          }
+        
+
+    }

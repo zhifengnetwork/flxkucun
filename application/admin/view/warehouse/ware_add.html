@@ -1,0 +1,260 @@
+<include file="public/layout" />
+<script src="__ROOT__/public/static/js/layer/laydate/laydate.js"></script>
+<body style="background-color: #FFF; overflow: auto;">
+<div id="toolTipLayer" style="position: absolute; z-index: 9999; display: none; visibility: visible; left: 95px; top: 573px;"></div>
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title"><a class="back" href="javascript:history.back();" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3>库存管理 - 编辑会员库存</h3>
+                <h5>添加会员库存详情页</h5>
+            </div>
+        </div>
+    </div>
+    <form class="form-horizontal" id="handleposition" method="post">
+        <input type="hidden" id="goods_id" name="goods_id" value="{$info.goods_id}">
+        <input type="hidden" id="goods_ids" name="goods_ids" value="0">
+        <input type="hidden" name="id" value="{$info.id}">
+        <input type="hidden" name="act" value="{$act}">
+        <input type="hidden" name="item_id" value="{$info.item_id}">
+        <div class="ncap-form-default">
+             <dl class="row">
+                <dt class="tit">
+                    <label>会员ID</label>
+                </dt>
+                <dd class="opt">
+                    <input class="input-txt valid" id="user_id"  type="text" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
+                    <input name="user_id" value='' type="hidden">
+                    <a href="JavaScript:void(0);" onclick="ajaxUser();" class="ncap-btn-big ncap-btn-green">查询</a>
+                    <p class="notics">请输入ID</p>
+                </dd>
+            </dl>
+
+            <dl class="row">
+                <dt class="tit">
+                    <label><em>*</em>选择添加商品库存</label>
+                </dt>
+                <dd class="opt">
+                    <!--
+                    <input type="text" readonly  id="goods_name" name="goods_name" value="{$info.goods_name}" class="input-txt">-->
+                    <div style="overflow: hidden" id="selected_group_goods">
+                        <if condition="$info['goods_id'] gt 0">
+                            <div style="float: left;margin-right: 10px" class="selected-group-goods">
+                                <div class="goods-thumb"><img style="width: 162px;height: 162px"  <notempty name="info['specGoodsPrice']">src="{$info['specGoodsPrice']['spec_img']}"<else/>src="{$info['goods_id']|goods_thum_images=162,162}"</notempty>/></div>
+                                <div class="goods-name">
+                                    <a target="_blank" href="{:U('Home/Goods/goodsInfo',array('id'=>$info['goods_id']))}">{$info.goods_name}</a>
+                                </div>
+                                <div class="goods-price">
+                                    <notempty name="info['specGoodsPrice']">
+                                        商城价：￥{$info['specGoodsPrice']['price']}库存:{$info['specGoodsPrice']['store_count']}
+                                        <else/>
+                                        商城价：￥{$info['goods']['shop_price']}库存:{$info['goods']['store_count']}
+                                    </notempty>
+                                </div>
+                            </div>
+                        </if>
+                    </div>
+                    <span class="err" id="err_goods_name"></span>
+                    <p class="notic">
+                        <a onclick="selectGoods()" class="ncap-btn"><i class="fa fa-search"></i>选择商品</a>
+                    </p>
+                </dd>
+            </dl>
+      
+            <dl class="row">
+                <dt class="tit">
+                    <label>描述</label>
+                </dt>
+                <dd class="opt">
+                    <textarea placeholder="请输入活动介绍" name="intro" rows="6" class="tarea">{$info.intro}</textarea>
+                    <span class="err" id="err_intro"></span>
+                    <p class="notic">描述介绍</p>
+                </dd>
+            </dl>
+
+            <if condition="$info['is_edit'] eq 0">
+                <div class="bot"><a class="ncap-btn-big" onclick="verifyForm()">确认提交</a></div>
+            <else/>
+            <dl class="row" txt="发布活动时，进行通知">
+                <dt class="tit">站内信通知</dt>
+                <dd class="opt">
+                    <div class="onoff">
+                        <label for="mmt_message_switch1" class="cb-enable selected">是</label>
+                        <label for="mmt_message_switch0" class="cb-disable ">否</label>
+                        <input id="mmt_message_switch1" name="mmt_message_switch" checked="checked" value="1" type="radio">
+                        <input id="mmt_message_switch0" name="mmt_message_switch" value="0" type="radio">
+                    </div>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+                <div class="bot"><a onclick="verifyForm()" class="ncap-btn-big ncap-btn-green">确认提交</a></div>
+            </if>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        laydate.render({
+            elem: '#start_time',//绑定元素
+            theme: 'molv', //主题
+            type:'datetime', //控件选择类型
+            format: 'yyyy-MM-dd HH:mm:ss', //自定义格式
+            calendar: true, //显示公历节日
+            min: '1970-01-01 00:00:00', //最小日期
+            max: '2099-12-31 00:00:00', //最大日期
+            // value: new Date(),//默认当前时间
+            isInitValue: true,
+            position : 'fixed', //定位方式
+            zIndex: 99999999, //css z-index
+        });
+        laydate.render({
+            elem: '#end_time',//绑定元素
+            theme: 'molv', //主题
+            type:'datetime', //控件选择类型
+            format: 'yyyy-MM-dd HH:mm:ss', //自定义格式
+            calendar: true, //显示公历节日
+            min: '1970-01-01 00:00:00', //最小日期
+            max: '2099-12-31 00:00:00', //最大日期
+            // value: new Date(),//默认当前时间
+            isInitValue: true,
+            position : 'fixed', //定位方式
+            zIndex: 99999999, //css z-index
+        });
+    })
+    function verifyForm(){
+        $('span.err').hide();
+        $.ajax({
+            type: "POST",
+            url: "{:U('Admin/Warehouse/warehouseHandle')}",
+            data: $('#handleposition').serialize(),
+            dataType: "json",
+            error: function () {
+                layer.alert("服务器繁忙, 请联系管理员!");
+            },
+            success: function (data) {
+                if (data.status == 1) {
+                    layer.msg(data.msg, {
+                        icon: 1,
+                        time: 1000
+                    }, function(){
+                        location.href = "{:U('Admin/Warehouse/index')}";
+                    });
+                } else {
+                    layer.msg(data.msg, {icon: 2,time: 1000});
+                    // $.each(data.result, function (index, item) {
+                    //     $('#err_' + index).text(item).show();
+                    // });
+                }
+            }
+        });
+    }
+    function selectGoods(){
+        var json_data =$('#goods_ids').val();
+        var url = "{:U('Warehouse/search_goods',array('tpl'=>'select_goods','prom_type'=>0,'prom_id'=>$info[id]))}";
+        var new_url =url+'/data/'+json_data;
+        layer.open({
+            type: 2,
+            title: '选择商品',
+            shadeClose: true,
+            shade: 0.2,
+            area: ['75%', '75%'],
+            content: new_url,
+        });
+    }
+
+    function call_back(goodsItem){
+      
+        //$('#goods_id').val(goodsItem.goods_id);
+    
+          
+        var html = '';
+       // var goods_id = new Array();
+        for (var i = 0; i < goodsItem.length; i++) {
+
+        var obj = goodsItem[i];
+        if(obj.goods_id!=null)
+        {
+                 var spec =null;
+          //  goods_id[i] =obj.goods_id;
+            if(obj.goods_name!=null)
+            {
+                 html = '<div style="float: left;margin: 10px auto;" class="selected-group-goods" data-id="'+obj.goods_id+'" id="goods_'+obj.goods_id+'"><div class="goods-thumb" >' +
+                    '<img style="width: 162px;height: 162px" src="'+obj.goods_image+'"/></div> <div class="goods-name"> ' +
+                    '<a target="_blank" href="/index.php?m=Home&c=Goods&a=goodsInfo&id='+obj.goods_id+'">'+obj.goods_name+'</a> </div>' +
+                    ' <div class="goods-price">库存:<input style="width:70px;"name="kucun['+obj.goods_id+']" type="text" value="1" onkeyup="this.value=this.value.replace(/[^\\d]/g,\'\')"></div><div style="clear:both"></div><div class=""> <a href="javascript:void(0)" onclick="delecte_button('+obj.goods_id+');">删除</a></div> </div>';
+                $('input[name=goods_name]').val(obj.goods_name);
+               // }
+                $('#select_goods_button').attr('data-goods-id',goodsItem.goods_id);
+                //$('#selected_group_goods').empty().html(html);
+                $('#selected_group_goods').append(html);
+                $('.selected-group-goods').show();
+
+            }
+ 
+                
+          
+
+         }
+         
+          //var str = goods_id.toString();
+               //  $('#goods_ids').val(str);
+           
+         }
+        
+         var goods_ids =new Array();
+        var group_goods = $('.selected-group-goods');
+        //alert(group_goods.eq(0).data('id'))
+         for (var s = 0; s < group_goods.length; s++) {
+           goods_ids[s] = group_goods.eq(s).data('id');
+
+         }
+          var str = goods_ids.toString();
+            $('#goods_ids').val(str);
+        
+         
+        layer.closeAll('iframe');
+
+    }
+    function delecte_button(id)
+    {
+        var str_id = 'goods_'+id;
+        $("#"+str_id).remove(); //删除元素
+        //重新获取选择商品
+         var goods_ids =new Array();
+
+        var group_goods = $('.selected-group-goods');
+        //alert(group_goods.eq(0).data('id'))
+         for (var s = 0; s < group_goods.length; s++) {
+           goods_ids[s] = group_goods.eq(s).data('id');
+
+         }
+          var str = goods_ids.toString();
+            $('#goods_ids').val(str);
+    }
+     function ajaxUser(){
+
+        var user_id = $('#user_id').val();
+
+        $.ajax({
+            type: "GET",
+            url: "/index.php?m=Admin&c=User&a=details",//+tab,
+            data: {id:user_id},
+            dataType: 'json',
+            success: function (data) {
+                if(data.status == 1){
+                    $('.notics').html('ID：'+data.result.user_id+'，昵称：'+data.result.nickname+'，等级：'+data.result.level_name);
+                    $(" input[ name='user_id' ] ").val(data.result.user_id);
+                }else{
+                    layer.alert(data.msg, {icon: 2,time: 3000});
+                }
+            },
+            error:function(){
+                layer.alert('网络异常', {icon: 2,time: 3000});
+            }
+        });
+    }
+</script>
+</body>
+</html>

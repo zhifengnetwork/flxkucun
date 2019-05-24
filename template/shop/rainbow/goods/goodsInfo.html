@@ -67,13 +67,13 @@
                 </a>
             </div>
             <div class="scunde p">
-                <span class="red" id="price">￥{$goods.shop_price}</span>
+                <span class="red" id="price">￥{$price}</span>
                 <span id="market_price_title">市场价：</span><span class="linethr" id="market_price">{$goods.market_price}</span>
                 <p class="inlist">
                     <if condition="$goods.prom_type neq 2"><span style="float:left;">销量：{$goods['sales_sum']+$goods['virtual_sales_sum']}</span></if>
                     <!--<span >当前库存：<span class="spec_store_count">{$goods.store_count}</span></span>-->
                     <span>运费：<i id="shipping_freight"></i></span>
-                    <span style="text-align:right; float:right;">广东深圳</span>
+                    <span style="text-align:right; float:right;">广东广州</span>
                 </p>
                 <div class="timeafter presale-time" style="display: none">
                     <p class="confinetime" id="activity_type"></p>
@@ -417,10 +417,12 @@
 <!--选择属性的弹窗-s-->
 <form name="buy_goods_form" method="post" id="buy_goods_form">
     <input type="hidden" name="goods_id" value="{$goods.goods_id}"><!-- 商品id -->
+    <input type="hidden" name="user_level" value="{$user.level}"><!-- 等级id -->
+    <input type="hidden" name="user_first_leader" value="{$user.first_leader}"><!-- 上级id -->
     <input type="hidden" name="spec_goods_price" value='{$goods.spec_goods_price|json_encode=true}'>
     <input type="hidden" name="activity_is_on" value=""><!-- 活动是否进行中 -->
     <input type="hidden" name="goods_prom_type" value="{$goods.prom_type}"/><!-- 活动类型 -->
-    <input type="hidden" name="shop_price" value="{$goods.shop_price}"/><!-- 活动价格 -->
+    <input type="hidden" name="shop_price" value="{$price}"/><!-- 活动价格 -->
     <input type="hidden" name="store_count" value="{$goods.store_count}"/><!-- 活动库存 -->
     <input type="hidden" name="market_price" value="￥{$goods.market_price}"/><!-- 商品原价 -->
     <input type="hidden" name="start_time" value=""/><!-- 活动开始时间 -->
@@ -445,7 +447,7 @@
                     <div class="fon_or fl">
                         <h2 class="similar-product-text">{$goods.goods_name}</h2>
                         <input type="hidden" id="goods_name" name="goods_id" value="{$goods.goods_id}">
-                        <div class="price_or" id="goods_price"><span>￥</span><span>{$goods.shop_price}</span></div>
+                        <div class="price_or" id="goods_price"><span>￥</span><span>{$price}</span></div>
                         <div class="dqkc_or"><span>剩余库存：</span><span id="spec_store_count">{$goods.store_count}</span></div>
                         <div class="dqkc_or buy_limit" style="display: none"><span>限购：</span><span id="buy_limit">{$goods.virtual_limit}</span></div>
                         <div class="price_or team-pies p" style="display: none"><span class="confinetime">该商品拼团中</span><a class="pb_buy team_button">点击前往</a></div>
@@ -599,6 +601,7 @@
                 window.location.href = "{:U('Shop/User/login')}";
                 return;
             }
+            var user_first_leader = $("input[name='user_first_leader']").val();//是否是虚拟商品
             var is_virtual = $("input[name='is_virtual']").val();//是否是虚拟商品
             var exchange_integral = $("input[name='exchange_integral']").val();//是否是积分兑换商品
             var goods_id = $("input[name='goods_id']").val();
@@ -642,8 +645,12 @@
 
             //普通流程
             if (goods_num <= store_count) {
-                
-                form.attr('action', "{:U('shop/Cart/cart2',['action'=>'buy_now'])}").submit();
+                if(user_first_leader == 0){
+                    form.attr('action', "{:U('shop/Cart/cart2',['action'=>'buy_now'])}").submit();
+                }else{
+                    alert('将跳转到上级仓库')
+                    form.attr('action', "{:U('shop/User/store_manage',['action'=>'buy_now'])}").submit();
+                }
             } else {
                 layer.open({icon: 2, content: "购买数量超过此商品购买上限", time: 2});
             }

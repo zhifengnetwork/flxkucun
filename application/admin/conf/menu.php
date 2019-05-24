@@ -116,6 +116,10 @@ return array(
             //array('name' => '商品视频', 'act' => 'video_list', 'op' => 'VideoGoods'),
             array('name' => '用户视频', 'act' => 'video_list', 'op' => 'VideoUser'),
         )),
+            array('name' => '仓库', 'child' => array(
+            array('name' => '添加库存列表', 'act' => 'index', 'op' => 'Warehouse'),
+            array('name' => '库存日记表', 'act' => 'Warehouse_goods_log', 'op' => 'Warehouse'),
+        )),
     )),
 
     /*'marketing' => array('name' => '营销', 'child' => array(
