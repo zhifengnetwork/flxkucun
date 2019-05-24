@@ -118,6 +118,7 @@ return array(
         )),
             array('name' => '仓库', 'child' => array(
             array('name' => '添加库存列表', 'act' => 'index', 'op' => 'Warehouse'),
+            array('name' => '库存日记表', 'act' => 'Warehouse_goods_log', 'op' => 'Warehouse'),
         )),
     )),
 

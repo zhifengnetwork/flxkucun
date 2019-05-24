@@ -51,13 +51,22 @@
 							<div style="text-align: center; width: 200px;" class="">用户名称</div>
 						</th>
 						<th align="left" abbr="ac_id" axis="col4" class="">
+							<div style="text-align: center; width: 200px;" class="">商品名称</div>
+						</th>
+						<th align="left" abbr="ac_id" axis="col4" class="">
 							<div style="text-align: center; width: 120px;" class="">开始时间</div>
 						</th>
 						<th align="center" abbr="article_show" axis="col5" class="">
 							<div style="text-align: center; width: 120px;" class="">更新时间</div>
 						</th>
 						<th align="center" abbr="article_time" axis="col6" class="">
-							<div style="text-align: center; width: 80px;" class="">总库存</div>
+							<div style="text-align: center; width: 80px;" class="">手动库存</div>
+						</th>
+						<th align="center" abbr="article_time" axis="col6" class="">
+							<div style="text-align: center; width: 80px;" class="">进货库存</div>
+						</th>
+						<th align="center" abbr="article_time" axis="col6" class="">
+							<div style="text-align: center; width: 80px;" class="">商品总库存</div>
 						</th>
 
 						<th align="left" axis="col1" class="handle">
@@ -99,19 +108,28 @@
 								<div style="text-align: center; width: 200px;">{$vo.nickname}</div>
 							</td>
 							<td align="left" class="">
-								<div style="text-align: center; width: 120px;">{$vo.create_time|date='Y-m-d H:i',###}</div>
+								<div style="text-align: center; width: 200px;">{$vo.goods_name}</div>
 							</td>
 							<td align="left" class="">
-								<div style="text-align: center; width: 120px;">{$vo.update_time|date='Y-m-d H:i',###}</div>
+								<div style="text-align: center; width: 120px;">{$vo.time|date='Y-m-d H:i',###}</div>
 							</td>
 							<td align="left" class="">
-								<div style="text-align: center; width: 80px;">{$vo.totals}</div>
+								<div style="text-align: center; width: 120px;">{$vo.change_time|date='Y-m-d H:i',###}</div>
+							</td>
+							<td align="left" class="">
+								<div style="text-align: center; width: 80px;">{$vo.manual_num}</div>
+							</td>
+							<td align="left" class="">
+								<div style="text-align: center; width: 80px;">{$vo.nums-$vo.manual_num}</div>
+							</td>
+							<td align="left" class="">
+								<div style="text-align: center; width: 80px;">{$vo.nums}</div>
 							</td>
 						
 
 							<td align="left" class="handle">
 								<div style="text-align: left; width: 170px; max-width:170px;">
-									<a class="btn blue"  href="{:U('Admin/Warehouse/Warehouse_goods',array('user_id'=>$vo['user_id']))}"><i class="fa fa-search"></i>查看</a>
+									<a class="btn blue"  href="{:U('Admin/Warehouse/Warehouse_goods_log',array('user_id'=>$vo['user_id'],'goods_id'=>$vo['goods_id']))}"><i class="fa fa-search"></i>查看</a>
 								</div>
 							</td>
 							<td align="" class="" style="width: 100%;">
