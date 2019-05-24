@@ -180,7 +180,7 @@
 					/**传过来的数据-不要在月份和日期前加0 =>'2019/3/6' **/
 					if($('.date-marker-body li').eq(i).attr('data-markdate') == signData[j]) {
 						$('.date-marker-body li').eq(i).append(`
-							<img class="signInIconL" src="/template/mobile/rainbow/static/images/sign/signInIconS.png" />
+							<img class="signInIconL" src="/template/shop/rainbow/static/images/sign/signInIconS.png" />
 						`);
 					}
 				}

@@ -133,6 +133,7 @@ body{
 }
 .tab-wrap .tab-content .main .img-wrap img{ 
     width: 100%;
+    border-radius: 50%;
 }
 .tab-wrap .tab-content .main .text{
     display: -webkit-box;
@@ -151,7 +152,7 @@ body{
 /* 配货下级 */
 .tab-wrap .tab-content .sub-list{
     background-color: #fff;
-    padding: .0 .24rem;
+    padding: 0 .24rem;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }

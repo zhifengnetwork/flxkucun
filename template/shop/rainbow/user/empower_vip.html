@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<title>邀请代理</title>
+		<title>授权vip</title>
         <script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
 		<link rel="stylesheet" href="__STATIC__/css/public_lb/public.css" />
 		<link rel="stylesheet" href="__STATIC__/css/user_zp/vite_agent.css?v=111" />
@@ -21,17 +21,14 @@
 
             <!-- 主内容 -->
             <div class="content">
-                <!-- 证书 -->
-                <div class="certificate">
-                    <img src="__STATIC__/images/user_zp/000certificate-img.png" />
-                </div>
+               
 
                 <div class="row-line">
-					<label>代理级别:</label>
+					<label>授权级别:</label>
 					<div class="drop-down">
 						<span class="select-level"></span>
 						<ul class="drop-list">
-						<volist name='levlist' id='v'>
+						    <volist name='levlist' id='v'>
 							<li lev_id={$v.level} >{$v.level_name}</li>
 							</volist>
 						</ul>
@@ -53,7 +50,7 @@
 					<div class="phone">15558882230</div>
 				</div>
 
-				<button class="inviteBtn">邀请代理</button>
+				<button class="inviteBtn">确认授权</button>
 
 
             </div>

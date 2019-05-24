@@ -197,6 +197,21 @@ class User extends Base
          );
          M('agent_info')->add($data);
      }
+         /**
+     * ajax查找会员详细信息
+     */
+     public function details()
+     {
+
+         $uid = I('get.id');
+         $user = D('users')->where(array('user_id' => $uid))->find();
+         if (!$user)
+            $this->ajaxReturn(['status'=>0,'msg'=>'会员不存在','result'=>'']);
+ 
+         $user['level_name'] = M('user_level')->where("level = {$user['level']}")->value('level_name');
+ 
+        $this->ajaxReturn(['status'=>1,'msg'=>'查询成功','result'=>$user]);
+     }
 
     public function add_user()
     {

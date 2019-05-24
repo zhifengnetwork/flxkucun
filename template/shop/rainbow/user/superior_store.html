@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>上级仓库</title>
+        <script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
+        <link rel="stylesheet" href="__STATIC__/css/public_lb/picker.css" />
+		<link rel="stylesheet" href="__STATIC__/css/public_lb/public.css" />
+		<link rel="stylesheet" href="__STATIC__/css/user_zp/superior_store.css?v=111" />
+		
+	</head>
+	<body>
+		<div class="wrapper">
+			<!--public head-->
+			
+	        <div class="lb_headWrap topBox_backgroundColor">
+	            <p class="lb_headWrap_return" data-num="1" onclick="returnFun()">
+	                <img class="lb_headWrap_return_img" src="__STATIC__/images/public_lb/returnImg666_lb.png"/>
+	            </p>
+	            <span>上级仓库</span>
+            </div>
+            
+			<!-- 主内容 -->
+			<div class="content">
+				<form action="#">
+					<ul class="superior-list">
+						<li>
+							<div class="check">
+								<input type="checkbox">
+							</div>
+							<div class="img-wrap">
+								<a href="###"><img src="__STATIC__/images/video/001v.png" /></a>
+							</div>
+							<div class="text">
+								<h3>自然堂化妆品补水防晒虎虎生风副书记粉红色自然堂化妆品补水防晒虎虎生风副书记粉红色自然堂化妆品补水防晒虎虎生风副书记粉红色</h3>
+								<div class="line2">
+									<span>库存：6962</span>
+									<span>颜色：墨绿色</span>
+								</div>
+								<div class="line3">
+									<div class="price">￥63.00</div>
+									<div class="num">
+										<a href="javascript:" class="min" id="min">-</a>
+										<input type="text" value="1" size="2" class="number">
+										<a href="javascript:" class="add" id="add">+</a>
+									</div>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="check">
+								<input type="checkbox">
+							</div>
+							<div class="img-wrap">
+								<a href="###"><img src="__STATIC__/images/video/001v.png" /></a>
+							</div>
+							<div class="text">
+								<h3>自然堂化妆品补水防晒虎虎生风副书记粉红色自然堂化妆品补水防晒虎虎生风副书记粉红色自然堂化妆品补水防晒虎虎生风副书记粉红色</h3>
+								<div class="line2">
+									<span>库存：6962</span>
+									<span>颜色：墨绿色</span>
+								</div>
+								<div class="line3">
+									<div class="price">￥63.00</div>
+									<div class="num">
+										<a href="javascript:" class="min" id="min">-</a>
+										<input type="text" value="1" size="2" class="number">
+										<a href="javascript:" class="add" id="add">+</a>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+
+					<div class="holderBar">
+						<div class="checkAll">
+							<input type="checkbox" id="checkAll">
+							<label for="checkAll">全选</label>
+						</div>
+						<div class="total-wrap">
+							<div class="line1">
+								<span class="not-contain">不含运费</span>
+								合计:
+								<span class="total">￥63.00</span>
+							</div>
+							<div class="amount-sum">总件数:1000</div>
+						</div>
+						<div class="buyBtn">结算</div>
+					</div>
+				</form>	
+			</div>
+			
+        
+	       
+		</div>
+		
+	<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
+	<script src="__STATIC__/js/public/public_lb.js"></script>
+	<script>
+		$(function(){
+			//加加
+			$(".add").click(function(){
+				var $inputVal = $(this).prev('input')
+					$count = parseInt($inputVal.val())+1
+					$inputVal.val($count);
+					if($inputVal.val()>1 && $(".min").hasClass('reSty')){
+						$(".min").removeClass('reSty');
+					}
+			})
+			
+			//减减
+			$(".min").click(function(){
+				var $inputVal = $(this).next('input')
+					$count = parseInt($inputVal.val())-1
+					if($inputVal.val()>1){
+						$inputVal.val($count);
+					}
+					if($inputVal.val()==1 && !$(this).hasClass('reSty')){
+						$(this).addClass('reSty');
+					}
+
+			})
+
+			/**
+			 * 全选的实现
+			 */					
+			$("#checkAll").click(function(){
+				$(".check input").attr("checked",this.checked);
+			});
+
+			/**
+			 * 为下面所有checkbox绑定点击事件
+			 */
+			 $(".check input").click(function(){
+				//判断全选是否要被选中
+				$("#checkAll").attr("checked",$(".check input").length == $(".check input").filter(":checked").length);
+			});
+
+		})
+	</script>
+       
+	</body>
+</html>

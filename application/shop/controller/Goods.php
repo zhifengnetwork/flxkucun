@@ -246,11 +246,9 @@ class Goods extends MobileBase
           $user = M('users')->where("user_id", $shareid)->find();
           $shareid =  $user['user_id'];
           Session::set('shareid',$shareid);
-        }else
-        {
-
+        }else{
+            $user = session('user');
         }
-
 
         C('TOKEN_ON', true);
         $goodsLogic = new GoodsLogic();
@@ -273,12 +271,28 @@ class Goods extends MobileBase
 
         $recommend_goods = M('goods')->where("is_recommend=1 and is_on_sale=1 and cat_id = {$goods['cat_id']}")->cache(7200)->limit(9)->field("goods_id, goods_name, shop_price")->select();
 
-        //查询是否签到免费领取的商品
-        // $
+        //等级价格
+        $price = $this->getLevelPrice($goods_id,$user);
+        $this->assign('price', $price);
 
         $this->assign('recommend_goods', $recommend_goods);
         $this->assign('goods', $goods);
+        $this->assign('user', $user);
         return $this->fetch();
+    }
+
+    public function getLevelPrice($goods_id,$user)
+    {
+        $goods_level_price = M('goods_level_price')->where('goods_id',$goods_id)->order('level asc')->select();
+
+        $level_price = array_column($goods_level_price,NULL,'level');
+
+        if(empty($user)){
+            $price = $level_price[1]['price'];
+        }else{
+            $price = $level_price[$user['level']]['price'];
+        }
+        return $price;
     }
 
     public function goodsInfo2()
