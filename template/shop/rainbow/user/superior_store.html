@@ -82,9 +82,9 @@
 							<div class="line1">
 								<span class="not-contain">不含运费</span>
 								合计:
-								<span class="total">￥63.00</span>
+								<span class="total">￥0.00</span>
 							</div>
-							<div class="amount-sum">总件数:1000</div>
+							<div class="amount-sum">总件数:0</div>
 						</div>
 						<div class="buyBtn">结算</div>
 					</div>
@@ -107,6 +107,7 @@
 					if($inputVal.val()>1 && $(".min").hasClass('reSty')){
 						$(".min").removeClass('reSty');
 					}
+					totalMoney()
 			})
 			
 			//减减
@@ -119,6 +120,7 @@
 					if($inputVal.val()==1 && !$(this).hasClass('reSty')){
 						$(this).addClass('reSty');
 					}
+					totalMoney()
 
 			})
 
@@ -127,6 +129,7 @@
 			 */					
 			$("#checkAll").click(function(){
 				$(".check input").attr("checked",this.checked);
+				totalMoney()
 			});
 
 			/**
@@ -135,7 +138,38 @@
 			 $(".check input").click(function(){
 				//判断全选是否要被选中
 				$("#checkAll").attr("checked",$(".check input").length == $(".check input").filter(":checked").length);
+				totalMoney()
 			});
+
+			// 总计
+			function totalMoney() {
+				var total_money = 0;
+				var total_count = 0;
+
+				var calBtn = $('.buyBtn');
+
+				var $sonCheckBox = $(".check input")
+				$sonCheckBox.each( (i,e)=> {
+					if($(e).is(':checked')){
+						total_money+=parseInt($(e).parent().parent().find('.price').html().substring(1))*parseInt($(e).parent().parent().find('.number').val())
+						total_count+=parseInt($(e).parent().parent().find('.number').val())
+					}
+					
+				});
+				$('.total').html(`¥ ${total_money.toFixed(2)}`);
+				$('.amount-sum').html(`总件数:${total_count}`);
+
+			}
+
+			// 判断输入的值是否为数字
+			$(".number").change(function(){
+				var num = this.value;
+				if(!/^\d+$/.test(num)||parseInt(num) <1){
+					//把input文本框中的value值进行重置
+					this.value="1";
+				}
+			})
+
 
 		})
 	</script>
