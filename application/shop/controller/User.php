@@ -127,6 +127,11 @@ class User extends MobileBase
         return $this->fetch();
     }
 
+    // 授权vip
+    public function empower_vip(){
+        return $this->fetch();
+    }
+
     //zp
     public function welfare_zp(){
         return $this->fetch();

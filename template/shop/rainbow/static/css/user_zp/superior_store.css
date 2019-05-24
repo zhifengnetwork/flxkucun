@@ -1,11 +1,168 @@
+body{
+    background-color: #f7f7f7;
+}
 .content{
     padding-top: .88rem;
     box-sizing: border-box;
+    
 }
 .superior-list{
     margin-top: .3rem;
+    padding: 0 .24rem;
+    box-sizing: border-box;
 }
 .superior-list li{
     display: flex;
+    align-items: center;
     margin-bottom: .1rem;
+    border: .01rem solid #dadada;
+    position: relative;
+    padding: .1rem;
+    box-sizing: border-box; 
+}
+.superior-list li .check{
+    width: .36rem;
+    height: .36rem;
+    border: .01rem solid #8d8d8d;
+    border-radius: 50%;
+    margin:0 .18rem 0 .1rem;
+}
+.superior-list li .check input{
+    width: .36rem;
+    height: .36rem;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    vertical-align: sub;
+    display: inline-block;
+    cursor: pointer;
+}
+.superior-list li .check input:checked::after{
+    width: .36rem;
+    height: .36rem;
+    content: '';
+    background: url(../../images/user_zp/checked.png) no-repeat;
+    background-size: .18rem .15rem;
+    background-position: .1rem .09rem;
+    display: block;
+    vertical-align: sub;
+}
+.superior-list li .img-wrap{
+    width: 1.3rem;
+    height: 1.3rem;
+    margin-right: .2rem;
+}
+.superior-list li .img-wrap img{
+    width: 100%;
+}
+.superior-list li .text{
+    flex: 1;
+}
+.superior-list li h3{
+    line-height: .34rem;
+    font-size: .24rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    font-weight: normal;
+}
+.superior-list li .line2{
+    font-size: .18rem;
+    line-height: .34rem;
+}
+.superior-list li .price{
+    font-size: .24rem;
+    color: #f80909;
+}
+.superior-list li .num{
+    position: absolute;
+    right: .2rem;
+    bottom: .1rem;
+}
+.superior-list li .num input{
+    height: .4rem;
+    line-height: .4rem;
+    text-align: center;
+	color: #333333;
+    border-top: .01rem solid #aaaaaa;
+    border-bottom: .01rem solid #aaaaaa;
+    float: left;
+    padding: 0 .1rem;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+.num .min,.num .add{
+	width: .4rem;
+	height: .4rem;
+	display: inline-block;
+	text-align: center;
+	color: #333333;
+    border: 1px solid #aaaaaa;
+    float: left;
+}
+
+.holderBar{
+    width: 100%;
+    height: .88rem;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+.holderBar .checkAll{
+    margin-left: .2rem;
+    display: flex;
+    align-items: center;
+}
+.holderBar .checkAll input{
+    width: .36rem;
+    height: .36rem;
+    border: .01rem solid #8d8d8d;
+    border-radius: 50%;
+    margin: 0 .15rem;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    vertical-align: sub;
+    display: inline-block;
+    cursor: pointer;
+}
+.holderBar .checkAll input:checked::after{
+    width: .36rem;
+    height: .36rem;
+    content: '';
+    background: url(../../images/user_zp/checked.png) no-repeat;
+    background-size: .18rem .15rem;
+    background-position: .08rem .1rem;
+    display: block;
+    vertical-align: sub;
+}
+.total-wrap{
+    color: #151515;
+    font-size: .3rem;
+}
+.total-wrap .line1 .not-contain{
+    font-size: .18rem;
+    color: #a3a3a3;
+}
+.total-wrap .total{
+    color: #f50b0b;
+}
+.total-wrap .amount-sum{
+    color: #6c6c6c;
+    font-size: .24rem;
+    text-align: right;
+    line-height: .36rem;
+}
+.holderBar .buyBtn{
+    width: 1.8rem;
+    height: 100%;
+    line-height: .88rem;
+    text-align: center;
+    color: #fff;
+    background-color: #f50b0b;
 }
