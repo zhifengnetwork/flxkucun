@@ -102,16 +102,24 @@
 			//加加
 			$(".add").click(function(){
 				var $inputVal = $(this).prev('input')
-				// var $count = parseInt($inputVal.val())+1
-					   $count = parseInt($inputVal.val())+1
-				console.log($count);
-				
-				
+					$count = parseInt($inputVal.val())+1
+					$inputVal.val($count);
+					if($inputVal.val()>1 && $(".min").hasClass('reSty')){
+						$(".min").removeClass('reSty');
+					}
 			})
 			
 			//减减
 			$(".min").click(function(){
-				
+				var $inputVal = $(this).next('input')
+					$count = parseInt($inputVal.val())-1
+					if($inputVal.val()>1){
+						$inputVal.val($count);
+					}
+					if($inputVal.val()==1 && !$(this).hasClass('reSty')){
+						$(this).addClass('reSty');
+					}
+
 			})
 
 			/**
