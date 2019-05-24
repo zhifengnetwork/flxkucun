@@ -114,6 +114,7 @@ class Sign extends Controller
     public function get_sign_day()
     {
         $user_id = I('user_id');
+        dump($user_id);exit;
         if (!$user_id) {
             return $this->ajaxReturn(['status' => -1, 'msg' => 'user_id不能为空', 'data' => '']);
         }

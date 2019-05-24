@@ -8,53 +8,37 @@
     <div class="fixed-bar">
         <div class="item-title"><a class="back" href="javascript:history.back();" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
             <div class="subject">
-                <h3>团购管理 - 编辑团购</h3>
-                <h5>网站系统抢购活动详情页</h5>
+                <h3>库存管理 - 编辑会员库存</h3>
+                <h5>添加会员库存详情页</h5>
             </div>
         </div>
     </div>
     <form class="form-horizontal" id="handleposition" method="post">
         <input type="hidden" id="goods_id" name="goods_id" value="{$info.goods_id}">
+        <input type="hidden" id="goods_ids" name="goods_ids" value="0">
         <input type="hidden" name="id" value="{$info.id}">
         <input type="hidden" name="act" value="{$act}">
         <input type="hidden" name="item_id" value="{$info.item_id}">
         <div class="ncap-form-default">
-            <dl class="row">
+             <dl class="row">
                 <dt class="tit">
-                    <label><em>*</em>团购标题</label>
+                    <label>会员ID</label>
                 </dt>
                 <dd class="opt">
-                    <input type="text" name="title" id="title" value="{$info.title}" class="input-txt">
-                    <span class="err" id="err_title"></span>
-                    <p class="notic">请填写团购标题</p>
+                    <input class="input-txt valid" id="user_id"  type="text" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
+                    <input name="user_id" value='' type="hidden">
+                    <a href="JavaScript:void(0);" onclick="ajaxUser();" class="ncap-btn-big ncap-btn-green">查询</a>
+                    <p class="notics">请输入ID</p>
                 </dd>
             </dl>
+
             <dl class="row">
                 <dt class="tit">
-                    <label><em>*</em>开始时间</label>
+                    <label><em>*</em>选择添加商品库存</label>
                 </dt>
                 <dd class="opt">
-                    <input type="text" id="start_time" name="start_time" value="{$info.start_time}"  class="input-txt">
-                    <span class="err" id="err_start_time"></span>
-                    <p class="notic">团购开始时间</p>
-                </dd>
-            </dl>
-            <dl class="row">
-                <dt class="tit">
-                    <label><em>*</em>结束时间</label>
-                </dt>
-                <dd class="opt">
-                    <input type="text" id="end_time" name="end_time" value="{$info.end_time}" class="input-txt">
-                    <span class="err" id="err_end_time"></span>
-                    <p class="notic">团购结束时间</p>
-                </dd>
-            </dl>
-            <dl class="row">
-                <dt class="tit">
-                    <label><em>*</em>选择团购商品</label>
-                </dt>
-                <dd class="opt">
-                    <input type="text" readonly  id="goods_name" name="goods_name" value="{$info.goods_name}" class="input-txt">
+                    <!--
+                    <input type="text" readonly  id="goods_name" name="goods_name" value="{$info.goods_name}" class="input-txt">-->
                     <div style="overflow: hidden" id="selected_group_goods">
                         <if condition="$info['goods_id'] gt 0">
                             <div style="float: left;margin-right: 10px" class="selected-group-goods">
@@ -78,50 +62,20 @@
                     </p>
                 </dd>
             </dl>
+      
             <dl class="row">
                 <dt class="tit">
-                    <label><em>*</em>团购价格</label>
-                </dt>
-                <dd class="opt">
-                    <input type="text" id="price" name="price" value="{$info.price}"  onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" class="input-txt">
-                    <input type="hidden" id="goods_price" name="goods_price" value="{$info.goods_price}">
-                    <span class="err" id="err_price"></span>
-                    <p class="notic">商品团购价格,单位：元</p>
-                </dd>
-            </dl>
-            <dl class="row">
-                <dt class="tit">
-                    <label><em>*</em>参团数量</label>
-                </dt>
-                <dd class="opt">
-                    <input type="text" name="goods_num" id="goods_num" value="{$info.goods_num}" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" class="input-txt">
-                    <span class="err" id="err_goods_num"></span>
-                    <p class="notic">此抢购活动最多允许抢购的商品数量</p>
-                </dd>
-            </dl>
-            <dl class="row">
-                <dt class="tit">
-                    <label><em>*</em>虚拟购买数</label>
-                </dt>
-                <dd class="opt">
-                    <input type="text" id="virtual_num" name="virtual_num" value="{$info.virtual_num}" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')"  class="input-txt">
-                    <span class="err" id="err_virtual_num"></span>
-                    <p class="notic">虚拟已购买参团人数</p>
-                </dd>
-            </dl>
-            <dl class="row">
-                <dt class="tit">
-                    <label>团购介绍</label>
+                    <label>描述</label>
                 </dt>
                 <dd class="opt">
                     <textarea placeholder="请输入活动介绍" name="intro" rows="6" class="tarea">{$info.intro}</textarea>
                     <span class="err" id="err_intro"></span>
-                    <p class="notic">团购描述介绍</p>
+                    <p class="notic">描述介绍</p>
                 </dd>
             </dl>
 
             <if condition="$info['is_edit'] eq 0">
-                <div class="bot"><a class="ncap-btn-big">确认提交</a></div>
+                <div class="bot"><a class="ncap-btn-big" onclick="verifyForm()">确认提交</a></div>
             <else/>
             <dl class="row" txt="发布活动时，进行通知">
                 <dt class="tit">站内信通知</dt>
@@ -173,7 +127,7 @@
         $('span.err').hide();
         $.ajax({
             type: "POST",
-            url: "{:U('Admin/Promotion/groupbuyHandle')}",
+            url: "{:U('Admin/Warehouse/warehouseHandle')}",
             data: $('#handleposition').serialize(),
             dataType: "json",
             error: function () {
@@ -185,52 +139,121 @@
                         icon: 1,
                         time: 1000
                     }, function(){
-                        location.href = "{:U('Admin/Promotion/group_buy_list')}";
+                        location.href = "{:U('Admin/Warehouse/index')}";
                     });
                 } else {
                     layer.msg(data.msg, {icon: 2,time: 1000});
-                    $.each(data.result, function (index, item) {
-                        $('#err_' + index).text(item).show();
-                    });
+                    // $.each(data.result, function (index, item) {
+                    //     $('#err_' + index).text(item).show();
+                    // });
                 }
             }
         });
     }
     function selectGoods(){
-        var url = "{:U('Promotion/search_goods',array('tpl'=>'select_goods','prom_type'=>2,'prom_id'=>$info[id]))}";
+        var json_data =$('#goods_ids').val();
+        var url = "{:U('Warehouse/search_goods',array('tpl'=>'select_goods','prom_type'=>0,'prom_id'=>$info[id]))}";
+        var new_url =url+'/data/'+json_data;
         layer.open({
             type: 2,
             title: '选择商品',
             shadeClose: true,
             shade: 0.2,
             area: ['75%', '75%'],
-            content: url,
+            content: new_url,
         });
     }
 
     function call_back(goodsItem){
-        alert(goodsItem);return false;
-        $('#goods_id').val(goodsItem.goods_id);
+      
+        //$('#goods_id').val(goodsItem.goods_id);
+    
+          
         var html = '';
-        if(goodsItem.spec != null){
-            //有规格
-            html = '<div style="float: left;margin: 10px auto;" class="selected-group-goods"><div class="goods-thumb">' +
-                    '<img style="width: 162px;height: 162px" src="'+goodsItem.spec.spec_img+'"/></div> <div class="goods-name"> ' +
-                    '<a target="_blank" href="/index.php?m=Home&c=Goods&a=goodsInfo&id='+goodsItem.goods_id+'">'+goodsItem.goods_name+goodsItem.spec.key_name+'</a> </div>' +
-                    ' <div class="goods-price">商城价：￥'+goodsItem.spec.price+'库存:'+goodsItem.spec.store_count+'</div> </div>';
-            $('input[name=item_id]').val(goodsItem.spec.item_id)
-            $('input[name=goods_name]').val(goodsItem.goods_name + goodsItem.spec.key_name);
-        }else{
-            html = '<div style="float: left;margin: 10px auto;" class="selected-group-goods"><div class="goods-thumb">' +
-                    '<img style="width: 162px;height: 162px" src="'+goodsItem.goods_image+'"/></div> <div class="goods-name"> ' +
-                    '<a target="_blank" href="/index.php?m=Home&c=Goods&a=goodsInfo&id='+goodsItem.goods_id+'">'+goodsItem.goods_name+'</a> </div>' +
-                    ' <div class="goods-price">商城价：￥'+goodsItem.goods_price+'库存:'+goodsItem.store_count+'</div> </div>';
-            $('input[name=goods_name]').val(goodsItem.goods_name);
-        }
-        $('#select_goods_button').attr('data-goods-id',goodsItem.goods_id);
-        $('#selected_group_goods').empty().html(html);
-        $('.selected-group-goods').show();
+       // var goods_id = new Array();
+        for (var i = 0; i < goodsItem.length; i++) {
+
+        var obj = goodsItem[i];
+        if(obj.goods_id!=null)
+        {
+                 var spec =null;
+          //  goods_id[i] =obj.goods_id;
+            if(obj.goods_name!=null)
+            {
+                 html = '<div style="float: left;margin: 10px auto;" class="selected-group-goods" data-id="'+obj.goods_id+'" id="goods_'+obj.goods_id+'"><div class="goods-thumb" >' +
+                    '<img style="width: 162px;height: 162px" src="'+obj.goods_image+'"/></div> <div class="goods-name"> ' +
+                    '<a target="_blank" href="/index.php?m=Home&c=Goods&a=goodsInfo&id='+obj.goods_id+'">'+obj.goods_name+'</a> </div>' +
+                    ' <div class="goods-price">库存:<input style="width:70px;"name="kucun['+obj.goods_id+']" type="text" value="1" onkeyup="this.value=this.value.replace(/[^\\d]/g,\'\')"></div><div style="clear:both"></div><div class=""> <a href="javascript:void(0)" onclick="delecte_button('+obj.goods_id+');">删除</a></div> </div>';
+                $('input[name=goods_name]').val(obj.goods_name);
+               // }
+                $('#select_goods_button').attr('data-goods-id',goodsItem.goods_id);
+                //$('#selected_group_goods').empty().html(html);
+                $('#selected_group_goods').append(html);
+                $('.selected-group-goods').show();
+
+            }
+ 
+                
+          
+
+         }
+         
+          //var str = goods_id.toString();
+               //  $('#goods_ids').val(str);
+           
+         }
+        
+         var goods_ids =new Array();
+        var group_goods = $('.selected-group-goods');
+        //alert(group_goods.eq(0).data('id'))
+         for (var s = 0; s < group_goods.length; s++) {
+           goods_ids[s] = group_goods.eq(s).data('id');
+
+         }
+          var str = goods_ids.toString();
+            $('#goods_ids').val(str);
+        
+         
         layer.closeAll('iframe');
+
+    }
+    function delecte_button(id)
+    {
+        var str_id = 'goods_'+id;
+        $("#"+str_id).remove(); //删除元素
+        //重新获取选择商品
+         var goods_ids =new Array();
+
+        var group_goods = $('.selected-group-goods');
+        //alert(group_goods.eq(0).data('id'))
+         for (var s = 0; s < group_goods.length; s++) {
+           goods_ids[s] = group_goods.eq(s).data('id');
+
+         }
+          var str = goods_ids.toString();
+            $('#goods_ids').val(str);
+    }
+     function ajaxUser(){
+
+        var user_id = $('#user_id').val();
+
+        $.ajax({
+            type: "GET",
+            url: "/index.php?m=Admin&c=User&a=details",//+tab,
+            data: {id:user_id},
+            dataType: 'json',
+            success: function (data) {
+                if(data.status == 1){
+                    $('.notics').html('ID：'+data.result.user_id+'，昵称：'+data.result.nickname+'，等级：'+data.result.level_name);
+                    $(" input[ name='user_id' ] ").val(data.result.user_id);
+                }else{
+                    layer.alert(data.msg, {icon: 2,time: 3000});
+                }
+            },
+            error:function(){
+                layer.alert('网络异常', {icon: 2,time: 3000});
+            }
+        });
     }
 </script>
 </body>

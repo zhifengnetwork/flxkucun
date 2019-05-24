@@ -1,0 +1,179 @@
+body{
+    background-color: #ffffff;
+}
+.content{
+    padding: 3.18rem .24rem 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/*.content .row-line{
+    width: 85%;
+    margin: 0 auto .2rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+.content .row-line label{
+	margin-right: .28rem;
+    width: 1.2rem;
+    text-align: right;
+}
+.content .row-line .drop-down{
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    height: .3rem;
+    border: .01rem solid #818181;
+    position: relative;
+}
+.content .row-line .drop-down span{
+    width: 97%;
+    height: 100%;
+    display: inline-block;
+    background: url(../../images/user_zp/T2.png) no-repeat center right;
+    background-size: .16rem 0.09rem;
+    padding: 0 .2rem 0 .1rem;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.content .row-line .drop-list{
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: .31rem;
+    background-color: #e6e6e6;
+    display: none;
+}
+.content .row-line .drop-list li{
+    width: 100%;
+    height: .4rem;
+    line-height: .4rem;
+    padding: 0 .2rem;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.row-line .right{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+.row-line .right input{
+    width: 2.52rem;
+    height: .3rem;
+    border: .01rem solid #818181;
+    margin-right: .14rem;
+    padding: 0 .1rem;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.row-line .right .verificationBtn{
+    height: .3rem;
+    line-height: .3rem;
+    background: #cfdce7;
+    text-align: center;
+    padding: 0 .12rem;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.agent-info{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin: .27rem auto .4rem;
+}
+.agent-info .avatar{
+    width: .6rem;
+    height: .6rem;
+    margin-right: .25rem;
+}
+.agent-info .avatar img{
+    width: 100%;
+}*/
+
+.row-line {
+	margin: 0 auto .35rem;
+}
+.row-line .rank,.drop-down,.right {
+	display: inline-block;
+	vertical-align: middle;
+}
+.drop-down {
+	position: relative;
+}
+.row-line .rank {
+	margin-right: .28rem;
+	width: 20%;
+	text-align: right;
+	line-height: .5rem;
+}
+.select-level {
+	padding-left: .2rem;
+	display: inline-block;
+	width: 4.01rem;
+	height: .48rem;
+	line-height: .5rem;
+	border: 1px solid #818181;
+}
+.drop-list{
+	display: none;
+    width: 100%;
+    position: absolute;
+    top: .5rem;
+    left: 0;
+    background-color: #e6e6e6;
+}
+.drop-list li {
+	padding-left: .2rem;
+}
+.arrows {
+	position: absolute;
+	top: .22rem;
+	right: .25rem;
+    width: .2rem;
+	height: .1rem;
+    background: url(../../images/user_zp/T2.png) no-repeat center right;
+    background-size: 100% 100%;
+}
+.right input {
+	padding: 0 .2rem;
+	width: 2.68rem;
+	height: .48rem;
+	border: 1px solid #818181;
+	-webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.row-line .right .verificationBtn{
+	display: inline-block;
+    line-height: .5rem;
+    background: #cfdce7;
+    text-align: center;
+    padding: 0 .2rem;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/* 邀请按钮 */
+.inviteBtn{
+	margin: .85rem auto 0;
+    width: 7.02rem;
+    height: .6rem;
+    line-height: .6rem;
+    text-align: center;
+    background-color: #f7062e;
+    border: none;
+    border-radius: .08rem;
+    color: #fff;
+    font-size: .3rem;
+}

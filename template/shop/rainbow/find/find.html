@@ -36,14 +36,14 @@
 		<!-- 视频轮播 -->
 		<div class="swiper-container bannerWrap">
 			<div class="swiper-wrapper">
-				<foreach name='videos' item='v' >
-				<div class="swiper-slide">
-					<a href="{/'Shop/video/video_play'.$v['id']}">
-						<img src="__STATIC__/images/home_zp/00video-img01.png" >
-						<span class="playBtn"><img src="__STATIC__/images/home_zp/playBtn-big.png" /></span>
-					</a>
-				</div>
-				</foreach>
+				<adv pid="2" limit="5" item="v">
+					<div class="swiper-slide">
+						<a href="{/'Shop/video/video_play'.$v['id']}">
+							<img src="{$v[ad_code]}" >
+							<span class="playBtn"><img src="__STATIC__/images/home_zp/playBtn-big.png" /></span>
+						</a>
+					</div>
+				</adv>
 				<!-- <div class="swiper-slide">
 					<a href="{:U('Shop/video/video_play')}">
 						<img src="__STATIC__/images/home_zp/00video-img01.png" >
