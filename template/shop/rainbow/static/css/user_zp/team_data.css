@@ -133,6 +133,7 @@ body{
 }
 .tab-wrap .tab-content .main .img-wrap img{ 
     width: 100%;
+    border-radius: 50%;
 }
 .tab-wrap .tab-content .main .text{
     display: -webkit-box;

@@ -78,11 +78,13 @@
 	margin-right: .2rem;
 	width: 1.5rem;
 	height: 1.5rem;
+	border-radius: 50%;
 }
 .item .img_wrap img {
 	display: block;
 	margin: 0 auto;
 	max-width: 100%;
+	border-radius: 50%;
 }
 .item .text div {
 	line-height: .35rem;
