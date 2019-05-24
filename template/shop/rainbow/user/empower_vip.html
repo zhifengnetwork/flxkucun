@@ -3,11 +3,11 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<title>授权vip</title>
+		<title>vip授权</title>
         <script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
 		<link rel="stylesheet" href="__STATIC__/css/public_lb/public.css" />
-		<link rel="stylesheet" href="__STATIC__/css/user_zp/vite_agent.css?v=111" />
-		
+		<!--<link rel="stylesheet" href="__STATIC__/css/user_zp/vite_agent.css?v=111" />-->
+		<link rel="stylesheet" href="__STATIC__/css/user_zp/empower_vip.css" />
 	</head>
 	<body>
 		<div class="wrapper">
@@ -16,7 +16,7 @@
 	            <p class="lb_headWrap_return" data-num="1" onclick="returnFun()">
 	                <img class="lb_headWrap_return_img" src="__STATIC__/images/public_lb/returnImg666_lb.png"/>
 	            </p>
-	            <span>邀请代理</span>
+	            <span>vip授权</span>
             </div>
 
             <!-- 主内容 -->
@@ -24,19 +24,25 @@
                
 
                 <div class="row-line">
-					<label>授权级别:</label>
+					<div class="rank">授权级别:</div>
 					<div class="drop-down">
-						<span class="select-level"></span>
+						<span class="select-level">1</span>
+						<!--图标-->
+						<div class="arrows"></div>
 						<ul class="drop-list">
+							<!--<li>授权级别</li>
+							<li>级别1</li>
+							<li>级别2</li>
+							<li>级别3</li>-->
 						    <volist name='levlist' id='v'>
-							<li lev_id={$v.level} >{$v.level_name}</li>
+								<li lev_id={$v.level} >{$v.level_name}</li>
 							</volist>
 						</ul>
 					</div>
 				</div>
 				
 				<div class="row-line">
-					<label>邀请ID:</label>
+					<div class="rank">邀请ID:</div>
 					<div class="right">
 						<input type="text" id='uid1' name='uid1'>
 						<span class="verificationBtn">验证身份</span>
@@ -69,6 +75,8 @@
 			// 取值
 			$(".drop-list li").click(function(){
 				var val = $(this).attr('lev_id');
+//				var val = $(this).html();
+//				console.log(val)
 				$(".select-level").html(val);
 				$(".drop-list").toggle();
 			})
