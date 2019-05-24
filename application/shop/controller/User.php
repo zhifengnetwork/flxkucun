@@ -117,6 +117,16 @@ class User extends MobileBase
         return $this->fetch();
     }
 
+    // 上级仓库
+    public function superior_store(){
+        return $this->fetch();
+    }
+
+    // 我的佣金
+    public function mommission(){
+        return $this->fetch();
+    }
+
     //zp
     public function welfare_zp(){
         return $this->fetch();

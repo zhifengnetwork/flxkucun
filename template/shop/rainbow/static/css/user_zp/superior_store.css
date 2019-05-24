@@ -1,0 +1,11 @@
+.content{
+    padding-top: .88rem;
+    box-sizing: border-box;
+}
+.superior-list{
+    margin-top: .3rem;
+}
+.superior-list li{
+    display: flex;
+    margin-bottom: .1rem;
+}
