@@ -63,10 +63,9 @@
 		<div class="video_goods">
 			<div class="title">
                 <h3>商品介绍</h3>
-                <a href="{:U('shop/find/find_more')}" class="more"><span>查看更多</span><i></i></a>
 			</div>
-			<div class="video_list">
-				<ul>
+			<div class="video_list" id="video_list">
+				<ul >
 					<foreach name='goodsVideo' item='v' >
 					<li class="item">
 						<a href="{:U('shop/video/video_play',array('id'=>$v.goods_id))}">
@@ -86,38 +85,6 @@
 					</foreach>
 				</ul>
 			</div>
-
-			<!-- 用户专区 -->
-			<div class="video_goods">
-				<div class="heading">
-					<h3>用户专区</h3>
-				</div>
-				<div class="video_list" id="video_list">
-					<ul>
-						<foreach name='userVideo' item='v' >
-						<li class="item">
-							<a href="{:U('shop/video/user_video_play',array('id'=>$v.id))}">
-								<div class="img_wrap">
-									<if $v.video_img >
-										<img src="{$v.video_img}" height="246.41" />
-										<else/>
-										<img src="__STATIC__/images/home_zp/00product-img01.png" />
-									</if>
-									<span class="playBtn_sm">
-										<img src="__STATIC__/images/home_zp/playBtn-sm.png" />
-									</span>
-								</div>
-								<p>{$v.title}</p>
-								<div class="userInfo">
-									<span class="acatav"><img src="{$v.head_pic}"/></span>
-									<span class="name">{$v.nickname}</span>
-								</div>
-							</a>
-						</li>
-						</foreach>
-					</ul>
-				</div>
-			</div>
 			<div style="text-align: center;">
 				<span id="get_more" >商品加载中...</span>
 				<em id="no_more" style="display:none;">商品加载完毕...</em>
@@ -126,7 +93,7 @@
 			<include file="public/footer_nav" />
 
 		</div>
-	</div>
+	 </div>
 		<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
 		<script src="__STATIC__/js/swiper.min.js"></script>
 	    <script type="text/javascript" src="__STATIC__/js/sourch_submit.js"></script>
@@ -166,15 +133,6 @@
 				//继续播放视频
 				myVideo.play();
 			}
-		</script>
-		<script>
-			$(function () {
-				$(".bannerWrap").click(function () {
-					$(this).find(".playBtn").hide();
-					playPause();
-				})
-
-			})
             /**
              * 继续加载猜您喜欢
              * */
@@ -187,7 +145,7 @@
                 page++;
                 $.ajax({
                     type: "get",
-                    url: "/index.php/Shop/Find/ajaxUserVideo/page/" + page,
+                    url: "/index.php/Shop/Find/ajaxGoodsList/page/" + page,
                     success: function(data) {
                         if(data) {
                             $("#video_list>ul").append(data);
@@ -200,6 +158,14 @@
                 });
             }
 		</script>
-</body>
+		<script>
+			$(function () {
+				$(".bannerWrap").click(function () {
+					$(this).find(".playBtn").hide();
+					playPause();
+				})
 
+			})
+		</script>
+</body>
 </html>

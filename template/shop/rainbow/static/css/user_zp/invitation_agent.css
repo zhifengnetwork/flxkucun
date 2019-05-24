@@ -84,19 +84,9 @@ img {
 }
 .list_wrap {
 	display: none;
-	background: #fff;
-}
-.list {
-	display: none;
-	background: #fff;
+	background: #F2F2F2;
 }
 .list_wrap li {
-	padding-right: .45rem;
-	font-size: .24rem;
-	color: #151515;
-	line-height: .36rem;
-}
-.list li {
 	padding-right: .45rem;
 	font-size: .24rem;
 	color: #151515;

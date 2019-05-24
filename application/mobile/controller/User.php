@@ -131,14 +131,11 @@ class User extends MobileBase
 
     public function index()
     {
-        $this->redirect('shop/user/fenxiang');
-
-        exit;
 
         
         $MenuCfg = new MenuCfg();
         $menu_list = $MenuCfg->where('is_show', 1)->order('menu_id asc')->select();
-        
+
         $user_id = session('user.user_id');
         $user_money = M('users')->where(['user_id'=>$user_id])->value('user_money');
         $this->assign('user_money', $user_money);

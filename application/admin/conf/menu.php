@@ -113,8 +113,8 @@ return array(
 //        )),
 
         array('name' => '视频', 'child' => array(
-            array('name' => '视频列表', 'act' => 'videoList', 'op' => 'Video'),
-            array('name' => '用户专区', 'act' => 'userVideoList', 'op' => 'Video'),
+            //array('name' => '商品视频', 'act' => 'video_list', 'op' => 'VideoGoods'),
+            array('name' => '用户视频', 'act' => 'video_list', 'op' => 'VideoUser'),
         )),
     )),
 
@@ -159,7 +159,7 @@ return array(
             array('name' => '会员列表', 'act' => 'index', 'op' => 'User'),
             array('name' => '快速更改等级', 'act' => 'changelevel', 'op' => 'User'),
             array('name'=>'会员等级','act'=>'levelList','op'=>'User'),
-            array('name'=>'申请大区董事列表','act'=>'lists','op'=>'Largearea'),
+            array('name'=>'邀请代理列表','act'=>'index','op'=>'Apply'),
             array('name'=>'会员升级日志','act'=>'lists','op'=>'Upgrade'),
         )),
 		array('name' => '团队管理','child'=>array(

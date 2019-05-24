@@ -45,7 +45,6 @@ input:checked:after{
 }
 
 .explain {
-	font-size: .18rem;
 	color: #151515;
 	overflow: hidden;
     text-overflow: ellipsis;
@@ -54,7 +53,6 @@ input:checked:after{
     -webkit-box-orient: vertical;
 }
 .idnum {
-	font-size: .18rem;
 	color: #151515;
 	line-height: .35rem;
 }

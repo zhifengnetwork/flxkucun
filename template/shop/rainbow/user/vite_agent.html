@@ -31,9 +31,9 @@
 					<div class="drop-down">
 						<span class="select-level"></span>
 						<ul class="drop-list">
-							<li>一级会员</li>
-							<li>二级会员</li>
-							<li>三级会员</li>
+						<volist name='levlist' id='v'>
+							<li lev_id={$v.level} >{$v.level_name}</li>
+							</volist>
 						</ul>
 					</div>
 				</div>
@@ -41,12 +41,12 @@
 				<div class="row-line">
 					<label>邀请ID:</label>
 					<div class="right">
-						<input type="text">
+						<input type="text" id='uid1' name='uid1'>
 						<span class="verificationBtn">验证身份</span>
 					</div>
 				</div>
-
-				<div class="agent-info">
+			
+				<div class="agent-info" style='display:none;'>
 					<div class="avatar">
 						<img src="__STATIC__/images/user_zp/000avatar-03.png" />
 					</div>
@@ -62,6 +62,7 @@
 		
 		<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
         <script src="__STATIC__/js/public/public_lb.js"></script>
+		<script src="__PUBLIC__/js/layer/layer-min.js"></script>
 		<script>
 			// 下拉列表
 			$(".select-level").click(function(){
@@ -70,10 +71,60 @@
 
 			// 取值
 			$(".drop-list li").click(function(){
-				var val = $(this).html();
+				var val = $(this).attr('lev_id');
 				$(".select-level").html(val);
 				$(".drop-list").toggle();
 			})
+
+			$('.verificationBtn').click(function(){
+				var uid1 = parseInt($('#uid1').val());
+				if(!uid1){
+					layer.open({content: '请输入邀请ID', time: 2000});
+					return;
+				}
+				$.ajax({
+					type : "GET",
+					url:"/Shop/user/ajax_get_userinfo/uid/"+uid1,
+					dataType:'json',
+					//data : $('#'+tab).serialize(),// 你的formid
+					success: function(data){
+						if(data.status != 0){
+							layer.open({content: data.msg, time: 2000});
+							return;
+						}else{
+							$('.phone').html(data.data.mobile);
+							$('.avatar img').attr('src',data.data.head_pic);
+							$('.agent-info').show();
+						}
+					}
+				});
+			});
+
+			$('.inviteBtn').click(function(){
+				var level = $(".select-level").html();
+				var uid1 = parseInt($("#uid1").val());
+				if(!uid1){
+					layer.open({content: '请输入邀请ID', time: 2000});
+					return;
+				}
+
+				$.ajax({
+					type : "POST",
+					url:"/Shop/Apply/SendInvitation",
+					dataType:'json',
+					data : {'level':level, 'uid1':uid1},
+					success: function(data){
+						if(data.status != 0){
+							layer.open({content: data.msg, time: 2000});
+							return;
+						}else{
+							layer.open({content: data.msg, time: 2000});
+							location.reload();
+							return;
+						}
+					}
+				});
+			});
 
 		</script>
 

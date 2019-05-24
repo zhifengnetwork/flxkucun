@@ -11,12 +11,12 @@
 	<body>
 		<div class="wrapper">
 			<!--public head-->
-			<form method="post" action="./addvideo" enctype='multipart/form-data'>
+			<form method="post" action="./video_update" enctype='multipart/form-data'>
 	        <div class="lb_headWrap topBox_backgroundColor">
 	            <p class="lb_headWrap_return" data-num="1" onclick="returnFun()">
 	                <img class="lb_headWrap_return_img" src="__STATIC__/images/public_lb/returnImg666_lb.png"/>
 	            </p>
-	            <span>添加视频</span>
+	            <span>更新视频</span>
 	        </div>
 	        <!--内容-->
 	        <div class="content">
@@ -34,7 +34,7 @@
 		        			</div>
 		        			<p>添加您要上传的视频</p>
 		        		</div>
-		        		<input class="put" name="video" type="file" placeholder ="添加您要上传的视频" accept="video/*" />
+		        		<input class="put" name="video" type="file" value="" accept="video/*" />
 	        		</div>
 	        	
 	        		<!--上传中状态显示，没有上传默认隐藏-->
@@ -57,20 +57,22 @@
 							</a>
 		        		</div>
 		        	</div>
-		        	
 	        	</div>
 	        	
 	        	<!--文字说明-->
         		<div class="state">上传视频需知时长30S</div>
         		<!--标题输入框-->
         		<div class="inp">
-        			<input type="text" name="title" placeholder="输入标题" />
+        			<input type="text" name="title" placeholder="输入标题" value="{$info['title']}" />
+					<input type="hidden" name="video_img" value="{$info['video_img']}" />
+					<input type="hidden" name="video_url" value="{$info['video_url']}" />
+        			<input type="hidden" name="video_id" value="{$info['id']}" />
         		</div>
         		<!--文本输入框-->
-        		<textarea class="text" name='content' placeholder="输入您想说的话"></textarea>
+        		<textarea class="text" name='content' placeholder="输入您想说的话">{$info['content']}</textarea>
+				<if $info.reason> <div class="state" style="margin-top: 5px;">不通过原因:&nbsp;&nbsp;<span class="text-red">{$info['reason']}</span></div></if>
         		<!--确认按钮-->
         		<!--视频上传中按钮按钮添加class:ack_btn_on-->
-        		<!--<div class="ack_btn">确定上传</div>-->
         		<div class="btn_wrap">
         			<input type="submit" class="ack_btn">
         		</div>
@@ -83,7 +85,7 @@
 		<script>
 			$(function (){
 				$('.ack_btn').click(function (){
-					$('.up_box').show();
+					$('cross').show();
 					$('.ack_btn').addClass('ack_btn_on');
 				})
 			})

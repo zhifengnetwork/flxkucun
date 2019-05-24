@@ -18,7 +18,7 @@
 }
 .zjy_head{
 	width: 100%;
-	line-height: 5rem;
+	line-height: 3rem;
 	text-align: center;
 }
 .zjy_head h3{
@@ -63,6 +63,7 @@
 	text-indent: 10px;
 }
 .loginsingup-input {
+	margin: 5rem 0 0;
     background-color:#fff;
     padding:0 1.92rem;
     color:#333;
@@ -489,6 +490,7 @@ a{
 }
 .zjy_lu a{
 	display: inline-block;
+	vertical-align: top;
 	width: 40%;	
 	height: 1.5rem;
 	line-height: 1.5rem;	

@@ -96,7 +96,7 @@
 					</div>
 				</a>
 			</div>
-			<div class="cate-more"><a href="###">更多</a></div>
+			<div class="cate-more"><a href="###">更多{$level}</a></div>
 		</div>
 		
 		<!-- 商品 -->
@@ -112,7 +112,11 @@
 						<div class="text">
 							<h3><a href="{:U('Shop/Goods/goodsInfo',array('id'=>$vo[goods_id],'item_id'=>$vo[item_id]))}">{$v.goods_name|getSubstr=0,33}</a></h3>
 							<p class="price">
-								<span class="original-price">¥{$v[shop_price]}</span>
+								<if condition="$level eq null">
+									<span class="original-price">¥{$v['price'][1]['price']}</span>
+								<else/>
+									<span class="original-price">¥{$v['price'][$level]['price']}</span>
+								</if>
 								<span class="discount-price">¥{$v[market_price]}</span>
 							</p>
 							<span class="cartBtn"><img src="__STATIC__/images/home_zp/cartBtn-icon.png" /></span>

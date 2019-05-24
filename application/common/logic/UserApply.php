@@ -106,4 +106,16 @@ class UserApply
         return $this->user;
     }
 
+    //获取级别对应的上级用户
+    public function getLeaderTop($uid,$lev){
+        $Users = M('Users');
+        $topinfo = $Users->field('level,first_leader')->find($uid);
+        if($topinfo['level'] >= $lev)
+            return $uid;
+        elseif($topinfo['first_leader'] > 0)
+            return $this->getLeaderTop($topinfo['first_leader'],$lev);
+        else
+            return 0;
+    }
+
 }

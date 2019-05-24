@@ -43,34 +43,34 @@ img {
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 }
-.content .push_wrap .push .niu {
+.niu {
 	margin: 0 auto;
 	width: 1.28rem;
 	height: 1.17rem;
 }
-.content .push_wrap .push p {
+.push p {
 	font-size: .28rem;
 	color: #848484;
 	text-align: center;
 	line-height: .65rem;
 }
 
-.content .state {
+.state {
 	padding: 0 0 0 .2rem;
 	font-size: .26rem;
 	color: #989898;
 	line-height: .45rem;
 }
 
-.content .inp {
+.inp {
 	margin: .2rem 0 .2rem .2rem;
 	padding: .15rem;
 	width: 55%;
 	border: 1px solid #dadada;
 	border-radius: 6px;
 }
-.content .inp input {
-	width: 55%;
+.inp input {
+	width: 100%;
 }
 .content .text {
 	padding: .1rem;
@@ -78,18 +78,23 @@ img {
 	width: 7.02rem;
 	height: 1.6rem;
 	outline-style: none;
+	resize: none;
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	border-radius: 6px;
 	border: 1px solid #dadada;
 }
 
+.btn_wrap {
+	padding: 0 0 0 .24rem;
+}
 .ack_btn {
 	margin: .65rem auto;
 	width: 7.02rem;
 	height: .6rem;
 	text-align: center;
 	line-height: .6rem;
+	letter-spacing: 2px;
 	color: #fff;
 	font-size: .26rem;
 	background: #e31a49;
@@ -100,7 +105,7 @@ img {
 	background: #858585;
 }
 
-.content .cross {
+.content .hide {
 	display: none;
 	padding: 2.13rem 0 0;
 	position: absolute;
@@ -114,12 +119,12 @@ img {
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 }
-.content .cross .niu_z {
+.niu_z {
 	margin: 0 auto;
 	width: 1.28rem;
 	height: 1.17rem;
 }
-.content .cross p {
+.hide p {
 	font-size: .28rem;
 	color: #fff;
 	text-align: center;
@@ -134,6 +139,7 @@ img {
 	z-index: 5;
 	width: 7.02rem;
 	height: 7.02rem;
+	background: rgba(0,0,0,0.3);
 	border-radius: 6px;
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -193,4 +199,7 @@ img {
 .vid {
 	width: 100%;
 	height: 100%;
+}
+.text-red{
+	color: red;
 }

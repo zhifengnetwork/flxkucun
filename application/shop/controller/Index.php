@@ -16,7 +16,7 @@ class Index extends MobileBase {
             $user = session('user');
             $user = M('users')->where("user_id", $user['user_id'])->find();
             $shareid =  $user['user_id'];
-            $this->assign('is_code',$user['is_code']);
+            $this->assign('level',$user['level']);
         }
         $diy_index = M('mobile_template')->where('is_index=1')->field('template_html,block_info')->find();
         if($diy_index){
@@ -46,18 +46,36 @@ class Index extends MobileBase {
             $signPackage = $jssdk->GetSignPackage();              
             print_r($signPackage);
         */
-        $hot_goods = M('goods')->where("is_hot=1 and is_on_sale=1")->order('goods_id DESC')->limit(2)->cache(true,TPSHOP_CACHE_TIME)->select();//首页热卖商品
+//        $hot_goods = M('goods')->where("is_hot=1 and is_on_sale=1")->order('goods_id DESC')->limit(2)->cache(true,TPSHOP_CACHE_TIME)->select();//首页热卖商品
+//        $this->assign('hot_goods',$hot_goods);
         $thems = M('goods_category')->order('sort_order')->limit(9)->cache(true,TPSHOP_CACHE_TIME)->select();
         $this->assign('thems',$thems);
-        $this->assign('hot_goods',$hot_goods);
 
         $favourite_goods = M('goods')->where("is_recommend=1 and is_on_sale=1")->order('sort DESC')->limit(20)->cache(true,TPSHOP_CACHE_TIME)->select();//首页推荐商品
-        $this->assign('favourite_goods',$favourite_goods);
-
+        $goods = $this->_getGoodsPrice($favourite_goods);
+        $this->assign('favourite_goods',$goods);
         return $this->fetch();
     }
 
- 
+    /**
+     * 找出当前商品等级价格
+     *
+     * @param $goodsInfo 所有商品
+     * @param $nowCategory
+     *
+     * @return
+     */
+    protected function _getGoodsPrice ($goodsInfo)
+    {
+
+        foreach ( $goodsInfo as $key=>$value ) {
+            $level_price = M('goods_level_price')->where('goods_id',$value['goods_id'])->order('level asc')->select();
+            $price = array_column($level_price,NULL,'level');
+            $goodsInfo[$key]['price'] = $price;
+        }
+
+        return $goodsInfo;
+    }
 
     //商品列表板块参数设置
     public function goods_list_block(){

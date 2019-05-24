@@ -1,0 +1,69 @@
+<div id="flexigrid" cellpadding="0" cellspacing="0" border="0">
+				<table>
+					<tbody>
+					<foreach name="list" item="vo" key="k" >
+						<tr data-id="{$list['user_id']}">
+							<td class="sign">
+								<div style="width: 24px;"><i class="ico-check"></i></div>
+							</td>
+							<td align="center" class="">
+								<div style="text-align: center; width: 100px;">{$vo.uidinfo.nickname}</div>
+							</td>
+							<td align="center" class="">
+								<div style="text-align: center; width: 200px;">{$vo.leaderidinfo.nickname}</div>
+							</td>
+							<td align="center" class="">
+								<div style="text-align: center; width: 200px;">{$vo.level_name}</div>
+							</td>
+							<td align="center" class="">
+								<div style="text-align: center; width: 70px;"><if condition="$vo.status eq 0">未审核<elseif condition="$vo.status eq 1" />已同意<elseif condition="$vo.status eq 2" />不同意<elseif condition="$vo.status eq 3" />已成功</if></div>
+							</td>
+							<td align="center" class="">
+								<div style="text-align: center; width: 150px;">{:date('Y-m-d H:i:s',$vo.addtime)}</div>
+							</td>
+
+							<td align="" class="" style="width: 100%;">
+								<div>&nbsp;</div>
+							</td>
+						</tr>
+					</foreach>
+					</tbody>
+				</table>
+</div>
+<!--分页位置-->
+{$pager->show()}
+<script>
+    $(".pagination  a").click(function(){
+        var page = $(this).data('p');
+        ajax_get_table('search-form2',page);
+    });
+    $(document).ready(function(){
+        // 表格行点击选中切换
+        $('#flexigrid >table>tbody>tr').click(function(){
+            $(this).toggleClass('trSelected');
+        });
+        $('#user_count').empty().html("{$pager->totalRows}");
+    });
+    function delfun(obj) {
+        // 删除按钮
+        layer.confirm('确认删除？', {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            $.ajax({
+                type: 'post',
+                url: $(obj).attr('data-url'),
+                data: {id : $(obj).attr('data-id')},
+                dataType: 'json',
+                success: function (data) {
+                    layer.closeAll();
+                    if (data.status == 1) {
+                        $(obj).parent().parent().parent().remove();
+                    } else {
+                        layer.alert(data.msg, {icon: 2});
+                    }
+                }
+            })
+        }, function () {
+        });
+    }
+</script>
