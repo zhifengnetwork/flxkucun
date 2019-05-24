@@ -10,20 +10,26 @@
 								<div style="text-align: center; width: 100px;">{$vo.uidinfo.nickname}</div>
 							</td>
 							<td align="center" class="">
-								<div style="text-align: center; width: 200px;">{$vo.leaderidinfo.nickname}</div>
+								<div style="text-align: center; width: 100px;">{$vo.leaderidinfo.nickname}</div>
 							</td>
 							<td align="center" class="">
-								<div style="text-align: center; width: 200px;">{$vo.level_name}</div>
+								<div style="text-align: center; width: 100px;">{$vo.level_name}</div>
 							</td>
 							<td align="center" class="">
-								<div style="text-align: center; width: 70px;"><if condition="$vo.status eq 0">未查看<elseif condition="$vo.status eq 1" />已成功<elseif condition="$vo.status eq 2" />不同意<elseif condition="$vo.status eq 3" />已查看</if></div>
+								<div style="text-align: center; width: 100px;">{$vo.name}</div>
+							</td>
+							<td align="center" class="">
+								<div style="text-align: center; width: 200px;">{$vo.tel}</div>
+							</td>
+							<td align="center" class="">
+								<div style="text-align: center; width: 70px;"><if condition="$vo.status eq 0">未审核<elseif condition="$vo.status eq 1" />通过<elseif condition="$vo.status eq 2" />不通过<elseif condition="$vo.status eq 3" />成功</if></div>
 							</td>
 							<td align="center" class="">
 								<div style="text-align: center; width: 150px;">{:date('Y-m-d H:i:s',$vo.addtime)}</div>
 							</td>
 							<td align="center" class="handle">
 								<div style="text-align: center; width: 150px; max-width:170px;">
-									<a href="{:U('apply/applyinfo',array('id'=>$vo['id']))}" class="btn blue"><i class="fa fa-pencil-square-o"></i>查看</a>
+									<a href="{:U('apply/apply_for_info',array('id'=>$vo['id']))}" class="btn blue"><i class="fa fa-pencil-square-o"></i>查看</a>
 								</div>
 							</td>
 

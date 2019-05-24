@@ -105,6 +105,13 @@ class User extends MobileBase
 
     // 申请等级
     public function apply_grade(){
+		$levlist = M('user_level')->field('id,level,level_name')->where(['level'=>['gt',$this->user['level']]])->select();
+		$this->assign('levlist',$levlist);
+
+		//收到的邀请数
+		$num = M('apply')->where(['uid'=>$this->user_id])->count();
+		$this->assign('num',$num);
+
         return $this->fetch();
     }
     // 下级订单

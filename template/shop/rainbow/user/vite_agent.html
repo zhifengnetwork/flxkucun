@@ -21,6 +21,7 @@
 
             <!-- 主内容 -->
             <div class="content">
+				<input type="hidden" id='level' name='level' />
                 <!-- 证书 -->
                 <div class="certificate">
                     <img src="__STATIC__/images/user_zp/000certificate-img.png" />
@@ -33,7 +34,7 @@
 						<ul class="drop-list">
 						<volist name='levlist' id='v'>
 							<li lev_id={$v.level} >{$v.level_name}</li>
-							</volist>
+						</volist>
 						</ul>
 					</div>
 				</div>
@@ -71,8 +72,9 @@
 
 			// 取值
 			$(".drop-list li").click(function(){
-				var val = $(this).attr('lev_id');
+				var val = $(this).html();
 				$(".select-level").html(val);
+				$("#level").val($(this).attr('lev_id'));
 				$(".drop-list").toggle();
 			})
 
@@ -101,7 +103,7 @@
 			});
 
 			$('.inviteBtn').click(function(){
-				var level = $(".select-level").html();
+				var level = $("#level").val();
 				var uid1 = parseInt($("#uid1").val());
 				if(!uid1){
 					layer.open({content: '请输入邀请ID', time: 2000});

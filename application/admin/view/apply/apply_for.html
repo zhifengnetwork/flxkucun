@@ -6,7 +6,7 @@
     <div class="fixed-bar">
         <div class="item-title">
             <div class="subject">
-                <h3>邀请代理列表</h3>
+                <h3>申请代理列表</h3>
             </div>
         </div>
     </div>
@@ -14,7 +14,7 @@
     <div class="flexigrid">
         <div class="mDiv">
             <div class="ftitle">
-                <h3>邀请代理列表</h3>
+                <h3>申请代理列表</h3>
                 <h5>(共<span id="user_count"></span>条记录)</h5>
             </div>
             <div title="刷新数据" class="pReload"><i class="fa fa-refresh"></i></div>
@@ -32,8 +32,8 @@
                         </select>
 						<!--
                         <select class="select" name="search_type" id="search_type">
-                            <option value="nickname">邀请人昵称</option>
-                            <option value="nickname2">被邀请人昵称</option>
+                            <option value="nickname">申请人昵称</option>
+                            <option value="nickname2">被申请人昵称</option>
                         </select>
 						
                         <input type="text" id="search_key" size="30" class="qsbox" placeholder="查询"
@@ -54,19 +54,25 @@
 							<div style="width: 24px;"><i class="ico-check"></i></div>
 						</th>
 						<th align="center" abbr="ac_id" axis="col4" class="">
-							<div style="text-align: center; width: 100px;" class="">邀请人</div>
+							<div style="text-align: center; width: 100px;" class="">申请人</div>
 						</th>
 						<th align="center" abbr="ac_id" axis="col4" class="">
-							<div style="text-align: center; width: 200px;" class="">被邀请人</div>
+							<div style="text-align: center; width: 100px;" class="">申请上级</div>
 						</th>
 						<th align="center" abbr="article_show" axis="col5" class="">
-							<div style="text-align: center; width: 200px;" class="">邀请级别</div>
+							<div style="text-align: center; width: 100px;" class="">申请级别</div>
+						</th>
+						<th align="center" abbr="article_show" axis="col5" class="">
+							<div style="text-align: center; width: 100px;" class="">姓名</div>
+						</th>
+						<th align="center" abbr="article_show" axis="col5" class="">
+							<div style="text-align: center; width: 200px;" class="">电话</div>
 						</th>
 						<th align="center" abbr="article_time" axis="col6" class="">
 							<div style="text-align: center; width: 70px;" class="">状态</div>
 						</th>
 						<th align="center" abbr="article_time" axis="col6" class="">
-							<div style="text-align: center; width: 150px;" class="">邀请时间</div>
+							<div style="text-align: center; width: 150px;" class="">申请时间</div>
 						</th>
 						<th align="center" axis="col1" class="handle">
 							<div style="text-align: center; width: 150px;">查看</div>
@@ -236,7 +242,7 @@
         cur_page = page; //当前页面 保存为全局变量
         $.ajax({
             type : "POST",
-            url:"/index.php/Admin/apply/ajaxindex/p/"+page,//+tab,
+            url:"/index.php/Admin/apply/ajaxapply_for/p/"+page,//+tab,
             data : $('#'+tab).serialize(),// 你的formid
             success: function(data){
                 $("#ajax_return").html('');
