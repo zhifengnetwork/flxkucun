@@ -174,7 +174,7 @@
 		<script>
 			// 首页轮播图
 			var swiper = new Swiper('.bannerWrap', {
-				loop: true,
+				loop: false,
 				pagination: '.swiper-pagination',
 				paginationClickable: true,
 				// autoplay: 3000,
@@ -210,28 +210,22 @@
 		</script>
 		<script>
 			$(function () {
-				var sit = true;
-				
 				$('.swiper-slide').click(function(){
 				var span = 	$(this).children('.playBtn')
 					//播放
 					span.hide();
 					let video = $(this).children('video')
-						playPause(video[0],span)
+					playPause(video[0],span)
 				});
-				function playPause(video,than)
-					{ 
+				function playPause(video,than){ 
 					if (video.paused) {
 						video.play(); than.hide();
-						console.log($(video))
-						// $(video).
 					}
 					else{
 						video.pause(); 
 						than.show();
 					}
-					
-					} 
+				} 
 			})
 		</script>
 </body>
