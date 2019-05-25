@@ -194,7 +194,7 @@ body{
 }
 /*取消/确定按钮*/
 .btn_wrap {
-	margin: .2rem 0 0 3.5rem;
+	margin: .2rem 0 0 4rem;
 }
 .btn_wrap a {
 	display: inline-block;
