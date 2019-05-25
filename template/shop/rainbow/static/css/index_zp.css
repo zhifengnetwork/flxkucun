@@ -135,12 +135,16 @@ body{
     padding: 0 .24rem;
     box-sizing: border-box;
 }
-
+.title h3{
+    font-weight: normal;
+    color: #666;
+}
 /* 学习专区 */
 .learning-area{
     display: flex;
     justify-content: space-between;
     padding: 0 0.24rem;
+    margin-bottom: .1rem;
 }
 .learning-area .study-item img{
     width: 3.44rem;
@@ -247,6 +251,8 @@ body{
     position: absolute;
     right: .1rem;
     bottom: .16rem;
+    background: url(../images/home_zp/cartBtn-icon.png) no-repeat;
+    background-size: 100%;
 }
 .product .item .cartBtn img{
     width: 100%;
