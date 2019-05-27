@@ -79,6 +79,7 @@ class Order extends MobileBase
         $where_arr = [
             'seller_id'=>$this->user_id,
             'deleted'=>0,//删除的订单不列出来
+            'order_status'=>0,//列出未确认的订单
             'prom_type'=>['lt',5],//虚拟拼团订单不列出来
         ];
 
@@ -119,10 +120,13 @@ class Order extends MobileBase
 
         $order = new OrderModel();
         $goods = $order::get($order_id);
+        if($goods['order_status'] != 0){
+            $this->ajaxReturn(['status' => 0, 'msg' => '请勿重复操作！', 'url' => U('Order/order_send')]);
+        }
 
         foreach($goods['order_goods'] as $value){
             $num = user_kucun_goods($this->user_id,$value['goods_id']);
-            if ($num['nums'] < $value['goods_num']){
+            if ($num['nums'] < $value['goods_num'] && $action != 'invalid'){
                 $this->ajaxReturn(['status' => 0, 'msg' => '您的库存不足', 'url' => U('Order/order_send')]);
             }
         }
@@ -134,12 +138,13 @@ class Order extends MobileBase
                 $commonOrder->setOrderById($order_id);
                 $res =  $commonOrder->orderActionLog('上级确认发货',$convert_action,$this->user_id);
             }
-            $Result = $orderLogic->superiorProcessOrder($order_id,$action,array('note'=>I('note'),'admin_id'=>0));
+            $orderLogic->setUserId($this->user_id);
+            $Result = $orderLogic->superiorProcessOrder($order_id, $goods['user_id'], $action,array('note'=>I('note'),'admin_id'=>0));
             if($res !== false && $Result !== false){
                 if ($action == 'remove') {
                     $this->ajaxReturn(['status' => 1, 'msg' => '操作成功', 'url' => U('Order/index')]);
                 }
-                $this->ajaxReturn(['status' => 1,'msg' => '操作成功','url' => U('Order/detail',array('order_id'=>$order_id))]);
+                $this->ajaxReturn(['status' => 1,'msg' => '操作成功','url' => U('Order/order_send')]);
             }else{
 
                 $this->ajaxReturn(['status' => 0,'msg' => '操作失败','url' => U('Order/index')]);

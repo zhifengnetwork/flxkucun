@@ -142,7 +142,12 @@
 							success : function(data){
 								layer.closeAll();
 								if(data.status==1){
-									layer.msg(data.msg, {icon: 1});
+									layer.msg(data.msg, {icon: 1},function(index){
+										location.href=data.url;
+
+										layer.close(index);
+
+									});
 									$(obj).parent().parent().parent('tr').remove();
 								}else{
 									layer.msg(data.msg, {icon: 2,time: 2000});
