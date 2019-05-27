@@ -54,7 +54,7 @@ class Order extends Model
 
     public function users()
     {
-        return $this->hasone('users', 'user_id', 'user_id')->field('user_id,nickname');
+        return $this->hasone('users', 'user_id', 'user_id')->field('user_id,nickname,head_pic');
     }
 
     /**

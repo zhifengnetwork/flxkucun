@@ -138,6 +138,8 @@
 //            ids.push($(o).data('id'));
             ids += $(o).data('id')+',';
         });
+        alert(ids);
+        return false;
         if(ids == ''){
             layer.msg('至少选择一项', {icon: 2, time: 2000});
             return false;

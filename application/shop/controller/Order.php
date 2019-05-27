@@ -67,6 +67,80 @@ class Order extends MobileBase
     {
     	return $this->fetch();
     }
+    /**
+     * 下级订单列表
+     * @return mixed
+     */
+    public function order_send()
+    {
+        $type = input('type');
+        $is_shop = input('is_shop/d');
+        $order = new OrderModel();
+        $where_arr = [
+            'seller_id'=>$this->user_id,
+            'deleted'=>0,//删除的订单不列出来
+            'prom_type'=>['lt',5],//虚拟拼团订单不列出来
+        ];
+
+        if($is_shop){
+            $where_arr['shop_id'] = ['gt', 0];
+        }
+        $count = $order->where($where_arr)
+            ->where(function ($query) use ($type) {
+                if ($type) {
+                    $query->where("1=1".C(strtoupper($type)));
+                }
+            })
+            ->count();
+
+        $Page = new Page($count, 10);
+        $order_list = $order->where($where_arr)
+            ->where(function ($query) use ($type) {
+                if ($type) {
+                    $query->where("1=1".C(strtoupper($type)));
+                }
+            })
+            ->limit($Page->firstRow . ',' . $Page->listRows)->order("order_id DESC")->select();
+        $this->assign('order_list', $order_list);
+        if ($_GET['is_ajax']) {
+            return $this->fetch('ajax_order_list');
+        }
+        return $this->fetch();
+    }
+
+    /**
+     * 订单操作
+     * @param $id
+     */
+    public function order_action(){
+        $orderLogic = new OrderLogic();
+        $action = I('get.type');
+        $order_id = I('get.order_id');
+        $data = input('post.');
+        dump($data);exit;
+        if($action && $order_id){
+            if($action !=='pay'){
+                $convert_action= C('CONVERT_ACTION')["$action"];
+                $commonOrder = new \app\common\logic\Order();
+                $commonOrder->setOrderById($order_id);
+                $res =  $commonOrder->orderActionLog(I('note'),$convert_action,$this->admin_id);
+            }
+            $a = $orderLogic->orderProcessHandle($order_id,$action,array('note'=>I('note'),'admin_id'=>0));
+            if($res !== false && $a !== false){
+                if ($action == 'remove') {
+                    $this->ajaxReturn(['status' => 1, 'msg' => '操作成功', 'url' => U('Order/index')]);
+                }
+                $this->ajaxReturn(['status' => 1,'msg' => '操作成功','url' => U('Order/detail',array('order_id'=>$order_id))]);
+            }else{
+                if ($action == 'remove') {
+                    $this->ajaxReturn(['status' => 0, 'msg' => '操作失败', 'url' => U('Order/index')]);
+                }
+                $this->ajaxReturn(['status' => 0,'msg' => '操作失败','url' => U('Order/index')]);
+            }
+        }else{
+            $this->ajaxReturn(['status' => 0,'msg' => '参数错误','url' => U('Order/index')]);
+        }
+    }
 
     /**
      * 订单列表
