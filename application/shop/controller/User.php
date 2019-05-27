@@ -90,6 +90,10 @@ class User extends MobileBase
 
     // 仓库管理
     public function store_manage(){
+        //读取会员仓库信息
+        $kucun = user_kucun($this->user_id);
+        //print_r($kucun);exit;
+        $this->assign('kucun',$kucun);
         return $this->fetch();
     }
     // 团队数据
@@ -99,9 +103,16 @@ class User extends MobileBase
         //直推上级
         $first_leader = M('users')->where('user_id',$this->user['first_leader'])->find();
         //平级上级
+        $pinji_leader_first = find_prepareuserinfo($this->user['user_id']);
         //配货上级
+        $peihuo_leader_first = find_prepareuserinfo($this->user['user_id'],2);
         /******我的配货下级*****/
+         //$peihuo_sub = find_prepareuserinfo($this->user['user_id'],2);
         /******直推下级*****/
+        $this->assign('user_info',$this->user); //用户信息
+        $this->assign('pinji_leader_first',$pinji_leader_first); 
+        $this->assign('peihuo_leader_first',$peihuo_leader_first);
+        $this->assign('first_leader',$first_leader);
         $this->assign('user_info',$this->user); //用户信息
         return $this->fetch();
     }
@@ -135,6 +146,27 @@ class User extends MobileBase
 
     // 上级仓库
     public function superior_store(){
+
+          // 存找配货上级
+        $new_kucun =array();    
+        $pei_parent=find_prepareuserinfo($this->user_id);
+        //print_r($pei_parent);exit;
+       if($pei_parent==0)
+        {
+            $kucun = M("goods")->alias('g')
+           ->field('g.store_count as nums,g.goods_name,g.goods_id,g.shop_price,g.original_img')
+          //->join('users u','g.user_id=u.user_id','LEFT')
+          ->where("is_on_sale=1")->select();
+        }
+        else
+        {
+            $kucun = user_kucun($pei_parent['user_id']);
+        }
+        
+        //读取会员仓库信息
+        
+        //print_r($kucun);exit;
+        $this->assign('kucun',$kucun);
         return $this->fetch();
     }
 

@@ -267,7 +267,8 @@ class CartLogic extends Model
     private function addNormalCart()
     {
         if (empty($this->specGoodsPrice)) {
-            $price = $this->goods['shop_price'];
+           $price = $this->goods['shop_price'];
+            //$price = $this->goods['market_price'];
             $store_count = $this->goods['store_count'];
         } else {
             //如果有规格价格，就使用规格价格，否则使用本店价。
@@ -321,6 +322,7 @@ class CartLogic extends Model
             if ($this->goodsBuyNum > $store_count) {
                 throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '商品库存不足，剩余' . $this->goods['store_count']]);
             }
+
             //如果有阶梯价格,就是用阶梯价格
             if (!empty($this->goods['price_ladder'])) {
                 $goodsLogic = new GoodsLogic();
@@ -340,6 +342,142 @@ class CartLogic extends Model
                 'add_time' => time(), // 加入购物车时间
                 'prom_type' => 0,   // 0 普通订单,1 限时抢购, 2 团购 , 3 促销优惠
                 'prom_id' => 0,   // 活动id
+            );
+            if ($this->specGoodsPrice) {
+                $cartAddData['item_id'] = $this->specGoodsPrice['item_id'];
+                $cartAddData['spec_key'] = $this->specGoodsPrice['key'];
+                $cartAddData['spec_key_name'] = $this->specGoodsPrice['key_name']; // 规格 key_name
+                $cartAddData['sku'] = $this->specGoodsPrice['sku']; //商品条形码
+            }
+            $cartResult = Db::name('Cart')->insertGetId($cartAddData);
+        }
+        if ($cartResult === false) {
+            throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '加入购物车失败']);
+        }
+    }
+
+        /**
+     * 加入购物车库存入口
+     */
+    public function kucun_addGoodsToCart()
+    {
+        if (empty($this->goods)) {
+            throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '购买商品不存在']);
+        }
+        if ($this->goods['exchange_integral'] > 0) {
+            throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '积分商品跳转', 'result' => ['url' => U('Goods/goodsInfo', ['id' => $this->goods['goods_id'], 'item_id' => $this->specGoodsPrice['item_id']], '', true)]]);
+        }
+        $userCartCount = Db::name('cart')->where(['user_id' => $this->user_id, 'session_id' => $this->session_id])->count();//获取用户购物车的商品有多少种
+        if ($userCartCount >= 20) {
+            throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '取货一次最多只能放20种商品']);
+        }
+        $specGoodsPriceCount = Db::name('SpecGoodsPrice')->where("goods_id", $this->goods['goods_id'])->count('item_id');
+        if (empty($this->specGoodsPrice) && !empty($specGoodsPriceCount)) {
+            throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '必须传递商品规格', 'result' => ['url' => U('Goods/goodsInfo', ['id' => $this->goods['goods_id']], '', true)]]);
+        }
+        //有商品规格，和没有商品规格
+        if($this->specGoodsPrice){
+            $prom_type = $this->specGoodsPrice['prom_type'];
+        }else{
+            $prom_type = $this->goods['prom_type'];
+        }
+        switch($prom_type) {
+            case 1:
+                $this->addFlashSaleCart();
+                break;
+            case 2:
+                $this->addGroupBuyCart();
+                break;
+            case 3:
+                $this->addPromGoodsCart();
+                break;
+            default:
+                $this->kucun_addNormalCart();
+        }
+    }
+
+    /**
+     * 购物车添加库存商品
+     */
+    private function kucun_addNormalCart()
+    {
+        if (empty($this->specGoodsPrice)) {
+           // $price = $this->goods['shop_price'];
+            $price = $this->goods['market_price'];
+            $store_count = $this->goods['store_count'];
+        } else {
+            //如果有规格价格，就使用规格价格，否则使用本店价。
+            $price = $this->specGoodsPrice['price'];
+            $store_count = $this->specGoodsPrice['store_count'];
+        }
+        // 查询购物车是否已经存在这商品
+        $cart_where = ['user_id' => $this->user_id, 'goods_id' => $this->goods['goods_id'], 'spec_key' => ($this->specGoodsPrice['key'] ?: ''), 'prom_type' => 0];
+        if (!$this->user_id) {
+            $cart_where['session_id'] = $this->session_id;
+        }
+        $userCartGoods = Cart::get($cart_where);
+        //统计所有的商品
+        //不止判断普通商品，还要统计同商品的其他类型
+        $cart_whereCount = ['user_id' => $this->user_id, 'goods_id' => $this->goods['goods_id'], 'spec_key' => ($this->specGoodsPrice['key'] ?: '')];
+        // 未登录时判断
+        if (!$this->user_id) {
+            $cart_whereCount['session_id'] = $this->session_id;
+        }
+        $userCartGoodsSum = db('cart')->where($cart_whereCount)->sum('goods_num');
+        //判断库存
+        $userWantGoodsNum = $this->goodsBuyNum + $userCartGoodsSum;//本次要购买的数量加上购物车的本身存在的数量
+        if ($userWantGoodsNum > 200) {
+            $userWantGoodsNum = 200;
+        }
+        if ($userWantGoodsNum > $store_count) {
+            $userCartGoodsNum = empty($userCartGoodsSum) ? 0 : $userCartGoodsSum;///获取用户购物车的抢购商品数量
+            throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '商品库存不足，剩余' . $store_count . ',当前购物车已有' . $userCartGoodsNum . '件']);
+        }
+
+        // 如果该商品已经存在购物车
+        if ($userCartGoods) {
+            $userCartGoods['goods_num'] = $userCartGoodsSum?$userCartGoodsSum:0;
+            $userWantGoodsNum = $this->goodsBuyNum + $userCartGoods['goods_num'];//本次要购买的数量加上购物车的本身存在的数量
+            //如果有阶梯价格,就是用阶梯价格
+            if (!empty($this->goods['price_ladder'])) {
+                $goodsLogic = new GoodsLogic();
+                $price_ladder = $this->goods['price_ladder'];
+                $price = $goodsLogic->getGoodsPriceByLadder($userWantGoodsNum, $this->goods['shop_price'], $price_ladder);
+            }
+            if ($userWantGoodsNum > 200) {
+                $userWantGoodsNum = 200;
+            }
+            if ($userWantGoodsNum > $store_count) {
+                $userCartGoodsNum = empty($userCartGoods['goods_num']) ? 0 : $userCartGoods['goods_num'];///获取用户购物车的抢购商品数量
+                throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '商品库存不足，剩余' . $store_count . ',当前购物车已有' . $userCartGoodsNum . '件']);
+            }
+            $cartResult = $userCartGoods->save(['goods_num' => $userWantGoodsNum, 'goods_price' => $price, 'member_goods_price' => $price]);
+        } else {
+            //如果该商品没有存在购物车
+            if ($this->goodsBuyNum > $store_count) {
+                throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '商品库存不足，剩余' . $this->goods['store_count']]);
+            }
+
+            //如果有阶梯价格,就是用阶梯价格
+            if (!empty($this->goods['price_ladder'])) {
+                $goodsLogic = new GoodsLogic();
+                $price_ladder = $this->goods['price_ladder'];
+                $price = $goodsLogic->getGoodsPriceByLadder($this->goodsBuyNum, $this->goods['shop_price'], $price_ladder);
+            }
+            $cartAddData = array(
+                'user_id' => $this->user_id,   // 用户id
+                'session_id' => $this->session_id,   // sessionid
+                'goods_id' => $this->goods['goods_id'],   // 商品id
+                'goods_sn' => $this->goods['goods_sn'],   // 商品货号
+                'goods_name' => $this->goods['goods_name'],   // 商品名称
+                'market_price' => $this->goods['market_price'],   // 市场价
+                'goods_price' => $price,  // 原价
+                'member_goods_price' => $price,  // 会员折扣价 默认为 购买价
+                'goods_num' => $this->goodsBuyNum, // 购买数量
+                'add_time' => time(), // 加入购物车时间
+                'prom_type' => 0,   // 0 普通订单,1 限时抢购, 2 团购 , 3 促销优惠
+                'prom_id' => 0,   // 活动id
+                'cart_type' => 1,   // 默认正常购物流程，1是进货购物车
             );
             if ($this->specGoodsPrice) {
                 $cartAddData['item_id'] = $this->specGoodsPrice['item_id'];
