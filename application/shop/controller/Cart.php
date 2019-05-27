@@ -144,7 +144,35 @@ class Cart extends MobileBase {
             $cartGoodsTotalNum = $goods_num;
             $setRedirectUrl = new UsersLogic();
             $setRedirectUrl->orderPageRedirectUrl($_SERVER['REQUEST_URI'],'',$goods_id,$goods_num,$item_id ,$action);
-        }else{
+        }elseif($action="kucun_buy")
+        {
+            //添加到购物车
+            $data =I('post.');
+            if(!empty($data))
+            {
+                //先删除购物车
+                Db::name('cart')->where(['user_id' => $this->user_id, 'cart_type' =>1])->delete();
+                $goods_data_ids = $data['goods_ids'];//id
+                $goods_data_number = $data['number'];//数量   
+                $goods_data_checkItem = $data['checkItem'];
+                foreach($goods_data_ids as $k=>$v)
+                {
+                    if(!empty($goods_data_checkItem[$k]))
+                    {
+                        $result = $this->kucun_add($goods_data_ids[$k],$goods_data_number[$k]);
+                    }
+                }
+            }
+
+
+            if ($cartLogic->getUserCartOrderCount() == 0){
+                $this->error('你的购物车没有选中商品', 'Cart/index');
+            }
+            $cartList['cartList'] = $cartLogic->getCartList(1); // 获取用户选中的购物车商品
+            $cartList['cartList'] = $cartLogic->getCombination($cartList['cartList']);  //找出搭配购副商品
+            $cartGoodsTotalNum = count($cartList['cartList']);
+        }
+        else{
             if ($cartLogic->getUserCartOrderCount() == 0){
                 $this->error('你的购物车没有选中商品', 'Cart/index');
             }
@@ -157,6 +185,7 @@ class Cart extends MobileBase {
         $this->assign('cartGoodsTotalNum', $cartGoodsTotalNum);
         $this->assign('cartList', $cartList['cartList']); // 购物车的商品
         $this->assign('cartPriceInfo', $cartPriceInfo);//商品优惠总价
+        //echo 1;exit;
         return $this->fetch();
     }
 
@@ -431,6 +460,41 @@ class Cart extends MobileBase {
             $error = $t->getErrorArr();
             $this->ajaxReturn($error);
         }
+    }
+
+        /**
+     * ajax 将库存商品加入购物车 
+     */
+    function kucun_add($goods_id,$goods_num,$item_id=0)
+    {
+        $message =array();
+       // $goods_id = I("goods_id/d"); // 商品id
+       // $goods_num = I("goods_num/d");// 商品数量
+        //$item_id = I("item_id/d"); // 商品规格id
+        if(empty($goods_id)){
+            //$this->ajaxReturn(['status'=>-1,'msg'=>'请选择要购买的商品','result'=>'']);
+            $message =['status'=>-1,'msg'=>'请选择要购买的商品','result'=>''];
+        }
+        if(empty($goods_num)){
+           // $this->ajaxReturn(['status'=>-1,'msg'=>'购买商品数量不能为0','result'=>'']);
+            $message =['status'=>-1,'msg'=>'购买商品数量不能为0','result'=>''];
+        }
+        $cartLogic = new CartLogic();
+        $cartLogic->setUserId($this->user_id);
+        $cartLogic->setGoodsModel($goods_id);
+        $cartLogic->setSpecGoodsPriceById($item_id);
+        $cartLogic->setGoodsBuyNum($goods_num);
+        try {
+            $cartLogic->kucun_addGoodsToCart();
+           // $cartLogic->addGoodsToCart();
+           // $this->ajaxReturn(['status' => 1, 'msg' => '加入购物车成功']);
+             $message =['status' => 1, 'msg' => '加入购物车成功'];
+        } catch (TpshopException $t) {
+            $error = $t->getErrorArr();
+            $message =$error;
+            //$this->ajaxReturn($error);
+        }
+        return $message;
     }
 
     /**

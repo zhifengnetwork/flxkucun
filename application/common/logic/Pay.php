@@ -386,6 +386,7 @@ class Pay
      * 使用签到免费领取
      * @return int
      */
+    /*
     public function getUserSign()
     {
         $isReceive['status'] = 0;
@@ -427,7 +428,7 @@ class Pay
         }
 
         return $this;
-    }
+    }*/
 
     /**
      * 竞拍使用订金

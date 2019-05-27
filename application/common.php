@@ -122,7 +122,7 @@ function get_uper_user($data)
  */
 function getAllUp($invite_id,&$userList=array())
 {           
-    $field  = "user_id,first_leader,agent_user,is_lock";
+    $field  = "user_id,first_leader,agent_user,is_lock,level";
     $UpInfo = M('users')->field($field)->where(['user_id'=>$invite_id])->find();
     if($UpInfo)  //有上级
     {
@@ -2085,3 +2085,98 @@ function provingReceive($user, $type, $num = 1)
         
 
     }
+     function user_kucun($user_id)
+    {
+        //$favourite_goods = M('goods')->where("is_recommend=1 and is_on_sale=1")->order('sort DESC')->limit(50)->cache(true,TPSHOP_CACHE_TIME)->select();//首页推荐商品
+        $field  = "user_id,first_leader,mobile,level";
+        $user_info = M('users')->field($field)->where(['user_id'=>$user_id])->find();
+        /*
+        if($user_info['level']==5){
+            $warehouse_goods_list = M("goods")->alias('g')
+           ->field('u.nickname,u.user_id,g.store_count as nums,g.goods_name,g.goods_id,g.shop_price,g.original_img')
+          ->join('users u','g.user_id=u.user_id','LEFT')
+        ->where("is_on_sale=1")->select();
+
+        }else
+        {*/
+         $warehouse_goods_list = M("warehouse_goods")->alias('wg')
+        ->field('u.nickname,u.user_id,wg.nums,g.goods_name,g.goods_id,g.shop_price,g.original_img')
+          ->join('users u','wg.user_id=u.user_id','LEFT')
+        ->join('goods g','wg.goods_id=g.goods_id','LEFT')
+        ->where(['wg.user_id'=>$user_id])->select();
+
+       // }
+  
+        return $warehouse_goods_list;
+
+    }
+    /*找出配货上级*/
+function find_prepareuserinfo($user_id,$type=1,$first_leader_id=0,&$userList=array())
+{
+    $data =array();
+     $field  = "user_id,first_leader,agent_user,is_lock,level";
+     $userinfo = M('users')->field($field)->where(['user_id'=>$user_id])->find();
+
+      if($userinfo['level']==5)
+      {
+        return 0;  //代表最高级，上属是公司
+      }elseif($type==1)
+      {
+         $first_data = getAllUp($userinfo['first_leader']);
+         foreach ($first_data as $key => $value) {
+             if($value['level']>$userinfo['level'] && empty($data))
+              {
+                $data =$value;
+              }
+         }
+          return $data;
+      }else
+      {
+        $first_data = getAllUp($userinfo['first_leader']);
+         foreach ($first_data as $key => $value) {
+             if($value['level']==$userinfo['level'] && empty($data))
+              {
+                $data =$value;
+              }
+         }
+          return $data;
+
+      }
+
+/*
+
+      $field  = "user_id,first_leader,mobile,level";
+      $userinfo = M('users')->field($field)->where(['user_id'=>$user_id])->find();
+      if($first_leader_id!=0)
+      {
+        $first_leader_id=$userinfo['first_leader'];
+
+      }else
+      {
+        $first_leader_id=$first_leader_id;
+      }
+
+      if($userinfo['level']==5)
+      {
+        return 0;  //代表最高级，上属是公司
+      }else
+      {
+          $first_leader = M('users')->field($field)->where(['user_id'=>$userinfo['first_leader']])->find();
+          if($first_leader)  //有上级
+          {
+              $userList[] = $userinfo;
+              if($first_leader['level']>$userinfo['level'])
+              {
+                $status =1;
+              }
+              find_prepareuserinfo($userinfo['user_id'],$first_leader['first_leader'],$userList);
+
+              return $userinfo; 
+
+          }
+
+      }*/
+
+      
+  
+} 

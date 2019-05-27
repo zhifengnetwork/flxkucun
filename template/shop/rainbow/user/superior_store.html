@@ -8,6 +8,10 @@
         <link rel="stylesheet" href="__STATIC__/css/public_lb/picker.css" />
 		<link rel="stylesheet" href="__STATIC__/css/public_lb/public.css" />
 		<link rel="stylesheet" href="__STATIC__/css/user_zp/superior_store.css?v=111" />
+
+		<script src="__STATIC__/js/jquery-3.1.1.min.js"  type="text/javascript" ></script>
+		 <script src="__STATIC__/js/layer_mobile.js"  type="text/javascript" ></script>
+
 		
 	</head>
 	<body>
@@ -23,54 +27,37 @@
             
 			<!-- 主内容 -->
 			<div class="content">
-				<form action="#">
+				<form action="{:U('Shop/Cart/cart2')}" method="post" id='kucunform' name='kucunform'>
+
+					<input type="hidden" name="action" value="kucun_buy">
 					<ul class="superior-list">
+						<foreach name="kucun" id="v">
+							<input type="hidden" name="goods_ids[{$v.goods_id}]" value="{$v.goods_id}">
 						<li>
 							<div class="check">
-								<input type="checkbox">
+								<input type="checkbox" name="checkItem[{$v.goods_id}]">
 							</div>
 							<div class="img-wrap">
-								<a href="###"><img src="__STATIC__/images/video/001v.png" /></a>
+								<a href="###"><img src="{$v[goods_id]|goods_thum_images=200,200}?v={:date('Ymd')}" /></a>
 							</div>
 							<div class="text">
-								<h3>自然堂化妆品补水防晒虎虎生风副书记粉红色自然堂化妆品补水防晒虎虎生风副书记粉红色自然堂化妆品补水防晒虎虎生风副书记粉红色</h3>
+								<h3>{$v.goods_name}</h3>
 								<div class="line2">
-									<span>库存：6962</span>
-									<span>颜色：墨绿色</span>
+									<span>库存：{$v.nums}</span>
+									<!--<span>颜色：墨绿色</span>-->
 								</div>
 								<div class="line3">
-									<div class="price">￥63.00</div>
+									<div class="price">￥{$v.shop_price}</div>
 									<div class="num">
 										<a href="javascript:" class="min" id="min">-</a>
-										<input type="text" value="1" size="2" class="number">
+										<input type="text" value="1" size="2" class="number" name='number[{$v.goods_id}]'>
 										<a href="javascript:" class="add" id="add">+</a>
 									</div>
 								</div>
 							</div>
 						</li>
-						<li>
-							<div class="check">
-								<input type="checkbox">
-							</div>
-							<div class="img-wrap">
-								<a href="###"><img src="__STATIC__/images/video/001v.png" /></a>
-							</div>
-							<div class="text">
-								<h3>自然堂化妆品补水防晒虎虎生风副书记粉红色自然堂化妆品补水防晒虎虎生风副书记粉红色自然堂化妆品补水防晒虎虎生风副书记粉红色</h3>
-								<div class="line2">
-									<span>库存：6962</span>
-									<span>颜色：墨绿色</span>
-								</div>
-								<div class="line3">
-									<div class="price">￥63.00</div>
-									<div class="num">
-										<a href="javascript:" class="min" id="min">-</a>
-										<input type="text" value="1" size="2" class="number">
-										<a href="javascript:" class="add" id="add">+</a>
-									</div>
-								</div>
-							</div>
-						</li>
+					</foreach>
+				
 					</ul>
 
 					<div class="holderBar">
@@ -86,8 +73,9 @@
 							</div>
 							<div class="amount-sum">总件数:0</div>
 						</div>
-						<div class="buyBtn">结算</div>
-					</div>
+						<div class="buyBtn" onclick="form_submit();">结算</div>
+				
+ 					</div>
 				</form>	
 			</div>
 			
@@ -140,6 +128,8 @@
 				$("#checkAll").attr("checked",$(".check input").length == $(".check input").filter(":checked").length);
 				totalMoney()
 			});
+			 	$(".check input").attr("checked",this.checked);
+				totalMoney()
 
 			// 总计
 			function totalMoney() {
@@ -158,6 +148,8 @@
 				});
 				$('.total').html(`¥ ${total_money.toFixed(2)}`);
 				$('.amount-sum').html(`总件数:${total_count}`);
+				$('#amount_sum').val(total_count);
+				$('#total').val(total_money);
 
 			}
 
@@ -173,6 +165,28 @@
 
 
 		})
+
+
+	</script>
+	<script type="text/javascript">
+		function form_submit()
+		{
+			//获取选中的商品个数
+	        var j = 0;
+	        $('input[name^="checkItem"]:checked').each(function () {
+	            j++;
+	        });
+	        //选择数大于0
+	        if (j > 0) {
+	            //跳转订单页面
+	            document.forms['kucunform'].submit();
+	           // window.location.href = "{:U('Shop/Cart/cart2')}"
+	        } else {
+	            layer.open({content: '请选择要结算的商品！', time:10000});
+	            return false;
+	        }
+			
+		}
 	</script>
        
 	</body>
