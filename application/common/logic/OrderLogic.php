@@ -608,6 +608,32 @@ class OrderLogic
         return Db::name('order')->where("order_id=$order_id")->save($update);//改变订单状态
     }
 
+    //上级处理订单
+    public function superiorProcessOrder($order_id,$act,$ext=array()){
+        $update = array();
+        switch ($act){
+            case 'confirm': //确认订单
+                $update['order_status'] = 1;
+                $goods = M('order_goods')->where('order_id',$order_id)->select();
+                foreach ($goods as $value){
+                    changekucun($value['goods_id'],$this->user_id,-$value['goods_num']);
+                    changekucun($value['goods_id'],$this->user_id,-$value['goods_num']);
+                }
+                dump($goods);exit;
+                break;
+            case 'invalid': //作废订单
+                $update['order_status'] = 5;
+                $reduce = tpCache('shopping.reduce');
+                $order = Db::name('order')->where("order_id", $order_id)->find();
+                if(($reduce == 1 || empty($reduce)) || ($reduce == 2 && $order['pay_status'] == 1)){
+                    $this->alterReturnGoodsInventory($order);
+                }
+                break;
+            default:
+                return true;
+        }
+        return Db::name('order')->where("order_id=$order_id")->save($update);//改变订单状态
+    }
 
     //管理员取消付款
     function order_pay_cancel($order_id)

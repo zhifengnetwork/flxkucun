@@ -91,9 +91,9 @@
 							<!--按钮-->
 							<div class="btn_wrap">
 								<!--取消-->
-								<a class="call_btn">取消订单</a>
+								<a class="call_btn" data-id="{$order[order_id]}" data-url="{:U('order_action')}" onclick="delfunc('invalid',this,'要取消该订单吗，取消订单不会扣除你库存')">取消订单</a>
 								<!--确定-->
-								<a class="make_btn" onclick="deliverGoods({$order['order_id']})">确定发货</a>
+								<a class="make_btn" data-id="{$order[order_id]}" data-url="{:U('order_action')}" onclick="delfunc('confirm',this,'请确认已收到资金  点击确认后您的库存将会减少')">确定发货</a>
 							</div>
 						</div>
 					</div>
@@ -117,6 +117,7 @@
     
     <script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
 	<script src="__STATIC__/js/public/public_lb.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/static/js/layer/layer.js"></script><!-- 弹窗js 参考文档 http://layer.layui.com/-->
 	<script>
 		$(function (){
 
@@ -124,51 +125,36 @@
 			$('.view').click(function (){
 				$(this).parents(".box_wrap").find(".down_list").toggle();
 			});
-			//点击显示弹框
-			// $('.make_btn').click(function (){
-			// 	$('.popup_wrap').show();
-			// })
-			
 
 		})
-		function deliverGoods(id){
-			$('.popup_wrap').show();			//弹框确定/取消让弹框消失
-			$('.ma_btn').click(function (){
-				verifyForm('order-action','{:U('Shop/order/order_action',array('type'=>confirm))}');
-				$('.popup_wrap').hide();
-			});
-			$('.ca_btn').click(function (){
-				$('.popup_wrap').hide();
-			});
-		}
-		before_request = 1; // 标识上一次ajax 请求有没回来, 没有回来不再进行下一次
-		function verifyForm(form_id,submit_url){
-			if(before_request == 0)
-				return false;
-			$("[id^='err_']").hide();  // 隐藏提示
-			$.ajax({
-				type : "POST",
-				url  : submit_url,
-				data : $('#'+form_id).serialize(),// 你的formid
-				dataType: 'json',
-				error: function(request) {
-					layer.msg("服务器繁忙, 请联系管理员!", {icon: 1, time: 2000});
-				},
-				success: function(data) {
-					before_request = 1; // 标识ajax 请求已经返回
-					// 验证成功提交表单
-					if(data.status == 1)
-					{
-						layer.msg(data.msg, {icon: 1, time: 2000},function () {
-							window.location.href = data.url;
-						});
-					}else{
-						layer.msg(data.msg, {icon: 2, time: 2000});
+
+		function delfunc(type,obj,content){
+
+			layer.confirm(content, {
+						btn: ['确定','取消'] //按钮
+					}, function(){
+						// 确定
+						$.ajax({
+							type : 'post',
+							url : $(obj).attr('data-url'),
+							data : {act:type,order_id:$(obj).attr('data-id')},
+							dataType : 'json',
+							success : function(data){
+								layer.closeAll();
+								if(data.status==1){
+									layer.msg(data.msg, {icon: 1});
+									$(obj).parent().parent().parent('tr').remove();
+								}else{
+									layer.msg(data.msg, {icon: 2,time: 2000});
+								}
+							}
+						})
+					}, function(index){
+						layer.close(index);
 					}
-				}
-			});
-			before_request = 0; // 标识ajax 请求已经发出
+			);
 		}
+
 	</script>
 </body>
 </html>

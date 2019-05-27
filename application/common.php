@@ -1989,8 +1989,8 @@ function provingReceive($user, $type, $num = 1)
 }
 
 /*库存
-* $user_id 用户id
 * $goods_id 商品id
+* $user_id 用户id
 * $num 变动数量
 * $type 默认0是进货，1是手动添加
 */

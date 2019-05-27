@@ -114,27 +114,34 @@ class Order extends MobileBase
      */
     public function order_action(){
         $orderLogic = new OrderLogic();
-        $action = I('get.type');
-        $order_id = I('get.order_id');
-        $data = input('post.');
-        dump($data);exit;
+        $action = I('post.act');
+        $order_id = I('post.order_id');
+
+        $order = new OrderModel();
+        $goods = $order::get($order_id);
+
+        foreach($goods['order_goods'] as $value){
+            $num = user_kucun_goods($this->user_id,$value['goods_id']);
+            if ($num['nums'] < $value['goods_num']){
+                $this->ajaxReturn(['status' => 0, 'msg' => '您的库存不足', 'url' => U('Order/order_send')]);
+            }
+        }
+
         if($action && $order_id){
             if($action !=='pay'){
                 $convert_action= C('CONVERT_ACTION')["$action"];
                 $commonOrder = new \app\common\logic\Order();
                 $commonOrder->setOrderById($order_id);
-                $res =  $commonOrder->orderActionLog(I('note'),$convert_action,$this->admin_id);
+                $res =  $commonOrder->orderActionLog('上级确认发货',$convert_action,$this->user_id);
             }
-            $a = $orderLogic->orderProcessHandle($order_id,$action,array('note'=>I('note'),'admin_id'=>0));
-            if($res !== false && $a !== false){
+            $Result = $orderLogic->superiorProcessOrder($order_id,$action,array('note'=>I('note'),'admin_id'=>0));
+            if($res !== false && $Result !== false){
                 if ($action == 'remove') {
                     $this->ajaxReturn(['status' => 1, 'msg' => '操作成功', 'url' => U('Order/index')]);
                 }
                 $this->ajaxReturn(['status' => 1,'msg' => '操作成功','url' => U('Order/detail',array('order_id'=>$order_id))]);
             }else{
-                if ($action == 'remove') {
-                    $this->ajaxReturn(['status' => 0, 'msg' => '操作失败', 'url' => U('Order/index')]);
-                }
+
                 $this->ajaxReturn(['status' => 0,'msg' => '操作失败','url' => U('Order/index')]);
             }
         }else{
