@@ -101,7 +101,7 @@
 			        		<!--取消-->
 			        		<a class="call_btn">取消订单</a>
 			        		<!--确定-->
-			        		<a class="make_btn">确定发货</a>
+			        		<a class="make_btn" onclick="popupAlter(123)">确定发货</a>
 			        	</div>
 	        		</div>
 	        	</div>
@@ -188,7 +188,7 @@
 			        		<!--取消-->
 			        		<a class="call_btn">取消订单</a>
 			        		<!--确定-->
-			        		<a class="make_btn">确定发货</a>
+			        		<a class="make_btn" onclick="popupAlter(123)">确定发货</a>
 			        	</div>
 	        		</div>
 	        	</div>
@@ -275,7 +275,7 @@
 			        		<!--取消-->
 			        		<a class="call_btn">取消订单</a>
 			        		<!--确定-->
-			        		<a class="make_btn">确定发货</a>
+			        		<a class="make_btn" onclick="popupAlter(123)">确定发货</a>
 			        	</div>
 	        		</div>
 	        	</div>
@@ -291,7 +291,7 @@
         		<!--确定-->
         		<a class="ma_btn">确定</a>
         		<!--取消-->
-        		<a class="ca_btn">取消</a>
+        		<a class="ca_btn" onclick="hideAlter(321)">取消</a>
         	</div>
     	</div>
     </div>
@@ -319,21 +319,32 @@
 			$('.view').click(function (){
 				$(this).parents(".box_wrap").find(".down_list").toggle();
 			});
+
 			//点击显示弹框
-			$('.make_btn').click(function (){
-				$('.popup_wrap').show();
-			})
+			// $('.make_btn').click(function (){
+			// 	$('.popup_wrap').show();
+			// })
 			
 			
 			//弹框确定/取消让弹框消失
-			$('.ma_btn').click(function (){
-				$('.popup_wrap').hide();
-			});
-			$('.ca_btn').click(function (){
-				$('.popup_wrap').hide();
-			});
+			// $('.ma_btn').click(function (){
+			// 	$('.popup_wrap').hide();
+			// });
+			// $('.ca_btn').click(function (){
+			// 	$('.popup_wrap').hide();
+			// });
 		})
-		
+		// 弹窗
+		function popupAlter(id){
+			console.log(id)
+			$('.popup_wrap').show();
+		}
+		// 隐藏弹窗
+		function hideAlter(id){
+			console.log(id)
+			$('.popup_wrap').hide();
+		}
+
 //		var view = document.getElementsByClassName('view');
 //			var DownList = document.getElementsByClassName('down_list');
 //			
