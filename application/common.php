@@ -2085,27 +2085,34 @@ function provingReceive($user, $type, $num = 1)
         
 
     }
+    //用户库存
      function user_kucun($user_id)
     {
         //$favourite_goods = M('goods')->where("is_recommend=1 and is_on_sale=1")->order('sort DESC')->limit(50)->cache(true,TPSHOP_CACHE_TIME)->select();//首页推荐商品
         $field  = "user_id,first_leader,mobile,level";
         $user_info = M('users')->field($field)->where(['user_id'=>$user_id])->find();
-        /*
-        if($user_info['level']==5){
-            $warehouse_goods_list = M("goods")->alias('g')
-           ->field('u.nickname,u.user_id,g.store_count as nums,g.goods_name,g.goods_id,g.shop_price,g.original_img')
-          ->join('users u','g.user_id=u.user_id','LEFT')
-        ->where("is_on_sale=1")->select();
 
-        }else
-        {*/
          $warehouse_goods_list = M("warehouse_goods")->alias('wg')
         ->field('u.nickname,u.user_id,wg.nums,g.goods_name,g.goods_id,g.shop_price,g.original_img')
           ->join('users u','wg.user_id=u.user_id','LEFT')
         ->join('goods g','wg.goods_id=g.goods_id','LEFT')
         ->where(['wg.user_id'=>$user_id])->select();
 
-       // }
+  
+        return $warehouse_goods_list;
+
+    }
+    //用户单个商品库存信息
+    function user_kucun_goods($user_id,$goods_id)
+    {
+        
+         $warehouse_goods_list = M("warehouse_goods")->alias('wg')
+        ->field('wg.nums,g.goods_name,g.goods_id,g.shop_price,g.original_img')
+         // ->join('users u','wg.user_id=u.user_id','LEFT')
+        ->join('goods g','wg.goods_id=g.goods_id','LEFT')
+        ->where(['wg.user_id'=>$user_id,'g.goods_id'=>$goods_id])->find();
+
+       
   
         return $warehouse_goods_list;
 
