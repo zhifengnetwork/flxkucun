@@ -101,7 +101,7 @@
 			        		<!--取消-->
 			        		<a class="call_btn">取消订单</a>
 			        		<!--确定-->
-			        		<a class="make_btn" onclick="popupAlter(123)">确定发货</a>
+			        		<a class="make_btn" onclick="popupAlter(456)">确定发货</a>
 			        	</div>
 	        		</div>
 	        	</div>
@@ -188,7 +188,7 @@
 			        		<!--取消-->
 			        		<a class="call_btn">取消订单</a>
 			        		<!--确定-->
-			        		<a class="make_btn" onclick="popupAlter(123)">确定发货</a>
+			        		<a class="make_btn" onclick="popupAlter(321)">确定发货</a>
 			        	</div>
 	        		</div>
 	        	</div>
@@ -275,7 +275,7 @@
 			        		<!--取消-->
 			        		<a class="call_btn">取消订单</a>
 			        		<!--确定-->
-			        		<a class="make_btn" onclick="popupAlter(123)">确定发货</a>
+			        		<a class="make_btn" onclick="popupAlter(789)">确定发货</a>
 			        	</div>
 	        		</div>
 	        	</div>
@@ -288,10 +288,11 @@
     		<p class="pop">请确认已收到资金  点击确认后您的库存将会减少</p>
     		<!--按钮-->
         	<div class="btn_app">
+				 <input type="hidden" value="" id="id">
         		<!--确定-->
-        		<a class="ma_btn">确定</a>
+        		<a class="ma_btn" onclick="hide()">确定</a>
         		<!--取消-->
-        		<a class="ca_btn" onclick="hideAlter(321)">取消</a>
+        		<a class="ca_btn" onclick="hideAlter()">取消</a>
         	</div>
     	</div>
     </div>
@@ -329,19 +330,26 @@
 			//弹框确定/取消让弹框消失
 			// $('.ma_btn').click(function (){
 			// 	$('.popup_wrap').hide();
+			// 	return true;
 			// });
 			// $('.ca_btn').click(function (){
 			// 	$('.popup_wrap').hide();
+			// 	return false;
 			// });
 		})
 		// 弹窗
 		function popupAlter(id){
 			console.log(id)
 			$('.popup_wrap').show();
+			$('#id').val(id)
+		}
+        function hide(){
+			console.log($('#id').val())
+			$('#id').val()
+			$('.popup_wrap').hide();
 		}
 		// 隐藏弹窗
-		function hideAlter(id){
-			console.log(id)
+		function hideAlter(){
 			$('.popup_wrap').hide();
 		}
 
