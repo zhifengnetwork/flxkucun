@@ -1000,7 +1000,6 @@ exit("请联系DC环球直供网络客服购买高级版支持此功能");
         $orderLogic = new OrderLogic();
         $action = I('get.type');
         $order_id = I('get.order_id');
-        dump($order_id);exit;
         if($action && $order_id){
             if($action !=='pay'){
                 $convert_action= C('CONVERT_ACTION')["$action"];

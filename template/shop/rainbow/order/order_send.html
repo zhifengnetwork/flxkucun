@@ -21,63 +21,84 @@
         <!--内容-->
         <div class="content">
 
-			<if condition="count($order_list) eq 0">
-				<!--没有内容时-s--->
-				<div class="comment_con p">
-					<div class="none">
-						<img src="__STATIC__/images/none2.png">
-						<br><br>
-						抱歉未查到数据！
-					</div>
-				</div>
-				<!-- 没有内容时-e- -->
-			</if>
 			<volist name="order_list" id="order">
-				<div class="list_wrap">
-					<!--点击选择状态框-->
-					<input class="check" name='sendEmailBtn' value="{$order.order_id}" type="checkbox" />
-
-					<div class="img">
-						<img src="{$order.users.head_pic}" />
-					</div>
-
-					<div class="ziti">
-
-						<div class="idnum">
-							<span class="nu">ID:99008</span>
-							<span>手机号:13800990081</span>
+				<input name="order_id" value="{$order['order_id']}" type="hidden"/>
+				<div class="box_wrap">
+					<div class="list_wrap">
+						<div class="img">
+							<img src="{$order.users.head_pic}" />
 						</div>
 
-						<div class="idnum">
-							<span>订单编号：</span>
-							<span>1111</span>
-						</div>
-						<p class="explain">自然堂化妆品补水防晒虎虎生风副书记粉红色看好的撒几何</p>
+						<div class="ziti">
 
-						<div class="order">
-							<div class="stock">
-								<span>库存:</span>
-								<span>6962</span>
+							<div class="idnum">
+								<span class="nu">ID:{$order.users.user_id}</span>
+								<span>手机号:{$order.mobile}</span>
 							</div>
-							<div class="hue">
-								<span>颜色:</span>
-								<span>墨绿色</span>
+
+							<div class="idnum">
+								<span>订单编号:</span>
+								<span>{$order.order_sn}</span>
+							</div>
+
+							<div class="order">
+								<!--<div class="stock">-->
+									<!--<span>库存:</span>-->
+									<!--<span>6962</span>-->
+								<!--</div>-->
+								<div class="hue">
+									<span>发货数量:</span>
+									<span>{$order.count_goods_num}</span>
+								</div>
 							</div>
 							<div class="num">
-								<span>发货量:</span>
-								<span>9</span>
+								<span>应收金额:</span>
+								<span>{$order.order_amount}</span>
+							</div>
+							<!--查看详情按钮-->
+							<div class="view">
+								<div class="det">查看详情</div>
+								<div class="icon"></div>
+							</div>
+						</div>
+					</div>
+					<!--下拉列表-->
+					<div class="down_list">
+						<div class="item_cont">
+
+							<volist name="order.order_goods" id="goods">
+								<div class="item">
+									<div class="imgs">
+										<img src="{$goods[goods_id]|goods_thum_images=200,200}" />
+									</div>
+
+									<div class="right">
+										<p class="explain">{$goods[goods_name]|getSubstr=0,20}</p>
+										<div class="cost">单价：{$goods[goods_price]}</div>
+										<div class="money">
+											<span>金额：{$goods[member_goods_price]}</span>
+											<span>数量：{$goods[goods_num]}</span>
+										</div>
+									</div>
+								</div>
+							</volist>
+
+							<!--总数-->
+							<div class="amount">
+								<span>总金额：{$order.total_amount}</span>
+								<span>总件数：{$order.count_goods_num}</span>
+							</div>
+							<!--按钮-->
+							<div class="btn_wrap">
+								<!--取消-->
+								<a class="call_btn">取消订单</a>
+								<!--确定-->
+								<a class="make_btn" onclick="deliverGoods({$order['order_id']})">确定发货</a>
 							</div>
 						</div>
 					</div>
 				</div>
 			</volist>
-        	<!--按钮-->
-        	<div class="btn_wrap">
-        		<!--确定-->
-        		<a class="make_btn">确定发货</a>
-        		<!--取消-->
-        		<a class="call_btn">取消订单</a>
-        	</div>
         </div>
     </div> 
     <!--弹框-->
@@ -98,30 +119,56 @@
 	<script src="__STATIC__/js/public/public_lb.js"></script>
 	<script>
 		$(function (){
-			$(".check").change(function() {
-	        	//当所有input中有一个被选择时点击确定发货按钮弹框出现
-		    	if(this.checked == true) {
-		    		$('.make_btn').click(function (){
-		    			alert(222)
-						$('.popup_wrap').show();
-					})
-		    			//当input被选择时的长度为0时点击确定发货按钮弹框不会出现
-		    	} else if($("[name = 'sendEmailBtn']:checkbox:checked").length == 0) {
-		    		$('.make_btn').click(function (){
-						$('.popup_wrap').hide();
-					})
-		    		return;
-		    	}
-		    });
-			//弹框确定/取消让弹框消失
+
+			//下拉框
+			$('.view').click(function (){
+				$(this).parents(".box_wrap").find(".down_list").toggle();
+			});
+			//点击显示弹框
+			// $('.make_btn').click(function (){
+			// 	$('.popup_wrap').show();
+			// })
+			
+
+		})
+		function deliverGoods(id){
+			$('.popup_wrap').show();			//弹框确定/取消让弹框消失
 			$('.ma_btn').click(function (){
+				verifyForm('order-action','{:U('Shop/order/order_action',array('type'=>confirm))}');
 				$('.popup_wrap').hide();
 			});
 			$('.ca_btn').click(function (){
 				$('.popup_wrap').hide();
 			});
-		})
-
+		}
+		before_request = 1; // 标识上一次ajax 请求有没回来, 没有回来不再进行下一次
+		function verifyForm(form_id,submit_url){
+			if(before_request == 0)
+				return false;
+			$("[id^='err_']").hide();  // 隐藏提示
+			$.ajax({
+				type : "POST",
+				url  : submit_url,
+				data : $('#'+form_id).serialize(),// 你的formid
+				dataType: 'json',
+				error: function(request) {
+					layer.msg("服务器繁忙, 请联系管理员!", {icon: 1, time: 2000});
+				},
+				success: function(data) {
+					before_request = 1; // 标识ajax 请求已经返回
+					// 验证成功提交表单
+					if(data.status == 1)
+					{
+						layer.msg(data.msg, {icon: 1, time: 2000},function () {
+							window.location.href = data.url;
+						});
+					}else{
+						layer.msg(data.msg, {icon: 2, time: 2000});
+					}
+				}
+			});
+			before_request = 0; // 标识ajax 请求已经发出
+		}
 	</script>
 </body>
 </html>
