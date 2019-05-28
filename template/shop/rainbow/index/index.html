@@ -150,11 +150,7 @@
 						<div class="text">
 							<h3><a href="{:U('Shop/Goods/goodsInfo',array('id'=>$vo[goods_id],'item_id'=>$vo[item_id]))}">{$v.goods_name|getSubstr=0,33}</a></h3>
 							<p class="price">
-								<if condition="$level eq null">
-									<span class="original-price">¥{$v['price'][1]['price']}</span>
-								<else/>
-									<span class="original-price">¥{$v['price'][$level]['price']}</span>
-								</if>
+									<span class="original-price">¥{$v['price']}</span>
 								<span class="discount-price">¥{$v[market_price]}</span>
 							</p>
 							<span class="cartBtn"></span>

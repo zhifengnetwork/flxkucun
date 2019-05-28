@@ -52,30 +52,11 @@ class Index extends MobileBase {
         $this->assign('thems',$thems);
 
         $favourite_goods = M('goods')->where("is_recommend=1 and is_on_sale=1")->order('sort DESC')->limit(20)->cache(true,TPSHOP_CACHE_TIME)->select();//首页推荐商品
-        $goods = $this->_getGoodsPrice($favourite_goods);
+        $goods = getGoodsPrice($favourite_goods,$user['level']);
         $this->assign('favourite_goods',$goods);
         return $this->fetch();
     }
 
-    /**
-     * 找出当前商品等级价格
-     *
-     * @param $goodsInfo 所有商品
-     * @param $nowCategory
-     *
-     * @return
-     */
-    protected function _getGoodsPrice ($goodsInfo)
-    {
-
-        foreach ( $goodsInfo as $key=>$value ) {
-            $level_price = M('goods_level_price')->where('goods_id',$value['goods_id'])->order('level asc')->select();
-            $price = array_column($level_price,NULL,'level');
-            $goodsInfo[$key]['price'] = $price;
-        }
-
-        return $goodsInfo;
-    }
 
     //商品列表板块参数设置
     public function goods_list_block(){

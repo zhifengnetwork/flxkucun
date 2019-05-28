@@ -1988,12 +1988,12 @@ function provingReceive($user, $type, $num = 1)
     return array('status' => 2, 'msg' => '可领取', 'result' => array());
 }
 
-/*库存
-* $goods_id 商品id
-* $user_id 用户id
-* $num 变动数量
-* $type 默认0是进货，1是手动添加
-*/
+    /*库存
+    * $goods_id 商品id
+    * $user_id 用户id
+    * $num 变动数量
+    * $type 默认0是进货，1是手动添加
+    */
      function changekucun($goods_id,$user_id,$num,$type=0,$desc='')
     {
          if(($num) == 0)return false;
@@ -2085,6 +2085,7 @@ function provingReceive($user, $type, $num = 1)
         
 
     }
+
     //用户库存
      function user_kucun($user_id)
     {
@@ -2111,79 +2112,67 @@ function provingReceive($user, $type, $num = 1)
          // ->join('users u','wg.user_id=u.user_id','LEFT')
         ->join('goods g','wg.goods_id=g.goods_id','LEFT')
         ->where(['wg.user_id'=>$user_id,'g.goods_id'=>$goods_id])->find();
-
-       
   
         return $warehouse_goods_list;
 
     }
+
+    /**
+     * 找出商品等级价格
+     *
+     * @param $goodsInfo 所有商品
+     * @param $level 用户等级
+     * @param $nowCategory
+     *
+     * @return
+     */
+    function getGoodsPrice ($goodsInfo,$level=1)
+    {
+        if(empty($level)){
+            $level = 1;
+        }
+
+        foreach ( $goodsInfo as $key=>$value ) {
+            $level_price = M('goods_level_price')->where(['goods_id' => $value['goods_id'], 'level' => $level])->order('level asc')->value('price');
+    //            $price = array_column($level_price,NULL,'level');
+            $goodsInfo[$key]['price'] = $level_price;
+        }
+
+        return $goodsInfo;
+    }
+
     /*找出配货上级*/
-function find_prepareuserinfo($user_id,$type=1,$first_leader_id=0,&$userList=array())
-{
-    $data =array();
-     $field  = "user_id,first_leader,agent_user,is_lock,level";
-     $userinfo = M('users')->field($field)->where(['user_id'=>$user_id])->find();
+    function find_prepareuserinfo($user_id,$type=1,$first_leader_id=0,&$userList=array())
+    {
+        $data =array();
+         $field  = "user_id,first_leader,agent_user,is_lock,level";
+         $userinfo = M('users')->field($field)->where(['user_id'=>$user_id])->find();
 
-      if($userinfo['level']==5)
-      {
-        return 0;  //代表最高级，上属是公司
-      }elseif($type==1)
-      {
-         $first_data = getAllUp($userinfo['first_leader']);
-         foreach ($first_data as $key => $value) {
-             if($value['level']>$userinfo['level'] && empty($data))
-              {
-                $data =$value;
-              }
-         }
-          return $data;
-      }else
-      {
-        $first_data = getAllUp($userinfo['first_leader']);
-         foreach ($first_data as $key => $value) {
-             if($value['level']==$userinfo['level'] && empty($data))
-              {
-                $data =$value;
-              }
-         }
-          return $data;
-
-      }
-
-/*
-
-      $field  = "user_id,first_leader,mobile,level";
-      $userinfo = M('users')->field($field)->where(['user_id'=>$user_id])->find();
-      if($first_leader_id!=0)
-      {
-        $first_leader_id=$userinfo['first_leader'];
-
-      }else
-      {
-        $first_leader_id=$first_leader_id;
-      }
-
-      if($userinfo['level']==5)
-      {
-        return 0;  //代表最高级，上属是公司
-      }else
-      {
-          $first_leader = M('users')->field($field)->where(['user_id'=>$userinfo['first_leader']])->find();
-          if($first_leader)  //有上级
+          if($userinfo['level']==5)
           {
-              $userList[] = $userinfo;
-              if($first_leader['level']>$userinfo['level'])
-              {
-                $status =1;
-              }
-              find_prepareuserinfo($userinfo['user_id'],$first_leader['first_leader'],$userList);
-
-              return $userinfo; 
+            return 0;  //代表最高级，上属是公司
+          }elseif($type==1)
+          {
+             $first_data = getAllUp($userinfo['first_leader']);
+             foreach ($first_data as $key => $value) {
+                 if($value['level']>$userinfo['level'] && empty($data))
+                  {
+                    $data =$value;
+                  }
+             }
+              return $data;
+          }else
+          {
+            $first_data = getAllUp($userinfo['first_leader']);
+             foreach ($first_data as $key => $value) {
+                 if($value['level']==$userinfo['level'] && empty($data))
+                  {
+                    $data =$value;
+                  }
+             }
+              return $data;
 
           }
 
-      }*/
+    }
 
-      
-  
-} 
