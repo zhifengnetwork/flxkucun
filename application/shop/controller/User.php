@@ -84,7 +84,13 @@ class User extends MobileBase
 
         $leader = get_uper_users($this->user['first_leader']);
         $this->assign('leader',$leader);
-        
+
+        //当前登录用户信息
+        $logic = new UsersLogic();
+        $user_info = $logic->get_info($this->user_id);
+        $order_info['belowWaitSend'] = $user_info['result']['belowWaitSend']; //下级待发货数
+        $this->assign('order_info', $order_info);
+
         return $this->fetch();
     }
 

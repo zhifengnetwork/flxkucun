@@ -482,15 +482,16 @@ class UsersLogic extends Model
         if (!$user) {
             return false;
         }
-
         $activityLogic = new \app\common\logic\ActivityLogic;             //获取能使用优惠券个数
         $user['coupon_count'] = $activityLogic->getUserCouponNum($user_id, 0);
         $user['collect_count'] = Db::name('goods_collect')->where('user_id', $user_id)->count(); //获取商品收藏数量
         $user['return_count'] = Db::name('return_goods')->where(['user_id'=>$user_id,'status'=>['in', '0,1,2,3']])->count();   //退换货数量
         //不统计虚拟的
-        $user['waitPay'] = Db::name('order')->where("deleted=0 and prom_type < 5 and user_id = $user_id " . C('WAITPAY'))->count(); //待付款数量
-        $user['waitSend'] = Db::name('order')->where("deleted=0 and prom_type < 5 and user_id = $user_id " . C('WAITSEND'))->count(); //待发货数量
-        $user['waitReceive'] = Db::name('order')->where("deleted=0 and prom_type < 5 and user_id = $user_id " . C('WAITRECEIVE'))->count(); //待收货数量
+//        $user['waitPay'] = Db::name('order')->where("deleted=0 and prom_type < 5 and user_id = $user_id " . C('WAITPAY'))->count(); //待付款数量
+//        $user['waitSend'] = Db::name('order')->where("deleted=0 and prom_type < 5 and user_id = $user_id " . C('WAITSEND'))->count(); //待发货数量
+//        $user['waitReceive'] = Db::name('order')->where("deleted=0 and prom_type < 5 and user_id = $user_id " . C('WAITRECEIVE'))->count(); //待收货数量
+        $user['belowWaitSend'] = Db::name('order')->where("deleted=0 and prom_type < 5 and seller_id = $user_id " . C('BELOWWAITSEND'))->count(); //下级待发货数量
+
         $user['order_count'] = $user['waitPay'] + $user['waitSend'] + $user['waitReceive'];
 
         $commentLogic = new CommentLogic;
