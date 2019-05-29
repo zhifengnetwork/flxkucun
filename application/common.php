@@ -122,7 +122,7 @@ function get_uper_user($data)
  */
 function getAllUp($invite_id,&$userList=array())
 {           
-    $field  = "user_id,first_leader,agent_user,is_lock,level";
+    $field  = "user_id,first_leader,agent_user,is_lock,level,nickname,head_pic,mobile";
     $UpInfo = M('users')->field($field)->where(['user_id'=>$invite_id])->find();
     if($UpInfo)  //有上级
     {
@@ -2117,6 +2117,7 @@ function provingReceive($user, $type, $num = 1)
 
     }
 
+
     /**
      * 找出商品等级价格
      *
@@ -2175,4 +2176,69 @@ function provingReceive($user, $type, $num = 1)
           }
 
     }
+
+
+      
+  
+
+//获取所有的下级
+ function getAlldp_p($invite_id,$userlevel=0,&$userList=array())
+  {           
+      $field  = "user_id,level";
+      $UpInfo = M('users')->field($field)->where(['first_leader'=>$invite_id])->select();
+     // if($UpInfo)  //有上级
+      //{
+         // $userList[] = $UpInfo;
+         // $                                      
+          //$this->getAlldp_p($UpInfo['user_id'],$userList);
+      //}
+      if($UpInfo)
+      {
+        foreach ($UpInfo as $key => $value) {
+          if($userlevel==0)
+          {
+            $userList[] = $value;
+          }elseif($userlevel!=0 && $userlevel>$value['level'])
+          {
+            $userList[] = $value;
+          }
+          
+          getAlldp_p($value['user_id'],$userlevel,$userList);
+        }
+  
+      }
+      
+      return $userList;
+      
+  }
+//获取一级下级
+   function getAlldp($invite_id,$userlevel=0,&$userList=array())
+  {           
+      $field  = "user_id,level,nickname,mobile,head_pic,mobile";
+      $UpInfo = M('users')->field($field)->where(['first_leader'=>$invite_id])->select();
+     // if($UpInfo)  //有上级
+      //{
+         // $userList[] = $UpInfo;
+         // $                                      
+          //$this->getAlldp_p($UpInfo['user_id'],$userList);
+      //}
+      if($UpInfo)
+      {
+        foreach ($UpInfo as $key => $value) {
+          if($userlevel==0)
+          {
+            $userList[] = $value;
+          }elseif($userlevel!=0 && $userlevel>$value['level'])
+          {
+            $userList[] = $value;
+          }
+          
+          //getAlldp_p($value['user_id'],$userlevel,$userList);
+        }
+  
+      }
+      
+      return $userList;
+      
+  }
 

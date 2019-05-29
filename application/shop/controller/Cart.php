@@ -155,11 +155,13 @@ class Cart extends MobileBase {
                 $goods_data_ids = $data['goods_ids'];//id
                 $goods_data_number = $data['number'];//数量   
                 $goods_data_checkItem = $data['checkItem'];
+                 $pei_parent =$data['pei_parent'];
                 foreach($goods_data_ids as $k=>$v)
                 {
                     if(!empty($goods_data_checkItem[$k]))
                     {
-                        $result = $this->kucun_add($goods_data_ids[$k],$goods_data_number[$k]);
+                     // echo $pei_parent;exit;
+                        $result = $this->kucun_add($goods_data_ids[$k],$goods_data_number[$k],0,$pei_parent);
                     }
                 }
             }
@@ -185,8 +187,16 @@ class Cart extends MobileBase {
         $this->assign('cartGoodsTotalNum', $cartGoodsTotalNum);
         $this->assign('cartList', $cartList['cartList']); // 购物车的商品
         $this->assign('cartPriceInfo', $cartPriceInfo);//商品优惠总价
+        $this->assign('pei_parent', $cartList['cartList'][0]['cart_seller_id']);//取货上级
         //echo 1;exit;
-        return $this->fetch();
+        if($action=='kucun_buy'){
+             return $this->fetch('kucuncart');
+
+        }else
+        {
+            return $this->fetch();
+        }
+        
     }
 
     /**
@@ -211,7 +221,15 @@ class Cart extends MobileBase {
         $consignee = input('consignee/s');//自提点收货人
         $mobile = input('mobile/s');//自提点联系方式
         $data = input('request.');
+        $action_type =input('action_type');
+        $seller_id=input('seller_id');
+       // echo $seller_id;exit;
         $cart_validate = Loader::validate('Cart');
+        if($action_type=='kucun_buy')
+        {
+           
+            $cart_validate = Loader::validate('Newcart');
+        }
 
         if (!$cart_validate->check($data)) {
             $error = $cart_validate->getError();
@@ -239,6 +257,13 @@ class Cart extends MobileBase {
             if ($_REQUEST['act'] == 'submit_order') {
                 $placeOrder = new PlaceOrder($pay);
                 $placeOrder->setUserAddress($address)->setUserNote($user_note)->setPayPsw($pay_pwd)->addNormalOrder();
+                $cartLogic->clear();
+                $order = $placeOrder->getOrder();
+                $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn']]);
+            }
+            elseif ($_REQUEST['act'] == 'kucun_submit_order') {
+                $placeOrder = new PlaceOrder($pay);
+                $placeOrder->setUserAddress($address)->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
                 $cartLogic->clear();
                 $order = $placeOrder->getOrder();
                 $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn']]);
@@ -465,7 +490,7 @@ class Cart extends MobileBase {
         /**
      * ajax 将库存商品加入购物车 
      */
-    function kucun_add($goods_id,$goods_num,$item_id=0)
+    function kucun_add($goods_id,$goods_num,$item_id=0,$seller_id=0)
     {
         $message =array();
        // $goods_id = I("goods_id/d"); // 商品id
@@ -484,6 +509,7 @@ class Cart extends MobileBase {
         $cartLogic->setGoodsModel($goods_id);
         $cartLogic->setSpecGoodsPriceById($item_id);
         $cartLogic->setGoodsBuyNum($goods_num);
+        $cartLogic->setCartDellerId($seller_id);
         try {
             $cartLogic->kucun_addGoodsToCart();
            // $cartLogic->addGoodsToCart();
@@ -495,6 +521,73 @@ class Cart extends MobileBase {
             //$this->ajaxReturn($error);
         }
         return $message;
+    }
+    /**
+    检查线下库存
+    **/
+    public function chekoutuserkucun()
+    {
+      
+        $message =array();
+         
+        //检查库存
+            $data =I('post.');
+            if(!empty($data))
+            {
+                
+              
+                $goods_data_ids = $data['goods_ids'];//id
+                $goods_data_number = $data['number'];//数量   
+                $goods_data_checkItem = $data['checkItem'];
+                $pei_parent =$data['pei_parent'];
+                foreach($goods_data_ids as $k=>$v)
+                {
+                    if(!empty($goods_data_checkItem[$k]))
+                    {
+                        if($this->user['level']==5)
+                        {
+                            $store_count =  $goods = M("goods")->where(['goods_id'=>$goods_data_ids[$k]])->value('store_count');
+                            if($store_count<$goods_data_number[$k])
+                            {
+                                $message =['status' => 0, 'msg' => '商品库存数量不够'];
+                                return  $this->ajaxReturn($message);
+                                 break;
+                            }
+
+                        }else
+                        {
+                            
+                                    $warehouse_goods_list = M("warehouse_goods")->alias('wg')
+                            ->field('wg.nums,g.goods_name,g.goods_id,g.shop_price,g.original_img')
+                             // ->join('users u','wg.user_id=u.user_id','LEFT')
+                            ->join('goods g','wg.goods_id=g.goods_id','LEFT')
+                            ->where(['wg.user_id'=>$pei_parent,'g.goods_id'=>$goods_data_ids[$k]])->find();
+                          // var_dump($warehouse_goods_list );exit;
+
+                              if($warehouse_goods_list['nums']<$goods_data_number[$k])
+                            {
+                                $message =['status' => 0, 'msg' => '商品库存数量不够'];
+                                return  $this->ajaxReturn($message);
+                                 break;
+                            }
+
+                        }
+                        
+                                   
+                    }
+
+
+                }
+
+                
+            }
+
+                $message =['status' => 1, 'msg' => '加入购物车成功'];
+                return  $this->ajaxReturn($message);
+                        
+
+            
+            
     }
 
     /**

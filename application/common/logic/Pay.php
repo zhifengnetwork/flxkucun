@@ -336,6 +336,10 @@ class Pay
         if ($this->payList[0]['prom_type'] == 4) {
             return $this;
         }
+        //库存商品暂不计算运费
+         if ($this->payList[0]['cart_type'] == 1) {
+            return $this;
+        }
         $freight_free = tpCache('shopping.freight_free'); // 全场满多少免运费
         if($this->goodsPrice < $freight_free || $freight_free == 0){
             $this->shippingPrice = $GoodsLogic->getFreight($this->payList, $district_id);

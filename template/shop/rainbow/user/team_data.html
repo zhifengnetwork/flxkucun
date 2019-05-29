@@ -51,27 +51,27 @@
                                     <li>
                                         <div class="item">
                                             <div class="img-wrap">
-                                                <img src="__STATIC__/images/user_zp/000avatar-02.png" />
+                                                <img src="{$first_leader.head_pic}" />
                                             </div>
                                             <div class="text">
                                                 <span>昵称：{$first_leader.nickname}</span>
-                                                <span>DI：{$first_leader.user_id}</span>
+                                                <span>ID：{$first_leader.user_id}</span>
                                                 <span>手机号：{$first_leader.mobile}</span>
-                                                <span>等级：大区</span>
+                                                <span>等级：{$level[$first_leader['level']]}</span>
                                             </div>
                                         </div>
-                                        <h3>平级上级</h3>
+                                        <h3>推荐上级</h3>
                                     </li>
                                     <li>
                                         <div class="item">
                                             <div class="img-wrap">
-                                                <img src="__STATIC__/images/video/001v.png" />
+                                                <img src="{$pinji_leader_first.head_pic}" />
                                             </div>
                                             <div class="text">
-                                                <span>昵称：小辣鸡</span>
-                                                <span>DI：81345</span>
-                                                <span>手机号：18005239654</span>
-                                                <span>等级：大区</span>
+                                                <span>昵称：{$pinji_leader_first.nickname}</span>
+                                                <span>ID：{$pinji_leader_first.user_id}</span>
+                                                <span>手机号：{$pinji_leader_first.mobile}</span>
+                                                <span>等级：{$level[$pinji_leader_first['level']]}</span>
                                             </div>
                                         </div>
                                         <h3>配货上级</h3>
@@ -79,72 +79,42 @@
                                     <li>
                                         <div class="item">
                                             <div class="img-wrap">
-                                                <img src="__STATIC__/images/user_zp/000avatar-02.png" />
+                                                <img src="{$peihuo_leader_first.head_pic}" />
                                             </div>
                                             <div class="text">
-                                                <span>昵称：小辣鸡</span>
-                                                <span>DI：81345</span>
-                                                <span>手机号：18005239654</span>
-                                                <span>等级：大区</span>
+                                                <span>昵称：{$peihuo_leader_first.nickname}</span>
+                                                <span>ID：{$peihuo_leader_first.user_id}</span>
+                                                <span>手机号：{$peihuo_leader_first.mobile}</span>
+                                                <span>等级：{$level[$peihuo_leader_first['level']]}</span>
                                             </div>
                                         </div>
-                                        <h3>推荐上级</h3>
+                                        <h3>平级上级</h3>
                                     </li>
                                 </ul>
                             </div>
                             <div class="sub-list" >
-                                <h4>推荐下级</h4>
+                                <h4>配货下级</h4>
+                                <foreach name="peihuo_sub" id="v">
                                 <a href="{:U('User/sub_order')}">
                                     <div class="item">
                                         <div class="img-wrap">
-                                            <img src="__STATIC__/images/user_zp/000avatar-02.png" />
+                                            <img src="{$v.head_pic}"/>
                                         </div>
                                         <div class="text">
-                                            <span>昵称：好货上场</span>
-                                            <span>DI：81345</span>
-                                            <span>手机号：18005239654</span>
-                                            <span>等级：大区</span>
+                                            <span>昵称：{$v.nickname}</span>
+                                            <span>ID：{$v.user_id}</span>
+                                            <span>手机号：{$v.mobile}</span>
+                                            <span>等级：{$level[$v['level']]}</span>
+                                            <!--
                                             <span>商品：和大好河山</span>
                                             <span>数量：1000</span>
                                             <span>金额：100000</span>
-                                            <span>配货ID：86523</span>
+                                            <span>配货ID：86523</span>-->
                                         </div>
                                     </div>
                                 </a>
-                                <a href="{:U('User/sub_order')}">
-                                    <div class="item">
-                                        <div class="img-wrap">
-                                            <img src="__STATIC__/images/user_zp/000avatar-02.png" />
-                                        </div>
-                                        <div class="text">
-                                            <span>昵称：好货上场</span>
-                                            <span>DI：81345</span>
-                                            <span>手机号：18005239654</span>
-                                            <span>等级：大区</span>
-                                            <span>商品：和大好河山</span>
-                                            <span>数量：1000</span>
-                                            <span>金额：100000</span>
-                                            <span>配货ID：86523</span>
-                                        </div>
-                                    </div>
-                                </a>
-                                <a href="{:U('User/sub_order')}">
-                                    <div class="item">
-                                        <div class="img-wrap">
-                                            <img src="__STATIC__/images/user_zp/000avatar-02.png" />
-                                        </div>
-                                        <div class="text">
-                                            <span>昵称：好货上场</span>
-                                            <span>DI：81345</span>
-                                            <span>手机号：18005239654</span>
-                                            <span>等级：大区</span>
-                                            <span>商品：和大好河山</span>
-                                            <span>数量：1000</span>
-                                            <span>金额：100000</span>
-                                            <span>配货ID：86523</span>
-                                        </div>
-                                    </div>
-                                </a>
+                            </foreach>
+               
                             </div>
                         </div>
                         <div class="main">
@@ -154,27 +124,27 @@
                                     <li>
                                         <div class="item">
                                             <div class="img-wrap">
-                                                <img src="__STATIC__/images/user_zp/000avatar-02.png" />
+                                                <img src="{$first_leader.head_pic}" />
                                             </div>
                                             <div class="text">
-                                                <span>昵称：小辣鸡</span>
-                                                <span>DI：81345</span>
-                                                <span>手机号：18005239654</span>
-                                                <span>等级：大区</span>
+                                                <span>昵称：{$first_leader.nickname}</span>
+                                                <span>ID：{$first_leader.user_id}</span>
+                                                <span>手机号：{$first_leader.mobile}</span>
+                                                <span>等级：{$level[$first_leader['level']]}</span>
                                             </div>
                                         </div>
-                                        <h3>平级上级</h3>
+                                        <h3>推荐上级</h3>
                                     </li>
                                     <li>
                                         <div class="item">
                                             <div class="img-wrap">
-                                                <img src="__STATIC__/images/user_zp/000avatar-02.png" />
+                                                <img src="{$pinji_leader_first.head_pic}" />
                                             </div>
                                             <div class="text">
-                                                <span>昵称：小辣鸡</span>
-                                                <span>DI：81345</span>
-                                                <span>手机号：18005239654</span>
-                                                <span>等级：大区</span>
+                                                 <span>昵称：{$pinji_leader_first.nickname}</span>
+                                                <span>ID：{$pinji_leader_first.user_id}</span>
+                                                <span>手机号：{$pinji_leader_first.mobile}</span>
+                                                <span>等级：{$level[$pinji_leader_first['level']]}</span>
                                             </div>
                                             </div>
                                         <h3>配货上级</h3>
@@ -182,72 +152,42 @@
                                     <li>
                                         <div class="item">
                                             <div class="img-wrap">
-                                                <img src="__STATIC__/images/user_zp/000avatar-02.png" />
+                                               <img src="{$peihuo_leader_first.head_pic}" />
                                             </div>
                                             <div class="text">
-                                                <span>昵称：小辣鸡</span>
-                                                <span>DI：81345</span>
-                                                <span>手机号：18005239654</span>
-                                                <span>等级：大区</span>
+                                                 <span>昵称：{$peihuo_leader_first.nickname}</span>
+                                                <span>ID：{$peihuo_leader_first.user_id}</span>
+                                                <span>手机号：{$peihuo_leader_first.mobile}</span>
+                                                <span>等级：{$level[$peihuo_leader_first['level']]}</span>
                                             </div>
                                         </div>
-                                        <h3>推荐上级</h3>
+                                        <h3>平级上级</h3>
                                     </li>
                                 </ul>
                             </div>
                             <div class="sub-list" >
                                 <h4>推荐下级</h4>
+                                <foreach name="zhitui_sub" id="v">
                                 <a href="{:U('User/sub_order')}">
                                     <div class="item">
                                         <div class="img-wrap">
-                                            <img src="__STATIC__/images/user_zp/000avatar-02.png" />
+                                            <img src="{$v.head_pic}" />
                                         </div>
                                         <div class="text">
-                                            <span>昵称：好货上场</span>
-                                            <span>DI：81345</span>
-                                            <span>手机号：18005239654</span>
-                                            <span>等级：大区</span>
+                                           <span>昵称：{$v.nickname}</span>
+                                            <span>ID：{$v.user_id}</span>
+                                            <span>手机号：{$v.mobile}</span>
+                                            <span>等级：{$level[$v['level']]}</span>
+                                            <!--
                                             <span>商品：和大好河山</span>
                                             <span>数量：1000</span>
                                             <span>金额：100000</span>
-                                            <span>配货ID：86523</span>
+                                            <span>配货ID：86523</span>-->
                                         </div>
                                     </div>
                                 </a>
-                                <a href="{:U('User/sub_order')}">
-                                    <div class="item">
-                                        <div class="img-wrap">
-                                            <img src="__STATIC__/images/video/001v.png" />
-                                        </div>
-                                        <div class="text">
-                                            <span>昵称：好货上场</span>
-                                            <span>DI：81345</span>
-                                            <span>手机号：18005239654</span>
-                                            <span>等级：大区</span>
-                                            <span>商品：和大好河山</span>
-                                            <span>数量：1000</span>
-                                            <span>金额：100000</span>
-                                            <span>配货ID：86523</span>
-                                        </div>
-                                    </div>
-                                </a>
-                                <a href="{:U('User/sub_order')}">
-                                    <div class="item">
-                                        <div class="img-wrap">
-                                            <img src="__STATIC__/images/user_zp/000avatar-02.png" />
-                                        </div>
-                                        <div class="text">
-                                            <span>昵称：好货上场</span>
-                                            <span>DI：81345</span>
-                                            <span>手机号：18005239654</span>
-                                            <span>等级：大区</span>
-                                            <span>商品：和大好河山</span>
-                                            <span>数量：1000</span>
-                                            <span>金额：100000</span>
-                                            <span>配货ID：86523</span>
-                                        </div>
-                                    </div>
-                                </a>
+                            </foreach>
+                              
                             </div>
                         </div>
                     </div>
