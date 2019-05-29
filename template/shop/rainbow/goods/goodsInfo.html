@@ -673,9 +673,11 @@
                     cart_sign_receive(is_sign,goods_num);
                     return;
                 }
-            }else{
-                is_superior(goods_id,goods_num);
             }
+            
+            // else{
+            //     is_superior(goods_id,goods_num);
+            // }
 
             var goods_id = $("input[name='goods_id']").val();
             AjaxAddCart(goods_id, 1);
