@@ -144,7 +144,7 @@ class Cart extends MobileBase {
             $cartGoodsTotalNum = $goods_num;
             $setRedirectUrl = new UsersLogic();
             $setRedirectUrl->orderPageRedirectUrl($_SERVER['REQUEST_URI'],'',$goods_id,$goods_num,$item_id ,$action);
-        }elseif($action="kucun_buy")
+        }elseif($action=="kucun_buy")
         {
             //添加到购物车
             $data =I('post.');
@@ -165,12 +165,13 @@ class Cart extends MobileBase {
                     }
                 }
             }
+            //print_R($cartLogic->getUserCartOrderkucunCount());
 
+            if ($cartLogic->getUserCartOrderkucunCount() == 0){
 
-            if ($cartLogic->getUserCartOrderCount() == 0){
                 $this->error('你的购物车没有选中商品', 'Cart/index');
             }
-            $cartList['cartList'] = $cartLogic->getCartList(1); // 获取用户选中的购物车商品
+            $cartList['cartList'] = $cartLogic->getCartkucunList(1); // 获取用户选中的购物车商品
             $cartList['cartList'] = $cartLogic->getCombination($cartList['cartList']);  //找出搭配购副商品
             $cartGoodsTotalNum = count($cartList['cartList']);
         }
@@ -248,7 +249,15 @@ class Cart extends MobileBase {
                 $cartList[0] = $buyGoods;
                 $pay->payGoodsList($cartList);
             } else {
-                $userCartList = $cartLogic->getCartList(1);
+                
+                if($action_type=='kucun_buy')
+                {
+                       
+                  $userCartList = $cartLogic->getCartkucunList(1);
+                }else
+                {
+                    $userCartList = $cartLogic->getCartList(1);
+                }
                 $cartLogic->checkStockCartList($userCartList);
                 $pay->payCart($userCartList);
             }

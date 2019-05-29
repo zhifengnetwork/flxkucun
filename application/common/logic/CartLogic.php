@@ -286,7 +286,7 @@ class CartLogic extends Model
             $store_count = $this->specGoodsPrice['store_count'];
         }
         // 查询购物车是否已经存在这商品
-        $cart_where = ['user_id' => $this->user_id, 'goods_id' => $this->goods['goods_id'], 'spec_key' => ($this->specGoodsPrice['key'] ?: ''), 'prom_type' => 0];
+        $cart_where = ['user_id' => $this->user_id, 'goods_id' => $this->goods['goods_id'], 'spec_key' => ($this->specGoodsPrice['key'] ?: ''), 'prom_type' => 0,'cart_type'=>0];
         if (!$this->user_id) {
             $cart_where['session_id'] = $this->session_id;
         }
@@ -421,7 +421,7 @@ class CartLogic extends Model
             $store_count = $this->specGoodsPrice['store_count'];
         }
         // 查询购物车是否已经存在这商品
-        $cart_where = ['user_id' => $this->user_id, 'goods_id' => $this->goods['goods_id'], 'spec_key' => ($this->specGoodsPrice['key'] ?: ''), 'prom_type' => 0];
+        $cart_where = ['user_id' => $this->user_id, 'goods_id' => $this->goods['goods_id'], 'spec_key' => ($this->specGoodsPrice['key'] ?: ''), 'prom_type' => 0, 'cart_type' => 1];
         if (!$this->user_id) {
             $cart_where['session_id'] = $this->session_id;
         }
@@ -794,6 +794,27 @@ class CartLogic extends Model
             $cartWhere['selected'] = 1;
         }
         $cartWhere['combination_group_id'] = 0;
+         $cartWhere['cart_type'] = 0;
+        $cartList = $cart->with('goods')->where($cartWhere)->select();  // 获取购物车商品
+        $cartCheckAfterList = $this->checkCartList($cartList);
+        return $cartCheckAfterList;
+    }
+    /**读取库存购物车**/
+
+       public function getCartkucunList($selected = 0)
+    {
+        $cart = new Cart();
+        // 如果用户已经登录则按照用户id查询
+        if ($this->user_id) {
+            $cartWhere['user_id'] = $this->user_id;
+        } else {
+            $cartWhere['session_id'] = $this->session_id;
+        }
+        if ($selected != 0) {
+            $cartWhere['selected'] = 1;
+        }
+        $cartWhere['combination_group_id'] = 0;
+         $cartWhere['cart_type'] = 1;
         $cartList = $cart->with('goods')->where($cartWhere)->select();  // 获取购物车商品
         $cartCheckAfterList = $this->checkCartList($cartList);
         return $cartCheckAfterList;
@@ -878,7 +899,19 @@ class CartLogic extends Model
      */
     public function getUserCartOrderCount()
     {
-        $count = Db::name('Cart')->where(['user_id' => $this->user_id, 'selected' => 1])->count();
+        $count = Db::name('Cart')->where(['user_id' => $this->user_id, 'selected' => 1,'cart_type'=>0])->count();
+        return $count;
+    }
+
+        /**
+     *  modify ：cart_count
+     *  获取用户库存购物车欲购买的商品有多少种
+     * @return int|string
+     */
+    public function getUserCartOrderkucunCount()
+    {
+        $count = Db::name('Cart')->where(['user_id' => $this->user_id, 'selected' => 1,'cart_type'=>1])->count();
+        //echo $count;exit;
         return $count;
     }
 
