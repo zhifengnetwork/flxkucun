@@ -116,6 +116,16 @@ class CartLogic extends Model
         $this->goodsBuyNum = $goodsBuyNum;
     }
 
+        /**
+     * 设置购买的商品上级id
+     * @param $goodsBuyNum
+     */
+    public function setCartDellerId($seller_id)
+    {
+        $this->seller_id = $seller_id;
+       
+    }
+
     /**
      * 立即购买
      * @return mixed
@@ -431,7 +441,7 @@ class CartLogic extends Model
         }
         if ($userWantGoodsNum > $store_count) {
             $userCartGoodsNum = empty($userCartGoodsSum) ? 0 : $userCartGoodsSum;///获取用户购物车的抢购商品数量
-            throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '商品库存不足，剩余' . $store_count . ',当前购物车已有' . $userCartGoodsNum . '件']);
+           // throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '商品库存不足，剩余' . $store_count . ',当前购物车已有' . $userCartGoodsNum . '件']);
         }
 
         // 如果该商品已经存在购物车
@@ -449,13 +459,13 @@ class CartLogic extends Model
             }
             if ($userWantGoodsNum > $store_count) {
                 $userCartGoodsNum = empty($userCartGoods['goods_num']) ? 0 : $userCartGoods['goods_num'];///获取用户购物车的抢购商品数量
-                throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '商品库存不足，剩余' . $store_count . ',当前购物车已有' . $userCartGoodsNum . '件']);
+                //throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '商品库存不足，剩余' . $store_count . ',当前购物车已有' . $userCartGoodsNum . '件']);
             }
             $cartResult = $userCartGoods->save(['goods_num' => $userWantGoodsNum, 'goods_price' => $price, 'member_goods_price' => $price]);
         } else {
             //如果该商品没有存在购物车
             if ($this->goodsBuyNum > $store_count) {
-                throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '商品库存不足，剩余' . $this->goods['store_count']]);
+               // throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '商品库存不足，剩余' . $this->goods['store_count']]);
             }
 
             //如果有阶梯价格,就是用阶梯价格
@@ -478,6 +488,7 @@ class CartLogic extends Model
                 'prom_type' => 0,   // 0 普通订单,1 限时抢购, 2 团购 , 3 促销优惠
                 'prom_id' => 0,   // 活动id
                 'cart_type' => 1,   // 默认正常购物流程，1是进货购物车
+                'cart_seller_id'=>$this->seller_id
             );
             if ($this->specGoodsPrice) {
                 $cartAddData['item_id'] = $this->specGoodsPrice['item_id'];

@@ -107,13 +107,20 @@ class User extends MobileBase
         //配货上级
         $peihuo_leader_first = find_prepareuserinfo($this->user['user_id'],2);
         /******我的配货下级*****/
-         //$peihuo_sub = find_prepareuserinfo($this->user['user_id'],2);
+
+         $peihuo_sub = getAlldp($this->user['user_id'],$this->user['level']);
         /******直推下级*****/
+        $zhitui_sub = getAlldp($this->user_id);
+        //print_r($peihuo_sub);exit;
+
         $this->assign('user_info',$this->user); //用户信息
         $this->assign('pinji_leader_first',$pinji_leader_first); 
         $this->assign('peihuo_leader_first',$peihuo_leader_first);
         $this->assign('first_leader',$first_leader);
+         $this->assign('zhitui_sub',$zhitui_sub);
+         $this->assign('peihuo_sub',$peihuo_sub);
         $this->assign('user_info',$this->user); //用户信息
+        $this->assign('level', M('user_level')->getField('level,level_name'));//等级
         return $this->fetch();
     }
     // 邀请代理
@@ -166,6 +173,7 @@ class User extends MobileBase
         //读取会员仓库信息
         
         //print_r($kucun);exit;
+        $this->assign('pei_parent',$pei_parent['user_id']);
         $this->assign('kucun',$kucun);
         return $this->fetch();
     }

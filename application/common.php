@@ -122,7 +122,7 @@ function get_uper_user($data)
  */
 function getAllUp($invite_id,&$userList=array())
 {           
-    $field  = "user_id,first_leader,agent_user,is_lock,level";
+    $field  = "user_id,first_leader,agent_user,is_lock,level,nickname,head_pic,mobile";
     $UpInfo = M('users')->field($field)->where(['user_id'=>$invite_id])->find();
     if($UpInfo)  //有上级
     {
@@ -2121,7 +2121,7 @@ function provingReceive($user, $type, $num = 1)
 function find_prepareuserinfo($user_id,$type=1,$first_leader_id=0,&$userList=array())
 {
     $data =array();
-     $field  = "user_id,first_leader,agent_user,is_lock,level";
+     $field  = "user_id,first_leader,agent_user,is_lock,level,nickname,head_pic,mobile";
      $userinfo = M('users')->field($field)->where(['user_id'=>$user_id])->find();
 
       if($userinfo['level']==5)
@@ -2187,3 +2187,63 @@ function find_prepareuserinfo($user_id,$type=1,$first_leader_id=0,&$userList=arr
       
   
 } 
+//获取所有的下级
+ function getAlldp_p($invite_id,$userlevel=0,&$userList=array())
+  {           
+      $field  = "user_id,level";
+      $UpInfo = M('users')->field($field)->where(['first_leader'=>$invite_id])->select();
+     // if($UpInfo)  //有上级
+      //{
+         // $userList[] = $UpInfo;
+         // $                                      
+          //$this->getAlldp_p($UpInfo['user_id'],$userList);
+      //}
+      if($UpInfo)
+      {
+        foreach ($UpInfo as $key => $value) {
+          if($userlevel==0)
+          {
+            $userList[] = $value;
+          }elseif($userlevel!=0 && $userlevel>$value['level'])
+          {
+            $userList[] = $value;
+          }
+          
+          getAlldp_p($value['user_id'],$userlevel,$userList);
+        }
+  
+      }
+      
+      return $userList;
+      
+  }
+//获取一级下级
+   function getAlldp($invite_id,$userlevel=0,&$userList=array())
+  {           
+      $field  = "user_id,level,nickname,mobile,head_pic,mobile";
+      $UpInfo = M('users')->field($field)->where(['first_leader'=>$invite_id])->select();
+     // if($UpInfo)  //有上级
+      //{
+         // $userList[] = $UpInfo;
+         // $                                      
+          //$this->getAlldp_p($UpInfo['user_id'],$userList);
+      //}
+      if($UpInfo)
+      {
+        foreach ($UpInfo as $key => $value) {
+          if($userlevel==0)
+          {
+            $userList[] = $value;
+          }elseif($userlevel!=0 && $userlevel>$value['level'])
+          {
+            $userList[] = $value;
+          }
+          
+          //getAlldp_p($value['user_id'],$userlevel,$userList);
+        }
+  
+      }
+      
+      return $userList;
+      
+  }

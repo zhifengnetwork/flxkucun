@@ -30,12 +30,13 @@
 				<form action="{:U('Shop/Cart/cart2')}" method="post" id='kucunform' name='kucunform'>
 
 					<input type="hidden" name="action" value="kucun_buy">
+					<input type="hidden" name="pei_parent" value="{$pei_parent}">
 					<ul class="superior-list">
 						<foreach name="kucun" id="v">
 							<input type="hidden" name="goods_ids[{$v.goods_id}]" value="{$v.goods_id}">
 						<li>
 							<div class="check">
-								<input type="checkbox" name="checkItem[{$v.goods_id}]">
+								<input type="checkbox" name="checkItem[{$v.goods_id}]" data-id="{$v.goods_id}">
 							</div>
 							<div class="img-wrap">
 								<a href="###"><img src="{$v[goods_id]|goods_thum_images=200,200}?v={:date('Ymd')}" /></a>
@@ -169,20 +170,45 @@
 
 	</script>
 	<script type="text/javascript">
+
 		function form_submit()
 		{
+			
 			//获取选中的商品个数
 	        var j = 0;
-	        $('input[name^="checkItem"]:checked').each(function () {
+	        $('input[name^="checkItem"]:checked').each(function (i,val) {
+	        	//alert(val.data('id'));
 	            j++;
 	        });
 	        //选择数大于0
 	        if (j > 0) {
+	        	  $.ajax({
+			            type: "POST",
+			            url: "{:U('Shop/Cart/chekoutuserkucun')}",
+			            data: $('#kucunform').serialize(),
+			            dataType: "json",
+			            error: function () {
+			                //layer.alert("服务器繁忙, 请联系管理员!");
+			                 layer.open({content: '服务器繁忙, 请联系管理员!', time:2});
+			            },
+			            success: function (data) {
+			                if (data.status == 1) {
+			                  //  layer.msg(data.msg, {icon: 1});
+			                    //layer.open({content: data.msg, time:2});
+			                    //location.href = "{:U('Admin/User/levelList')}";
+			                     document.forms['kucunform'].submit();
+			                } else {
+			                    //layer.msg(data.msg, {icon: 2});
+			                    layer.open({content: data.msg, time:2});
+			                }
+			            }
+			        });
+                 
 	            //跳转订单页面
-	            document.forms['kucunform'].submit();
+	           // document.forms['kucunform'].submit();
 	           // window.location.href = "{:U('Shop/Cart/cart2')}"
 	        } else {
-	            layer.open({content: '请选择要结算的商品！', time:10000});
+	            layer.open({content: '请选择要结算的商品！', time:2});
 	            return false;
 	        }
 			

@@ -22,6 +22,7 @@ class PlaceOrder
 {
     private $invoiceTitle;
     private $userNote;
+    private $sellerid;
     private $taxpayer;
     private $invoiceDesc;
     private $pay;
@@ -284,6 +285,9 @@ class PlaceOrder
         if (!empty($this->userNote)) {
             $orderData['user_note'] = $this->userNote;// 用户下单备注
         }
+         if (!empty($this->sellerid)) {
+            $orderData['seller_id'] = $this->sellerid;// 记录进货的上级
+        }
         if (!empty($this->taxpayer)) {
             $orderData['taxpayer'] = $this->taxpayer; //'发票纳税人识别号',
         }
@@ -500,6 +504,11 @@ class PlaceOrder
     public function setUserNote($userNote)
     {
         $this->userNote = $userNote;
+        return $this;
+    }
+    public function setSellerId($seller_id)
+    {
+        $this->sellerid = $seller_id;
         return $this;
     }
     public function setTaxpayer($taxpayer)
