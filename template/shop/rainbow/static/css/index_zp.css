@@ -66,12 +66,14 @@ body{
 .bannerWrap{
     padding-top: 0.78rem;
     overflow: hidden;
+    position: relative;
 }
 .bannerWrap .swiper-slide{    
     position: relative;
 }
 .bannerWrap .swiper-slide img{
     width: 100%;
+    display: block;
 }
 .bannerWrap .playBtn{
     width: .67rem;
@@ -83,7 +85,21 @@ body{
 }
 .bannerWrap .playBtn img{
     width: 100%;
-
+}
+.bannerWrap .materialLink{
+    width: 1.2rem;
+    height: .6rem;
+    line-height: .6rem;
+    color: #fff;
+    font-size: .3rem;
+    text-align: center;
+    border-top-left-radius:.25rem; 
+    background: rgba(0,0,0,.3);
+    display: block;
+    position: absolute;
+    right: 0;
+    bottom: .08rem;
+    z-index: 99;
 }
 
 /* 菜单导航 */
@@ -129,15 +145,34 @@ body{
 /* 公共标题 */
 .title{
     width: 100%;
-    height: .6rem;
-    line-height: .6rem;
+    height: .7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: .3rem;
     padding: 0 .24rem;
     box-sizing: border-box;
 }
+.title::before{
+    content: '';
+    display: inline-block;
+    width: 1.98rem;
+    height: .1rem;
+    background: url(../images/home_zp/title-left.png) no-repeat;
+    background-size: cover;
+}
+.title::after{
+    content: '';
+    display: inline-block;
+    width: 1.98rem;
+    height: .1rem;
+    background: url(../images/home_zp/title-right.png) no-repeat;
+    background-size: cover;
+}
 .title h3{
     font-weight: normal;
-    color: #666;
+    color: #151515;
+    margin: 0 17px;
 }
 /* 学习专区 */
 .learning-area{
@@ -145,6 +180,26 @@ body{
     justify-content: space-between;
     padding: 0 0.24rem;
     margin-bottom: .1rem;
+}
+.learning-area .study-item{
+    position: relative;
+}
+.learning-area .study-item .tag{
+    width: 1.5rem;
+    height: .5rem;
+    line-height: .5rem;
+    text-align: center;
+    font-size:.3rem;
+    background-color: #ca9fd6;
+    color: #fff;
+    border-radius: .05rem;
+    border-bottom-left-radius:0; 
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.learning-area .study-item:nth-child(2) .tag{
+    background-color:#ff7095;
 }
 .learning-area .study-item img{
     width: 3.44rem;
