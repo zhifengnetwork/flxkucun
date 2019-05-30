@@ -42,8 +42,10 @@ class Apply extends MobileBase
 			$this->ajaxReturn(['status'=>-1,'msg'=>'参数错误!','data'=>null]);
 		}
 		$Users = M('users');
-		$info = $Users->field('level,mobile,head_pic,openid')->where(['user_id'=>$uid1,'first_leader'=>$this->user_id])->find();
-		if(!$info)$this->ajaxReturn(['status'=>-1,'msg'=>'未查询到该下级用户!','data'=>null]);
+		$info = $Users->field('level,mobile,first_leader,head_pic,openid')->where(['user_id'=>$uid1])->find();
+		//非下级且不是普通会员/VIP
+        if(($info['first_leader'] != $this->user_id) && !in_array($info['level'],[1,2]))$this->ajaxReturn(['status'=>-1,'msg'=>'不能邀请该用户!','data'=>null]);  
+		//if(!$info)$this->ajaxReturn(['status'=>-1,'msg'=>'未查询到该下级用户!','data'=>null]);
 		if($info['level'] >= $level)$this->ajaxReturn(['status'=>-1,'msg'=>'该下级用户的代理级别已不小于邀请级别!','data'=>null]);
 		$user_level = M('user_level')->field('level')->where(['level'=>$level])->find();
 		if(!$user_level)$this->ajaxReturn(['status'=>-1,'msg'=>'级别错误!','data'=>null]);
@@ -80,14 +82,17 @@ class Apply extends MobileBase
 	}
 
     public function invitation_agent(){
-		$id = I('get.id/d',0);
+		$id = I('get.id/d',1);
 		$type = I('get.type/d',1);
 		if(!$id)$this->error('参数错误');
-		
-		$applyinfo = M('Apply')->find($id);	
+		$applyinfo = M('Apply')->find($id);			
 		if(!$applyinfo)$this->error('无此次邀请');
 		if($applyinfo['uid'] != $this->user_id)$this->error('您无权限查看此邀请');
-		if($applyinfo['status'] != 0)$this->error('此邀请您已处理过啦');	
+		if($applyinfo['status'] == 1){//跳转到上级页面
+			$this->redirect(U("User/superior_store",['leaderid'=>$applyinfo['leaderid'],'level'=>$applyinfo['level']]));
+			return;
+		}	
+		if(in_array($applyinfo['status'],[2,3]))$this->error('此邀请已处理过啦');	
 
 		$level = M('Users')->where(['user_id'=>$applyinfo['uid']])->value('level');
 		if($level >= $applyinfo['level'])$this->error('您的代理级别已不小于邀请级别！');	
@@ -95,12 +100,39 @@ class Apply extends MobileBase
 		$applyinfo['leaderidinfo'] = M('Users')->field('nickname,mobile,head_pic')->find($applyinfo['leaderid']);
 		$applyinfo['level_name'] = M('User_level')->where(['level'=>$applyinfo['level']])->value('level_name');
 
-		M('Apply')->save(['id'=>$id,'status'=>3]);
+		//M('Apply')->save(['id'=>$id,'status'=>1]);
 
 		$this->assign('applyinfo',$applyinfo);
 		$this->assign('type',$type);
         return $this->fetch();
-    }
+	}
+	
+    public function apply_for_agent(){
+		$id = I('get.id/d',0);
+		$type = I('get.type/d',2);
+		if(!$id)$this->error('参数错误');
+		
+		$applyinfo = M('Apply_for')->find($id);	
+		if(!$applyinfo)$this->error('无此次申请');
+		if($applyinfo['uid'] != $this->user_id)$this->error('您无权限查看此申请');
+		if($applyinfo['status'] == 1){//跳转到上级页面
+			$this->redirect(U("User/superior_store",['leaderid'=>$applyinfo['leaderid'],'level'=>$applyinfo['level']]));
+			return;
+		}	
+		if(in_array($applyinfo['status'],[2,3]))$this->error('此邀请已处理过啦');	
+
+		$level = M('Users')->where(['user_id'=>$applyinfo['uid']])->value('level');
+		if($level >= $applyinfo['level'])$this->error('您的代理级别已不小于申请级别！');	
+
+		$applyinfo['leaderidinfo'] = M('Users')->field('nickname,mobile,head_pic')->find($applyinfo['leaderid']);
+		$applyinfo['level_name'] = M('User_level')->where(['level'=>$applyinfo['level']])->value('level_name');
+
+		//M('Apply_for')->save(['id'=>$id,'status'=>1]);
+
+		$this->assign('applyinfo',$applyinfo);
+		$this->assign('type',$type);
+        return $this->fetch();
+    }	
 
 	public function submit_invitation_agent(){
 		$applyid = I('post.applyid/d',0);
@@ -117,10 +149,11 @@ class Apply extends MobileBase
 
 		$typemsg = ($type == 1) ? '邀请' : '申请';
 
-		$applyinfo = M('Apply')->find($id);	
+		$model = ($type == 1) ? M('Apply') : M('Apply_for');
+		$applyinfo = $model->find($id);	
 		if(!$applyinfo)$this->ajaxReturn(['status' => -1, 'msg' => "无此次$typemsg"]);
 		if($applyinfo['uid'] != $this->user_id)$this->ajaxReturn(['status' => -1, 'msg' => "您无权限查看此$typemsg"]);
-		if($applyinfo['status'] != 0)$this->ajaxReturn(['status' => -1, 'msg' => "此邀请您已处理过啦"]);
+		if($applyinfo['status'] != 0)$this->ajaxReturn(['status' => -1, 'msg' => '此'.$typemsg.'您已处理过啦']);
 
 		$level = M('Users')->where(['user_id'=>$applyinfo['uid']])->value('level');
 		if($level >= $applyinfo['level'])$this->ajaxReturn(['status' => -1, 'msg' => "您的代理级别已不小于$typemsg级别！"]);
@@ -128,8 +161,8 @@ class Apply extends MobileBase
 		Db::startTrans();
 		try{
 			$res = m('apply_info')->add(['applyid'=>$applyinfo,'name'=>$name,'weixin'=>$weixin,'tel'=>$tel,'idcard'=>$idcard,'wx_nickname'=>$wx_nickname,'type'=>$type]);
-			$res ? M('Apply')->where(['id'=>$applyid])->update(['status'=>3]) : Db::rollback();
-			M('Users')->where(['user_id'=>$applyinfo['uid']])->update(['level'=>$applyinfo['level']]);
+			$res ? $model->where(['id'=>$applyid])->update(['status'=>1]) : Db::rollback();
+			//M('Users')->where(['user_id'=>$applyinfo['uid']])->update(['level'=>$applyinfo['level']]);
 
 			$nickname = M('Users')->where(['user_id'=>$applyinfo['uid']])->value('nickname');
 			$openid = M('Users')->where(['user_id'=>$applyinfo['leaderid']])->value('openid');
@@ -141,7 +174,7 @@ class Apply extends MobileBase
 			}
 
 			//发送站内消息
-			$msid = M('message_notice')->add(['message_title'=>'邀请成功通知','message_content'=>"您的下级 $nickname 已填写资料，$typemsg成功!",'send_time'=>time(),'mmt_code'=>'','type'=>8]);
+			$msid = M('message_notice')->add(['message_title'=>$typemsg.'成功通知','message_content'=>"您的下级 $nickname 已填写资料，$typemsg成功!",'send_time'=>time(),'mmt_code'=>'','type'=>8]);
 			if($msid)M('user_message')->add(['user_id'=>$applyinfo['leaderid'],'message_id'=>$msid]);
 			$this->ajaxReturn(['status'=>0,'msg'=>'请求成功!']);
 		} catch (TpshopException $t) {
@@ -197,12 +230,12 @@ class Apply extends MobileBase
 		}
 	}
 
-	public function apply_agree(){ $this->user_id=4;
+	public function apply_agree(){
 		$id = I('get.id/d',0);
 		if(!$id)$this->error('参数错误');
 		
 		$applyinfo = M('Apply_for')->find($id);	
-		if(!$applyinfo)$this->error('无此次邀请');
+		if(!$applyinfo)$this->error('无此次申请');
 		if($applyinfo['leaderid'] != $this->user_id)$this->error('您无权限查看此申请');
 		if($applyinfo['status'] != 0)$this->error('此申请您已处理过啦');	
 

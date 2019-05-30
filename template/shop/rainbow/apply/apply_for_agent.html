@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>申请代理</title>
+    <script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="__STATIC__/css/public_lb/public.css" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/user_zp/invitation_agent.css"/>
+</head>
+<body>
+    <div class="wrapper">
+    	<!--public head-->
+        <div class="lb_headWrap topBox_backgroundColor">
+            <p class="lb_headWrap_return" data-num="1" onclick="returnFun()">
+                <img class="lb_headWrap_return_img" src="__STATIC__/images/public_lb/returnImg666_lb.png"/>
+            </p>
+            <span>申请代理</span>
+        </div>
+        <!--内容-->
+        <div class="content">
+        	<div class="block_wrap">
+				<input type="hidden" id='applyid' name='applyid' value={$applyinfo.id} />
+				<input type="hidden" id='type' name='type' value={$type} />
+        		<!--头像头部区-->
+        		<div class="head">
+        			<!--头像-->
+        			<div class="photo">
+        				<img src="{$applyinfo.leaderidinfo.head_pic}" />
+        			</div>
+        			<!--
+					<p class="name">{$applyinfo.leaderidinfo.nickname}-{$applyinfo.leaderidinfo.mobile}</p>
+					-->
+					<p class="over">您申请成为凡露希代理</p>
+        		</div>
+        		<!--填写内容区-->
+        		<div class="write_cont">
+        			<!--代理级别-->
+        			<div class="cont_wrap">
+	        			<div class="left_cont">代理级别:</div>
+	        			<div class="right_cont ht">
+	        				<div class="wrap_com">{$applyinfo.level_name}</div>
+	        				<!--下拉图标-->
+	        				<div class="icon"></div>
+	        				<ul class="list_wrap">
+	        					<li>{$applyinfo.level_name}</li>
+	        				</ul>
+	        			</div>
+        			</div>
+        			<!--姓名-->
+        			<div class="cont_wrap">
+	        			<div class="left_cont">姓名:</div>
+	        			<div class="inp_cont">
+	        				<input class="inp" type="text" id='name' name='name' />
+	        			</div>
+        			</div>
+        			<!--微信号-->
+        			<div class="cont_wrap">
+	        			<div class="left_cont">微信号:</div>
+	        			<div class="inp_cont">
+	        				<input class="inp" type="text" id='weixin' name='weixin' />
+	        			</div>
+        			</div>
+        			<!--手机号-->
+        			<div class="cont_wrap">
+	        			<div class="left_cont">手机号:</div>
+	        			<div class="inp_cont">
+	        				<input class="inp" type="text" id='tel' name='tel' />
+	        			</div>
+        			</div>
+        			<!--身份证号-->
+        			<div class="cont_wrap">
+	        			<div class="left_cont">身份证号:</div>
+	        			<div class="inp_cont">
+	        				<input class="inp" type="text" id='idcard' name='idcard' />
+	        			</div>
+        			</div>
+        			<!--微信名-->
+        			<div class="cont_wrap">
+	        			<div class="left_cont">微信名:</div>
+	        			<div class="inp_cont">
+	        				<input class="inp" type="text" id='wx_nickname' name='wx_nickname' />
+	        			</div>
+        			</div>
+        		</div>
+        		
+        		<!--按钮-->
+        		<div class="btn_wrap">
+        			<input class="btn" type="button" value="点击确定" onclick=checkform() />
+        		</div>
+        	</div>
+        </div>
+    </div>
+    
+    <script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
+	<script src="__STATIC__/js/public/public_lb.js"></script>
+	<script src="__PUBLIC__/js/layer/layer-min.js"></script>
+	<script>
+		$(function() {
+    		// 下拉列表
+			$(".wrap_com").click(function(){
+				$(".list_wrap").toggle();
+			})
+    		// 取值
+			$(".list_wrap li").click(function(){
+				var val = $(this).html();
+				$(".wrap_com").html(val);
+				$(".list_wrap").toggle();
+			})
+       	});
+
+		function checkform(){
+			var applyid = $.trim($('#applyid').val());
+			var name = $.trim($('#name').val());
+			var weixin = $.trim($('#weixin').val());
+			var tel = $.trim($('#tel').val());
+			var idcard = $.trim($('#idcard').val());
+			var wx_nickname = $.trim($('#wx_nickname').val());
+			var type = $.trim($('#type').val());
+
+			if (!applyid) {
+                layer.open({content: '参数错误', time: 2000});
+				return;
+            }
+
+			if (!name) {
+                layer.open({content: '请输入正确的姓名', time: 2000});
+				return;
+            }
+
+			var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+            if (!myreg.test(tel)) {
+                layer.open({content: '请输入正确的手机号码', time: 2000});
+				return;
+            }
+
+			if (!weixin) {
+                layer.open({content: '请输入正确的微信号', time: 2000});
+				return;
+            }
+
+			if (!idcard) {
+                layer.open({content: '请输入正确的身份证号码', time: 2000});
+				return;
+            }
+
+			if (!wx_nickname) {
+                layer.open({content: '请输入正确的微信名称', time: 2000});
+				return;
+            }
+
+			$.ajax({
+				type : "post",
+				url:"/Shop/apply/submit_invitation_agent",
+				dataType:'json',
+				data : {'applyid':applyid, name:name, weixin:weixin, tel:tel, idcard:idcard, wx_nickname:wx_nickname, type:type},// 你的formid
+				success: function(data){
+					if(data.status != 0){
+						layer.open({content: data.msg, time: 2000});
+						return;
+					}else{
+						layer.open({content: data.msg, time: 2000});
+						window.location.href = '/shop/User/index';
+					}
+				}
+			});
+		}
+	</script>
+</body>
+</html>
