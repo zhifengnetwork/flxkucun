@@ -56,14 +56,11 @@ class Sign extends Base
      */
     public function signRule()
     {
-        // 等級設置
+        // 設置等級
         $Pickup =  M('user_level'); 
         $res = $Pickup->order('level_name desc')->select();
-        // dump($res );exit;
         $this->assign('res',$res);
     	
-        // return $this->fetch();
-
 
         if(IS_POST){
             $post = I('post.');
@@ -77,12 +74,8 @@ class Sign extends Base
             $model = new Config();
             $model->where(['name'=>'sign_rule'])->save(['value'=>$post['sign_rule']]);
             $model->where(['name'=>'sign_on_off'])->save(['value'=>$post['sign_on_off']]);
-            $model->where(['name'=>'sign_signcount'])->save(['value'=>$post['sign_signcount']]);
-            $model->where(['name'=>'sign_agent_days'])->save(['value'=>$post['sign_agent_days']]);
             $model->where(['name'=>'sign_require_level'])->save(['value'=>$post['level_name']]);
-            $model->where(['name'=>'sign_distribut_days'])->save(['value'=>$post['sign_distribut_days']]);
 
-            
 
             $this->success('保存成功');
         }
@@ -90,12 +83,8 @@ class Sign extends Base
         $model = new Config();
 
         $config['sign_on_off'] = $model->where(['name'=>'sign_on_off'])->value('value');
-        
-        $config['sign_signcount'] = $model->where(['name'=>'sign_signcount'])->value('value');
         $config['sign_rule'] = $model->where(['name'=>'sign_rule'])->value('value');
-        $config['sign_agent_days'] = $model->where(['name'=>'sign_agent_days'])->value('value');
         $config['sign_require_level'] = $model->where(['name'=>'sign_require_level'])->value('value');
-        $config['sign_distribut_days'] = $model->where(['name'=>'sign_distribut_days'])->value('value');
 
         $this->assign('config',$config);
 

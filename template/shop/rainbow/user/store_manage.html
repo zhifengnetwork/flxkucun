@@ -21,27 +21,38 @@
 	        <div class="content">
 	        	<div class="item_wrap">
 	        		<!---->
-	        		<foreach name="kucun" id="v">
-	        		<div class="item">
-	        			<div class="img">
-	        				<img src="{$v[goods_id]|goods_thum_images=200,200}?v={:date('Ymd')}" />
-	        			</div>
-	        			<div class="right_wrap">
-	        				<p class="explain">{$v.goods_name}</p>
-	        				<div class="order">
-	        					<div class="stock">
-	        						<span>库存：</span>
-	        						<span>{$v.nums}</span>
-	        					</div>
-	        					<!--
-	        					<div class="hue">
-	        						<span>颜色：</span>
-	        						<span>墨绿色</span>
-	        					</div>-->
-	        				</div>
-	        			</div>
-	        		</div>
-	        	</foreach>
+					<if condition="count($kucun) eq 0">
+						<!--没有内容时-s--->
+						<div class="comment_con p">
+							<div class="none" style="text-align: center;margin: 4.26667rem 0;font-size: .4733rem;color: #777777;">
+								<img src="__STATIC__/images/none3.png">
+								<br>
+								暂无数据!
+							</div>
+						</div>
+						<!-- 没有内容时-e- -->
+					</if>
+					<foreach name="kucun" id="v">
+						<div class="item">
+							<div class="img">
+								<img src="{$v[goods_id]|goods_thum_images=200,200}?v={:date('Ymd')}" />
+							</div>
+							<div class="right_wrap">
+								<p class="explain">{$v.goods_name}</p>
+								<div class="order">
+									<div class="stock">
+										<span>库存：</span>
+										<span>{$v.nums}</span>
+									</div>
+									<!--
+									<div class="hue">
+										<span>颜色：</span>
+										<span>墨绿色</span>
+									</div>-->
+								</div>
+							</div>
+						</div>
+					</foreach>
 	        		<!--进货/取货按钮-->
 	        		<div class="BuyTake">
 	        			<!--进货按钮-->

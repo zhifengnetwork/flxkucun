@@ -4,6 +4,7 @@
  */
 namespace app\shop\controller;
 use app\common\model\Users;
+use app\common\model\Config;
 use think\Db;
 
 class Sign extends MobileBase
@@ -30,7 +31,11 @@ class Sign extends MobileBase
 
     public function index()
     {
+
+        $model = new Config();
+        $config['sign_rule'] = $model->where(['name'=>'sign_rule'])->value('value');
         $user_id = session('user.user_id');
+        $this->assign('config', $config);
         $this->assign('user_id', $user_id);
 
         return $this->fetch();
@@ -48,6 +53,7 @@ class Sign extends MobileBase
     {
         $user_model = new Users();
         $user_id = I('user_id');
+
         if (!$user_id) {
             return $this->ajaxReturn(['status' => -1, 'msg' => '签到user_id不能为空']);
         }
@@ -61,63 +67,29 @@ class Sign extends MobileBase
         Db::startTrans();
         try{
 
-            $r = M('sign_log')->save(['user_id' => $user_id, 'sign_day' => date('Y-m-d H:i:s')]);
-            $user = $user_model->where(['user_id' => $user_id])->field('is_agent,super_nsign,is_distribut')->find();
-            //获取后台设置的签到天数
-            $sign_distribut_days = M('config')->where(['name' => 'sign_distribut_days'])->value('value');
-            $sign_agent_days = M('config')->where(['name' => 'sign_agent_days'])->value('value');
-            //代理类型
+            $signID = Db::name('sign_log')->insertGetId(['user_id' => $user_id, 'sign_day' => date('Y-m-d H:i:s')]);
+            $user = $user_model->where(['user_id' => $user_id])->field('level,is_agent,super_nsign,is_distribut')->find();
 
-            //更改成是否  有资格
-            // is_agent
-            if ($user['super_nsign'] == 1) {
-                //查询签到记录看已经连续签到是次数是否达到了设置的值
-                $agent_continue_sign_num = $this->goods_continue_sign($user_id, 'sign_agent');
-                if ($agent_continue_sign_num >= $sign_agent_days) {
+            //查询签到送积分是否开启
+            $sign_on_off = M('config')->where(['name' => 'sign_on_off'])->value('value');
 
-                    //使得user表中代理领礼物次数+1
-                    $agent_free_num = $user_model->where(['user_id' => $user_id])->value('agent_free_num');
+            if ($sign_on_off == 1) {
 
-                    $agent_free_num = (int) $agent_free_num + 1;
-                    $user_model->where(['user_id' => $user_id])->update(['agent_free_num' => $agent_free_num]);
+                //赠送积分
+                $agent_free_num = $user_model->where(['user_id' => $user_id])->setInc('pay_points', $user['userLevel']['get_integral']);
 
-                    // //变更这几次的签到记录中的标志值
-                    M('sign_log')->where(['user_id' => $user_id])->order('sign_day desc')->limit($sign_agent_days)->update(['sign_agent' => 1]);
+                //积分变动日志
+                $accountLogData = [
+                    'user_id' => $user_id,
+                    'pay_points' => $user['userLevel']['get_integral'],
+                    'change_time' => time(),
+                    'desc' => '签到赠送',
+                    'order_sn'=>'',
+                    'order_id'=>$signID,
+                    'log_type'=>8,
+                ];
+                Db::name('account_log')->insert($accountLogData);
 
-                    // 写日志
-                    $log = array(
-                        'user_id' => $user_id,
-                        'type' => 'AGENT'
-                    );
-                    M('log_receive_sign_free')->add($log);
-                }
-            }
-
-            //分销员类型
-            if ($user['is_distribut'] == 1) {
-                //查询签到记录看已经连续签到是次数是否达到了设置的值
-                $distribut_continue_sign_num = $this->goods_continue_sign($user_id, 'sign_distribut');
-                //echo '|||||||||||||||||'.$distribut_continue_sign_num;die;
-                if ($distribut_continue_sign_num >= $sign_distribut_days) {
-                    //使得user表中代理领礼物次数+1
-                    //M('user')->where(['user_id'=>$user_id])->save(['distribut_free_num'=>'distribut_free_num+1']);
-
-                    $distribut_free_num = M('users')->where(['user_id' => $user_id])->value('distribut_free_num');
-
-                    $distribut_free_num = (int) $distribut_free_num + 1;
-
-                    $user_model->where(['user_id' => $user_id])->save(['distribut_free_num' => $distribut_free_num]);
-
-                    // //变更这几次的签到记录中的标志值
-                    M('sign_log')->where(['user_id' => $user_id])->order('sign_day desc')->limit($sign_distribut_days)->save(['sign_distribut' => 1]);
-
-                    // 写日志
-                    $log = array(
-                        'user_id' => $user_id,
-                        'type' => 'DISTRIBUT'
-                    );
-                    M('log_receive_sign_free')->add($log);
-                }
             }
 
             // 提交事务
@@ -132,6 +104,7 @@ class Sign extends MobileBase
         }
 
     }
+
 
     /**
      * 获取签到的日期列表.

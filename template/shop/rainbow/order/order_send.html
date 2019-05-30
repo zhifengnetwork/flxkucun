@@ -20,7 +20,17 @@
         </div>
         <!--内容-->
         <div class="content">
-
+			<if condition="count($order_list) eq 0">
+				<!--没有内容时-s--->
+				<div class="comment_con p">
+					<div class="none" style="text-align: center;margin: 4.26667rem 0;font-size: .4733rem;color: #777777;">
+						<img src="__STATIC__/images/none3.png">
+						<br>
+						暂无数据!
+					</div>
+				</div>
+				<!-- 没有内容时-e- -->
+			</if>
 			<volist name="order_list" id="order">
 				<input name="order_id" value="{$order['order_id']}" type="hidden"/>
 				<div class="box_wrap">

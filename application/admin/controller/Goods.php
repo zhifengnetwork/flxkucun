@@ -394,6 +394,7 @@ class Goods extends Base {
     //商品保存
     public function save(){
         $data = input('post.');
+
         $spec_item = input('item/a');
         $validate = Loader::validate('Goods');// 数据验证
         if (!$validate->batch()->check($data)) {
@@ -417,6 +418,7 @@ class Goods extends Base {
             $store_count_change_num = $data['store_count'];
         }
         $goods->data($data, true);
+
         $goods->last_update = time();
         $goods->price_ladder = true;
         $goods->save();

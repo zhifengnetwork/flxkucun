@@ -544,8 +544,7 @@ class User extends Base
 			$rebate = I('rebate');
 			$reward_id = I('reward_id');
 			$reward = I('reward');
-			$get = I('get');
-            $get = I('get');
+            $get = I('get_integral');
 			$y_reward = I('y_reward');
             $s_reward = I('s_reward');
              $k_reward = I('k_reward');
@@ -576,7 +575,7 @@ class User extends Base
 				//'rebate'=>$rebate,
 				'reward_id'=>$reward_id,
 				'reward'=>$reward,
-				'get'=>$get,
+				'get_integral'=>$get,
 				'describe'=>$describe,
                 'y_reward'=>$y_reward,
                 's_reward'=>$s_reward,

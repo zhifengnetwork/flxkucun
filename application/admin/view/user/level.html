@@ -121,11 +121,11 @@
 			</dl>-->
 			<dl class="row">
 			    <dt class="tit">
-			        <label for="level_name">领取产品数量</label>
+			        <label for="level_name">签到送积分</label>
 			    </dt>
 			    <dd class="opt">
-			        <input type="text" name="get" value="{$info.get}" id="get" class="input-txt" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
-			        <p class="notic">设置免费领取产品数量(付邮费)。</p>
+			        <input type="text" name="get_integral" value="{$info.get_integral}" id="get" class="input-txt" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
+			        <p class="notic">设置签到赠送的积分。</p>
 			    </dd>
 			</dl>
 			<if condition="$info['level'] eq 4">
