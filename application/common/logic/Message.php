@@ -139,6 +139,7 @@ class Message
         $data['send_time_text'] = $data->$name->send_time_text;
         $data['message_content'] = htmlspecialchars_decode($data->$name->message_content);
         $data['category_name'] = $category_name;
+        $data['mmt_code'] = isset($data->$name->mmt_code) ? $data->$name->mmt_code : '';
         return $data;
     }
 

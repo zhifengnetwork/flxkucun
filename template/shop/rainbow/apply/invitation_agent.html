@@ -158,8 +158,8 @@
 						layer.open({content: data.msg, time: 2000});
 						return;
 					}else{
-						layer.open({content: data.msg, time: 2000});
-						window.location.href = '/shop/User/index';
+						layer.open({content: data.msg, time: 2000,end:function(){ window.location.href = '/shop/User/index'; }});
+						
 					}
 				}
 			});

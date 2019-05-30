@@ -200,7 +200,7 @@ class Apply extends MobileBase
 		$UserApply = new UserApply();
 		$leader_id = $UserApply->getLeaderTop($this->user_id,$level);  //级别对应的上级用户ID
 
-		if((mb_strlen($info) < 5) || (mb_strlen($info) > 590))$this->ajaxReturn(['status' => -1, 'msg' => "申请说明过短或超长"]);
+		if((mb_strlen($msg) < 5) || (mb_strlen($msg) > 590))$this->ajaxReturn(['status' => -1, 'msg' => "申请说明过短或超长"]);
 
 		$info = M('apply_for')->where(['uid'=>$this->user_id,'status'=>['in','0,1']])->find();
 		if($info)$this->ajaxReturn(['status' => -1, 'msg' => "您已有申请正在审核中！"]);

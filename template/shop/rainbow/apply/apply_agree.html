@@ -116,12 +116,10 @@
 				//data : $('#'+tab).serialize(),// 你的formid
 				success: function(data){
 					if(data.status != 0){
-						layer.open({content: data.msg, time: 2000});
-						location.href = "{:U('shop/user/index')}";
+						layer.open({content: data.msg, time: 2000,end:function(){ location.href = "{:U('shop/user/index')}"; }});
 						return;
 					}else{
-						layer.open({content: data.msg, time: 2000});
-						location.href = "{:U('shop/user/index')}";
+						layer.open({content: data.msg, time: 2000,end:function(){ location.href = "{:U('shop/user/index')}"; }});
 					}
 				}
 			});			
