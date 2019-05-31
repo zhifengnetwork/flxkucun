@@ -79,7 +79,7 @@ class MobileBase extends Controller {
                     }else{
                         $wxuser = session("third_oauth");
                     }
-
+                    /*
 
                     if(I('old_openid') == ''){
                         //跳去获取旧openid
@@ -89,7 +89,7 @@ class MobileBase extends Controller {
                         $old_openid = I('old_openid');
                       
                         $wxuser['old_openid'] = $old_openid;
-                    }
+                    }*/
 
                     //过滤特殊字符串
                     $wxuser['nickname'] && $wxuser['nickname'] = replaceSpecialStr($wxuser['nickname']);
