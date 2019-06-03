@@ -158,7 +158,7 @@ class Activity extends MobileBase {
             ->field('fl.*,100*(FORMAT(buy_num/goods_num,2)) as percent')
             ->where($where)
             ->page($p,10)
-            ->select();
+            ->select();  
         $this->assign('flash_sale_goods',$flash_sale_goods);
         return $this->fetch();
     }
@@ -168,7 +168,7 @@ class Activity extends MobileBase {
      */
     public function auction_list()
     {
-        $commodity = M('Auction')->order('preview_time desc')->select();
+        $commodity = M('Auction')->order('preview_time desc')->select(); 
         $this->assign('commodity', $commodity);
         return $this->fetch();
     }
@@ -180,6 +180,7 @@ class Activity extends MobileBase {
     {
         $p = I('p',1);
         $where = [
+			'fl.auction_status'=>1,
             'g.is_on_sale'=>1,
             'fl.is_end'=>0
         ];

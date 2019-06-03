@@ -27,6 +27,7 @@
         <input type="hidden" class="hidden-buy-type" id="hidden-buy-type" value="{$info['buy_type']}" />
         <input type="hidden" class="hidden-buy-num" id="hidden-buy-num" value="{$info['buy_num']}" />
         <input type="hidden" class="hidden-team-id" id="hidden-team-id" value="{$info['team_id']}" />
+		<input type="hidden" class="hidden-found-id" id="hidden-found-id" value="{$info['found_id']}" />
         <if condition="$address">
         <div class="namephone fl" id="address_selected" item="{$address[0]['address_id']}">
             <div class="top">
@@ -514,7 +515,7 @@
        
         // 使用余额
         $('#user_money').on('change',function(){
-            var prop = $('#user_money').prop('checked');
+            var prop = $('#user_money').prop('checked');    
             var user_money = parseFloat($('#user_money').val());
             if(prop){
                 var total = parseFloat($('#total_fee').html());
@@ -530,10 +531,12 @@
                     $('#payables').html(total - user_money);
                     $('#balance').html(user_money);
                 }
+                $('#paypwd_view').show();
             }else{
                 var price = $('#hidden-payables').val();
                 $('#payables').html(price);
                 $('#balance').html('0');
+                $('#paypwd_view').hide();
             }
         });
 
@@ -615,18 +618,20 @@
 
             if(type == '不开发票'){
                 _tpl = '不开发票'
-            }
-
-            if(identity == '个人'){
-                _tpl = '纸质（个人-'+type+'）';
             }else{
-                if(!title || !code){
-                    layer.open({icon: 1, content: "发票抬头不能为空！", time: 2});
-                    return false;
+                if(identity == '个人'){
+                    _tpl = '纸质（个人-'+type+'）';
                 }else{
-                    _tpl = '纸质（'+title+'-'+type+'）';
+                    if(!title || !code){
+                        layer.open({icon: 1, content: "发票抬头不能为空！", time: 2});
+                        return false;
+                    }else{
+                        _tpl = '纸质（'+title+'-'+type+'）';
+                    }
                 }
             }
+
+            
             $('.invoice_title').html(_tpl);
             $('#invoicelist').hide();
         });
@@ -636,38 +641,57 @@
         });
     });
 
+    // 用户备注字符长度限制
+    $('#user_note').on('keyup',function(){
+        var user_note = $('#user_note').val();
+        var len = parseInt(user_note.length);
+        $('#zero').html(50 - len);
+        if(len >= 50){
+            return false;
+        }
+    });
+
     // 提交订单
     function submit_order(){
         var buy_type = $('#hidden-buy-type').val();
         var buy_num = $('#hidden-buy-num').val();
         var team_id = $('#hidden-team-id').val();
+		var found_id = $('#hidden-found-id').val();
         var invoice_type = $('#hidden-invoice-type').val();
         var invoice_identity = $('#hidden-invoice-identity').val();
         var invoice_title = $('#hidden-invoice-title').val();
         var invoice_code = $('#hidden-invoice-code').val();
         var address_id = $('.input_default_address_id').val();
         var user_money = $('#user_money').prop('checked') ? 1 : 0;
+        var pay_pwd = $('#pay_pwd').val();
+        var user_note = $('#user_note').val();
 
         var data = {
             buy_type:   buy_type,
             buy_num:    buy_num,
             team_id:    team_id,
+			found_id:   found_id,
             invoice_type:   invoice_type,
             invoice_identity:   invoice_identity,
             invoice_title:  invoice_title,
             invoice_code:   invoice_code,
             address_id: address_id,
             user_money: user_money,
-            //user_note:  user_note
+            pay_pwd: pay_pwd,
+            user_note:  user_note
         };
-        $.post('falceOrder',{data:data},function(res){
-           // console.log(res);
-           var ress =JSON.parse(res);
-            layer.open({icon: 1, content: ress.msg, time: 2});
-            window.location.href='/Shop/Order/order_detail/id/'+ress.id+'.html';
+        $.post('falceOrder',{data:data},function(res){  
+			res = JSON.parse(res);
+			if(res.status == 1){
+				layer.open({icon: 1, content: res.msg, time: 2});
+				location.href = "/mobile/cart/cart4?order_sn=" + res.order_sn;
+										
+			}else{
+				layer.open({icon: 1, content: res.msg, time: 2});
+				
+			}
         });
         
-        //console.log(user_money);
     }
 
 

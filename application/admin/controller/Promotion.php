@@ -393,7 +393,7 @@ class Promotion extends Base
         $data['groupbuy_intro'] = htmlspecialchars(stripslashes($this->request->param('groupbuy_intro')));
         $data['start_time'] = strtotime($data['start_time']);
         $data['end_time'] = strtotime($data['end_time']);
-        dump($data);
+
         if ($data['act'] == 'del') {
 
             $spec_goods = Db::name('spec_goods_price')->where(['prom_type' => 2, 'prom_id' => $data['id']])->find();
@@ -420,7 +420,7 @@ class Promotion extends Base
 
 
             if ($r) exit(json_encode(1));
-        }
+        }     
         $groupBuyValidate = Loader::validate('GroupBuy');
         if($data['item_id'] > 0){
             $spec_goods_price = Db::name("spec_goods_price")->where(['item_id'=>$data['item_id']])->find();
@@ -444,7 +444,7 @@ class Promotion extends Base
                 Db::name('goods')->where("goods_id", $data['goods_id'])->save(array('prom_id' => 0, 'prom_type' => 2));
             }else{
                 Db::name('goods')->where("goods_id", $data['goods_id'])->save(array('prom_id' => $r, 'prom_type' => 2));
-            }
+            }   
             if ($r) {
 
                 if($data['mmt_message_switch'] == 1) {
@@ -757,6 +757,11 @@ class Promotion extends Base
                 $this->ajaxReturn($return);
             }
 
+			if($data['deposit'] <= 0)
+				$this->ajaxReturn(['status' => 0, 'msg' => '保证金必须大于0', 'result' => '']);
+			if($data['start_price'] <= 0)
+				$this->ajaxReturn(['status' => 0, 'msg' => '起拍必须大于0', 'result' => '']);
+
             if (empty($data['id'])) {
                 $auctionInsertId = Db::name('auction')->insertGetId($data);
                 if($data['item_id'] > 0){
@@ -799,8 +804,10 @@ class Promotion extends Base
             $auction_now_time = $now_time - 1;
         }
         $auction_now_time = strtotime(date('Y-m-d') . " " . $auction_now_time . ":00:00");
-        $info['start_time'] = date("Y-m-d H:i", $auction_now_time);
-        $info['end_time'] = date("Y-m-d H:i", $auction_now_time);
+        $info['start_time'] = $auction_now_time;
+        $info['end_time'] = $auction_now_time;
+        //$info['start_time'] = date("Y-m-d H:i", $auction_now_time);
+        //$info['end_time'] = date("Y-m-d H:i", $auction_now_time);
         $info['is_edit'] = 1;
 
         if ($id > 0) {

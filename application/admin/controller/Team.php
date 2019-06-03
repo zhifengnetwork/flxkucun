@@ -37,7 +37,6 @@ class Team extends Base
             if($team_id){
                 $TeamActivity = new TeamActivity();
                 $team_info = $TeamActivity->with('goods')->find($team_id);
-                dump($team_info);   
                 // $list = Db::name('team_activity')->where('team_id',$team_id)->select();
                 $this->assign('list',$team_info);
                 // dump($list);
@@ -76,9 +75,10 @@ class Team extends Base
         $data_ladder = [];
 
         if ($data['act'] == 'add')
-        {
+        {		$data['needer'] = $data['group_number'];
                 $team_id = Db::name('team_activity')->insertGetId($data);
                 if($team_id){
+					//M('goods')->update(['goods_id'=>$data['goods_id'],'prom_type'=>6,'prom_id'=>$team_id]);
                     $this->ajaxReturn(['status' => 1,'msg' =>'操作成功','result' => '']);
                 }else{
                     $this->ajaxReturn(['status' => 0,'msg' =>'操作失败','result' => '']);

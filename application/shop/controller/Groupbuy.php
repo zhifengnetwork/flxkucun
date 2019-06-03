@@ -11,9 +11,9 @@ use app\common\model\TeamActivity;
 use app\common\model\GoodsImages;
 use app\common\model\Comment;
 use app\common\model\UserAddress;
+use app\common\logic\OrderLogic;
 use think\Page;
 use app\common\model\Goods;
-use app\common\logic\OrderLogic;
 
 class Groupbuy extends MobileBase
 {
@@ -43,7 +43,7 @@ class Groupbuy extends MobileBase
             ->alias('t')
             ->Join('goods g',"g.goods_id=t.goods_id",'LEFT')
             ->field('t.team_id,t.act_name,t.goods_name,t.goods_id,t.group_price,t.start_time,t.end_time,t.group_number,t.purchase_qty,g.shop_price,g.market_price,g.original_img')
-            ->select();
+            ->select();		
         
         // dump(Db::table('tp_team_activity')->getLastSql());exit;
         $this->assign('list', $list);
@@ -86,7 +86,6 @@ class Groupbuy extends MobileBase
                 $this->error('活动已关闭');
             }
 
-
             # 对拼团信息进行组装
             $goodsModel = new \app\common\model\Goods();
             $info['cluster_type'] = [0 => '', 1 => '小团', 2 => '打团', 3 => '阶梯团'][$info['cluster_type']];
@@ -102,7 +101,8 @@ class Groupbuy extends MobileBase
             # 正在开团的数量
             $team_found_num = Db::table('tp_team_found')
                 ->where('team_id',$info['team_id'])
-                ->where('found_end_time', '<', time())
+                ->where('found_time', '<', time())
+                ->where('found_end_time', '>', time())
                 ->where('status', 1)
                 ->count();
 
@@ -112,10 +112,15 @@ class Groupbuy extends MobileBase
                     ->field('`found_id`,`found_time`,`found_end_time`,`user_id`,`nickname`,`head_pic`,`order_id`,`join`,`need`')
                     ->order('found_end_time asc')
                     ->where('team_id',$info['team_id'])
-                    ->where('found_end_time', '<', time())
+                    ->where('found_time', '<', time())
+					->where('found_end_time', '>', time())
                     ->where('status', 1)
-                    ->limit(3)
+                    ->limit(6)
                     ->select();
+
+				foreach($team_found as $k=>$v){
+					$team_found[$k]['found_end_time'] = (($v['found_end_time'] > time()) ? ($v['found_end_time'] - time()) : 0);
+				}
 
                 $this->assign('team_found_num', $team_found_num);
                 $this->assign('team_found', $team_found);
@@ -129,23 +134,6 @@ class Groupbuy extends MobileBase
             $collect = db('goods_collect')->where(array("goods_id" => $info['goods_id'], "user_id" => $user_id))->count(); 
             $this->assign('collect', $collect);
 
-
-            # 商品规格样式
-            // $field = '`item_id`,`goods_id`,`key`,`key_name`,`price`,`store_count`';
-            // $spec = Db::query("select $field from `tp_spec_goods_price` where `goods_id` = '$info[goods_id]'");
-            // if($spec){
-            //     $spec_min_pric = $spec_max_pric = 0;
-            //     foreach($spec as $key => $val){
-            //         $spec[$key]['name'] = str_replace(array('选择颜色:', '码数:'), '', $val['key_name']);
-            //         if($spec_min_pric == 0) $spec_min_pric = $val['price'];
-            //         $spec_min_pric = $spec_min_pric > $val['price'] ? $val['price'] : $spec_min_pric;
-            //         $spec_max_pric = $spec_max_pric < $val['price'] ? $val['price'] : $spec_max_pric;
-            //     }
-            //     $this->assign('spec', $spec);
-            //     $this->assign('spec_min_pric', $spec_min_pric);
-            //     $this->assign('spec_max_pric', $spec_max_pric);
-            // }
-            
         }else{
             $this->error('商品信息不存在');
         }
@@ -179,7 +167,8 @@ class Groupbuy extends MobileBase
         $team_id = intval(input('get.team_id'));
         $buy_num = intval(input('get.buy_num'));
         $buy_type = intval(input('get.buy_type'));
-        
+        $found_id = intval(input('get.found_id'));
+		$buy_type = $found_id ? 2 : $buy_type; 
         
 
         # 数据验证
@@ -195,14 +184,12 @@ class Groupbuy extends MobileBase
         if(!$user_id){
             $this->error('登陆超时，请先登录', 'User/login');
         }
-
-
         # 获取商品信息
         $info = Db::table('tp_team_activity')
             ->where("team_id", $team_id)
             ->alias('t')
             ->join('goods g','g.goods_id = t.goods_id','left')
-            ->field('t.team_id, t.act_name, t.goods_id, t.goods_item_id, t.needer, t.goods_name, t.deleted, t.group_price, t.cluster_type, t.start_time, t.end_time, t.buy_limit, t.sales_sum, t.max_open_num, g.original_img, g.shop_price, g.market_price')
+            ->field('t.team_id, t.act_name, t.goods_id, t.goods_item_id, t.needer, t.goods_name, t.deleted, t.group_price, t.cluster_type, t.start_time, t.end_time, t.buy_limit, t.sales_sum, t.max_open_num, t.goods_item_id, g.original_img, g.shop_price, g.market_price')
             ->find();
 
         if(!$info){
@@ -223,12 +210,23 @@ class Groupbuy extends MobileBase
             $this->error('最大限购数量：'.$info['buy_limit']);
         }
         # 发起拼团，判断开团最大数
-        if($buy_type == 2 && $info['max_open_num']){
+        if(!$found_id && $buy_type == 2 && $info['max_open_num']){
             $open_team = Db::query("select count(*) from `tp_team_found` where `team_id` = '$info[team_id]' and `status` in ('1','2')");
             if($open_team && $info['max_open_num'] <= $open_team[0]['count']){
                 $this->error('已达到最大开团数，发起拼团失败');
             }
         }
+		if($found_id){
+			$found_info = M('team_found')->field('found_end_time,user_id,need,status')->find($found_id);
+			if($found_info['found_end_time'] < time())
+				$this->error('此团已结束');
+			elseif($found_info['user_id'] == $user_id)
+				$this->error('不能参加自己开的团');
+			elseif($found_info['need'] == 0)
+				$this->error('此团已满');
+			elseif($found_info['status'] != 1)
+				$this->error('此团已不能加入');
+		}
 
         # 收货地址
         $address = Db::table('tp_user_address')
@@ -254,10 +252,12 @@ class Groupbuy extends MobileBase
             $this->assign('region', $region);
         }
         
+		if($info['goods_item_id'])$info['shop_price'] = M('spec_goods_price')->where(['item_id'=>$info['goods_item_id']])->value('price');
         # 组装数据
         $info['price'] = $buy_type == 1 ? $info['shop_price'] : $info['group_price'];
         $info['buy_type'] = $buy_type;
         $info['buy_num'] = $buy_num; 
+		$info['found_id'] = $found_id; 
         $info['wprice'] = (intval($info['price'] * 100) * $buy_num) / 100;
         $info['user_money'] = $user['user_money'];
         // dump($info);exit;
@@ -267,9 +267,6 @@ class Groupbuy extends MobileBase
         return $this->fetch();
     }
 
-    /**
-     * 提交订单 
-     */
     /**
      * 提交订单 
      */
@@ -317,12 +314,25 @@ class Groupbuy extends MobileBase
                 ajaxReturn(['status'=>0, 'msg'=>'最大限购数量：'.$info['buy_limit']]);
             }
             # 发起拼团，判断开团最大数
-            if($data['buy_type'] == 2 && $info['max_open_num']){
+            if($data['found_id'] && $data['buy_type'] == 2 && $info['max_open_num']){
                 $open_team = Db::query("select count(*) from `tp_team_found` where `team_id` = '$info[team_id]' and `status` in ('1','2')");
                 if($open_team && $info['max_open_num'] <= $open_team[0]['count']){
                     ajaxReturn(['status'=>0, 'msg'=>'订单提交失败,已达到最大开团数']);
                 }
             }
+
+		if($data['found_id']){
+			$data['buy_type'] = 2;
+			$found_info = M('team_found')->field('found_end_time,user_id,need,status')->find($data['found_id']);
+			if($found_info['found_end_time'] < time())
+				$this->error('此团已结束');
+			if($found_info['user_id'] == $user_id)
+				$this->error('不能参加自己开的团');
+			elseif($found_info['need'] == 0)
+				$this->error('此团已满');
+			elseif($found_info['status'] != 1)
+				$this->error('此团已不能加入');
+		}
 
             ### 配送地址信息
             $addressInfo = Db::query("select `consignee`,`province`,`city`,`district`,`address`,`mobile` from `tp_user_address` where `address_id` = '$data[address_id]'");
@@ -376,8 +386,23 @@ class Groupbuy extends MobileBase
                     $ruser_money = $user_money - $total;
                     # 已使用余额
                     $auser_money = $total;
+     
+                    if ($user['is_lock'] == 1) {
+                        ajaxReturn(['status'=>0, 'msg'=>'账号异常已被锁定，不能使用余额支付！']);
+                    }
+                    if (empty($user['paypwd'])) {
+                        ajaxReturn(['status'=>0, 'msg'=>'请先设置支付密码']);
+                    }
+                    if (empty($data['pay_pwd'])) {
+                        ajaxReturn(['status'=>0, 'msg'=>'请输入支付密码']);
+                    }
+                    if ($data['pay_pwd'] !== $user['paypwd'] && encrypt($data['pay_pwd']) !== $user['paypwd']) {
+                        ajaxReturn(['status'=>0, 'msg'=>'支付密码错误']);
+                    }
+               
                     # 订单支付状态
                     $pay_status = 1;
+                    $pay_name = '余额支付';
                 }else{
                     # 用户余额大于 0
                     if($user_money > 0){
@@ -410,6 +435,7 @@ class Groupbuy extends MobileBase
                 $auser_money = 0;
                 # 订单支付状态
                 $pay_status = 0;
+                $pay_name = '在线支付';
             }
 
             # 发票信息拼装
@@ -432,7 +458,7 @@ class Groupbuy extends MobileBase
             $add_time = time();
 
             # 订单数据拼装
-            $order_sql = "insert into `tp_order` (`seller_id`,`order_sn`,`user_id`,`pay_status`,`consignee`,`province`,`city`,`district`,`address`,`mobile`,`invoice_title`,`taxpayer`,`invoice_desc`,`goods_price`,`user_money`,`order_amount`,`total_amount`,`add_time`,`prom_type`,`user_note`) values ('$info[seller_id]','$order_sn','$user_id','$pay_status','$addressInfo[consignee]','$addressInfo[province]','$addressInfo[city]','$addressInfo[district]','$addressInfo[address]','$addressInfo[mobile]','$invoice_title','$invoice_code','$invoice_desc','$total','$auser_money','$rpay','$total','$add_time','$prom_type','$data[user_note]')";
+            $order_sql = "insert into `tp_order` (`seller_id`,`order_sn`,`user_id`,`pay_status`,`consignee`,`province`,`city`,`district`,`address`,`mobile`,`pay_name`,`invoice_title`,`taxpayer`,`invoice_desc`,`goods_price`,`user_money`,`order_amount`,`total_amount`,`add_time`,`prom_id`,`prom_type`,`order_prom_id`,`user_note`) values ('$info[seller_id]','$order_sn','$user_id','$pay_status','$addressInfo[consignee]','$addressInfo[province]','$addressInfo[city]','$addressInfo[district]','$addressInfo[address]','$addressInfo[mobile]','$pay_name','$invoice_title','$invoice_code','$invoice_desc','$total','$auser_money','$rpay','$total','$add_time','$data[team_id]','$prom_type','$data[found_id]','$data[user_note]')";
            
             # 运行sql语句，插入订单
             $order_ins = Db::execute($order_sql);
@@ -445,7 +471,7 @@ class Groupbuy extends MobileBase
                 $ogins = Db::execute($ogsql);
                 if(!$ogins){
                     Db::execute("delete from `tp_order` where `order_id` = '$order_insid'");
-                    ajaxReturn(['status'=>1, 'msg'=>'订单提交失败，订单商品写入失败']);
+                    ajaxReturn(['status'=>0, 'msg'=>'订单提交失败，订单商品写入失败']);
                 }
 
                 # 单独购买 || 拼团
@@ -467,25 +493,47 @@ class Groupbuy extends MobileBase
                     $needer = $info['needer'] - 1;
                     # 用户头像
                     $head_pic = addslashes($user[head_pic]);
-                    # 组装sql语句
-                    $found_sql = "insert into `tp_team_found` (`found_time`,`found_end_time`,`user_id`,`team_id`,`nickname`,`head_pic`,`order_id`,`join`,`need`,`price`,`goods_price`,`status`) values ('$found_time','$found_end_time','$user_id','$info[team_id]','$user[nickname]','$head_pic','$order_insid','1','$needer','$final_price','$price','$status')";
-                    
-                    $found_ins = Db::execute($found_sql);
-                    // dump($found_ins);exit;
-                    if($found_ins){
-                        # 更新用户余额
-                        session('user.user_money',$ruser_money);
-                        Db::execute("update `tp_users` set `user_money` = '$ruser_money' where `user_id` = '$user_id'");
-                        ajaxReturn(['status'=>1, 'msg'=>'订单提交成功', 'type' => 2,'id'=>$order_insid]);
-                    }else{
-                        Db::execute("delete from `tp_order` where `order_id` = '$order_insid'");
-                        ajaxReturn(['status'=>1, 'msg'=>'订单提交失败，开团时不成功']);
-                    }
+					if(!$data['found_id']){
+						# 组装sql语句
+						$found_sql = "insert into `tp_team_found` (`found_time`,`found_end_time`,`user_id`,`team_id`,`nickname`,`head_pic`,`order_id`,`join`,`need`,`price`,`goods_price`,`status`) values ('$found_time','$found_end_time','$user_id','$info[team_id]','$user[nickname]','$head_pic','$order_insid','1','$needer','$final_price','$price','$status')";
+						
+						$found_ins = Db::execute($found_sql);
+						if($needer == 0){
+							M('team_found')->update(['found_id'=>Db::name('team_follow')->getLastInsID(),'status'=>2]);
+						}
+						
+					}else{
+						$found_ins = M('team_follow')->add([
+							'follow_user_id'		=> $user_id,
+							'follow_user_nickname'	=> $user['nickname'],
+							'follow_user_head_pic'	=> $user['head_pic'],
+							'follow_time'			=> time(),
+							'order_id'				=> $order_insid,
+							'found_id'				=> $data['found_id'],
+							'found_user_id'			=> $found_info['user_id'],
+							'team_id'				=> $info['team_id']
+						]);
+						M('team_found')->setInc('join');
+						M('team_found')->setDec('need');
+						if($needer == 0){
+							M('team_found')->update(['found_id'=>$data['found_id'],'status'=>2]);
+							M('team_follow')->update(['found_id'=>$data['found_id'],'status'=>2]);
+						}
+					}
+					if($found_ins){
+						# 更新用户余额
+						session('user.user_money',$ruser_money);
+						Db::execute("update `tp_users` set `user_money` = '$ruser_money' where `user_id` = '$user_id'");
+						ajaxReturn(['status'=>1, 'msg'=>'订单提交成功', 'type' => 2,'order_sn'=>$order_sn]);
+					}else{
+						Db::execute("delete from `tp_order` where `order_id` = '$order_insid'");
+						ajaxReturn(['status'=>0, 'msg'=>'订单提交失败，开团时不成功']);
+					}
                 }else{
                     # 更新用户余额
                     session('user.user_money',$ruser_money);
                     Db::execute("update `tp_users` set `user_money` = '$ruser_money' where `user_id` = '$user_id'");
-                    ajaxReturn(['status'=>1, 'msg'=>'订单提交成功', 'type' => 1]);
+                    ajaxReturn(['status'=>1, 'msg'=>'订单提交成功', 'type' => 1,'order_sn'=>$order_sn]);
                 }
             }else{
                 ajaxReturn(['status'=>0, 'msg'=>'订单提交失败,创建订单失败']);
