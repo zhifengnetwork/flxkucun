@@ -28,14 +28,14 @@
     <div class="wtf_content">
         <div class="wtf_wrap">
             <div class="wtf_money">
-                <p>金库总额</p>
+                <p>可提现金额</p>
                 <p>{$user.user_money}</p>
                 <div class="wtf_jfquan">
-                    <!-- <div class="wtf_jf">
-                        积分<span>{$user.pay_points}分</span>
-                    </div> -->
+                    <div class="wtf_jf">
+                        积分<span>{$user.pay_points}</span>
+                    </div>
                     <div class="wtf_yhq">
-                        优惠券<span>0张</span>
+                        购物余额<span>0</span>
                     </div>
                 </div>
             </div>
@@ -45,14 +45,18 @@
                     账单明细
                     <a href="{:U('Shop/User/account_list')}"><img src="__STATIC__/images/wallet/wtf_Back2.png" /></a>
                 </p>
+                <p class="p1">
+                    积分明细
+                    <a href="{:U('Shop/User/points_list')}"><img src="__STATIC__/images/wallet/wtf_Back2.png" /></a>
+                </p>
                 <p class="p1 p3">
                     提现明细
                     <a href="{:U('Shop/User/withdrawals_list')}"><img src="__STATIC__/images/wallet/wtf_Back2.png" /></a>
                 </p>
-                <!-- <p class="p1 p2">
-                    我的银行卡
-                    <a href="#"><span>未添加</span><img src="__STATIC__/images/wallet/wtf_Back2.png" /></a>
-                </p> -->
+                <p class="p1 p2">
+                    佣金明细
+                    <a href="#"><img src="__STATIC__/images/wallet/wtf_Back2.png" /></a>
+                </p>
             </div>
 
         </div>

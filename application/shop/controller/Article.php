@@ -21,6 +21,14 @@ class Article extends MobileBase
     /**
      * 文章内容页
      */
+    public function index()
+    {
+        $article_id = input('cat_id/d', 1);
+        $article = Db::name('article')->where("cat_id", $article_id)->select();
+        $this->assign('article', $article);
+        return $this->fetch();
+    }
+
     public function detail()
     {
         $article_id = input('article_id/d', 1);
