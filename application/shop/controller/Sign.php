@@ -24,6 +24,7 @@ class Sign extends MobileBase
         }
 
         $user = session('user');
+        $user = M('users')->where("user_id", $user['user_id'])->find();
         session('user', $user);  //覆盖session 中的 user
         $this->user = $user;
         $this->user_id = $user['user_id'];
@@ -36,7 +37,7 @@ class Sign extends MobileBase
         $config['sign_rule'] = $model->where(['name'=>'sign_rule'])->value('value');
         $user_id = session('user.user_id');
         $this->assign('config', $config);
-        $this->assign('user_id', $user_id);
+        $this->assign('user', $this->user);
 
         return $this->fetch();
     }
