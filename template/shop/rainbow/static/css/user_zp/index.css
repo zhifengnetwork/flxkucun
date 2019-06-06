@@ -69,10 +69,11 @@
     color: #151515;
 }
 .user-list .list-item .fl .icon{
-    width: .22rem;
-    height: .22rem;
+    width: .28rem;
+    height: .28rem;
     position: relative;
     margin-right: .1rem;
+    vertical-align: sub;
 }
 .user-list .list-item .fl .icon img{
     width: 100%;
@@ -82,6 +83,7 @@
     bottom: 0;
     left: 0;
     margin: 0 auto;
+    
 }
 .user-list .list-item .fr{
     font-size: .18rem;

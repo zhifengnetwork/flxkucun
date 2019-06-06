@@ -5,18 +5,33 @@ body{
     padding-bottom: 1.1rem;
 }
 /* 头部 */
-.header{
+.headerTop{
     width: 100%;
-    height: 0.88rem;
-    background: #ffffff;
-    display: flex;
-    align-items: center;
-    padding: 0 0.2rem;
-    box-sizing: border-box;
+    background: #f54045;
     position: fixed;
     left: 0;
     top: 0;
     z-index: 99;
+}
+.logoTop{
+    width: 100%;
+    height: 1.2rem;
+    background: #f54045;
+    text-align: center;
+}
+.logoTop img{
+    width: 1.86rem;
+    padding-top: .56rem;
+    box-sizing: border-box;
+}
+.header{
+    width: 100%;
+    height: 0.88rem;
+    background: #f54045;
+    display: flex;
+    align-items: center;
+    padding: 0 0.2rem;
+    box-sizing: border-box;
 }
 
 .header .search{
@@ -64,7 +79,7 @@ body{
 
 /* 视频轮播 */
 .bannerWrap{
-    padding-top: 0.78rem;
+    padding-top: 2.18rem;
     overflow: hidden;
     position: relative;
 }
@@ -223,6 +238,7 @@ body{
     background-color: #fff;
     padding: .15rem;
     box-sizing: border-box;
+    border-radius: .08rem;
 }
 .category-row .cate-item h3{
     font-size: .24rem;
@@ -264,11 +280,13 @@ body{
 .product .item{
     width: 49%;
     background-color: #fff;
+    /* background-color: #e2e2e1; */
     padding: .1rem;
     box-sizing: border-box;
     position: relative;
     margin-right: .1rem;
     margin-bottom: .1rem;
+    border-radius: .08rem;
 }
 .product .item:nth-child(even){
     margin-right: 0;
