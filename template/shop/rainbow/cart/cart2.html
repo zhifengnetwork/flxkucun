@@ -235,6 +235,22 @@
                                     </a>
                                 </div>
                             </div>
+
+                            <div class="myorder p">
+                                <div class="content30">
+                                    <!--<a href="javascript:void(0)">-->
+                                    <div class="order">
+                                        <div class="fl">
+                                            <span>智能填写:</span>
+                                        </div>
+                                        <div class="fl">
+                                            <input type="text" value="" name="Intelligence"/>
+                                            <a href="javascript:void(0)" onclick="intelligence()">智能填写</a>
+                                        </div>
+                                    </div>
+                                    <!--</a>-->
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="createnew ">
@@ -277,6 +293,40 @@
                 address_form.find("input[name='province']").val(getCookie('province_id'));
                 address_form.find("input[name='city']").val(getCookie('city_id'));
                 address_form.find("input[name='district']").val(getCookie('district_id'));
+            }
+            //智能填写地址
+            function intelligence() {
+                var areas = $('input[name="Intelligence"]').val();
+                $.ajax({
+                    type : "POST",
+                    url:"/Shop/User/intelligent_write",
+                    dataType:'json',
+                    data : {'level':areas},
+                    success: function(data){
+                        if(data.status != 0){
+
+                            $("input[name=consignee]").val(data.msg.name);
+                            $("input[name=mobile]").val(data.msg.mobile);
+
+                            var province = data.msg.detail[1].name;
+                            var city = data.msg.detail[2].name;
+                            var district = data.msg.detail[3].name;
+                            $("#area").html(province + ' ' + city + ' ' + district);
+                            $("input[name=province]").val(data.msg.detail[1].id);
+                            $("input[name=city]").val(data.msg.detail[2].id);
+                            $("input[name=district]").val(data.msg.detail[3].id);
+
+                            $("input[name=address]").val(data.msg.detail.street);
+                            layer.open({content: '如有错误请手动填写', time: 2});
+                            return;
+                        }else{
+                            layer.open({content: data.msg, time: 5});
+                            location.reload();
+                            return;
+                        }
+                    }
+                });
+
             }
         </script>
     </div>
