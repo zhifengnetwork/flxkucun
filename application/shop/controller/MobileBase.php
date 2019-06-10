@@ -140,20 +140,22 @@ class MobileBase extends Controller {
      */   
     public function public_assign()
     {
-        $tp_config = array();
         $first_login = session('first_login');
         $this->assign('first_login', $first_login);
         if (!$first_login && ACTION_NAME == 'login') {
             session('first_login', 1);
         }
        $tp_config = Db::name('config')->cache(true, TPSHOP_CACHE_TIME, 'config')->select();
-       foreach($tp_config as $k => $v)
-       {
-          if($v['name'] == 'hot_keywords'){
-             $this->tpshop_config['hot_keywords'] = explode('|', $v['value']);
-          }
-           $this->tpshop_config[$v['inc_type'].'_'.$v['name']] = $v['value'];
+       if(is_array($tp_config)){
+           foreach($tp_config as $k => $v)
+           {
+               if($v['name'] == 'hot_keywords'){
+                   $this->tpshop_config['hot_keywords'] = explode('|', $v['value']);
+               }
+               $this->tpshop_config[$v['inc_type'].'_'.$v['name']] = $v['value'];
+           }
        }
+
        $goods_category_tree = get_goods_category_tree();
        $this->cateTrre = $goods_category_tree;
        $this->assign('goods_category_tree', $goods_category_tree);                     
