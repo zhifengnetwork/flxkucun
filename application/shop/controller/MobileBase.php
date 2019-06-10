@@ -140,6 +140,7 @@ class MobileBase extends Controller {
      */   
     public function public_assign()
     {
+        $tp_config = array();
         $first_login = session('first_login');
         $this->assign('first_login', $first_login);
         if (!$first_login && ACTION_NAME == 'login') {
