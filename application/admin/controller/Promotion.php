@@ -616,7 +616,53 @@ class Promotion extends Base
             if (!$flashSaleValidate->batch()->check($data)) {
                 $return = ['status' => 0, 'msg' => '操作失败', 'result' => $flashSaleValidate->getError()];
                 $this->ajaxReturn($return);
+
             }
+
+            $userlevel = M('User_level')->field('level,level_name')->where(['level'=>['gt',2]])->order('level asc')->select();
+            $arr = $arr1 = [];
+            $FlashSaleCommission = M('Flash_sale_commission');
+            foreach($userlevel as $v){
+                $one_commission = I("post.num1_{$v['level']}/f",0);    
+                $tow_commission = I("post.num2_{$v['level']}/f",0);    
+                $not_money = I("post.price1_{$v['level']}/f",0);     
+                if($one_commission > $data['price']){
+                    $return = ['status' => 0, 'msg' => "{$v['level_name']} 一件佣金不能大于抢购价", 'result' =>'' ];
+                    $this->ajaxReturn($return); 
+                }
+                if($tow_commission > $data['price']){
+                    $return = ['status' => 0, 'msg' => "{$v['level_name']} 两件佣金不能大于抢购价", 'result' =>'' ];
+                    $this->ajaxReturn($return); 
+                }
+                if($not_money > $one_commission){
+                    $return = ['status' => 0, 'msg' => "{$v['level_name']} 不可提现金额不能大于一件佣金", 'result' =>'' ];
+                    $this->ajaxReturn($return); 
+                }
+
+                $arr1 = ['one_commission'=>$one_commission,'tow_commission'=>$tow_commission,'not_money'=>$not_money,'level'=>$v['level']];
+                $arr[] = $arr1;
+                $level = $v['level'];
+                $level_name = $v['level_name'];
+            }
+            $one_commission = I("post.numm1_{$level}/f",0);    
+            $tow_commission = I("post.numm2_{$level}/f",0);    
+            $not_money = I("post.pricem1_{$level}/f",0);     
+            if($one_commission > $data['price']){
+                $return = ['status' => 0, 'msg' => "{$level_name}（第二级） 一件佣金不能大于抢购价", 'result' =>'' ];
+                $this->ajaxReturn($return); 
+            }
+            if($tow_commission > $data['price']){
+                $return = ['status' => 0, 'msg' => "{$level_name}（第二级） 两件佣金不能大于抢购价", 'result' =>'' ];
+                $this->ajaxReturn($return); 
+            }
+            if($not_money > $one_commission){
+                $return = ['status' => 0, 'msg' => "{$level_name}（第二级） 不可提现金额不能大于一件佣金", 'result' =>'' ];
+                $this->ajaxReturn($return); 
+            }
+
+            $arr1 = ['one_commission'=>$one_commission,'tow_commission'=>$tow_commission,'not_money'=>$not_money,'level'=>'-'.$level];
+            $arr[] = $arr1;            
+
             if (empty($data['id'])) {
                 $flashSaleInsertId = Db::name('flash_sale')->insertGetId($data);
                 if($data['item_id'] > 0){
@@ -648,6 +694,10 @@ class Promotion extends Base
                         $messageLogic = $messageFactory->makeModule($send_data);
                         $messageLogic->sendMessage();
                     }
+                    foreach($arr as $k=>$v){
+                        $arr[$k]['flash_sale_id']   =     $flashSaleInsertId;
+                    }
+                    $FlashSaleCommission->insertAll($arr);
                     $this->ajaxReturn(['status' => 1, 'msg' => '添加抢购活动成功', 'result' => '']);
                 } else {
                     $this->ajaxReturn(['status' => 0, 'msg' => '添加抢购活动失败', 'result' => '']);
@@ -664,6 +714,15 @@ class Promotion extends Base
                     M('goods')->where("goods_id", $data['goods_id'])->save(array('prom_id' => $data['id'], 'prom_type' => 1));
                 }
                 if ($r !== false) {
+                    foreach($arr as $k=>$v){
+                        $v['flash_sale_id']   =     $data['id'];
+                        $num = $FlashSaleCommission->where(['flash_sale_id'=>$data['id'],'level'=>$v['level']])->count();
+                        if($num)
+                            $FlashSaleCommission->save($v);
+                        else
+                        $FlashSaleCommission->add($v);
+                    }
+                  
                     $this->ajaxReturn(['status' => 1, 'msg' => '编辑抢购活动成功', 'result' => '']);
                 } else {
                     $this->ajaxReturn(['status' => 0, 'msg' => '编辑抢购活动失败', 'result' => '']);
@@ -680,6 +739,15 @@ class Promotion extends Base
             $info = $FlashSale->with('specGoodsPrice,goods')->find($id);
             $info['start_time_h'] = date('H',$info['start_time']);
         }
+
+        $userlevel = M('User_level')->field('id,level,level_name')->where(['level'=>['gt',2]])->order('level asc')->select();
+
+        $FlashSaleCommission = M('flash_sale_commission');
+        foreach($userlevel as $k=>$v){
+            $userlevel[$k]['commission'] = $FlashSaleCommission->where(['flash_sale_id'=>$id,'level'=>$v['level']])->find();
+        }
+
+        $this->assign('userlevel',$userlevel);
         $this->assign('info', $info);
         return $this->fetch();
     }

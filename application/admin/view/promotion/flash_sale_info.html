@@ -80,16 +80,49 @@
                     <p class="notic">此抢购活动最多允许抢购的商品数量</p>
                 </dd>
             </dl>
-            <dl class="row">
+            <dl class="row" style="display:none;">
                 <dt class="tit">
                     <label><em>*</em>限购数量</label>
                 </dt>
                 <dd class="opt">
-                    <input type="text" <if condition="$info[id] gt 0">readonly="readonly"</if> id="buy_limit" name="buy_limit" value="{$info.buy_limit}" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')"  class="input-txt">
-                    <span class="err" id="err_buy_limit"></span>
+                    <input type="text" <if condition="$info[id] gt 0">readonly="readonly"</if> id="buy_limit" name="buy_limit" value="2" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')"  class="input-txt">
+                    <span class="err" id="err_buy_limit"></span><!--{$info.buy_limit}-->
                     <p class="notic">限时抢购每个人能购买的数量</p>
                 </dd>
             </dl>
+
+            <dl class="row">
+                <dt class="tit">
+                    <label><em>*</em>佣金</label>
+                </dt>
+                <dd class="opt">
+                    <table>
+                        <tr>
+                            <th style='text-align:center;'>级别名称</th>
+                            <th>&nbsp;&nbsp;&nbsp;&nbsp;一件佣金</th>
+                            <th>&nbsp;&nbsp;&nbsp;&nbsp;两件佣金</th>
+                            <th>&nbsp;&nbsp;不可提现金额</th>
+                        </tr>
+                        <volist name='userlevel' id='v'>
+                        <tr>
+                            <td style='width:120px;text-align:center;'>{$v.level_name}</td>
+                            <td>￥<input type="text" name="num1_{$v.level}" id="num1_{$v.level}"  style='width:60px;margin-right:20px;' value={$v.commission.one_commission}></td>
+                            <td>￥<input type="text" name="num2_{$v.level}" id="num2_{$v.level}" style='width:60px;margin-right:20px;' value={$v.commission.tow_commission}></td>
+                            <td>￥<input type="text" name="price1_{$v.level}" id="price1_{$v.level}" style='width:60px;margin-right:20px;' value={$v.commission.not_money}></td>
+                        </tr>
+                        <if condition="$i eq count($userlevel)">
+                        <tr>
+                            <td style='width:120px;text-align:center;'>{$v.level_name}（第二级）</td>
+                            <td>￥<input type="text" name="numm1_{$v.level}" id="numm1_{$v.level}"  style='width:60px;margin-right:20px;' value={:get_level_commission($info['id'],0-$v['level'],'one_commission')}></td>
+                            <td>￥<input type="text" name="numm2_{$v.level}" id="numm2_{$v.level}" style='width:60px;margin-right:20px;' value={:get_level_commission($info['id'],0-$v['level'],'tow_commission')}></td>
+                            <td>￥<input type="text" name="pricem1_{$v.level}" id="pricem1_{$v.level}" style='width:60px;margin-right:20px;' value={:get_level_commission($info['id'],0-$v['level'],'not_money')}></td>
+                        </tr>                            
+                        </if>
+                    </volist>
+                    </table>    
+                </dd>
+            </dl>            
+
             <dl class="row">
                 <dt class="tit">
                     <label><em>*</em>开始时间</label>
@@ -188,13 +221,13 @@
                 ajax_return_status = 1
                 layer.alert("服务器繁忙, 请联系管理员!");
             },
-            success: function (data) {
+            success: function (data) { 
                 if (data.status == 1) {
                     layer.msg(data.msg, {icon: 1, time: 1000}, function(){
                         location.href = "{:U('Admin/Promotion/flash_sale')}";
                     });
                 } else {
-                    layer.msg(data.msg, {icon: 2,time: 1000});
+                    layer.msg(data.result.title, {icon: 2,time: 1000});
                     $.each(data.result, function (index, item) {
                         $('#err_' + index).text(item).show();
                     });

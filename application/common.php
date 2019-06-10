@@ -2242,3 +2242,8 @@ function provingReceive($user, $type, $num = 1)
       
   }
 
+  function get_level_commission($flash_sale_id,$level,$key){
+      $val = M('flash_sale_commission')->where(['flash_sale_id'=>$flash_sale_id,'level'=>$level])->value($key);
+      return $val ? $val : 0.00;
+  }
+
