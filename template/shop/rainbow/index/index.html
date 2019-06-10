@@ -69,7 +69,9 @@
 				</div>
 			</div>
 			<a href="{:U('Shop/Material/index')}" class="materialLink">素材区</a>
-		</div>
+			<div class="swiper-pagination"></div>
+
+	</div>
 
 
 		<!-- 菜单导航 -->
@@ -180,10 +182,13 @@
 			// 首页轮播图
 			var swiper = new Swiper('.bannerWrap', {
 				loop: false,
-				pagination: '.swiper-pagination',
+				// pagination: '.swiper-pagination',
 				paginationClickable: true,
 				// autoplay: 3000,
-				autoplayDisableOnInteraction: false
+				autoplayDisableOnInteraction: false,
+				pagination: {
+					el: '.swiper-pagination',
+				}
 			});
 		</script>
 		<script type="text/javascript">

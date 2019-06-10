@@ -3,6 +3,7 @@
 // namespace app\mobile\controller;
 namespace app\shop\controller;
 
+use app\common\logic\Address;
 use app\common\logic\CartLogic;
 use app\common\logic\Message;
 use app\common\logic\UsersLogic;
@@ -73,6 +74,7 @@ class User extends MobileBase
 
     public function index()
     {
+
         $map['user_id'] = $this->user_id;
 
         $this->user['visit_count'] = M('goods_visit')->where($map)->count();
@@ -856,6 +858,25 @@ class User extends MobileBase
         $this->assign('province', $p);
         $this->assign('source', $source);
         return $this->fetch();
+
+    }
+
+    /**
+     * 智能填写
+     */
+    public function intelligent_write()
+    {
+        if (IS_POST) {
+            $post_data = input('level');
+//            $a = implode('',$post_data);
+            $mobie = new Address();
+            $data = $mobie->smart_parse($post_data);
+            if($data!=''){
+                $this->ajaxReturn(['status'=>1,'msg'=>$data]);
+            }
+
+            return $this->ajaxReturn(['status'=>0,'msg'=>'无法匹配，请手动填写']);
+        }
 
     }
 
