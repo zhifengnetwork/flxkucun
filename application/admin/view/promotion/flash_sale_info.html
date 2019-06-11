@@ -48,7 +48,7 @@
                                     <notempty name="info['specGoodsPrice']">
                                         商城价：￥{$info['specGoodsPrice']['price']}库存:{$info['specGoodsPrice']['store_count']}
                                         <else/>
-                                        商城价：￥{$info['goods']['shop_price']}库存:{$info['goods']['store_count']}
+                                        市场价：￥{$info['goods']['shop_price']}库存:{$info['goods']['store_count']}
                                     </notempty>
                                 </div>
                             </div>
@@ -263,7 +263,7 @@
             html = '<div style="float: left;margin: 10px auto;" class="selected-group-goods"><div class="goods-thumb">' +
                     '<img style="width: 162px;height: 162px" src="'+goodsItem.goods_image+'"/></div> <div class="goods-name"> ' +
                     '<a target="_blank" href="/index.php?m=Home&c=Goods&a=goodsInfo&id='+goodsItem.goods_id+'">'+goodsItem.goods_name+'</a> </div>' +
-                    ' <div class="goods-price">商城价：￥'+goodsItem.goods_price+'库存:'+goodsItem.store_count+'</div> </div>';
+                    ' <div class="goods-price">市场价：￥'+goodsItem.goods_price+'库存:'+goodsItem.store_count+'</div> </div>';
             $('input[name=goods_name]').val(goodsItem.goods_name);
         }
         $('#select_goods_button').attr('data-goods-id',goodsItem.goods_id);

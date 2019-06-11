@@ -54,7 +54,6 @@ class FanliLogic extends Model
     //会员返利
 	public function fanliModel()
 	{
-
 		$price = M('goods')->where(['goods_id'=>$this->goodId])->value('shop_price');
 		//判断商品是否是活动商品
 		$good = M('goods')
@@ -360,11 +359,12 @@ class FanliLogic extends Model
 
 	}
 	//记录日志
-	public function writeLog($userId,$money,$desc,$states)
+	public function writeLog($userId,$money,$desc,$states,$frozen_money=0)
 	{
 		$data = array(
 			'user_id'=>$userId,
 			'user_money'=>$money,
+			'frozen_money' => $frozen_money,
 			'change_time'=>time(),
 			'desc'=>$desc,
 			'order_sn'=>$this->orderSn,
@@ -728,7 +728,7 @@ class FanliLogic extends Model
       
 	}
 
-	private function set_flash_sale_commission($desc,$user_id,$commissioninfo,$status){
+	private function set_flash_sale_commission($user_id,$commissioninfo,$status){
 		$desc = "下级秒杀".$this->goodNum.'件返利';
 		if($this->goodNum == 1){
 			$commission = $commissioninfo['one_commission'];
@@ -736,7 +736,8 @@ class FanliLogic extends Model
 			$commission = $commissioninfo['tow_commission'];
 		}
 
-		$log = $this->writeLog($user_id,$commission,$desc,status); 
+		$Users = M('Users');
+		$log = $this->writeLog($user_id,($commission-$commissioninfo['not_money']),$desc,status,$commissioninfo['not_money']); 
 		$Users->where(['user_id'=>$user_id])->setInc('user_money',$commission-$commissioninfo['not_money']);
 		$Users->where(['user_id'=>$user_id])->setInc('frozen_money',$commissioninfo['not_money']);		
 	}
@@ -746,7 +747,7 @@ class FanliLogic extends Model
 			//多返一级
 			$first_leader = M('Users')->where(['user_id'=>$leader['user_id']])->value('first_leader');
 			$level = $first_leader ? M('Users')->where(['user_id'=>$first_leader])->value('level') : 0;	
-			$leader5 = ['user_id'=>(first_leader ? first_leader : 0),'level'=>level];
+			$leader5 = ['user_id'=>($first_leader ? $first_leader : 0),'level'=>$level];
 			if($leader5['user_id']){
 				$this->set_flash_sale_commission($leader5['user_id'],$commissioninfo,$status);
 			}			
@@ -767,42 +768,44 @@ class FanliLogic extends Model
 					$leader = ['user_id'=>(first_leader ? first_leader : 0),'level'=>level];
 				}
 			}
-		}else{
-			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>$leader['level']])->find();
-			if($leader['level'] == 3){
-				$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,90);
-				$leader = $UsersLogic->getUserLevTop($this->userId,4);
-				$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>4])->find();
-				$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,94);
-
-				$leader = $UsersLogic->getUserLevTop($this->userId,5);
-				$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>5])->find();
-				$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,95);
-
-				//多返一级
-				$this->next_lev_commission($commissioninfo,$leader,96);			
-			}elseif($leader['level'] == 4){
-				$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,90);
-				$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>3])->find();
-				$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,91);
-
-				$leader = $UsersLogic->getUserLevTop($this->userId,5);
-				$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>5])->find();
-				$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,95);
-
-				//多返一级
-				$this->next_lev_commission($commissioninfo,$leader,96);		
-			}elseif($leader['level'] == 5){
-				$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,90);
-				//多返一级
-				$this->next_lev_commission($commissioninfo,$leader,93);	
-
-				$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>4])->find();
-				$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,92);
-				$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>3])->find();
-				$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,91);	
-			}
 		}
+
+		if(!$leader['user_id'])return;
+		$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>$leader['level']])->find();
+		if($leader['level'] == 3){
+			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,90);
+			$leader = $UsersLogic->getUserLevTop($this->userId,4);
+			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>4])->find();
+			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,94);
+
+			$leader = $UsersLogic->getUserLevTop($this->userId,5); 
+			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>5])->find();
+			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,95);
+
+			//多返一级
+			$this->next_lev_commission($commissioninfo,$leader,96);			
+		}elseif($leader['level'] == 4){
+			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,90);
+			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>3])->find();
+			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,91);
+
+			$leader = $UsersLogic->getUserLevTop($this->userId,5);
+			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>5])->find();
+			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,95);
+
+			//多返一级
+			$this->next_lev_commission($commissioninfo,$leader,96);		
+		}elseif($leader['level'] == 5){
+			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,90);
+			//多返一级
+			$this->next_lev_commission($commissioninfo,$leader,93);	
+
+			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>4])->find();
+			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,92);
+			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>3])->find();
+			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,91);	
+		}
+		
 	}
 
 	

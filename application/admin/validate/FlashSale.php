@@ -73,7 +73,7 @@ class FlashSale extends Validate
             //商品规格
             $price = Db::name("spec_goods_price")->where(['item_id'=>$data['item_id']])->getField('price');
         }else{
-            $price = Db::name('goods')->where('goods_id',$data['goods_id'])->getField('shop_price');
+            $price = Db::name('goods')->where('goods_id',$data['goods_id'])->getField('market_price');
         }
         return ($value >= $price) ? false : true;
     }

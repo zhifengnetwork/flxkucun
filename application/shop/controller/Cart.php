@@ -212,6 +212,7 @@ class Cart extends MobileBase {
         $taxpayer = input('taxpayer');       // 纳税人识别号
         $invoice_desc = input('invoice_desc');       // 发票内容
         $user_note = input("user_note/s", ''); // 用户留言
+        $user_money = input("user_money/f", 0); //  使用余额
         $pay_pwd = input("pay_pwd/s", ''); // 支付密码
         $goods_id = input("goods_id/d"); // 商品id
         $goods_num = input("goods_num/d");// 商品数量
@@ -261,7 +262,7 @@ class Cart extends MobileBase {
                 $cartLogic->checkStockCartList($userCartList);
                 $pay->payCart($userCartList);
             }
-            $pay->setUserId($this->user_id)->delivery($address['district']);
+            $pay->setUserId($this->user_id)->delivery($address['district'])->useUserMoney($user_money);
             // 提交订单
             if ($_REQUEST['act'] == 'submit_order') {
                 $prominfo = M('goods')->field('prom_type,prom_id')->find($goods_id);

@@ -188,6 +188,7 @@ class PlaceOrder
         // if($payList[0]['goods']->sign_free_receive == 2 && $user['is_code'] != 1 && $this->pay->getSignPrice() != 0){
         //         throw new TpshopException('提交订单', 0, ['status' => -7, 'msg' => "免费领取次数不够", 'result' => '']);
         // }
+
         if ($pay_points || $user_money) {
             $user = $this->pay->getUser();
             if ($user['is_lock'] == 1) {
@@ -251,7 +252,7 @@ class PlaceOrder
             'total_amount' => $this->pay->getTotalAmount(),// 订单总额
             'order_amount' => $this->pay->getOrderAmount(),//'应付款金额',
             'add_time' => time(), // 下单时间
-        ];
+        ];  
         if($orderData["order_amount"] < 0){
             throw new TpshopException("订单入库", 0, ['status' => -8, 'msg' => '订单金额不能小于0', 'result' => '']);
         }
@@ -318,7 +319,7 @@ class PlaceOrder
         if ($orderData['integral'] > 0 || $orderData['user_money'] > 0) {
             $orderData['pay_name'] = $orderData['user_money']>0 ? '余额支付' : '积分兑换';//支付方式，可能是余额支付或积分兑换，后面其他支付方式会替换
         }
-
+ 
         $this->order->data($orderData, true);
         $orderSaveResult = $this->order->save();
         if ($orderSaveResult === false) {

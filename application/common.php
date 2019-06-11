@@ -124,9 +124,10 @@ function getAllUp($invite_id,&$userList=array())
 {           
     $field  = "user_id,first_leader,agent_user,is_lock,level,nickname,head_pic,mobile";
     $UpInfo = M('users')->field($field)->where(['user_id'=>$invite_id])->find();
+    
     if($UpInfo)  //有上级
     {
-        $userList[] = $UpInfo;                                      
+        $userList[] = $UpInfo;                           
         getAllUp($UpInfo['first_leader'],$userList);
     }
     
@@ -201,7 +202,6 @@ function get_uper_users($invite_id)
         $res = M('agent_performance')->where(['user_id'=>$user_id])->save($data);
 
         agent_performance_log($user_id,$order_amount,$order_id);
-
     }else{
 
         $data['user_id'] =  $user_id;
@@ -257,7 +257,7 @@ function agent_performance_log($user_id,$order_amount,$order_id){
         'money'=>$order_amount,
         'create_time'=>date('Y-m-d H:i:s'),
         'note'=>'订单'.$order_id.'业绩'
-    );
+    );  
     M('agent_performance_log')->add($log);
 
 
@@ -1191,7 +1191,7 @@ function update_pay_status($order_sn,$ext=array())
             M('users')->where("user_id", $user_id)->save(array('is_agent'=>1));
         }
     }
-  
+
     jichadaili($order_id);
 }
 

@@ -9,7 +9,7 @@ use app\common\util\Session;
 use app\admin\logic\GoodsLogic;
 class Index extends MobileBase {
 
-    public function index(){
+    public function index(){ update_pay_status('201906111746324781'); exit;
         $shareid = I('shareid');
 
         if (session('?user') && empty($shareid)) {

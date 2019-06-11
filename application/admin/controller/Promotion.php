@@ -581,6 +581,11 @@ class Promotion extends Base
                 $query->where('prom_type',0);
             }
         })->order('goods_id DESC')->limit($Page->firstRow . ',' . $Page->listRows)->select();
+
+        foreach($goodsList as $k=>$v){
+            $goodsList[$k]['shop_price'] = $v['market_price'];
+        }
+
         $GoodsLogic = new GoodsLogic;
         $brandList = $GoodsLogic->getSortBrands();
         $categoryList = $GoodsLogic->getSortCategory();
