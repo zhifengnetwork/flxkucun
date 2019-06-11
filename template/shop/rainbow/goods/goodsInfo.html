@@ -645,12 +645,12 @@
 
             //普通流程
             if (goods_num <= store_count) {
-                if(user_first_leader == 0){
+                // if(user_first_leader == 0){
                     form.attr('action', "{:U('shop/Cart/cart2',['action'=>'buy_now'])}").submit();
-                }else{
-                    alert('将跳转到上级仓库')
-                    form.attr('action', "{:U('shop/User/store_manage',['action'=>'buy_now'])}").submit();
-                }
+                // }else{
+                //     alert('将跳转到上级仓库')
+                //     form.attr('action', "{:U('shop/User/store_manage',['action'=>'buy_now'])}").submit();
+                // }
             } else {
                 layer.open({icon: 2, content: "购买数量超过此商品购买上限", time: 2});
             }
