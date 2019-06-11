@@ -264,8 +264,9 @@ class Cart extends MobileBase {
             $pay->setUserId($this->user_id)->delivery($address['district']);
             // 提交订单
             if ($_REQUEST['act'] == 'submit_order') {
+                $prominfo = M('goods')->field('prom_type,prom_id')->find($goods_id);
                 $placeOrder = new PlaceOrder($pay);
-                $placeOrder->setUserAddress($address)->setUserNote($user_note)->setPayPsw($pay_pwd)->addNormalOrder();
+                $placeOrder->setUserAddress($address)->setUserNote($user_note)->setPayPsw($pay_pwd)->addNormalOrder($prominfo['prom_type'],$prominfo['prom_id']);
                 $cartLogic->clear();
                 $order = $placeOrder->getOrder();
                 $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn']]);

@@ -344,6 +344,10 @@ class Cart extends MobileBase {
         if(empty($goods_num)){
             $this->ajaxReturn(['status'=>-1,'msg'=>'购买商品数量不能为0','result'=>'']);
         }
+        //商品为秒杀商品时，不可加入购物车
+        $prom_type = M('goods')->where(['goods_id'=>$goods_id])->value('prom_type');
+        if($prom_type == 1)$this->ajaxReturn(['status'=>-1,'msg'=>'秒杀商品不能加入购物车','result'=>'']);
+
         $cartLogic = new CartLogic();
         $cartLogic->setUserId($this->user_id);
         $cartLogic->setGoodsModel($goods_id);

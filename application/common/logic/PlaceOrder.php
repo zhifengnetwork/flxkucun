@@ -47,8 +47,12 @@ class PlaceOrder
         $this->order = new Order();
     }
 
-    public function addNormalOrder()
+    public function addNormalOrder($prom_type=0,$prom_id=0)
     {
+        if($prom_type == 1){
+            $this->promType = $prom_type;
+            $this->promId = $promId;
+        }
         $this->check();//提交订单前检查
         $this->queueInc();//是否排队
         $this->addOrder();//插入订单表

@@ -1209,7 +1209,7 @@ function update_pay_status($order_sn,$ext=array())
     //    return false;
     //}
 
-    $order = M('order')->where(['order_id'=>$order_id])->find();
+    $order = M('order')->field('order_sn,user_id,prom_id,prom_type')->where(['order_id'=>$order_id])->find();
 
 
     $userId = $order['user_id'];
@@ -1222,7 +1222,7 @@ function update_pay_status($order_sn,$ext=array())
         $goodId = $v['goods_id'];
         $goodNum = $v['goods_num'];
        
-        $model = new FanliLogic($userId, $goodId,$goodNum,$orderSn,$order_id);
+        $model = new FanliLogic($userId, $goodId,$goodNum,$orderSn,$order_id,$order['prom_type'],$order['prom_id']);
         $res = $model->fanliModel();
     }
  }

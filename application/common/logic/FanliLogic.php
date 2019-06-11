@@ -22,14 +22,18 @@ class FanliLogic extends Model
 	private $goodNum;//商品数量
 	private $orderSn;//订单编号
 	private $orderId;//订单id
+	private $prom_type;//活动类型
+	private $prom_id;//活动ID
 
-	public function __construct($userId,  $goodId, $goodNum, $orderSn, $orderId)
+	public function __construct($userId,  $goodId, $goodNum, $orderSn, $orderId, $prom_type=0, $prom_id=0)
 	{	
 		$this->userId = $userId;
 		$this->goodId = $goodId;
 		$this->goodNum = $goodNum;
 		$this->orderSn = $orderSn;
 		$this->orderId = $orderId;
+		$this->prom_type = $prom_type;
+		$this->prom_id = $prom_id;
 		$this->tgoodsid = $this->catgoods();
 	}
 	//获取返利数据
@@ -67,6 +71,7 @@ class FanliLogic extends Model
         //用户购买后检查升级
 		$this->checkuserlevel($this->userId,$this->orderId);
 		$pro_num = $this->getproductnum();
+		if($this->prom_type == 1)$this->flash_sale_commission(); //秒杀返利
 		//echo $this->goodId.'-'.$this->tgoodsid.'-'.$user_info['level'];exit;
         if($this->goodId==$this->tgoodsid )//是否特殊产品
         {
@@ -721,7 +726,84 @@ class FanliLogic extends Model
       
       return $userList;     
       
-  }
+	}
+
+	private function set_flash_sale_commission($desc,$user_id,$commissioninfo,$status){
+		$desc = "下级秒杀".$this->goodNum.'件返利';
+		if($this->goodNum == 1){
+			$commission = $commissioninfo['one_commission'];
+		}elseif($this->goodNum == 2){
+			$commission = $commissioninfo['tow_commission'];
+		}
+
+		$log = $this->writeLog($user_id,$commission,$desc,status); 
+		$Users->where(['user_id'=>$user_id])->setInc('user_money',$commission-$commissioninfo['not_money']);
+		$Users->where(['user_id'=>$user_id])->setInc('frozen_money',$commissioninfo['not_money']);		
+	}
+
+	//多返一级
+	private function next_lev_commission($commissioninfo,$leader,$status){
+			//多返一级
+			$first_leader = M('Users')->where(['user_id'=>$leader['user_id']])->value('first_leader');
+			$level = $first_leader ? M('Users')->where(['user_id'=>$first_leader])->value('level') : 0;	
+			$leader5 = ['user_id'=>(first_leader ? first_leader : 0),'level'=>level];
+			if($leader5['user_id']){
+				$this->set_flash_sale_commission($leader5['user_id'],$commissioninfo,$status);
+			}			
+	}
+	
+	private function flash_sale_commission(){
+		//获取下单用户上级的级别
+		$UsersLogic = new \app\common\logic\UsersLogic();
+		$leader = $UsersLogic->getUserLevTop($this->userId,3);
+		$FlashSaleCommission = M('flash_sale_commission');
+		if(!$leader['user_id']){
+			$leader = $UsersLogic->getUserLevTop($this->userId,4);	
+			if(!$leader['user_id']){
+				$leader = $UsersLogic->getUserLevTop($this->userId,5);	
+				if(!$leader['user_id']){
+					$first_leader = M('Users')->where(['user_id'=>$this->userId])->value('first_leader');	
+					$level = $first_leader ? M('Users')->where(['user_id'=>$first_leader])->value('level') : 0;	
+					$leader = ['user_id'=>(first_leader ? first_leader : 0),'level'=>level];
+				}
+			}
+		}else{
+			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>$leader['level']])->find();
+			if($leader['level'] == 3){
+				$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,90);
+				$leader = $UsersLogic->getUserLevTop($this->userId,4);
+				$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>4])->find();
+				$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,94);
+
+				$leader = $UsersLogic->getUserLevTop($this->userId,5);
+				$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>5])->find();
+				$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,95);
+
+				//多返一级
+				$this->next_lev_commission($commissioninfo,$leader,96);			
+			}elseif($leader['level'] == 4){
+				$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,90);
+				$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>3])->find();
+				$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,91);
+
+				$leader = $UsersLogic->getUserLevTop($this->userId,5);
+				$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>5])->find();
+				$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,95);
+
+				//多返一级
+				$this->next_lev_commission($commissioninfo,$leader,96);		
+			}elseif($leader['level'] == 5){
+				$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,90);
+				//多返一级
+				$this->next_lev_commission($commissioninfo,$leader,93);	
+
+				$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>4])->find();
+				$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,92);
+				$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>3])->find();
+				$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,91);	
+			}
+		}
+	}
 
 	
 }
