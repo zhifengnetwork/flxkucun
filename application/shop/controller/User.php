@@ -162,10 +162,16 @@ class User extends MobileBase
     // 上级仓库
     public function superior_store(){
 
-          // 存找配货上级
+        $logic = new UsersLogic();
+        $data = $logic->get_info($this->user_id);
+        $user = $data['result'];
+        if ($user['mobile'] == '' && $user['email'] == '')
+            $this->error('请先绑定手机号码', U('Shop/User/setMobile'));
+
+        // 存找配货上级
         $new_kucun =array();    
         $pei_parent=find_prepareuserinfo($this->user_id);
-        //print_r($pei_parent);exit;
+
        if($pei_parent==0)
         {
             $kucun = M("goods")->alias('g')

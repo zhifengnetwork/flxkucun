@@ -126,6 +126,12 @@ class Cart extends MobileBase {
         if ($this->user_id == 0){
             $this->error('请先登录', U('Shop/User/login'));
         }
+        $logic = new UsersLogic();
+        $data = $logic->get_info($this->user_id);
+        $user = $data['result'];
+        if ($user['mobile'] == '')
+            $this->error('请先绑定手机号码', U('Shop/User/setMobile'));
+
         $cartLogic = new CartLogic();
         $cartLogic->setUserId($this->user_id);
         //立即购买

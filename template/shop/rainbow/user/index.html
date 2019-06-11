@@ -42,7 +42,7 @@
     <!-- 列表项 -->
             <div class="user-list">
                 <ul>
-                    <if condition="($user.first_leader gt 0)">
+                    <if condition="($user.first_leader gt 0 OR $user.level gt 3)">
                         <li class="list-item">
                             <a href="{:U('Shop/User/store_manage')}">
                                 <div class="fl">
