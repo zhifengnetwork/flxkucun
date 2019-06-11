@@ -25,7 +25,7 @@ class GoodsLogic extends Model
         {
             return $categoryList;
         }
-        $categoryList =  M("GoodsCategory")->cache(true)->getField('id,name,parent_id,image');
+        $categoryList =  M("GoodsCategory")->cache(true)->getField('id,name,parent_id,image,url');
 
         S('categoryList',$categoryList);
         return $categoryList;

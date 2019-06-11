@@ -145,13 +145,15 @@ class Goods extends Base {
 				$id= I('id');
 				
 				$name = I('name');
+                $url = I('url');
 				$image = I('image');
-				$sort_order = I('sort_order');
-				
+                $sort_order = I('sort_order');
+
 				$data = array(
-				'name'=>$name,
-				'image'=>$image,
-				'sort_order'=>$sort_order
+                    'name'=>$name,
+                    'url'=>$url,
+                    'image'=>$image,
+                    'sort_order'=>$sort_order
 				);
 				if($name==""){
 					$return_arr = array('status' => 0,'msg'   => '名称不为空！');
