@@ -102,11 +102,11 @@ class Integral
      */
     public function checkBuy()
     {
-        $isPointRate = tpCache('integral.is_point_rate');
-        $isUseIntegral = tpCache('integral.is_use_integral');
-        if($isPointRate != 1 || $isUseIntegral != 1){
-            throw new TpshopException('积分兑换', 0, ['status' => 0, 'msg' => '商城暂时不能使用积分']);
-        }
+//        $isPointRate = tpCache('integral.is_point_rate');
+//        $isUseIntegral = tpCache('integral.is_use_integral');
+//        if($isPointRate != 1 || $isUseIntegral != 1){
+//            throw new TpshopException('积分兑换', 0, ['status' => 0, 'msg' => '商城暂时不能使用积分']);
+//        }
         if(empty($this->user)){
             throw new TpshopException('积分兑换', 0, ['status' => 0, 'msg' => '请登录']);
         }
@@ -159,7 +159,7 @@ class Integral
         $total_integral = $this->goods['exchange_integral'] * $this->buyNum;//需要兑换的总积分
         if (empty($this->specGoodsPrice)) {
             //没有规格
-            $integralGoods['goods_price'] = $this->goods['shop_price'];
+            $integralGoods['goods_price'] = getLevelPrice($this->goods['goods_id'],$this->user['level']);
             $integralGoods['sku'] = $this->goods['sku'];
         } else {
             //有规格
@@ -171,6 +171,7 @@ class Integral
         $integralGoods['goods_num'] = $this->buyNum;
         $goodsList[0] = $integralGoods;
         $pay = new Pay();
+
         $pay->setUserId($this->user['user_id'])->setShopById($this->shop['shop_id'])->payGoodsList($goodsList)
             ->delivery($this->userAddress['district'])->usePayPoints($total_integral, true)->useUserMoney($this->userMoney);
         return $pay;

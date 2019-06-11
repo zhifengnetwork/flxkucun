@@ -949,7 +949,7 @@
     function ajax_order_price() {
         $.ajax({
             type: "POST",
-            url: "{:U('Home/Cart/integral2')}",
+            url: "{:U('Shop/Cart/integral2')}",
             data: $('#cart2_form').serialize(),
             dataType: "json",
             success: function (data) {

@@ -167,7 +167,7 @@
 <div class="ord_list p">
     <div class="maleri30">
         <volist name="order.order_goods" id="good">
-            <a href="{:U('Mobile/Goods/goodsInfo',array('id'=>$good[goods_id]))}">
+            <a href="{:U('Shop/Goods/goodsInfo',array('id'=>$good[goods_id]))}">
                 <div class="shopprice">
                     <div class="img_or fl">
                         <img src="{$good[goods_id]|goods_thum_images=100,100}"/>
@@ -360,16 +360,16 @@
     <!--</div>-->
     <div class="fr s">
         <if condition="$order['pay_btn'] eq 1">
-            <a href="{:U('Mobile/Cart/cart4',array('order_id'=>$order['order_id']))}">立即付款</a>
+            <a href="{:U('Shop/Cart/cart4',array('order_id'=>$order['order_id']))}">立即付款</a>
         </if>
         <if condition="$order['receive_btn'] eq 1">
-            <a href="{:U('Mobile/Order/order_confirm',array('id'=>$order['order_id']))}">收货确认</a>
+            <a href="{:U('Shop/Order/order_confirm',array('id'=>$order['order_id']))}">收货确认</a>
         </if>
         <if condition="$order['shipping_btn'] eq 1">
-            <a href="{:U('Mobile/Order/express',array('order_id'=>$order['order_id']))}" >查看物流</a>
+            <a href="{:U('Shop/Order/express',array('order_id'=>$order['order_id']))}" >查看物流</a>
         </if>
         <if condition="$order.pay_tail_btn eq 1">
-            <a href="{:U('/Mobile/Cart/cart4',array('order_id'=>$order[order_id]))}">支付尾款</a>
+            <a href="{:U('/Shop/Cart/cart4',array('order_id'=>$order[order_id]))}">支付尾款</a>
         </if>
     </div>
 </div>
@@ -392,14 +392,14 @@
         $.ajax({
             type: 'GET',
             dataType:'JSON',
-            url:"/index.php?m=Mobile&c=Order&a=cancel_order&id="+id,
+            url:"/index.php?m=Shop&c=Order&a=cancel_order&id="+id,
             success:function(data){
                 if(data.code == 1){
                     layer.open({content:data.msg,time:2});
-                    location.href = "/index.php?m=Mobile&c=Order&a=order_detail&id="+id;
+                    location.href = "/index.php?m=Shop&c=Order&a=order_detail&id="+id;
                 }else{
                     layer.open({content:data.msg,time:2});
-                    location.href = "/index.php?m=Mobile&c=Order&a=order_detail&id="+id;
+                    location.href = "/index.php?m=Shop&c=Order&a=order_detail&id="+id;
                     return false;
                 }
             },

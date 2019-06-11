@@ -654,7 +654,7 @@ class Cart extends MobileBase {
         $Integral->setBuyNum($goods_num);
         try{
             $Integral->checkBuy();
-            $url = U('Cart/integral', ['goods_id' => $goods_id, 'item_id' => $item_id, 'goods_num' => $goods_num]);
+            $url = U('Shop/Cart/integral', ['goods_id' => $goods_id, 'item_id' => $item_id, 'goods_num' => $goods_num]);
             $result = ['status' => 1, 'msg' => '购买成功', 'result' => ['url' => $url]];
             $this->ajaxReturn($result);
         }catch (TpshopException $t){
@@ -676,6 +676,7 @@ class Cart extends MobileBase {
         }
         $Goods = new Goods();
         $goods = $Goods->where(['goods_id' => $goods_id])->find();
+        $goods['shop_price'] = getLevelPrice($goods['goods_id'],$this->user['level']);//获取等级价格
         if (empty($goods)) {
             $this->error('该商品不存在');
         }
@@ -722,6 +723,7 @@ class Cart extends MobileBase {
         $integral->setSpecGoodsPriceById($item_id);
         $integral->setUserAddressById($address_id);
         $integral->useUserMoney($user_money);
+
         try {
             $integral->checkBuy();
             $pay = $integral->pay();

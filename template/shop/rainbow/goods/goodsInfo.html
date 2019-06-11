@@ -878,7 +878,7 @@
         if (cart_cn == '') {
             $.ajax({
                 type: "GET",
-                url: "/index.php?m=Home&c=Cart&a=header_cart_list",//+tab,
+                url: "/index.php?m=Shop&c=Cart&a=header_cart_list",//+tab,
                 success: function (data) {
                     cart_cn = getCookie('cn');
                 }
@@ -1339,7 +1339,7 @@
     function getCombination() {
         var goods_id = parseInt($("input[name='goods_id']").val());
         var item_id = $("input[name='item_id']").val();
-        var url = "/index.php?m=Home&c=Goods&a=combination";
+        var url = "/index.php?m=Shop&c=Goods&a=combination";
         $.ajax({
             type: "Post",
             url: url,

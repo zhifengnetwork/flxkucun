@@ -2129,9 +2129,6 @@ function provingReceive($user, $type, $num = 1)
      */
     function getGoodsPrice ($goodsInfo,$level=1)
     {
-        if(empty($level)){
-            $level = 1;
-        }
 
         foreach ( $goodsInfo as $key=>$value ) {
             $level_price = M('goods_level_price')->where(['goods_id' => $value['goods_id'], 'level' => $level])->order('level asc')->value('price');
@@ -2140,6 +2137,17 @@ function provingReceive($user, $type, $num = 1)
         }
 
         return $goodsInfo;
+    }
+
+    function getLevelPrice($goods_id, $level = 1)
+    {
+        $goods_level_price = M('goods_level_price')->where('goods_id',$goods_id)->order('level asc')->select();
+
+        $level_price = array_column($goods_level_price,NULL,'level');
+
+        $price = $level_price[$level]['price'];
+
+        return $price;
     }
 
     /*找出配货上级*/

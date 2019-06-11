@@ -37,7 +37,7 @@
                     <p class="notic">(0表示不免运费)</p>
                 </dd>
             </dl>
-            <!--<dl class="row">
+            <dl class="row">
                 <dt class="tit">
                     <label for="point_rate">积分换算比例</label>
                 </dt>
@@ -70,7 +70,7 @@
                     <input name="point_use_percent" value="{$config.point_use_percent|default='0'}" onpaste="this.value=this.value.replace(/[^\-?\d.]/g,'')" onKeyUp="this.value=this.value.replace(/[^\-?\d.]/g,'')"  onblur="checkInputNum(this.name,0,100);"  class="input-txt" type="text">
                     <p class="notic">100时不限制, 为0时不能使用积分, 50时积分抵扣金额不能超过该笔订单应付金额的50%</p>
                 </dd>
-            </dl>-->
+            </dl>
             <dl class="row">
                 <dt class="tit">
                     <label for="distribut_date">发货后多少天自动收货</label>

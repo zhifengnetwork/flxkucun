@@ -83,7 +83,7 @@ function buyIntegralGoods(goods_id, num){
 			btn: ['去登录', '取消'],
 			shadeClose: false,
 			yes: function () {
-				location.href = "/index.php?m=Mobile&c=User&a=Login";
+				location.href = "/index.php?m=Shop&c=User&a=Login";
 			}, no: function () {
 				layer.closeAll();
 			}
@@ -97,7 +97,7 @@ function buyIntegralGoods(goods_id, num){
 	}
 	$.ajax({
 		type: "POST",
-		url: "/index.php?m=Mobile&c=Cart&a=buyIntegralGoods",
+		url: "/index.php?m=Shop&c=Cart&a=buyIntegralGoods",
 		data: data,
 		dataType: 'json',
 		success: function (data) {
