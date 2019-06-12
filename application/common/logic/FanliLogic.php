@@ -94,7 +94,7 @@ class FanliLogic extends Model
 		           //计算佣金
 		          //按上一级等级各自比例分享返利
 		        $bool = M('users')->where('user_id',$user_info['user_id'])->setInc('user_money',$commission);
-		         if ($bool !== false) {
+		         if (($bool !== false) && $commission) {
 			        	$desc = "自购返利";
 			        	$log = $this->writeLog($user_info['user_id'],$commission,$desc,7); 
 			        	//return true;
@@ -118,7 +118,7 @@ class FanliLogic extends Model
 		           //计算佣金
 		          //按上一级等级各自比例分享返利
 		          $bool = M('users')->where('user_id',$user_info['first_leader'])->setInc('user_money',$commission);
-			      if ($bool !== false) {
+			      if (($bool !== false) && $commission) {
 			        	$desc = "分享返利";
 			        	$log = $this->writeLog($user_info['first_leader'],$commission,$desc,1); //写入日志
 			            //检查返利管理津贴
@@ -729,13 +729,14 @@ class FanliLogic extends Model
 	}
 
 	private function set_flash_sale_commission($user_id,$commissioninfo,$status){
+		if(!$commissioninfo)return;
 		$desc = "下级秒杀".$this->goodNum.'件返利';
 		if($this->goodNum == 1){
 			$commission = $commissioninfo['one_commission'];
 		}elseif($this->goodNum == 2){
 			$commission = $commissioninfo['tow_commission'];
 		}
-
+		if(!$commission)return;
 		$Users = M('Users');
 		$log = $this->writeLog($user_id,($commission-$commissioninfo['not_money']),$desc,status,$commissioninfo['not_money']); 
 		$Users->where(['user_id'=>$user_id])->setInc('user_money',$commission-$commissioninfo['not_money']);

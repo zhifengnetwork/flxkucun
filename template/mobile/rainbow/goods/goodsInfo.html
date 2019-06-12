@@ -495,7 +495,8 @@
     <input type="hidden" name="item_id" value="{$Request.param.item_id}"/><!-- 商品规格id -->
     <input type="hidden" name="prom_id" value="{$goods.prom_id}"/><!-- 活动ID -->
     <input type="hidden" name="exchange_integral" value="{$goods.exchange_integral}"/><!-- 积分 -->
-    <input type="hidden" name="point_rate" value="{$tpshop_config['integral_point_rate']}"/><!-- 积分兑换比 -->
+    <input type="hidden" name="source_uid" value="{$source_uid}"/><!-- 来源用户ID -->
+    <input type="hidden" name="point_rate" value="{$tpshop_config['integral_point_rate']}"/>
     <input type="hidden" name="is_sign" value="{$goods.cat_id}"/><!-- 签到免费领取 -->
     <input type="hidden" name="is_virtual" value="{$goods.is_virtual}"/><!-- 是否是虚拟商品 -->
     <input type="hidden" name="virtual_limit" id="virtual_limit" value="{$goods.virtual_limit|default=0}"/>
@@ -619,7 +620,7 @@
         join_cart.hide();
         join_cart_li.hide();
 
-        if(is_virtual == 1){
+        if((is_virtual == 1) || ({$goods.prom_type} == 2)){
             buy_now_li.find('.choise_num').html('立即购买');
             buy_now_li.width('100%').show();
             buy_now.html('立即购买').show();
@@ -689,7 +690,7 @@
 
             if (is_virtual == 1) {
                 var virtual_limit = parseInt($('#virtual_limit').val());
-                if ((goods_num <= store_count && goods_num <= virtual_limit) || (goods_num < store_count && virtual_limit == 0)) {
+                if ((goods_num <= store_count && goods_num <= virtual_limit) || (goods_num < store_count && virtual_limit == 0)) { 
                     form.attr('action', "{:U('mobile/Cart/cart2',['action'=>'buy_now'])}").submit();
                 } else {
                     layer.open({icon: 2, content: "购买数量超过此商品购买上限", time: 2});

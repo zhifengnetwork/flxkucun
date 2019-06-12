@@ -662,6 +662,10 @@ class Promotion extends Base
                 $return = ['status' => 0, 'msg' => "{$level_name}（第二级） 不可提现金额不能大于一件佣金", 'result' =>'' ];
                 $this->ajaxReturn($return); 
             }
+            if($not_money > $tow_commission){
+                $return = ['status' => 0, 'msg' => "{$level_name}（第二级） 不可提现金额不能大于两件佣金", 'result' =>'' ];
+                $this->ajaxReturn($return); 
+            }
 
             $arr1 = ['one_commission'=>$one_commission,'tow_commission'=>$tow_commission,'not_money'=>$not_money,'level'=>'-'.$level];
             $arr[] = $arr1;            

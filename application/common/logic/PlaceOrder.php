@@ -36,6 +36,7 @@ class PlaceOrder
     private $shop;
     private $take_time;
     private $preSell;
+    private $source_uid;
 
     /**
      * PlaceOrder constructor.
@@ -49,7 +50,7 @@ class PlaceOrder
 
     public function addNormalOrder($prom_type=0,$prom_id=0)
     {
-        if($prom_type == 1){
+        if(in_array($prom_type,[1,2])){
             $this->promType = $prom_type;
             $this->promId = $promId;
         }
@@ -252,6 +253,7 @@ class PlaceOrder
             'total_amount' => $this->pay->getTotalAmount(),// 订单总额
             'order_amount' => $this->pay->getOrderAmount(),//'应付款金额',
             'add_time' => time(), // 下单时间
+            'source_uid'    => (($user['user_id'] !== $this->source_uid) ? $this->source_uid : 0)
         ];  
         if($orderData["order_amount"] < 0){
             throw new TpshopException("订单入库", 0, ['status' => -8, 'msg' => '订单金额不能小于0', 'result' => '']);
@@ -573,6 +575,11 @@ class PlaceOrder
     private function setPromId($prom_id)
     {
         $this->promId = $prom_id;
+        return $this;
+    }
+
+    public function setSourceUid($source_uid){
+        $this->source_uid = $source_uid;
         return $this;
     }
 
