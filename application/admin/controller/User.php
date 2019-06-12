@@ -553,6 +553,7 @@ class User extends Base
             $describe = I('describe');
             $stock = I('stock');
             $replenish = I('replenish');
+            $pic = I('pic/s','');
 			if($level==""){
 				$this->ajaxReturn(['status' => 0, 'msg' => '等级不可为空']);
 			}
@@ -584,7 +585,8 @@ class User extends Base
                 'discount' => $discount,
                 'stock'=>$stock,
                 'replenish' => $replenish,
-			);
+            );
+            if($pic)$data['pic'] = $pic;
 			if($id>0){
 				$res = M('user_level')->where('id',$id)->data($data)->save();
 			}else{
