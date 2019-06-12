@@ -2407,9 +2407,10 @@ class User extends MobileBase
         return substr(bin2hex($bytes), 0, $lenght);
     }
 
+    // 授权vip
 	public function ajax_get_userinfo(){
 		$uid = I('get.uid/d',0);
-        $info = M('users')->field('mobile,level,first_leader,head_pic')->where(['user_id'=>$uid])->find();
+        $info = M('users')->field('mobile,level,first_leader,head_pic,nickname')->where(['user_id'=>$uid])->find();
         //非下级且不是普通会员/VIP
         if(($info['first_leader'] != $this->user_id) && !in_array($info['level'],[1,2])){
             $this->ajaxReturn(['status'=>-1,'msg'=>'不能邀请该用户!','data'=>null]);    

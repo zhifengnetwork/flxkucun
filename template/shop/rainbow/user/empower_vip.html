@@ -22,23 +22,23 @@
             <div class="content">
                
 
-                <div class="row-line">
-					<div class="rank">授权级别:</div>
-					<div class="drop-down">
-						<span class="select-level">1</span>
-						<!--图标-->
-						<div class="arrows"></div>
-						<ul class="drop-list">
-							<!--<li>授权级别</li>
-							<li>级别1</li>
-							<li>级别2</li>
-							<li>级别3</li>-->
-						    <volist name='levlist' id='v'>
-								<li lev_id={$v.level} >{$v.level_name}</li>
-							</volist>
-						</ul>
-					</div>
-				</div>
+                <!--<div class="row-line">-->
+					<!--<div class="rank">授权级别:</div>-->
+					<!--<div class="drop-down">-->
+						<!--<span class="select-level">1</span>-->
+						<!--&lt;!&ndash;图标&ndash;&gt;-->
+						<!--<div class="arrows"></div>-->
+						<!--<ul class="drop-list">-->
+							<!--&lt;!&ndash;<li>授权级别</li>-->
+							<!--<li>级别1</li>-->
+							<!--<li>级别2</li>-->
+							<!--<li>级别3</li>&ndash;&gt;-->
+						    <!--<volist name='levlist' id='v'>-->
+								<!--<li lev_id={$v.level} >{$v.level_name}</li>-->
+							<!--</volist>-->
+						<!--</ul>-->
+					<!--</div>-->
+				<!--</div>-->
 				
 				<div class="row-line">
 					<div class="rank">邀请ID:</div>
@@ -49,10 +49,13 @@
 				</div>
 			
 				<div class="agent-info" style='display:none;'>
+					<div class="name">
+						名称
+					</div>
 					<div class="avatar">
 						<img src="__STATIC__/images/user_zp/000avatar-03.png" />
 					</div>
-					<div class="phone">15558882230</div>
+					<div class="phone">139xxxxxx88</div>
 				</div>
 
 				<button class="inviteBtn">确认授权</button>
@@ -66,10 +69,6 @@
         <script src="__STATIC__/js/public/public_lb.js"></script>
 		<script src="__PUBLIC__/js/layer/layer-min.js"></script>
 		<script>
-			// 下拉列表
-			$(".select-level").click(function(){
-				$(".drop-list").toggle();
-			})
 
 			// 取值
 			$(".drop-list li").click(function(){
@@ -96,6 +95,7 @@
 							layer.open({content: data.msg, time: 2000});
 							return;
 						}else{
+							$('.name').html(data.data.nickname);
 							$('.phone').html(data.data.mobile);
 							$('.avatar img').attr('src',data.data.head_pic);
 							$('.agent-info').show();
@@ -105,7 +105,7 @@
 			});
 
 			$('.inviteBtn').click(function(){
-				var level = $(".select-level").html();
+				var level = 1;//$(".select-level").html();
 				var uid1 = parseInt($("#uid1").val());
 				if(!uid1){
 					layer.open({content: '请输入邀请ID', time: 2000});
