@@ -99,6 +99,18 @@
                     <p class="notic">此抢购活动最多允许抢购的商品数量</p>
                 </dd>
             </dl>
+
+            <dl class="row">
+                <dt class="tit">
+                    <label><em>*</em>免单所需最小成交订单数</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="min_mduser_num" id="min_mduser_num" value="{$info.min_mduser_num}" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" class="input-txt">
+                    <span class="err" id="err_min_mduser_num"></span>
+                    <p class="notic">分享后，免单所需最小成交订单数</p>
+                </dd>
+            </dl>
+
             <dl class="row">
                 <dt class="tit">
                     <label><em>*</em>虚拟购买数</label>
