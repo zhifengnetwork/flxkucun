@@ -1000,7 +1000,7 @@ class GoodsLogic extends Model
         $third_leader = M('Users')->where(['user_id'=>$uid])->value('third_leader');
         if(!$third_leader)return false;
 
-        $info = M('warehouse_goods')->field('user_id,nums')->where(['user_id'=>$third_leader,'goods_id'=>$goods_id])->find();
+        $info = M('warehouse_goods')->field('user_id,nums')->where(['user_id'=>$third_leader,'goods_id'=>$goods_id,'nums'=>['gt',0]])->find();
         if(!$info || ($info['nums'] <= 0)){
             return $this->getLeaderShip($third_leader,$goods_id);
         }else
