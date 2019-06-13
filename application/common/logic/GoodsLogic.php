@@ -993,4 +993,17 @@ class GoodsLogic extends Model
 
         return $categoryList;
     }
+
+    //查找上级发货人,暂无规格，如有可加第三个参数
+    public function getLeaderShip($uid,$goods_id){
+        //查找配货上级
+        $third_leader = M('Users')->where(['user_id'=>$uid])->value('third_leader');
+        if(!$third_leader)return false;
+
+        $info = M('warehouse_goods')->field('user_id,nums')->where(['user_id'=>$third_leader,'goods_id'=>$goods_id])->find();
+        if(!$info || ($info['nums'] <= 0)){
+            return $this->getLeaderShip($third_leader,$goods_id);
+        }else
+            return $info['user_id'];
+    }
 }

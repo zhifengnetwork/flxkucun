@@ -1221,6 +1221,15 @@ function update_pay_status($order_sn,$ext=array())
 
         $goodId = $v['goods_id'];
         $goodNum = $v['goods_num'];
+
+        //团购
+        if($order['prom_type'] == 2){
+            M('warehouse_goods')->where(['user_id'=>$order['user_id'],'goods_id'=>$goodId])->setDec('nums',1);
+            M('warehouse_goods')->where(['user_id'=>$order['user_id'],'goods_id'=>$goodId])->update(['change_time'=>time()]);
+            M('warehouse')->where(['user_id'=>$order['user_id']])->setDec('totals',1);
+            M('warehouse')->where(['user_id'=>$order['user_id']])->update(['update_time'=>time()]);
+            M('warehouse_goods_log')->add(['user_id'=>$order['user_id'],'goods_id'=>$goodId,'time'=>time(),'changenum'=>1,'desc'=>'团购-1']);
+        }        
        
         $model = new FanliLogic($userId, $goodId,$goodNum,$orderSn,$order_id,$order['prom_type'],$order['prom_id']);
         $res = $model->fanliModel();
