@@ -64,6 +64,7 @@ class Order extends Base {
         
         I('order_status') != '' ? $condition['order_status'] = I('order_status') : false;
         I('pay_status') != '' ? $condition['pay_status'] = I('pay_status') : false;
+        I('prom_type/d',0) ? $condition['prom_type'] = I('prom_type/d',0) : false;
         //I('pay_code') != '' ? $condition['pay_code'] = I('pay_code') : false;
         if(I('pay_code')){
             switch (I('pay_code')){
