@@ -211,42 +211,101 @@ class User extends MobileBase
         return $this->fetch();
     }
 
-    /*升级为大区董事
-    */
-    /*
-    public function member_upgrade()
+    // 购物余额
+    public function shopping_balance(){
+
+        $this->assign('user',$this->user);
+        return $this->fetch();
+    }
+
+    // 购物余额转账
+    public function transferAccounts()
     {
-      $level= $this->user['level'];
-      $user_level=   Db::name('user_level')->field('achievement,tui_num')->where('level=5')->find(); //查看业绩设置
 
-      if($level==4)
-      {
-        $znum['znum'] =  Db::name('users')->alias('u')->field('u.user_id')->where('first_leader='.$this->user['user_id'].' and u.level=4')->count(); //推荐总监数量
-        $yeji = $this->jisuanyeji($this->user['user_id']); //业绩
-        $total = !empty($yeji)?$yeji[0]['sale_amount']:0; 
-        if($total>=$user_level['achievement'] && )
-        {
-            $res = M('users')->where('user_id',$id)->update(['is_apply'=>1]);
-            if($res)
-            {
-                $this->ajaxReturn(['status' => 1, 'msg' => '申请成功']);
-            }else
-            {
-                 $this->ajaxReturn(['status' => 0, 'msg' => '申请失败，网络延迟']);
-            }
-        }else
-        {
-              $this->ajaxReturn(['status' => 0, 'msg' => '推荐总监人数或业绩没达到']);
+        $data = I('post.');
+
+        if (!$this->user_id) {
+            $this->ajaxReturn(['status' => 0, 'msg' => '请先登录', 'data' => null]);
         }
-      }else
-      {
 
-       $this->ajaxReturn(['status' => 0, 'msg' => '没达到升级大区条件']);
-      }
-       // $this->ajaxReturn(['status' => 0, 'msg' => '操作成功', 'result'=>[]);
+        if (encrypt($data['pay_pwd']) != $this->user['paypwd']) {
 
-    }*/
-        //计算团队业绩--订单计算
+            $this->ajaxReturn(['status' => 0, 'msg' => '支付密码错误']);
+
+        }
+
+        if ( $data['uid'] != $this->user['first_leader'] ){
+            if ( $data['uid'] != $this->user['balance_leader'] ){
+                if ( $data['uid'] != $this->user['third_leader']){
+
+                    $this->ajaxReturn(['status' => 0, 'msg' => '非上级ID无法转账']);
+                }
+            }
+        }
+
+        if ($data['money'] <= 0) {
+
+            $this->ajaxReturn(['status' => 0, 'msg' => '转账额度必须大于0']);
+
+        }
+
+        if ($this->user['fixed_money'] < $data['money']) {
+
+            $this->ajaxReturn(['status' => 0, 'msg' => "当前余额不足,无法转账"]);
+
+        }
+
+
+        $Users = M('Users');
+
+        $reduce = $Users->where(['user_id' => $this->user_id])->setDec('fixed_money', $data['money']);
+        $plus = $Users->where(['user_id' => $data['uid']])->setInc('fixed_money', $data['money']);
+
+        $accountLogData = [
+            [
+                'user_id' => $this->user_id,
+                'pay_points' => 0,
+                'frozen_money' => -$data['money'],
+                'change_time' => time(),
+                'desc' => '转账给ID:'.$data['uid'],
+            ],
+            [
+                'user_id' => $data['uid'],
+                'pay_points' => 0,
+                'frozen_money' => $data['money'],
+                'change_time' => time(),
+                'desc' => '收到ID:'.$this->user_id.'转账',
+            ],
+        ];
+
+        Db::name('account_log')->insertAll($accountLogData);
+
+        if ($plus) {
+
+            $user_info = $Users->where('user_id', $data['uid'])->find();
+            if ($user_info['openid']) {
+                $url = SITE_URL . "/Shop/apply/invitation_agent?id=" . $applyid;
+                $wx_content = $this->user['nickname'] . "向您转账" . $data['money'] . "元！\n\n<a href='{$url}'>点击查看</a>";
+                $wechat = new \app\common\logic\wechat\WechatUtil();
+                $wechat->sendMsg($user_info['openid'], 'text', $wx_content);
+            }
+
+            //发送站内消息
+            $msid = M('message_notice')->add(['message_title' => '转账通知', 'message_content' => "$this->user['nickname']向您转账！", 'send_time' => time(), 'mmt_code' => "/Shop/apply/invitation_agent?id=" . $applyid, 'type' => 6]);
+            if ($msid) M('user_message')->add(['user_id' => $data['uid'], 'message_id' => $msid]);
+            $this->ajaxReturn(['status' => 1, 'msg' => '转账成功!', 'data' => $msid]);
+
+        } else {
+
+            $this->ajaxReturn(['status' => 0, 'msg' => '转账失败!', 'data' => null]);
+
+        }
+
+    }
+
+
+
+    //计算团队业绩--订单计算
     public function jisuanyeji($user_id,$start_time,$end_time)
     {
          
@@ -420,11 +479,11 @@ class User extends MobileBase
     {
         return $this->fetch();
     }
-      public function lj_address()
+     public function lj_address()
     {
         return $this->fetch();
     }
-      public function edit_Consignee()
+     public function edit_Consignee()
     {
         return $this->fetch();
     }
@@ -475,7 +534,7 @@ class User extends MobileBase
         $type = I('type','all');
         $usersLogic = new UsersLogic;
         $result = $usersLogic->account($this->user_id, $type);
-    
+
         $this->assign('type', $type);
         $this->assign('account_log', $result['account_log']);
         if ($_GET['is_ajax']) {
@@ -490,7 +549,20 @@ class User extends MobileBase
         $this->assign('detail',$detail);
         return $this->fetch();
     }
-    
+
+    public function frozen_list()
+    {
+        $type = I('type','all');
+        $usersLogic = new UsersLogic;
+        $result = $usersLogic->frozen($this->user_id, $type);
+
+        $this->assign('type', $type);
+        $this->assign('account_log', $result['account_log']);
+        if ($_GET['is_ajax']) {
+            return $this->fetch('ajax_account_list');
+        }
+        return $this->fetch();
+    }
     /**
      * 优惠券
      */
@@ -2409,16 +2481,19 @@ class User extends MobileBase
 
     // 授权vip
 	public function ajax_get_userinfo(){
-		$uid = I('get.uid/d',0);
+        $uid = I('get.uid/d',0);
+        $type = I('get.type/d',0);
         $info = M('users')->field('mobile,level,first_leader,head_pic,nickname')->where(['user_id'=>$uid])->find();
-        //非下级且不是普通会员/VIP
-        if(($info['first_leader'] != $this->user_id) && !in_array($info['level'],[1,2])){
-            $this->ajaxReturn(['status'=>-1,'msg'=>'不能邀请该用户!','data'=>null]);    
-        }else
-            $this->ajaxReturn(['status'=>0,'msg'=>'请求成功!','data'=>$info]);			
+
+        if ($type != 1){
+            //非下级且不是普通会员/VIP
+            if(($info['first_leader'] != $this->user_id) && !in_array($info['level'],[1,2])){
+                $this->ajaxReturn(['status'=>-1,'msg'=>'不能邀请该用户!','data'=>null]);
+            }
+        }
+
+        $this->ajaxReturn(['status'=>0,'msg'=>'请求成功!','data'=>$info]);
 	}
-
-
 
 
 

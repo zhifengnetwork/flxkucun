@@ -35,7 +35,7 @@
                         积分<span>{$user.pay_points}</span>
                     </div>
                     <div class="wtf_yhq">
-                        购物余额<span>0</span>
+                        <a href="{:U('Shop/User/shopping_balance')}">购物余额<span>{$user.fixed_money}</span></a>
                     </div>
                 </div>
             </div>
@@ -48,6 +48,10 @@
                 <p class="p1">
                     积分明细
                     <a href="{:U('Shop/User/points_list')}"><img src="__STATIC__/images/wallet/wtf_Back2.png" /></a>
+                </p>
+                <p class="p1">
+                    购物余额明细
+                    <a href="{:U('Shop/User/frozen_list')}"><img src="__STATIC__/images/wallet/wtf_Back2.png" /></a>
                 </p>
                 <p class="p1 p3">
                     提现明细

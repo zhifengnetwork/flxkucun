@@ -1252,7 +1252,28 @@ class UsersLogic extends Model
     	$result['page'] = $page;
     	return $result;
     }
-    
+
+    /**
+     * 购物余额明细
+     */
+    public function frozen($user_id, $type='all'){
+        if($type == 'all'){
+            $count = M('account_log')->where("frozen_money!=0 and user_id=" . $user_id)->count();
+            $page = new Page($count, 16);
+            $account_log = M('account_log')->field("*,from_unixtime(change_time,'%Y-%m-%d %H:%i:%s') AS change_data")->where("frozen_money!=0 and user_id=" . $user_id)
+                ->order('log_id desc')->limit($page->firstRow . ',' . $page->listRows)->select();
+        }else{
+            $where = $type=='plus' ? " and frozen_money>0 " : " and frozen_money<0 ";
+            $count = M('account_log')->where("user_id=" . $user_id.$where)->count();
+            $page = new Page($count, 16);
+            $account_log = Db::name('account_log')->field("*,from_unixtime(change_time,'%Y-%m-%d %H:%i:%s') AS change_data")->where("user_id=" . $user_id.$where)
+                ->order('log_id desc')->limit($page->firstRow . ',' . $page->listRows)->select();
+        }
+        $result['account_log'] = $account_log;
+        $result['page'] = $page;
+        return $result;
+    }
+
     /**
      * 积分明细
      */
@@ -1559,6 +1580,35 @@ class UsersLogic extends Model
 			return ['user_id'=>0,'level'=>0];
 		}
 		return ['user_id'=>0,'level'=>0];
-	}      
+	}
+
+    /**
+     * 修改用户购物金额
+     * @param Order $order
+     */
+    public function updateUserMoney($data)
+    {
+
+        if($this->user_id > 0 && $data['uid'] > 0){
+            $user = $this->get_info($this->user_id);
+            if($user['fixed_money'] > 0){
+                $user->pay_points = $user->fixed_money - $this->pay->getPayPoints();// 消费积分
+            }
+            if($this->pay->getUserMoney() > 0){
+                $user->user_money = $user->user_money - $this->pay->getUserMoney();// 抵扣余额
+            }
+            $user->save();
+            $accountLogData = [
+                'user_id' => $order['user_id'],
+                'user_money' => -$this->pay->getUserMoney(),
+                'pay_points' => -$this->pay->getPayPoints(),
+                'change_time' => time(),
+                'desc' => '下单消费',
+                'order_sn'=>$order['order_sn'],
+                'order_id'=>$order['order_id'],
+            ];
+            Db::name('account_log')->insert($accountLogData);
+        }
+    }
 
 }

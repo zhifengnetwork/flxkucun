@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>购物余额</title>
+        <script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" href="__STATIC__/css/public_lb/public.css" />
+		<link rel="stylesheet" href="__STATIC__/css/user_zp/empower_vip.css" />
+	</head>
+	<body>
+		<div class="wrapper">
+			<!--public head-->
+	        <div class="lb_headWrap topBox_backgroundColor">
+	            <p class="lb_headWrap_return" data-num="1" onclick="returnFun()">
+	                <img class="lb_headWrap_return_img" src="__STATIC__/images/public_lb/returnImg666_lb.png"/>
+	            </p>
+	            <span>购物余额</span>
+            </div>
+
+            <!-- 主内容 -->
+            <div class="content">
+
+				<div class="row-line">
+					<div class="rank">我的余额:</div>
+					<div class="right">
+						{$user.fixed_money}
+					</div>
+				</div>
+				<div class="row-line">
+					<div class="rank">收款ID:</div>
+					<div class="right">
+						<input type="text" id='uid1' name='uid1'>
+						<span class="verificationBtn">验证身份</span>
+					</div>
+				</div>
+				<div class="row-line">
+					<div class="rank">金额:</div>
+					<div class="right">
+						<input type="text" id='money' name='money'>
+					</div>
+				</div>
+
+				<div class="row-line">
+					<div class="rank">支付密码:</div>
+					<div class="right">
+						<input type="password" id="pay_pwd" placeholder="请输入支付密码" autocomplete="off"/>
+					</div>
+
+					<if condition="empty($user['paypwd'])">
+						<a class="go-set-password" href="{:U('Shop/User/paypwd')}?redirect_url={$redirect_url}">去设置支付密码?</a>
+					</if>
+				</div>
+
+				<div class="agent-info" style='display:none;'>
+					<div class="name">
+						名称
+					</div>
+					<div class="avatar">
+						<img src="__STATIC__/images/user_zp/000avatar-03.png" />
+					</div>
+					<div class="phone">139xxxxxx88</div>
+				</div>
+
+				<button class="inviteBtn">确认转账</button>
+
+
+            </div>
+            
+		</div>
+		
+		<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
+        <script src="__STATIC__/js/public/public_lb.js"></script>
+		<script src="__PUBLIC__/js/layer/layer-min.js"></script>
+		<script>
+
+			// 取值
+			$(".drop-list li").click(function(){
+				var val = $(this).attr('lev_id');
+//				var val = $(this).html();
+//				console.log(val)
+				$(".select-level").html(val);
+				$(".drop-list").toggle();
+			})
+
+			//验证
+			$('.verificationBtn').click(function(){
+				var uid1 = parseInt($('#uid1').val());
+				if(!uid1){
+					layer.open({content: '请输入收款ID', time: 2000});
+					return;
+				}
+				$.ajax({
+					type : "GET",
+					url:"/Shop/user/ajax_get_userinfo/type/1/uid/"+uid1,
+					dataType:'json',
+					//data : $('#'+tab).serialize(),// 你的formid
+					success: function(data){
+						if(data.status != 0){
+							layer.open({content: data.msg, time: 2000});
+							return;
+						}else{
+							$('.name').html(data.data.nickname);
+							$('.phone').html(data.data.mobile);
+							$('.avatar img').attr('src',data.data.head_pic);
+							$('.agent-info').show();
+						}
+					}
+				});
+			});
+
+			$('.inviteBtn').click(function(){
+				var money = $("#money").val();
+				var uid = parseInt($("#uid1").val());
+				var pay_pwd = parseInt($("#pay_pwd").val());
+				if(!uid){
+					layer.open({content: '请输入收款ID', time: 2000});
+					return;
+				}
+
+				$.ajax({
+					type : "POST",
+					url:"/Shop/User/transferAccounts",
+					dataType:'json',
+					data : {'money':money, 'uid':uid, 'pay_pwd':pay_pwd},
+					success: function(data){
+						if(data.status == 0){
+							layer.open({content: data.msg, time: 3000});
+							return;
+						}else{
+							layer.open({content: data.msg, time: 3});
+							location.reload();
+							return;
+						}
+					}
+				});
+			});
+
+		</script>
+
+	</body>
+</html>
