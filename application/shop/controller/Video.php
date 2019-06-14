@@ -29,12 +29,21 @@ class Video extends MobileBase{
 
      // 跳转到商品视频播放页
     public function video_play(){
+        $user_id = session('user.user_id');
         $goods_id = input('id');
         $goodsInfo = Db::table('tp_goods')->where('goods_id',$goods_id)->find();
         $videoImg=explode('.',$goodsInfo['video']);
         $goodsInfo["video_img"]=$videoImg[0].".jpg";
+        $addtime=strtotime(date("Y-m-d"));
+        $res = Db::name('video_favor')->where(['addtime'=>$addtime,'user_id'=>$user_id,'video_id'=>$goods_id,'type'=>1])->find();
+        if($res){
+            $favor=true;
+        }else{
+            $favor=false;
+        }
         return $this->fetch('',[
             'goodsInfo'=>$goodsInfo,
+            'favor'=>$favor,
         ]);
 
     }
@@ -42,12 +51,21 @@ class Video extends MobileBase{
     //跳转到用户视频播放页
     public function user_video_play(){
         $video_id = input('id');
+        $user_id = session('user.user_id');
         $video = Db::table('tp_video')->where('id',$video_id)->find();
         $pople_id = Db::table('tp_video')->where('id',$video_id)->value('user_id');
         $pople = Db::table('tp_users')->where('user_id',$pople_id)->value('nickname');
+        $addtime=strtotime(date("Y-m-d"));
+        $res = Db::name('video_favor')->where(['addtime'=>$addtime,'user_id'=>$user_id,'video_id'=>$video_id,'type'=>2])->find();
+        if($res){
+           $favor=true;
+        }else{
+            $favor=false;
+        }
         return $this->fetch('',[
             'video'=>$video,
-            'pople' =>$pople
+            'pople' =>$pople,
+            'favor'=>$favor
         ]);
     }
 
@@ -228,6 +246,49 @@ class Video extends MobileBase{
         }else{
             return $path.' /no path';
         }
+    }
+
+    //视频点赞
+    public function video_favor(){
+
+        $type = input('type');
+        $video_id = input('video_id');
+        $user_id = session('user.user_id');
+        if($user_id){
+            if($type&&$video_id){
+                $addtime=strtotime(date("Y-m-d"));
+                $res = Db::name('video_favor')->where(['addtime'=>$addtime,'user_id'=>$user_id,'type'=>$type,'video_id'=>$video_id])->find();
+                if($res){
+                    $result=array('status'=>-3,'msg'=>'该视频已经点赞过','result'=>array());
+                    $this->ajaxReturn($result);
+                }else{
+                    $res = Db::name('video_favor')->where(['addtime'=>$addtime,'user_id'=>$user_id])->find();
+                    if($res){
+                        $result=array('status'=>-3,'msg'=>'每天只能点赞一次','result'=>array());
+                        $this->ajaxReturn($result);
+                    }else{
+
+                        $data=['type'=>$type,'video_id'=>$video_id,'user_id'=>$user_id,'addtime'=>$addtime];
+                        $res =Db::name('video_favor')->insert($data);
+                        if($res){
+                            $result=array('status'=>1,'msg'=>'点赞成功','result'=>array());
+                            $this->ajaxReturn($result);
+                        }else{
+                            $result=array('status'=>-3,'msg'=>'点赞失败，请重新操作','result'=>array());
+                            $this->ajaxReturn($result);
+                        }
+                    }
+                }
+            }else{
+                $result=array('status'=>-3,'msg'=>'点赞失败，请重新操作','result'=>array());
+                $this->ajaxReturn($result);
+            }
+        }else{
+            $result=array('status'=>-3,'msg'=>'请登录后操作','result'=>array());
+            $this->ajaxReturn($result);
+        }
+
+
     }
 
 }

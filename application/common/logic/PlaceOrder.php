@@ -36,6 +36,8 @@ class PlaceOrder
     private $shop;
     private $take_time;
     private $preSell;
+    private $user_id;
+    private $source_uid;
 
     /**
      * PlaceOrder constructor.
@@ -49,7 +51,7 @@ class PlaceOrder
 
     public function addNormalOrder($prom_type=0,$prom_id=0)
     {
-        if($prom_type == 1){
+        if(in_array($prom_type,[1,2])){
             $this->promType = $prom_type;
             $this->promId = $promId;
         }
@@ -236,6 +238,7 @@ class PlaceOrder
         if($this->invoiceTitle == "" && $this->invoiceDesc != "不开发票"){
             $invoice_title = "个人";
         }
+        $this->user_id = $user['user_id'] ? $user['user_id'] : 0;
         $orderData = [
             'order_sn' => $OrderLogic->get_order_sn(), // 订单编号
             'user_id' => $user['user_id'], // 用户id
@@ -252,6 +255,7 @@ class PlaceOrder
             'total_amount' => $this->pay->getTotalAmount(),// 订单总额
             'order_amount' => $this->pay->getOrderAmount(),//'应付款金额',
             'add_time' => time(), // 下单时间
+            'source_uid'    => (($user['user_id'] !== $this->source_uid) ? $this->source_uid : 0)
         ];  
         if($orderData["order_amount"] < 0){
             throw new TpshopException("订单入库", 0, ['status' => -8, 'msg' => '订单金额不能小于0', 'result' => '']);
@@ -315,7 +319,8 @@ class PlaceOrder
         }
         if ($this->promId > 0) {
             $orderData['prom_id'] = $this->promId;//活动id
-        }
+        }     
+
         if ($orderData['integral'] > 0 || $orderData['user_money'] > 0) {
             $orderData['pay_name'] = $orderData['user_money']>0 ? '余额支付' : '积分兑换';//支付方式，可能是余额支付或积分兑换，后面其他支付方式会替换
         }
@@ -368,6 +373,14 @@ class PlaceOrder
                 $orderGoodsData['cost_price'] = $goodsArr[$payItem['goods_id']]['cost_price']; // 成本价
                 $orderGoodsData['item_id'] = 0; // 商品规格id
             }
+
+            if($this->promId == 2){ 
+                //查找上级发货人    
+               $GoodsLogic = new \app\common\logic\GoodsLogic();
+               $seller_id = $GoodsLogic->getLeaderShip($this->user_id,$payItem['goods_id']);
+               if($seller_id)M('Order')->where(['order_id'=>$this->order['order_id']])->update(['seller_id'=>$seller_id]);
+            }               
+
             $orderGoodsData['sku'] = $payItem['sku']; // sku
             $orderGoodsData['is_bonus'] = $goodsArr[$payItem['goods_id']]['is_bonus']; // 是否参加奖金池商品
             $orderGoodsData['member_goods_price'] = $payItem['member_goods_price']; // 会员折扣价
@@ -573,6 +586,11 @@ class PlaceOrder
     private function setPromId($prom_id)
     {
         $this->promId = $prom_id;
+        return $this;
+    }
+
+    public function setSourceUid($source_uid){
+        $this->source_uid = $source_uid;
         return $this;
     }
 

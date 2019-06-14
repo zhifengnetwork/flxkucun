@@ -84,6 +84,31 @@ class Payment extends MobileBase
             return $this->fetch('success');
         }
 
+        if(($order['prom_type'] == 2) && $order['seller_id']){ //支付订单判断上级是否有库存
+            $goods_id = M('Order_goods')->where(['order_id'=>$order_id])->value('goods_id');
+            if($goods_id){
+                $nums = M('warehouse_goods')->where(['user_id'=>$order['user_id'],'goods_id'=>$goods_id])->value('nums');
+                if(!$nums){
+                    //查找上级发货人    
+                    $GoodsLogic = new \app\common\logic\GoodsLogic();
+                    $seller_id = $GoodsLogic->getLeaderShip($this->user_id,$payItem['goods_id']);  
+                    if($seller_id)
+                        M('Order')->where(['order_id'=>$order_id])->update(['seller_id'=>$seller_id]);  
+                    else{
+                        //查看系统库存
+                        $store_count = M('goods')->where(['goods_id'=>$goods_id])->value('store_count');
+                        if($seller_id)
+                            M('Order')->where(['order_id'=>$order_id])->update(['seller_id'=>0]);     
+                        else{ //可根据需要取消订单
+                            $this->error('此商品已无库存!');        
+                        }    
+                    }
+                            
+                }
+                
+            }
+        }
+
         $payment_arr = Db::name('Plugin')->where('type', 'payment')->getField("code,name");
         Db::name('order')->where("order_id", $order_id)->save(['pay_code' => $this->pay_code, 'pay_name' => $payment_arr[$this->pay_code]]);
 

@@ -417,8 +417,6 @@ class Promotion extends Base
             $messageLogic = $messageFactory->makeModule(['category' => 1]);
             $messageLogic->deletedMessage($data['id'], 2);
 
-
-
             if ($r) exit(json_encode(1));
         }     
         $groupBuyValidate = Loader::validate('GroupBuy');
@@ -428,7 +426,7 @@ class Promotion extends Base
             $data['store_count'] = $spec_goods_price['store_count'];
         }else{
             $goods = Db::name("goods")->where(['goods_id'=>$data['goods_id']])->find();
-            $data['goods_price'] = $goods['shop_price'];
+            $data['goods_price'] = $goods['market_price'];
             $data['store_count'] = $goods['store_count'];
         }
         if(!$groupBuyValidate->batch()->check($data)){
@@ -662,6 +660,10 @@ class Promotion extends Base
             }
             if($not_money > $one_commission){
                 $return = ['status' => 0, 'msg' => "{$level_name}（第二级） 不可提现金额不能大于一件佣金", 'result' =>'' ];
+                $this->ajaxReturn($return); 
+            }
+            if($not_money > $tow_commission){
+                $return = ['status' => 0, 'msg' => "{$level_name}（第二级） 不可提现金额不能大于两件佣金", 'result' =>'' ];
                 $this->ajaxReturn($return); 
             }
 

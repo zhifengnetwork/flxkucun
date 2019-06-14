@@ -99,6 +99,18 @@
                     <p class="notic">此抢购活动最多允许抢购的商品数量</p>
                 </dd>
             </dl>
+
+            <dl class="row">
+                <dt class="tit">
+                    <label><em>*</em>免单所需最小成交订单数</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="min_mduser_num" id="min_mduser_num" value="{$info.min_mduser_num}" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" class="input-txt">
+                    <span class="err" id="err_min_mduser_num"></span>
+                    <p class="notic">分享后，免单所需最小成交订单数</p>
+                </dd>
+            </dl>
+
             <dl class="row">
                 <dt class="tit">
                     <label><em>*</em>虚拟购买数</label>
@@ -217,13 +229,15 @@
                     '<img style="width: 162px;height: 162px" src="'+goodsItem.spec.spec_img+'"/></div> <div class="goods-name"> ' +
                     '<a target="_blank" href="/index.php?m=Home&c=Goods&a=goodsInfo&id='+goodsItem.goods_id+'">'+goodsItem.goods_name+goodsItem.spec.key_name+'</a> </div>' +
                     ' <div class="goods-price">商城价：￥'+goodsItem.spec.price+'库存:'+goodsItem.spec.store_count+'</div> </div>';
-            $('input[name=item_id]').val(goodsItem.spec.item_id)
+            $('input[name=item_id]').val(goodsItem.spec.item_id);
+            //$('input[name=goods_price]').val(goodsItem.spec.price);
             $('input[name=goods_name]').val(goodsItem.goods_name + goodsItem.spec.key_name);
         }else{
             html = '<div style="float: left;margin: 10px auto;" class="selected-group-goods"><div class="goods-thumb">' +
                     '<img style="width: 162px;height: 162px" src="'+goodsItem.goods_image+'"/></div> <div class="goods-name"> ' +
                     '<a target="_blank" href="/index.php?m=Home&c=Goods&a=goodsInfo&id='+goodsItem.goods_id+'">'+goodsItem.goods_name+'</a> </div>' +
                     ' <div class="goods-price">商城价：￥'+goodsItem.goods_price+'库存:'+goodsItem.store_count+'</div> </div>';
+                    //$('input[name=goods_price]').val(goodsItem.goods_price);
             $('input[name=goods_name]').val(goodsItem.goods_name);
         }
         $('#select_goods_button').attr('data-goods-id',goodsItem.goods_id);

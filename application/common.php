@@ -1209,7 +1209,7 @@ function update_pay_status($order_sn,$ext=array())
     //    return false;
     //}
 
-    $order = M('order')->field('order_sn,user_id,prom_id,prom_type')->where(['order_id'=>$order_id])->find();
+    $order = M('order')->field('seller_id,order_sn,user_id,prom_id,prom_type,shipping_price,total_amount')->where(['order_id'=>$order_id])->find();
 
 
     $userId = $order['user_id'];
@@ -1221,6 +1221,21 @@ function update_pay_status($order_sn,$ext=array())
 
         $goodId = $v['goods_id'];
         $goodNum = $v['goods_num'];
+
+        //团购
+        if($order['prom_type'] == 2){
+            M('warehouse_goods')->where(['user_id'=>$order['user_id'],'goods_id'=>$goodId])->setDec('nums',1);
+            M('warehouse_goods')->where(['user_id'=>$order['user_id'],'goods_id'=>$goodId])->update(['change_time'=>time()]);
+            M('warehouse')->where(['user_id'=>$order['user_id']])->setDec('totals',1);
+            M('warehouse')->where(['user_id'=>$order['user_id']])->update(['update_time'=>time()]);
+            M('warehouse_goods_log')->add(['user_id'=>$order['user_id'],'goods_id'=>$goodId,'time'=>time(),'changenum'=>1,'desc'=>'团购-1']);
+
+            if($order['seller_id']){
+                //给上级加上余额
+                M('Users')->where(['user_id'=>$order['seller_id']])->setInc('user_money',($order['total_amount']-$order['shipping_price']));    
+                M('Account_log')->add(['user_id'=>$order['seller_id'],'user_money'=>($order['total_amount']-$order['shipping_price']),'change_time'=>time(),'desc'=>'下级团购','order_sn'=>$orderSn,'order_id'=>$order_id,'log_type'=>70]);
+            }
+        }        
        
         $model = new FanliLogic($userId, $goodId,$goodNum,$orderSn,$order_id,$order['prom_type'],$order['prom_id']);
         $res = $model->fanliModel();

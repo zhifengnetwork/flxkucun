@@ -156,6 +156,7 @@ class Cart extends MobileBase {
         $this->assign('userCartCouponList', $userCartCouponList);  //优惠券，用able判断是否可用
         $this->assign('userCouponNum', $userCouponNum);  //优惠券数量
         $this->assign('cartGoodsTotalNum', $cartGoodsTotalNum);
+        $this->assign('source_uid', I('post.source_uid/d',0));
         $this->assign('cartList', $cartList['cartList']); // 购物车的商品
         $this->assign('cartPriceInfo', $cartPriceInfo);//商品优惠总价
         return $this->fetch();
@@ -186,6 +187,7 @@ class Cart extends MobileBase {
         $consignee = input('consignee/s');//自提点收货人
         $mobile = input('mobile/s');//自提点联系方式
         $is_virtual = input('is_virtual/d',0);
+        $source_uid = input('source_uid/d',0);
         $data = input('request.');
         $cart_validate = Loader::validate('Cart');
 
@@ -215,13 +217,14 @@ class Cart extends MobileBase {
             }
 
             $pay->setUserId($this->user_id)->setShopById($shop_id)->delivery($address['district'])->orderPromotion()
-                ->useCouponById($coupon_id)->useUserMoney($user_money)->usePayPoints($pay_points,false,'mobile')->getUserSign($goods_id)
-                ->getAuction()->getUserSign();
+                ->useCouponById($coupon_id)->useUserMoney($user_money)->usePayPoints($pay_points,false,'mobile')
+                ->getAuction();
             // 提交订单
             if ($_REQUEST['act'] == 'submit_order') {
+                $prominfo = M('goods')->field('prom_type,prom_id')->find($goods_id);
                 $placeOrder = new PlaceOrder($pay);
                 $placeOrder->setMobile($mobile)->setUserAddress($address)->setConsignee($consignee)->setInvoiceTitle($invoice_title)
-                    ->setUserNote($user_note)->setTaxpayer($taxpayer)->setInvoiceDesc($invoice_desc)->setPayPsw($pay_pwd)->setTakeTime($take_time)->addNormalOrder();
+                    ->setUserNote($user_note)->setTaxpayer($taxpayer)->setInvoiceDesc($invoice_desc)->setPayPsw($pay_pwd)->setSourceUid($source_uid)->setTakeTime($take_time)->addNormalOrder($prominfo['prom_type'],$prominfo['prom_id']);
                 $cartLogic->clear();
                 $order = $placeOrder->getOrder();
                 $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn']]);
@@ -347,6 +350,7 @@ class Cart extends MobileBase {
         //商品为秒杀商品时，不可加入购物车
         $prom_type = M('goods')->where(['goods_id'=>$goods_id])->value('prom_type');
         if($prom_type == 1)$this->ajaxReturn(['status'=>-1,'msg'=>'秒杀商品不能加入购物车','result'=>'']);
+        if($prom_type == 2)$this->ajaxReturn(['status'=>-1,'msg'=>'团购商品不能加入购物车','result'=>'']);
 
         $cartLogic = new CartLogic();
         $cartLogic->setUserId($this->user_id);
