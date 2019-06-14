@@ -18,6 +18,7 @@
 	<!-- <script type="text/javascript" src="https://g.alicdn.com/de/prismplayer/2.5.0/aliplayer-h5-min.js"></script> -->
 
 	<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
+	<script src="__STATIC__/js/layer.js"  type="text/javascript" ></script>
 	<script src="__STATIC__/js/public.js"></script>
 	<style>
 		/* 视频封面 */
@@ -42,7 +43,7 @@
 		</div>
 
 		<div class="content">
-			<h3>{$goodsInfo['goods_name']}</h3>
+			<h3>{$goodsInfo['goods_name']} <i class="video_favor <if $favor> red</if> " onclick="videoFavor(1,{$goodsInfo['goods_id']})"></i></h3>
 			<p class="date">
 				<span><?php echo date("Y-m-d",$goodsInfo['last_update']) ?></span>
 				<span><?php echo date("H:i:s",$goodsInfo['last_update']) ?></span>
@@ -162,6 +163,25 @@
 			console.log("播放器创建了。");
 		}
 		);
+        /*视频点赞*/
+
+        function videoFavor(type,video_id) {
+
+            $.ajax({
+                type : "GET",
+                dataType: "json",
+                url:"/index.php?m=Shop&c=video&a=video_favor",//+tab,
+                data: {type:type,video_id:video_id},
+                success: function(data){
+                    layer.open({content:data.msg, time:2});
+                    if(data.status == 1){
+                        //收藏点亮
+                        $('.content').find('i').addClass('red');
+                    }
+                }
+            });
+
+        }
 	</script>
 	<!-- <script type="text/javascript">
 		var player = new Aliplayer({
@@ -257,6 +277,7 @@
 		);
 
 	</script> -->
+
 </body>
 
 </html>

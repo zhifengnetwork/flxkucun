@@ -10,7 +10,7 @@
 .content h3{
     font-size: .24rem;
     color: #151515;
-    line-height: .4rem;
+    line-height: .6rem;
 }
 
 .content .date{
@@ -100,4 +100,21 @@
 }
 .goods-item .more img{
     width: .11rem;
+}
+.video_favor{
+    background-image: url(../../images/find/heart.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 19px;
+    height: 15px;
+    display: block;
+    margin: 0 auto;
+    background-position-x: 0;
+    float: right;
+    margin-right: 12px;
+    margin-top: 4px;
+}
+
+.red {
+    background-position-x: -19px;
 }

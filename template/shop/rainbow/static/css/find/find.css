@@ -210,3 +210,20 @@ body{
     color: #4c4c4c;
 }
 
+.video_favor{
+    background-image: url(../../images/find/heart.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 19px;
+    height: 15px;
+    display: block;
+    margin: 0 auto;
+    background-position-x: 0;
+    float: right;
+    margin-right: 5px;
+    margin-top: 4px;
+}
+
+.red {
+    background-position-x: -19px;
+}
