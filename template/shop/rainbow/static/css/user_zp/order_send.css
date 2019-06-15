@@ -39,8 +39,13 @@ input:checked:after{
 
 .list_wrap .img {
 	margin: 0 .2rem 0 .15rem;
-	width: 1.41rem;
-	height: 1.41rem;
+	width: 1.6rem;
+	height: 1.6rem;
+	border-radius: 50%;
+	background: darkgoldenrod;
+}
+.list_wrap .img img {
+	border-radius: 50%;
 }
 .ziti {
 	width: 70%;
@@ -65,7 +70,9 @@ input:checked:after{
 .order .stock {
 	margin-right: .2rem;
 }
-
+.num {
+	color: #ff6b87;
+}
 
 .popup_wrap {
 	display: none;
@@ -96,8 +103,8 @@ input:checked:after{
 /*查看详情按钮*/
 .view {
 	float: right;
-	font-size: .2rem;
-	color: #e31a49;
+	font-size: .22rem;
+	color: #ff6b87;
 	line-height: .5rem;
 }
 .view div {
@@ -107,7 +114,7 @@ input:checked:after{
 .icon {
 	width: .16rem;
 	height: .09rem;
-	background: url(../../images/dg.png) no-repeat;
+	background: url(../../images/user_zp/T2.png) no-repeat;
 	background-size: 100% 100%;
 }
 /*下拉列表*/
@@ -120,7 +127,6 @@ input:checked:after{
 	margin: 0 .24rem;
 	border: 1px solid #dadada;
 	font-size: .2rem;
-	color: #333;
 }
 .item_cont .item {
 	margin: 0 .22rem;
@@ -131,6 +137,11 @@ input:checked:after{
 	margin: 0 .2rem 0 0;
 	width: 1.41rem;
 	height: 1.41rem;
+	border-radius: 4px;
+	background: darkgoldenrod;
+}
+.item_cont .imgs img {
+	border-radius: 4px;
 }
 .item .imgs,.right {
 	display: inline-block;
@@ -151,14 +162,21 @@ input:checked:after{
 	line-height: .65rem;
 }
 .money span:nth-child(1) {
+	color: #ff6b87;
+}
+.money span:nth-child(1) {
 	margin-right: .25rem;
-	color: #ee1515;
+	color: #ff6b87;
 }
 .amount {
 	padding-left: .22rem;
 	line-height: .75rem;
 	font-size: .2rem;
-	color: #ee1515;
+	color: ;
+}
+.amount span:nth-child(1) {
+	font-size: .32rem;
+	color: #e93380;
 }
 .amount span {
 	margin-right: .85rem;
@@ -182,7 +200,7 @@ input:checked:after{
 }
 .make_btn {
 	margin: 0 .15rem 0 .24rem;
-	background: #f80909;
+	background: #e93380;
 	color: #fff;
 }
 
