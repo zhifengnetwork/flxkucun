@@ -20,7 +20,7 @@
 	<div class="wrapper">
 		<!-- 公共头部 -->
 		<div class="header">
-			<span class="backBtn" onclick="returnFun()"></span>
+			<!-- <span class="backBtn" onclick="returnFun()"></span> -->
 			<h1>凡露希</h1>
 			<!-- <span class="right"></span> -->
 		</div>
@@ -114,6 +114,7 @@
 						<span class="voiceBtn"></span>
 					</div>
 				</div>
+				<a href="{:U('Shop/Material/index')}" class="materialLink">素材区</a>
 				<div class="swiper-pagination"></div>
 			</div>
 
@@ -181,9 +182,49 @@
 			</div>
 			<div class="recommend-list">
 				<div class="single-item">
-					<div class="img-wrap">
-						
-					</div>
+					<a href="#">
+						<div class="img-wrap">
+							<img src="__STATIC__/images/home_zp/00recommend-img01.png" />
+							<span class="tag"><img src="__STATIC__/images/home_zp/hot-icon.png" /></span>
+						</div>
+						<div class="text">
+							<div class="price">
+								<span class="discount-price">$29.9</span>
+								<span class="original-price">$29.9</span>
+							</div>
+							<p class="spell-num">已拼1万件</p>
+						</div>
+					</a>
+				</div>
+				<div class="single-item">
+					<a href="#">
+						<div class="img-wrap">
+							<img src="__STATIC__/images/home_zp/00recommend-img02.png" />
+							<span class="tag"><img src="__STATIC__/images/home_zp/hot-icon.png" /></span>
+						</div>
+						<div class="text">
+							<div class="price">
+								<span class="discount-price">$29.9</span>
+								<span class="original-price">$29.9</span>
+							</div>
+							<p class="spell-num">已拼1万件</p>
+						</div>
+					</a>
+				</div>
+				<div class="single-item">
+					<a href="#">
+						<div class="img-wrap">
+							<img src="__STATIC__/images/home_zp/00recommend-img03.png" />
+							<span class="tag"><img src="__STATIC__/images/home_zp/hot-icon.png" /></span>
+						</div>
+						<div class="text">
+							<div class="price">
+								<span class="discount-price">$29.9</span>
+								<span class="original-price">$29.9</span>
+							</div>
+							<p class="spell-num">已拼1万件</p>
+						</div>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -192,7 +233,7 @@
 		<!-- <div class="title">
 			<h3>学习专区</h3>
 		</div> -->
-		<div class="learning-area">
+		<!-- <div class="learning-area">
 
 			<adv pid="9" limit="1" item="m">
 				<div class="study-item">
@@ -211,13 +252,49 @@
 					</a>
 				</div>
 			</adv>
-		</div>
+		</div> -->
 
 		<!-- 分类 -->	
-		<div class="title">
-			<h3>热销新品</h3>
+		<div class="hot-wrap">
+			<div class="title">
+				<h3>热销新品</h3>
+			</div>
+			<div class="hot-list">
+				<div class="single-item">
+					<div class="img-wrap">
+						<a href="#"><img src="__STATIC__/images/home_zp/00hot-img01.png" /></a>
+					</div>
+					<div class="text">
+						<a href="#"><h3>凡露希</h3></a>
+						<p class="dec">温和低敏 纯植物精华</p>
+						<div class="price">
+							<span class="discount-price">$29.9</span>
+							<span class="original-price">$29.9</span>
+						</div>
+						<p class="spell-num">已拼9741万件</p>
+						<span class="buy-btn">立即购买</span>
+					</div>
+				</div>
+				<div class="single-item">
+					<div class="img-wrap">
+						<a href="#"><img src="__STATIC__/images/home_zp/00hot-img01.png" /></a>
+					</div>
+					<div class="text">
+						<a href="#"><h3>凡露希</h3></a>
+						<p class="dec">温和低敏 纯植物精华</p>
+						<div class="price">
+							<span class="discount-price">$29.9</span>
+							<span class="original-price">$29.9</span>
+						</div>
+						<p class="spell-num">已拼9741万件</p>
+						<span class="buy-btn">立即购买</span>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="category-row clearfix">
+	
+
+		<!-- <div class="category-row clearfix">
 			<div class="cate-item">
 				<a href="###">
 					<h3>佳能</h3>
@@ -246,10 +323,11 @@
 				</a>
 			</div>
 			<div class="cate-more"><a href="###">更多{$level}</a></div>
-		</div>
+		</div> -->
+		
 		
 		<!-- 商品 -->
-		<div class="product">
+		<!-- <div class="product">
 			<ul>
 				<foreach name="favourite_goods" id="v">
 					<li class="item">
@@ -269,7 +347,7 @@
 					</li>
 				</foreach>
 			</ul>
-		</div>
+		</div> -->
 	</div>
 
 		<!--底部导航-start-->
