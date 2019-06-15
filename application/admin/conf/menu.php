@@ -107,6 +107,11 @@ return array(
             //array('name' => '商品视频', 'act' => 'video_list', 'op' => 'VideoGoods'),
             array('name' => '用户视频', 'act' => 'video_list', 'op' => 'VideoUser'),
         )),
+        array('name' => '音频', 'child' => array(
+            //array('name' => '商品视频', 'act' => 'video_list', 'op' => 'VideoGoods'),
+            array('name' => '音频列表', 'act' => 'audio_list', 'op' => 'Audio'),
+            array('name' => '音频类别', 'act' => 'audio_type_list', 'op' => 'Audio'),
+        )),
         array('name' => '文章', 'child' => array(
             array('name' => '文章列表', 'act' => 'articleList', 'op' => 'Article'),
             array('name' => '文章分类', 'act' => 'categoryList', 'op' => 'Article'),
