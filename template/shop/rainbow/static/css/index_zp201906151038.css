@@ -1,51 +1,57 @@
 body{
-    background-color: #fefefe;
+    background-color: #f5f5f5;
 }
 .wrapper{
-    padding-bottom: 1.42rem;
+    padding-bottom: 1.1rem;
 }
-
 /* 头部 */
 .headerTop{
     width: 100%;
-    height: 4.05rem;
-    background: url(../images/home_zp/headerTop-bg.png) no-repeat;
-    background-size: 100%;
+    background: #f54045;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 99;
+}
+.logoTop{
+    width: 100%;
+    height: 1.2rem;
+    background: #f54045;
+    text-align: center;
+}
+.logoTop img{
+    width: 1.86rem;
+    padding-top: .56rem;
+    box-sizing: border-box;
+}
+.header{
+    width: 100%;
+    height: 0.88rem;
+    background: #f54045;
     display: flex;
-    padding:0.88rem .3rem .2rem;
+    align-items: center;
+    padding: 0 0.2rem;
     box-sizing: border-box;
 }
 
-.header{
-    color: #ffffff;
-}
-
-/* 搜索 */
-.search-wrap{
+.header .search{
     width: 100%;
-    height: .8rem;
-    display: flex;
-    align-items: center;
-}
-.search-wrap .search{
-    width: 100%;
-    height: 0.8rem;
+    height: 0.56rem;
+    margin: 0 0.2rem;
     background-color: #f2f2f2;
-    border-radius: 0.15rem;
-    -webkit-box-flex: 1;
-    -ms-flex: 1;
+    border-radius: 0.28rem;
     flex: 1;
 }
-.search-wrap .search form{
+.header .search form{
     height: 100%;
-	display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
+	display: -webkit-flex;  /* 新版本语法: Chrome 21+ */
+	display: -webkit-box;   /* 老版本语法: Safari, iOS, Android browser,older WebKit browsers. */
+	display: -moz-box;      /* 老版本语法: Firefox (buggy) */
+    display: -ms-flexbox;   /* 混合版本语法: IE 10 */ 
+    display: flex;/* 新版本语法: Opera 12.1, Firefox 22+ */
     align-items: center;
 }
-.search-wrap .search .searchBtn{
+.header .search .searchBtn{
     width: 0.36rem;
     height: .36rem;
     background: url(../images/home_zp/search-icon-index@2x.png) center center no-repeat;
@@ -54,8 +60,7 @@ body{
     border: none;
     outline: none;
 }
-.search-wrap .search .searchText{
-    width: 100%;
+.header .search .searchText{
     height: 0.4rem;
     line-height: 0.4rem;
     border-left: 0.01rem solid #d0d0d0;
@@ -68,71 +73,34 @@ body{
     background: none;
     outline: none;
 }
-.search-wrap .notice-btn{
-    margin-left: .2rem;
-}
-.search-wrap .notice-btn img{
+.header .loginBtn img{
     width: 0.47rem;
-}
-
-/* 内容 */
-.content{
-    position: relative;
-    top: -2.08rem;
-    z-index: 3;
 }
 
 /* 视频轮播 */
 .bannerWrap{
-    height: 2.47rem;  
-    margin: 0 .3rem;
+    padding-top: 2.18rem;
     overflow: hidden;
-    z-index: 3;
-}
-.bannerWrap .swiper-slide{ 
     position: relative;
-    border-radius: .24rem;
-    overflow: hidden;
 }
-
-.swiper-pagination-bullet{
-    width: .08rem;
-    height: .08rem;
-    background-color: #e93380;
-    opacity: 1;
+.bannerWrap .swiper-slide{    
+    position: relative;
 }
-.swiper-pagination-bullet-active{
-    width: .12rem;
-    height: .12rem;
-}
-
 .bannerWrap .swiper-slide img{
     width: 100%;
     display: block;
-    border-radius: .24rem;
 }
 .bannerWrap .playBtn{
     width: .67rem;
-    height: .67rem;
-    background: url(../images/home_zp/playBtn-big.png) no-repeat;
-    background-size: 100%;
     position: absolute;
     left: 50%;
     top: 50%;
     z-index: 3;
     transform: translate(-50%,-50%);
 }
-
-.bannerWrap .voiceBtn{
-    width: .5rem;
-    height: .5rem;
-    background: url(../images/home_zp/voice-icon.png) no-repeat;
-    background-size: 100%;
-    position: absolute;
-    right: 0;
-    top: 0;
+.bannerWrap .playBtn img{
+    width: 100%;
 }
-
 .bannerWrap .materialLink{
     width: 1.2rem;
     height: .6rem;
@@ -167,7 +135,7 @@ body{
     box-sizing: border-box;
 }
 .nav-wrap .navItem{
-    width: 20%;
+    width: 25%;
     text-align: center;
     font-size: .24rem;
     margin-bottom: .1rem;
@@ -187,35 +155,6 @@ body{
 }
 .nav-wrap .navItem span img{
     width: 100%;
-}
-
-/* 每日优品 */
-.recommend-wrap{
-    background-color: #dbebb3;
-    border-radius: .18rem;
-    margin:0 0.3rem;
-}
-.recommend-wrap .headline{
-    height: .76rem;
-    line-height: .76rem;
-    position: relative;
-}
-.recommend-wrap .headline h3{
-    height: .76rem;
-    font-size: .3rem;
-    color: #296504;
-    text-align: center;
-    font-weight: normal;
-}
-.recommend-wrap .headline .more{
-    font-size: .24rem;
-    color: #296504;
-    background: url(../images/home_zp/right-arrow-icon1.png) right center no-repeat;
-    background-size: .14rem .22rem;
-    padding-right: .18rem;
-    position: absolute;
-    right: .15rem;
-    top: 0;
 }
 
 /* 公共标题 */
