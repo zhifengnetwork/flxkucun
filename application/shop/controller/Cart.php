@@ -285,7 +285,23 @@ class Cart extends MobileBase {
                 $order = $placeOrder->getOrder();
                 $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn']]);
             }
-            $this->ajaxReturn(['status' => 1, 'msg' => '计算成功', 'result' => $pay->toArray()]);
+
+            $pricedata = $pay->toArray(); 
+            if (($action == 'buy_now') && ($goods_num==2)) {
+                $prominfo = M('goods')->field('prom_type,prom_id')->find($goods_id);
+                if($prominfo['prom_type'] == 1){
+                    $promprice = M('flash_sale')->where(['id'=>$prominfo['prom_id']])->value('price');  
+                    $pricedata['order_prom_amount'] =  round($promprice/2,2);
+                    $pricedata['total_amount'] -= $pricedata['order_prom_amount'];
+                    $pricedata['goods_price'] -= $pricedata['order_prom_amount'];
+                    if(!$user_money)
+                        $pricedata['order_amount'] -= $pricedata['order_prom_amount'];
+                    else
+                    $pricedata['order_amount'] = $pricedata['goods_price'] + $pricedata['shipping_price'];
+                }
+            }
+            
+            $this->ajaxReturn(['status' => 1, 'msg' => '计算成功', 'result' => $pricedata]);
         } catch (TpshopException $t) {
             $error = $t->getErrorArr();
             $this->ajaxReturn($error);
