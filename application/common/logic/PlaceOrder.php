@@ -37,7 +37,7 @@ class PlaceOrder
     private $take_time;
     private $preSell;
     private $user_id;
-    private $source_uid;
+    private $source_uid = 0;
 
     /**
      * PlaceOrder constructor.
@@ -50,11 +50,11 @@ class PlaceOrder
     }
 
     public function addNormalOrder($prom_type=0,$prom_id=0)
-    {
+    {   
         if(in_array($prom_type,[1,2])){
             $this->promType = $prom_type;
-            $this->promId = $promId;
-        }
+            $this->promId = $prom_id;
+        }   
         $this->check();//提交订单前检查
         $this->queueInc();//是否排队
         $this->addOrder();//插入订单表
@@ -239,6 +239,17 @@ class PlaceOrder
             $invoice_title = "个人";
         }
         $this->user_id = $user['user_id'] ? $user['user_id'] : 0;
+        
+        if(($this->promType == 1)){
+            $payList = $this->pay->getPayList();
+            if($payList[0]['goods_num'] == 2){
+                $promprice = M('flash_sale')->where(['id'=>$this->promId])->value('price'); 
+                $promprice = round($promprice/2,2);
+                $use_user_money = ($this->pay->getUserMoney() - $promprice);
+                $total_amount = ($this->pay->getTotalAmount() - $promprice);
+                $order_amount = $total_amount;
+            }
+        }
         $orderData = [
             'order_sn' => $OrderLogic->get_order_sn(), // 订单编号
             'user_id' => $user['user_id'], // 用户id
@@ -247,16 +258,16 @@ class PlaceOrder
             'invoice_desc' => $this->invoiceDesc, //'发票内容',
             'goods_price' => $this->pay->getGoodsPrice(),//'商品价格',
             'shipping_price' => $this->pay->getShippingPrice(),//'物流价格',
-            'user_money' => $this->pay->getUserMoney(),//'使用余额',
+            'user_money' => isset($use_user_money) ? $use_user_money : $this->pay->getUserMoney(),//'使用余额',
             'coupon_price' => $this->pay->getCouponPrice(),//'使用优惠券',
             'integral' => $this->pay->getPayPoints(), //'使用积分',
             'integral_money' => $this->pay->getIntegralMoney(),//'使用积分抵多少钱',
             'sign_price' => $this->pay->getSignPrice(),//'签到抵扣金额',
-            'total_amount' => $this->pay->getTotalAmount(),// 订单总额
-            'order_amount' => $this->pay->getOrderAmount(),//'应付款金额',
+            'total_amount' => isset($total_amount) ? $total_amount : $this->pay->getTotalAmount(),// 订单总额
+            'order_amount' => isset($order_amount) ? $order_amount : $this->pay->getOrderAmount(),//'应付款金额',
             'add_time' => time(), // 下单时间
             'source_uid'    => (($user['user_id'] !== $this->source_uid) ? $this->source_uid : 0)
-        ];  
+        ];
         if($orderData["order_amount"] < 0){
             throw new TpshopException("订单入库", 0, ['status' => -8, 'msg' => '订单金额不能小于0', 'result' => '']);
         }
@@ -324,9 +335,14 @@ class PlaceOrder
         if ($orderData['integral'] > 0 || $orderData['user_money'] > 0) {
             $orderData['pay_name'] = $orderData['user_money']>0 ? '余额支付' : '积分兑换';//支付方式，可能是余额支付或积分兑换，后面其他支付方式会替换
         }
- 
+
         $this->order->data($orderData, true);
         $orderSaveResult = $this->order->save();
+
+        if(($this->promType == 1)){
+            if($orderData['user_money'] == $orderData['order_amount'])$this->order['order_amount'] = 0;
+        }
+
         if ($orderSaveResult === false) {
             throw new TpshopException("订单入库", 0, ['status' => -8, 'msg' => '添加订单失败', 'result' => '']);
         }

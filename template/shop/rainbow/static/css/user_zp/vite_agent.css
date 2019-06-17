@@ -28,6 +28,7 @@ body{
     width: 1.1rem;
     text-align: right;
     margin-right: .28rem;
+    color: #ff6b87;
 }
 
 /* 下拉菜单 */
@@ -36,7 +37,7 @@ body{
     -ms-flex: 1;
     flex: 1;
     height: .3rem;
-    border: .01rem solid #818181;
+    border: .01rem solid #ff6b87;
     position: relative;
 }
 .content .row-line .drop-down span{
@@ -74,7 +75,8 @@ body{
 .row-line .right input{
     width: 2.52rem;
     height: .3rem;
-    border: .01rem solid #818181;
+    border: .01rem solid #ff6b87;
+    border-radius: 4px;
     margin-right: .14rem;
     padding: 0 .1rem;
     -webkit-box-sizing: border-box;
@@ -83,7 +85,9 @@ body{
 .row-line .right .verificationBtn{
     height: .3rem;
     line-height: .3rem;
-    background: #cfdce7;
+    background: #ff6b87;
+    color: #fff;
+    border-radius: 4px;
     text-align: center;
     padding: 0 .12rem;
     -webkit-box-sizing: border-box;
@@ -117,9 +121,9 @@ body{
     height: .6rem;
     line-height: .6rem;
     text-align: center;
-    background-color: #f7062e;
+    background-color: #e93380;
     border: none;
-    border-radius: .08rem;
+    border-radius: .45rem;
     color: #fff;
     font-size: .3rem;
 }

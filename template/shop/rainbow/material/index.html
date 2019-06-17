@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="__STATIC__/js/public/rem.js"></script>
     <link rel="stylesheet" href="__STATIC__/css/public_lb/public.css?v=1552359149" />
+    <link rel="stylesheet" href="__STATIC__/css/public/base.css">
     <link rel="stylesheet" href="__STATIC__/css/material/index.css?v=1552359149" />
     <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css"> -->
     <!-- <script src="main.js"></script> -->
@@ -15,42 +16,121 @@
 
 <body>
 	<!--最外边框-->
-    <div id="container">
-        <!--public head-->
-        <div class="lb_headWrap topBox_backgroundColor">
-            <p class="lb_headWrap_return" data-num="1" onclick="returnFun()">
-                <img class="lb_headWrap_return_img" src="__STATIC__/images/public_lb/returnImg666_lb.png"/>
-            </p>
-            <span>素材区</span>
-        </div>
+    <div class="wrapper">
+        <!-- 公共头部 -->
+		<div class="header">
+			<span class="backBtn" onclick="returnFun()"></span>
+			<h1>素材区</h1>
+			<!-- <span class="right"></span> -->
+		</div>
         <!--内容-->
-        <div class="contentWrap clearfloat">
-    		
-			<foreach name="$material" item="vs">
-				<!--清除浮动，height自适应-->
-	            <div class="item-wrap clearfloat">
-	                <a href="{:U('Material/getDetail', 'atID='.$vs['material_id'])}">
-	                    <!--项-->
-	                    <div class="list clearfloat" id="getDetail">
-	                        <div class="content">
-	                            <p class="title">{$vs.title}</p>
-	                            <p class="zi">
-	                                {$vs.describe}
-	                            </p>
-	                        </div>
-	                        <div class="code">
-	                            <if condition="$vs.thumb" >
-	                                <img src="{$vs.thumb}" />
-	                            <else/>
-	                            	<!--前端放置的图片-->
-	                                <img src="__STATIC__/images/goodsimg.png" />
-	                            </if>
-	                        </div>
-	                    </div>
-	                </a>
-	            </div>
-			</foreach>
-		
+        <div class="content">
+    		<div class="inner">
+    			<!-- 切换标题 -->
+    			<div class="nav_wrap">
+    				<span class="active">产品素材</span>
+    				<span>营销素材</span>
+    			</div>
+    			<!-- 切换内容 -->
+    			<div class="tab_content">
+    				<div class="main active">
+    					<div class="tit">
+	    					<div class="img">
+	    						<img src="__STATIC__/images/public_lb/00004.png" />
+	    					</div>
+	    					<div class="name">刘禹君</div>
+    					</div>
+    					<p class="section">护肤品，即保护皮肤的产品。随着社会经济的不断进步和物质生活的丰富，护肤品，不再是过去只有富人才用的起的东西。现如今护肤品已走进了平常百姓家。它对人们的精神、形象提升起到了极大的作用。</p>
+    					<div class="img_list">
+    						<!--循环项-->
+    						<div class="item_img">
+    							<img src="__STATIC__/images/handpick/zhutu1.jpg" />
+    						</div>
+    						<!--循环项-->
+    						
+    						<!--循环项-->
+    						<div class="item_img">
+    							<img src="__STATIC__/images/handpick/zhutu2.jpg" />
+    						</div>
+    						<!--循环项-->
+    						
+    						<!--循环项-->
+    						<div class="item_img">
+    							<img src="__STATIC__/images/handpick/zhutu3.jpg" />
+    						</div>
+    						<!--循环项-->
+    						
+    						<!--循环项-->
+    						<div class="item_img">
+    							<img src="__STATIC__/images/handpick/zhutu4.jpg" />
+    						</div>
+    						<!--循环项-->
+    						
+    						<!--循环项-->
+    						<div class="item_img">
+    							<img src="__STATIC__/images/handpick/zhutu6.jpg" />
+    						</div>
+    						<!--循环项-->
+    						
+    						<!--循环项-->
+    						<div class="item_img">
+    							<img src="__STATIC__/images/handpick/zhutu7.jpg" />
+    						</div>
+    						<!--循环项-->
+    						
+    					</div>
+    				</div>
+    				
+    				<div class="main">
+    					<div class="tit">
+	    					<div class="img">
+	    						<img src="__STATIC__/images/handpick/zhutu3.jpg" />
+	    					</div>
+	    					<div class="name">君</div>
+    					</div>
+    					<p class="section">护肤品，即保护皮肤的产品。随着社会经济的不断进步和物质生活的丰富，护肤品，不再是过去只有富人才用的起的东西。现如今护肤品已走进了平常百姓家。它对人们的精神、形象提升起到了极大的作用。</p>
+    					<div class="img_list">
+    						<!--循环项-->
+    						<div class="item_img">
+    							<img src="__STATIC__/images/handpick/zhutu1.jpg" />
+    						</div>
+    						<!--循环项-->
+    						
+    						<!--循环项-->
+    						<div class="item_img">
+    							<img src="__STATIC__/images/handpick/zhutu2.jpg" />
+    						</div>
+    						<!--循环项-->
+    						
+    						<!--循环项-->
+    						<div class="item_img">
+    							<img src="__STATIC__/images/handpick/zhutu3.jpg" />
+    						</div>
+    						<!--循环项-->
+    						
+    						<!--循环项-->
+    						<div class="item_img">
+    							<img src="__STATIC__/images/handpick/zhutu4.jpg" />
+    						</div>
+    						<!--循环项-->
+    						
+    						<!--循环项-->
+    						<div class="item_img">
+    							<img src="__STATIC__/images/handpick/zhutu6.jpg" />
+    						</div>
+    						<!--循环项-->
+    						
+    						<!--循环项-->
+    						<div class="item_img">
+    							<img src="__STATIC__/images/handpick/zhutu7.jpg" />
+    						</div>
+    						<!--循环项-->
+    						
+    					</div>
+    				</div>
+    				
+    			</div>
+    		</div>
 		</div>
 		
     </div>
@@ -58,4 +138,13 @@
 
 </html>
 <script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
-<script src="__STATIC__/js/public/public_lb.js"></script>
+<script src="__STATIC__/js/public/public.js"></script>
+<script>
+	/**
+    * 选项卡切换
+    * */
+    $(".nav_wrap span").click(function(){
+        $(this).addClass("active").siblings().removeClass("active");
+        $(".tab_content").children().eq($(this).index()).addClass("active").siblings().removeClass("active");
+    })
+</script>
