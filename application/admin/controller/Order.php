@@ -65,6 +65,8 @@ class Order extends Base {
         I('order_status') != '' ? $condition['order_status'] = I('order_status') : false;
         I('pay_status') != '' ? $condition['pay_status'] = I('pay_status') : false;
         I('prom_type/d',0) ? $condition['prom_type'] = I('prom_type/d',0) : false;
+        if(I('seller_id/d',0) == 1)$condition['seller_id'] = ['neq',0];
+        if(I('seller_id/d',0) == 2)$condition['seller_id'] = 0;
         //I('pay_code') != '' ? $condition['pay_code'] = I('pay_code') : false;
         if(I('pay_code')){
             switch (I('pay_code')){
@@ -97,6 +99,14 @@ class Order extends Base {
         $Page  = new AjaxPage($count,20);
         $show = $Page->show();
         $orderList = Db::name('order')->where($condition)->limit($Page->firstRow,$Page->listRows)->order($sort_order)->select();
+
+        $Users = M('Users');
+        foreach($orderList as $k=>$v){
+            $userinfo = $v['seller_id'] ? $Users->field('nickname,mobile')->find($v['seller_id']) : '';
+            $orderList[$k]['seller_name'] = $userinfo ? $userinfo['nickname'] : '';
+            $orderList[$k]['seller_mobile'] = $userinfo ? $userinfo['mobile'] : '';
+        }
+
        // print_R($orderList);exit;
         $this->assign('orderList',$orderList);
         $this->assign('page',$show);// 赋值分页输出

@@ -37,7 +37,7 @@ class PlaceOrder
     private $take_time;
     private $preSell;
     private $user_id;
-    private $source_uid;
+    private $source_uid = 0;
 
     /**
      * PlaceOrder constructor.
@@ -324,7 +324,7 @@ class PlaceOrder
         if ($orderData['integral'] > 0 || $orderData['user_money'] > 0) {
             $orderData['pay_name'] = $orderData['user_money']>0 ? '余额支付' : '积分兑换';//支付方式，可能是余额支付或积分兑换，后面其他支付方式会替换
         }
- 
+
         $this->order->data($orderData, true);
         $orderSaveResult = $this->order->save();
         if ($orderSaveResult === false) {
