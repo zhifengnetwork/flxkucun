@@ -53,6 +53,7 @@ class Warehouse extends Base
         ->where($where)
         ->order('wg.id desc')->limit($Page->firstRow . ',' . $Page->listRows)->select();
         $this->assign('page',$Page);
+//        dump($list);exit;
         $this->assign('list', $list);
         return $this->fetch();
     }

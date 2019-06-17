@@ -24,7 +24,7 @@
 	<div class="flexigrid">
 		<div class="mDiv">
 			<div class="ftitle">
-				<h3>库存列表</h3>
+				<h3>库存列表11</h3>
 				<h5>(共{$page->totalRows}条记录)</h5>
                 <div class="fbutton">
                     <a href="http://help.tp-shop.cn/Index/Help/info/cat_id/5/id/48.html" target="_blank">
@@ -137,6 +137,10 @@
 							</td>
 						</tr>
 					</foreach>
+
+					<if condition="count($list) eq null">
+						<div style="text-align:center;margin-top:28px;font-size:18px">暂无数据</div>
+					</if>
 					</tbody>
 				</table>
 			</div>
