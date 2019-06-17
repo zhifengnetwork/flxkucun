@@ -61,9 +61,11 @@ class Apply extends Base
 		$id = I('get.id/d',0);
 
 		if(!$id)$this->error('参数错误');
-		$info = M('Apply')->alias('A')->join('apply_info AI','A.id=AI.applyid','left')->where(['A.id'=>$id,'AI.type'=>1])->find();
+		//$info = M('Apply')->alias('A')->join('apply_info AI','A.id=AI.applyid','left')->where(['A.id'=>$id,'AI.type'=>1])->find();
+		$info = M('Apply')->find($id);
+		$info['info'] = M('Apply_info')->where(['applyid'=>$id,'type'=>1])->find();
 
-		$info['uidinfo'] = M('Users')->field('nickname,mobile,head_pic')->find($info['uidinfo']);
+		$info['uidinfo'] = M('Users')->field('nickname,mobile,head_pic')->find($info['uid']);
 		$info['leaderidinfo'] = M('Users')->field('nickname,mobile,head_pic')->find($info['leaderid']);
 		$info['level_name'] = M('User_level')->where(['level'=>$info['level']])->value('level_name');
 
