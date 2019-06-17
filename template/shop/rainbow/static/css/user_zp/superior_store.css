@@ -1,6 +1,4 @@
-body{
-    background-color: #f7f7f7;
-}
+
 .content{
     padding-top: .88rem;
     box-sizing: border-box;
@@ -14,22 +12,23 @@ body{
 .superior-list li{
     display: flex;
     align-items: center;
-    margin-bottom: .1rem;
-    border: .01rem solid #dadada;
+    margin-bottom: .2rem;
     position: relative;
-    padding: .1rem;
+    padding: .2rem;
     box-sizing: border-box; 
+    background-color: #f7f7f7;
+    border-radius: .1rem;
 }
 .superior-list li .check{
-    width: .36rem;
-    height: .36rem;
-    border: .01rem solid #8d8d8d;
+    width: .4rem;
+    height: .4rem;
+    border: .01rem solid #ff6b87;
     border-radius: 50%;
     margin:0 .18rem 0 .1rem;
 }
 .superior-list li .check input{
-    width: .36rem;
-    height: .36rem;
+    width: .4rem;
+    height: .4rem;
     appearance: none;
     -webkit-appearance: none;
     outline: none;
@@ -38,19 +37,21 @@ body{
     cursor: pointer;
 }
 .superior-list li .check input:checked::after{
-    width: .36rem;
-    height: .36rem;
+    width: .4rem;
+    height: .4rem;
     content: '';
     background: url(../../images/user_zp/checked.png) no-repeat;
-    background-size: .18rem .15rem;
-    background-position: .1rem .09rem;
+    background-size: .24rem .17rem;
+    background-position: .09rem .09rem;
     display: block;
     vertical-align: sub;
 }
 .superior-list li .img-wrap{
-    width: 1.3rem;
-    height: 1.3rem;
-    margin-right: .2rem;
+    width: 1.6rem;
+    height: 1.6rem;
+    margin-right: .18rem;
+    border-radius: .08rem;
+    overflow: hidden;
 }
 .superior-list li .img-wrap img{
     width: 100%;
@@ -60,39 +61,47 @@ body{
 }
 .superior-list li h3{
     line-height: .34rem;
-    font-size: .24rem;
+    font-size: .32rem;
+    color: #333333;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     overflow: hidden;
     font-weight: normal;
+    margin:.25rem auto .1rem;
 }
 .superior-list li .line2{
-    font-size: .18rem;
-    line-height: .34rem;
+    font-size: .24rem;
+    color: #ff6b87;
+    margin-bottom: .3rem;
 }
 .superior-list li .price{
     font-size: .24rem;
-    color: #f80909;
+    color: #ff6b87;
 }
 .superior-list li .num{
     position: absolute;
     right: .2rem;
-    bottom: .1rem;
+    bottom: .2rem;
 }
 .superior-list li .num input{
+    width: .6rem;
     height: .4rem;
     line-height: .4rem;
     text-align: center;
 	color: #333333;
-    border-top: .01rem solid #aaaaaa;
-    border-bottom: .01rem solid #aaaaaa;
-    float: left;
+    border: .01rem solid #ff6b87;
+    border-radius: .08rem;
     padding: 0 .1rem;
     box-sizing: border-box;
     background-color: #fff;
+    margin: 0 .1rem;
 }
-.num .min,.num .add{
+.num{
+    height: .4rem;
+    display: flex;
+}
+/* .num .min,.num .add{
 	width: .4rem;
 	height: .4rem;
 	display: inline-block;
@@ -100,7 +109,23 @@ body{
 	color: #333333;
     border: 1px solid #aaaaaa;
     float: left;
-}
+} */
+
+.num .min{
+    width: .3rem;
+    height: 100%;
+    display: inline-block;
+    background: url(../../images/user_zp/min.png) no-repeat center center;
+    background-size: .3rem .06rem;
+}  
+.num .add{
+    width: .3rem;
+    height: 100%;
+    display: inline-block;
+    background: url(../../images/user_zp/add.png) no-repeat center center;
+    background-size: .3rem .3rem;
+} 
+
 .num .reSty {
     color: #cbcbcb;
 }
@@ -120,11 +145,12 @@ body{
     margin-left: .2rem;
     display: flex;
     align-items: center;
+    font-size: .26rem;
 }
 .holderBar .checkAll input{
-    width: .36rem;
-    height: .36rem;
-    border: .01rem solid #8d8d8d;
+    width: .4rem;
+    height: .4rem;
+    border: .01rem solid #ff6d89;
     border-radius: 50%;
     margin: 0 .15rem;
     appearance: none;
@@ -135,11 +161,11 @@ body{
     cursor: pointer;
 }
 .holderBar .checkAll input:checked::after{
-    width: .36rem;
-    height: .36rem;
+    width: .4rem;
+    height: .4rem;
     content: '';
     background: url(../../images/user_zp/checked.png) no-repeat;
-    background-size: .18rem .15rem;
+    background-size: .24rem .17rem;
     background-position: .08rem .1rem;
     display: block;
     vertical-align: sub;
@@ -148,16 +174,17 @@ body{
     color: #151515;
     font-size: .3rem;
 }
-.total-wrap .line1 .not-contain{
-    font-size: .18rem;
-    color: #a3a3a3;
+.total-wrap .line1{
+    font-size: .26rem;
 }
+
 .total-wrap .total{
-    color: #f50b0b;
+    color: #ff6b87;
+    font-size: .32rem;
 }
 .total-wrap .amount-sum{
-    color: #6c6c6c;
-    font-size: .24rem;
+    color: #333333;
+    font-size: .26rem;
     text-align: right;
     line-height: .36rem;
 }
@@ -165,7 +192,8 @@ body{
     width: 1.8rem;
     height: 100%;
     line-height: .88rem;
+    font-size: .36rem;
     text-align: center;
     color: #fff;
-    background-color: #f50b0b;
+    background-color: #e93380;
 }

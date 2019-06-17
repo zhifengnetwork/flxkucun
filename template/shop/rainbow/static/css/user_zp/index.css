@@ -1,100 +1,231 @@
-.content{
-    padding-bottom: 1rem;
+/* 顶部 */
+.user-top{
+    width: 100%;
+    height: 2.76rem;
+    color: #ffffff;
+    background-color: #ff6b89;
+    display: flex;
+    padding: .5rem .3rem 0;
+    box-sizing: border-box;
+    margin-right: .3rem;
+    position: relative;
 }
-/* 用户信息 */
-.userInfo{
-    text-align: center;
-    border-bottom: .01rem solid #e6e6e6;
+.user-top .avatar{
+    width: 1.2rem;
+    margin-right: .2rem;
 }
-.userInfo .avatar{
+.user-top .avatar img{
     width: 1rem;
     height: 1rem;
-    margin: 0 auto;
     border-radius: 50%;
-    
+    margin-bottom: .1rem;
 }
-.userInfo .avatar img{
-    width: 100%;
-}
-.userInfo .userName .name{
-    font-size: .24rem;
-    margin-right: .14rem;
-}
-.userInfo .userName .sign{
-    font-size: .18rem;
-    background: url(../../images/user_zp/member-icon.png) left center no-repeat;
-    background-size: .29rem .2rem;
-    padding-left: .38rem;
-}
-.userInfo .user-msg{
-    font-size: .18rem;
-    color: #151515;
-    margin: .2rem auto;
-}
-.userInfo .user-msg img{
-    width: .18rem;
-}
-.userInfo .user-msg span{
-    border-right: .01rem solid #e6e6e6;
-    padding: 0 .2rem;
-    box-sizing: border-box;
-    color: #151515;
-}
-.userInfo .user-msg span i{
-    width: 0.07rem;
-    height: .11rem;
-    display: inline-block;
-    background: url(../../images/user_zp/right-arrow-sm.png) no-repeat;
-    background-size: 100%;
-    margin-left: .1rem;
-}
-.userInfo .user-msg span:last-child{
-    border-right: none;
+.user-top .avatar span{
+    font-size: .2rem;
+    color: #ffffff;
+    display: block;
 }
 
-/* 列表项 */
-.user-list{
-    padding: 0 .22rem;
+/* 用户信息 */
+.user-top .user-info{
+    margin-right: .3rem;
+}
+.user-top .user-info .name{
+    font-size: .36rem;
+    margin: .3rem auto .1rem;
+    display: block;
+}
+.user-top .user-info .leader-name{
+    font-size: .2rem;
+    display: block;
+}
+
+.user-top .user-msg{
+    flex: 1;
+}
+.user-top .user-msg .level{
+    font-size: .24rem;
+    display: block;
+    margin:.4rem auto .15rem;
+}
+.user-top .user-msg .teams-num{
+    font-size: .2rem;
+    display: block;
+}
+
+/* 设置 */
+.user-top .set-up-btn{
+    width: .49rem;
+    height: .49rem;
+    background: url(../../images/user_zp/set-up.png) no-repeat;
+    background-size: 100%;
+    position: absolute;
+    right: .3rem;
+    top: .9rem;
+}
+
+.content{
+    position: relative;
+    top: -.55rem;
+    z-index: 3;
+    padding: 0 0.3rem;
     box-sizing: border-box;
 }
-.user-list .list-item{
-    height: .6rem;
-    line-height: .6rem;
-    font-size: .26rem;
-    margin-top: .28rem;
-}
-.user-list .list-item a{
-    display: block;
-    overflow: hidden;
-    color: #151515;
-}
-.user-list .list-item .fl .icon{
-    width: .28rem;
-    height: .28rem;
-    position: relative;
-    margin-right: .1rem;
-    vertical-align: sub;
-}
-.user-list .list-item .fl .icon img{
-    width: 100%;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+
+/* 我的订单 */
+.order-area{
+    width: 6.9rem;
     margin: 0 auto;
-    
+    padding: .17rem .12rem .1rem;
+    box-sizing: border-box;
+    background-color: #fff;
+    border-radius: .12rem;
+    box-shadow: 0 0 .08rem #ccc;
+    margin-bottom: .3rem;
 }
-.user-list .list-item .fr{
-    font-size: .18rem;
+
+.order-area .list{
+    height: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.user-list .list-item .fr span{
-    min-width: .07rem;
-    min-height: .13rem;
-   background: url(../../images/user_zp/right-arrow-sm01.png) no-repeat center right;
-   background-size: .07rem .13rem;
-   padding-right: .15rem;
+.order-area .list .item{
+    width: 25%;
+    font-size: .22rem;
+    text-align: center;
 }
-.user-list .list-item .fr .num{
-    color:#ff0000;
+.order-area .list .item a{
+    color: #333333;
+}
+.order-area .list .item span.icon{
+    width: .5rem;
+    height: .46rem;
+    display: block;
+    margin: 0 auto .1rem;
+}
+.order-area .list .item span.icon img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* 公共标题 */
+.headline{
+    width: 100%;
+    color: #333333;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: .25rem;
+    border-bottom: .01rem solid #e5e5e5;
+}
+.headline h3{
+    font-size: .26rem;
+    font-weight: normal;
+}
+.headline .more{
+    color: #333333;
+    font-size: .22rem;
+    background: url(../../images/user_zp/right-arrow1.png) no-repeat right center;
+    background-size: .11rem .19rem;
+    padding-right: .18rem;
+}
+
+/* 菜单导航 */
+.nav-wrap{
+    margin-bottom: .3rem;
+}
+.nav-wrap ul{
+    border-radius: .12rem;
+    background-color: #f7f7f7;
+    display: -webkit-box;
+    display: -moz-flex;
+    display: -ms-flexbox;  
+    display: flex;
+    -ms-flex-flow: wrap;
+    flex-flow: wrap;
+    padding:.15rem 0 .05rem;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.nav-wrap .navItem{
+    width: 25%;
+    text-align: center;
+    font-size: .22rem;
+    margin-bottom: .2rem;
+}
+.nav-wrap .navItem a{
+    color: #000000;
+}
+.nav-wrap .navItem span:first-child{
+    width: .7rem;
+    height: .7rem;
+    display: block;
+    margin: 0 auto .15rem;
+}
+
+.nav-wrap .navItem span{
+    position: relative;
+}
+.nav-wrap .navItem span img{
+    width: 100%;
+}
+
+
+/* 我的消息 */
+.news{
+    border-radius: .12rem;
+    background-color: #f7f7f7;
+    padding: .17rem .12rem 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin-bottom: .25rem;
+}
+.news .news-list ul{
+    height: .7rem;
+    overflow: hidden;
+}
+.news .news-list li{
+    height: .7rem;
+    line-height: .7rem;
+    overflow: hidden;
+}
+.news .news-list li a{
+    color: #333333;
+    font-size: .22rem;
+    display: block;
+}
+
+
+.other-area {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: .2rem;
+}
+.other-area .item{
+    width: 3.3rem;
+    height: .94rem;
+    background-color: #f7f7f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.other-area .item .icon{
+    width: .36rem;
+    height: .36rem;
+    margin-right: .1rem;
+}
+.other-area .item .icon img{
+    width: 100%;
+}
+.other-area .item span{
+    font-size: .3rem;
+    color: #333333;
+}
+
+/* 广告位 */
+.advert-wrap{
+    width: 100%;
+    height: 1.4rem;
+    background-color: #989898;
+    border-radius: .12rem
 }
