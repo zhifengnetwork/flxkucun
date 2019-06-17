@@ -58,7 +58,7 @@ img {
 .state {
 	padding: 0 0 0 .2rem;
 	font-size: .26rem;
-	color: #989898;
+	color: #ff6b87;
 	line-height: .45rem;
 }
 
@@ -66,7 +66,7 @@ img {
 	margin: .2rem 0 .2rem .2rem;
 	padding: .15rem;
 	width: 55%;
-	border: 1px solid #dadada;
+	border: 1px solid #ff6b87;
 	border-radius: 6px;
 }
 .inp input {
@@ -82,7 +82,7 @@ img {
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	border-radius: 6px;
-	border: 1px solid #dadada;
+	border: 1px solid #ff6b87;
 }
 
 .btn_wrap {
@@ -91,14 +91,14 @@ img {
 .ack_btn {
 	margin: .65rem auto;
 	width: 7.02rem;
-	height: .6rem;
+	height: .9rem;
 	text-align: center;
-	line-height: .6rem;
-	letter-spacing: 2px;
+	line-height: .9rem;
+	letter-spacing: 3px;
 	color: #fff;
-	font-size: .26rem;
-	background: #e31a49;
-	border-radius: 3px;
+	font-size: .36rem;
+	background: #e93380;
+	border-radius: 45px;
 }
 /*视频上传中按钮状态*/
 .ack_btn_on {
