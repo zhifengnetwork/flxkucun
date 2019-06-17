@@ -73,7 +73,7 @@ body{
     margin-left: .2rem;
 }
 .search-wrap .notice-btn img{
-    width: 0.47rem;
+    width: 0.52rem;
 }
 
 /* 内容 */
@@ -101,12 +101,15 @@ body{
 .swiper-pagination-bullet{
     width: .08rem;
     height: .08rem;
-    background-color: #e93380;
-    opacity: 1;
+    border-radius: 50%;
+    /* background-color: #e93380; */
+    opacity: .8;
 }
 .swiper-pagination-bullet-active{
-    width: .12rem;
-    height: .12rem;
+    /* width: .12rem;
+    height: .12rem; */
+    background-color: #fff;
+    opacity: 1;
 }
 
 .bannerWrap .swiper-slide img{
@@ -134,6 +137,10 @@ body{
     position: absolute;
     right: 0;
     top: 0;
+}
+.bannerWrap .closing{
+    background: url(../images/home_zp/mute-icon.png) no-repeat;
+    background-size: 100%;
 }
 
 .bannerWrap .materialLink{
@@ -272,6 +279,43 @@ body{
     color: #ec6f88;
 }
 
+.picc{
+    margin: .2rem auto;
+    padding: 0 .3rem;
+    box-sizing: border-box;
+}
+
+.picc img{
+    width: 100%;
+}
+
+/* 活动专区 */
+.activity-zone{
+    padding: 0 .3rem;
+    box-sizing: border-box;
+    margin-bottom: .2rem;
+}
+.activity-zone img{
+    width: 100%;
+}
+
+/* 分类专区 */
+.area-category{
+    padding: 0 .3rem;
+    box-sizing: border-box;
+}
+.area-category .cate-item{
+    width: 3.35rem;
+    height: 1.64rem;
+    margin-right: .2rem;
+    float: left;
+}
+.area-category .cate-item:nth-child(2n){
+    margin-right: 0;
+}
+.area-category .cate-item img{
+    width: 100%;
+}
 
 /* 公共标题 */
 .title{
@@ -296,7 +340,7 @@ body{
     background: #f29dc1;
 }
 .title h3{
-    font-size: .24rem;
+    font-size: .26rem;
     font-weight: normal;
     color: #e93380;
     margin: 0 .1rem;
@@ -331,7 +375,7 @@ body{
     color: #333333;
 }
 .hot-list .single-item .text h3{
-    font-size: .3rem;
+    font-size: .28rem;
     line-height: .5rem;
     font-weight: normal;
     margin-bottom: .1rem;
@@ -357,9 +401,9 @@ body{
     line-height: .6rem;
     display: block;
     text-align: center;
-    font-size: .3rem;
+    font-size: .28rem;
     color: #ffffff;
-    border-radius: .06rem;
+    border-radius: .12rem;
     background-color: #e93380;
     position: absolute;
     right: .15rem;

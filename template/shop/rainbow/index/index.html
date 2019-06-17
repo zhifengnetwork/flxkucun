@@ -120,25 +120,6 @@
 
 
 		<!-- 菜单导航 -->
-		<!-- <div class="nav-wrap">
-			<ul>
-				<foreach name="cat_list" id="cat">
-					<li class="navItem">
-						<a href="{:U($cat['url'])}">
-							<span><img src="{$cat['image']}"></span>
-							<span>{$cat['name']}</span>
-						</a>
-					</li>
-				</foreach>
-				<li class="navItem">
-					<a href="{:U('Shop/User/superior_store')}">
-						<span><img src="__STATIC__/images/home_zp/store-icon.png" alt=""></span>
-						<span>仓库</span>
-					</a>
-				</li>
-			</ul>
-		</div> -->
-
 		<div class="nav-wrap">
 			<ul>
 				<li class="navItem">
@@ -173,6 +154,24 @@
 				</li>
 			</ul>
 		</div>
+		<!-- <div class="nav-wrap">
+			<ul>
+				<foreach name="cat_list" id="cat">
+					<li class="navItem">
+						<a href="{:U($cat['url'])}">
+							<span><img src="{$cat['image']}"></span>
+							<span>{$cat['name']}</span>
+						</a>
+					</li>
+				</foreach>
+				<li class="navItem">
+					<a href="{:U('Shop/User/superior_store')}">
+						<span><img src="__STATIC__/images/home_zp/store-icon.png" alt=""></span>
+						<span>仓库</span>
+					</a>
+				</li>
+			</ul>
+		</div> -->
 
 		<!-- 每日优品 -->
 		<div class="recommend-wrap">
@@ -226,6 +225,28 @@
 						</div>
 					</a>
 				</div>
+			</div>
+		</div>
+
+		<div class="picc">
+			<img src="__STATIC__/images/home_zp/picc.png" />
+		</div>
+
+		<div class="activity-zone">
+			<a href="#"><img src="__STATIC__/images/home_zp/00activity-zone-adv.png" /></a>
+		</div>
+
+		<!-- 分类专区 -->
+		<div class="area-category clearfix">
+			<div class="cate-item">
+				<a href="#">
+					<img src="__STATIC__/images/home_zp/spike-index.png" />
+				</a>
+			</div>
+			<div class="cate-item">
+				<a href="#">
+					<img src="__STATIC__/images/home_zp/spike-index.png" />
+				</a>
 			</div>
 		</div>
 
@@ -415,7 +436,35 @@
 						video.pause(); 
 						than.show();
 					}
-				} 
+				};
+
+				// 静音开关
+				var bool = true;
+				$(".voiceBtn").click(function(event){
+					// 取消冒泡
+					var e = window.event || event;
+					if(e.stopPropagation){
+						e.stopPropagation();
+					}else{
+						e.cancelBubble = true;
+					}
+
+					let v = $(this).parents().children('video')
+					if(bool){
+						//关闭声音
+						v[0].muted = true;
+						$(this).addClass("closing");
+						bool = false;
+					}else{
+						// 开启声音
+						console.log(2)
+						v[0].muted = false;
+						$(this).removeClass("closing");
+						bool = true;
+					}
+
+				})
+
 			})
 		</script>
 </body>
