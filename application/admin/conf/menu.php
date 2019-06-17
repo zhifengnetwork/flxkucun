@@ -107,6 +107,11 @@ return array(
             //array('name' => '商品视频', 'act' => 'video_list', 'op' => 'VideoGoods'),
             array('name' => '用户视频', 'act' => 'video_list', 'op' => 'VideoUser'),
         )),
+        array('name' => '音频', 'child' => array(
+            //array('name' => '商品视频', 'act' => 'video_list', 'op' => 'VideoGoods'),
+            array('name' => '音频列表', 'act' => 'audio_list', 'op' => 'Audio'),
+            array('name' => '音频类别', 'act' => 'audio_type_list', 'op' => 'Audio'),
+        )),
         array('name' => '文章', 'child' => array(
             array('name' => '文章列表', 'act' => 'articleList', 'op' => 'Article'),
             array('name' => '文章分类', 'act' => 'categoryList', 'op' => 'Article'),
@@ -195,11 +200,11 @@ return array(
 			array('name' => '促销活动','child' => array(
 					array('name' => '抢购管理', 'act'=>'flash_sale', 'op'=>'Promotion'),
 					array('name' => '团购管理', 'act'=>'group_buy_list', 'op'=>'Promotion'),
-					array('name' => '竞拍管理', 'act'=>'auction_list', 'op'=>'Promotion'),
+					//array('name' => '竞拍管理', 'act'=>'auction_list', 'op'=>'Promotion'),
 					// array('name' => '优惠促销', 'act'=>'prom_goods_list', 'op'=>'Promotion'),
 					// array('name' => '订单促销', 'act'=>'prom_order_list', 'op'=>'Promotion'),
 					// array('name' => '预售管理','act'=>'index', 'op'=>'PreSell'),
-					array('name' => '拼团管理','act'=>'index', 'op'=>'Team'),
+					//array('name' => '拼团管理','act'=>'index', 'op'=>'Team'),
 					// array('name' => '搭配购管理','act'=>'index', 'op'=>'Combination'),
 			)),
 			// array('name' => '优惠积分','child' => array(

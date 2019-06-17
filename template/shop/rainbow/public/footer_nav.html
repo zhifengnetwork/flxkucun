@@ -4,22 +4,36 @@
 <script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
 
 <!--底部导航-->
-<div class="footer_zp">
+<div class="footer-zp">
 	<ul>
 		<li <if condition="CONTROLLER_NAME eq 'Index'">class="on"</if>  >
-			<a href="{:U('Index/index')}">首页</a>
+			<a href="{:U('Index/index')}">
+				<i class="home-icon"></i>
+				<span>首页</span>
+			</a>
 		</li>
 		<li <if condition="CONTROLLER_NAME eq 'Find'">class="on"</if> >
-			<a href="{:U('Find/find')}">发现</a>
+			<a href="{:U('Find/find')}">
+				<i class="find-icon"></i>
+				<span>动态</span>
+			</a>
 		</li>
 		<li>
-			<a href="{:U('shop/video/addvideo')}"><img src="__STATIC__/images/add-icon.png" /></a>
+			<a href="{:U('shop/video/addvideo')}">
+				<img src="__STATIC__/images/public/add-icon1.png" />
+			</a>
 		</li>
 		<li <if condition="CONTROLLER_NAME eq 'Cart'">class="on" </if> >
-			<a href="{:U('Sign/index')}">签到</a>
+			<a href="{:U('Shop/Cart/index')}">
+				<i class="cart-icon"></i>
+				<span>购物车</span>
+			</a>
 		</li>
 		<li <if condition="CONTROLLER_NAME eq 'User'">class="on" </if> >
-			<a href="{:U('User/index')}">我的</a>
+			<a href="{:U('User/index')}">
+				<i class="user-icon"></i>
+				<span>我</span>
+			</a>
 		</li>
 	</ul>
 </div>
