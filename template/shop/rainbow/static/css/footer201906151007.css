@@ -1,0 +1,42 @@
+
+/*底部菜单*/
+.footer_zp{
+	width: 100%;
+	height:0.8rem;
+	background: #ffffff;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	z-index: 99;
+	border-top: .01rem solid #d6d6d6;
+}
+.footer_zp ul{
+	height:100%;
+	display: -webkit-flex; 
+	display: -webkit-box; 
+	display: -moz-box; 
+	display: -ms-flexbox;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.footer_zp ul li{
+	width: 20%;
+	line-height: .8rem;
+	text-align: center;
+}
+.footer_zp ul li:nth-child(3) img{
+	width: .82rem;
+	height: .62rem;
+	margin: .1rem 0;
+}
+.footer_zp ul li a{
+	color: #5a5a5a;
+	font-size: .28rem;
+	display: block;
+}
+
+.footer_zp ul li.on a{ 
+	color: #fe0123;
+	font-size: .32rem;
+}

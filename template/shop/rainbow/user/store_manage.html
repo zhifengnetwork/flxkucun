@@ -6,17 +6,17 @@
 		<title>仓库管理</title>
 		<script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
 		<link rel="stylesheet" href="__STATIC__/css/public_lb/public.css" />
+		<link rel="stylesheet" href="__STATIC__/css/public/base.css">
 		<link rel="stylesheet" type="text/css" href="__STATIC__/css/user_zp/store_manage.css"/>
 	</head>
 	<body>
 		<div class="wrapper">
-    		<!--public head-->
-	        <div class="lb_headWrap topBox_backgroundColor">
-	            <p class="lb_headWrap_return" data-num="1" onclick="returnFun()">
-	                <img class="lb_headWrap_return_img" src="__STATIC__/images/public_lb/returnImg666_lb.png"/>
-	            </p>
-	            <span>仓库管理</span>
-	        </div>
+    		<!-- 公共头部 -->
+			<div class="header">
+				<span class="backBtn" onclick="returnFun()"></span>
+				<h1>仓库管理</h1>
+				<!-- <span class="right"></span> -->
+			</div>
 	        <!--内容-->
 	        <div class="content">
 	        	<div class="item_wrap">
@@ -32,6 +32,15 @@
 						</div>
 						<!-- 没有内容时-e- -->
 					</if>
+					<!--进货/取货按钮-->
+	        		<div class="BuyTake">
+	        			<!--进货按钮-->
+	        			<a class="buy_btn" href="{:U('User/superior_store')}"><span>进货</span></a>
+	        			<!--取货按钮-->
+	        			<a class="take_btn" href="#"><span>取货</span></a>
+	        			<!--发货按钮-->
+	        			<a class="goods_btn" href="{:U('Order/order_send')}"><span>发货</span></a>
+	        		</div>
 					<foreach name="kucun" id="v">
 						<div class="item">
 							<div class="img">
@@ -52,22 +61,12 @@
 								</div>
 							</div>
 						</div>
-					</foreach>
-	        		<!--进货/取货按钮-->
-	        		<div class="BuyTake">
-	        			<!--进货按钮-->
-	        			<a class="buy_btn" href="{:U('User/superior_store')}">进货</a>
-	        			<!--取货按钮-->
-	        			<a class="take_btn" href="#">取货</a>
-	        			<!--发货按钮-->
-	        			<a class="goods_btn" href="{:U('Order/order_send')}">发货</a>
-	        		</div>
-	        		
+					</foreach>	        		
 	        	</div>
 	        </div>
 	    </div>
 	    
 	    <script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
-		<script src="__STATIC__/js/public/public_lb.js"></script>
+		<script src="__STATIC__/js/public/public.js"></script>
 	</body>
 </html>
