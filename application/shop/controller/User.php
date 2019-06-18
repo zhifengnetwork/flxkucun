@@ -172,7 +172,7 @@ class User extends MobileBase
         $new_kucun =array();    
         $pei_parent=find_prepareuserinfo($this->user_id);
 
-       if($pei_parent==0)
+       if($pei_parent==null)
         {
             $kucun = M("goods")->alias('g')
            ->field('g.store_count as nums,g.goods_name,g.goods_id,g.shop_price,g.original_img')
@@ -183,7 +183,7 @@ class User extends MobileBase
         {
             $kucun = user_kucun($pei_parent['user_id']);
         }
-        
+
         //读取会员仓库信息
         
         //print_r($kucun);exit;
@@ -1848,7 +1848,7 @@ class User extends MobileBase
 
         $rec_id = $userMessage->where( $where)->LIMIT($page->firstRow.','.$page->listRows)->order('rec_id desc')->column('rec_id');
         $lists = $message_logic->sortMessageListBySendTime($rec_id, $type);
-
+//dump($lists);exit;
         $this->assign('lists', $lists);
         if ($_GET['is_ajax']) {
             return $this->fetch('ajax_message_detail');
