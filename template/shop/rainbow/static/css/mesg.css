@@ -1,0 +1,37 @@
+.wrapper {
+	padding-top: .88rem;
+}
+img {
+	display: block;
+	max-width: 100%;
+	height: 100%;
+}
+.mess_wrap {
+	margin: .3rem;
+}
+.box_close {
+	padding: .2rem 0;
+	border-bottom: 1px solid #e6e6e6;
+}
+.box_close .img,.right_not {
+	display: inline-block;
+	vertical-align: top;
+}
+.box_close .img {
+	width: .8rem;
+	height: .8rem;
+	border-radius: 10px;
+}
+
+.right_not {
+	margin-left: .15rem;
+}
+.name_past {
+	font-size: .3rem;
+	color: #e93380;
+}
+.news {
+	font-size: .22rem;
+	color: #808080;
+	line-height: .45rem;
+}

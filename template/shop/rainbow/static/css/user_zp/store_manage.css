@@ -15,12 +15,13 @@ img {
 }
 
 .content {
+	padding-bottom: .95rem;
 	margin: .29rem 0 0;
 }
 
 .item {
 	margin: 0 0 .2rem;
-	padding: 0 .24rem;
+	padding: .1rem .24rem;
 	border-radius: 6px;
 	background: #fff;
 }
@@ -40,6 +41,7 @@ img {
 .explain {
 	font-size: .26rem;
 	color: #333;
+	line-height: .65rem;
 	overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -58,9 +60,15 @@ img {
 	margin-right: .2rem;
 }
 .BuyTake {
-	margin: 0 auto .45rem;
+	position: fixed;
+	bottom: 0;
+	left: .65rem;
+	margin: 0 auto .35rem;
 	width: 80%;
 	text-align: center;
+}
+.BuyTake .take_btn,.goods_btn {
+	margin-left: .15rem;
 }
 .BuyTake a {
 	display: inline-block;
@@ -69,10 +77,7 @@ img {
 	color: #333;
 	text-align: center;
 	line-height: .65rem;
-}
-
-.take_btn span {
-	display: inline-block;
-	line-height: .65rem;
-	border-bottom: 4px solid #e93380;
+	background: #e93380;
+	color: #fff;
+	border-radius: 10px;
 }
