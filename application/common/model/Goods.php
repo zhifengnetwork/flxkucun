@@ -181,9 +181,9 @@ class Goods extends Model
     {
         $point_rate = tpCache('integral.point_rate');
         if ($point_rate) {
-            return $price = round($data['shop_price'] - $data['exchange_integral'] / $point_rate, 2);
+            return $price = round($data['price'] - $data['exchange_integral'] / $point_rate, 2);
         } else {
-            return $price = round($data['shop_price'] - $data['exchange_integral'] / 10, 2);
+            return $price = round($data['price'] - $data['exchange_integral'] / 10, 2);
         }
     }
 }

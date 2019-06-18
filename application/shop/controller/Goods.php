@@ -499,6 +499,12 @@ class Goods extends MobileBase
         $page = new Page($goods_list_count, 15);
         $Goods = new \app\common\model\Goods();
         $goods_list = $Goods->where($goods_where)->order($ranktype, $order)->limit($page->firstRow . ',' . $page->listRows)->select();
+
+        //获取等级价格
+        $level = session('user.level');
+        $level = null?1:$level;
+        $goods_list = getGoodsPrice($goods_list,$level);
+
         $goods_category = M('goods_category')->where(array('level' => 1))->select();
 
         $this->assign('goods_list', $goods_list);
