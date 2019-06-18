@@ -20,7 +20,7 @@
 	<div class="wrapper">
 		<!-- 公共头部 -->
 		<div class="header">
-			<h1>凡露希</h1>
+			<h1>{$tpshop_config['shop_info_store_title']}</h1>
 		</div>
 
 		<!-- 搜素 -->
@@ -121,7 +121,7 @@
 		<div class="nav-wrap">
 			<ul>
 				<li class="navItem">
-					<a href="#">
+					<a href="{:U('Shop/Sign/index')}">
 						<span><img src="__STATIC__/images/home_zp/sign-in-icon1.png"></span>
 						<span>签到</span>
 					</a>
@@ -462,6 +462,20 @@
 
 				})
 
+			})
+
+			/**
+			 * 搜索
+			 * */
+			$(function () {
+				$(".search").click(function () {
+					$(window).attr('location', ` /shop/Goods/ajaxSearch`);
+				})
+				$(document).keydown(function (event) {
+					if (event.keyCode == 13) {
+						$('.search').triggerHandler('click');
+					}
+				});
 			})
 		</script>
 </body>

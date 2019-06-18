@@ -18,19 +18,23 @@ body{
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
-.query-wrap .id{
+.id{
+	padding: 0 .24rem;
     margin-right: .33rem;
     font-size: .24rem;
+    line-height: .65rem;
+    background: #fff;
 }
 .query-wrap span{
-    width: 1.64rem;
+    width: 2.4rem;
     height: .3rem;
     line-height: .3rem;
-    border: .01rem solid #a7a7a7;
+    border: .01rem solid #ff6b87;
+    border-radius: 6px;
     display: inline-block;
     background: url(../../images/user_zp/drop-down-icon.png) no-repeat;
     background-size: .08rem .05rem;
-    background-position: 1.46rem center ;
+    background-position: 2.15rem center ;
     padding-right: .2rem;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -56,7 +60,9 @@ body{
     width: .8rem;
     height: .3rem;
     font-size: .18rem;
-    background-color: #c9e3ea;
+    background-color: #ff6b87;
+	border-radius: 4px;
+	color: #fff;
     border: none;
     outline: none;
     display: inline-block;
@@ -125,7 +131,7 @@ body{
 }
 .order-list .tbody li .box_wrap .view{
     width: 15%;
-    color: #e31a49;
+    color: #e93380;
 }
 .order-list .tbody li .box_wrap .date{
     width: 25%;
@@ -147,7 +153,6 @@ body{
 }
 .item_cont {
 	padding-bottom: .23rem;
-	border: 1px solid #dadada;
 	font-size: .2rem;
 	color: #333;
 }
@@ -160,6 +165,10 @@ body{
 	margin: 0 .2rem 0 0;
 	width: 1.41rem;
 	height: 1.41rem;
+	border-radius: 4px;
+}
+.item_cont .imgs img {
+	border-radius: 4px;
 }
 .item .imgs,.right {
 	display: inline-block;
@@ -179,18 +188,23 @@ body{
 .cost {
 	line-height: .65rem;
 }
-.money span:nth-child(1) {
+.money .ey {
 	margin-right: .25rem;
-	color: #ee1515;
+	-color: #ee1515;
 }
 .amount {
 	padding-left: .22rem;
-	line-height: .75rem;
+	line-height: .45rem;
 	font-size: .2rem;
-	color: #ee1515;
 }
-.amount span {
+.amount div:nth-child(1) {
 	margin-right: .85rem;
+	color: #333333;
+	font-size: .24rem;
+}
+.amount div:nth-child(2) {
+	color: #e93380;
+	font-size: .3rem;
 }
 /*取消/确定按钮*/
 .btn_wrap {
@@ -211,7 +225,7 @@ body{
 }
 .make_btn {
 	margin: 0 .15rem 0 .24rem;
-	background: #f80909;
+	background: #e93380;
 	color: #fff;
 }
 img {
