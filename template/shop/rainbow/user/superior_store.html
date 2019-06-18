@@ -7,6 +7,7 @@
         <script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
         <link rel="stylesheet" href="__STATIC__/css/public_lb/picker.css" />
 		<link rel="stylesheet" href="__STATIC__/css/public_lb/public.css" />
+		<link rel="stylesheet" href="__STATIC__/css/public/base.css">
 		<link rel="stylesheet" href="__STATIC__/css/user_zp/superior_store.css?v=111" />
 
 		<script src="__STATIC__/js/jquery-3.1.1.min.js"  type="text/javascript" ></script>
@@ -16,14 +17,13 @@
 	</head>
 	<body>
 		<div class="wrapper">
-			<!--public head-->
-			
-	        <div class="lb_headWrap topBox_backgroundColor">
-	            <p class="lb_headWrap_return" data-num="1" onclick="returnFun()">
-	                <img class="lb_headWrap_return_img" src="__STATIC__/images/public_lb/returnImg666_lb.png"/>
-	            </p>
-	            <span>上级仓库</span>
-            </div>
+			<!-- 公共头部 -->
+			<div class="header">
+				<span class="backBtn" onclick="returnFun()"></span>
+				<h1>上级仓库</h1>
+				<!-- <span class="right"></span> -->
+			</div>
+	
             
 			<!-- 主内容 -->
 			<div class="content">
@@ -50,9 +50,9 @@
 								<div class="line3">
 									<div class="price">￥{$v.shop_price}</div>
 									<div class="num">
-										<a href="javascript:" class="min" id="min">-</a>
+										<a href="javascript:" class="min" id="min"></a>
 										<input type="text" value="1" size="2" class="number" name='number[{$v.goods_id}]'>
-										<a href="javascript:" class="add" id="add">+</a>
+										<a href="javascript:" class="add" id="add"></a>
 									</div>
 								</div>
 							</div>
@@ -68,7 +68,6 @@
 						</div>
 						<div class="total-wrap">
 							<div class="line1">
-								<span class="not-contain">不含运费</span>
 								合计:
 								<span class="total">￥0.00</span>
 							</div>
@@ -85,7 +84,7 @@
 		</div>
 		
 	<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
-	<script src="__STATIC__/js/public/public_lb.js"></script>
+	<script src="__STATIC__/js/public/public.js"></script>
 	<script>
 		$(function(){
 			//加加

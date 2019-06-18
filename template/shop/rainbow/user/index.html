@@ -9,172 +9,164 @@
 
 	<link rel="stylesheet" type="text/css" href="__STATIC__/css/reset.css?v=222" />
     <link rel="stylesheet" type="text/css" href="__STATIC__/css/public_head.css?v=222"/>
-    <link rel="stylesheet" type="text/css" href="__STATIC__/css/user_zp/index.css?v=222"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/user_zp/index.css?v=1135"/>
 </head>
 
 <body>
 	<div class="wrapper">
-        <!--头部-->
-        <div class="headWrap">		
-            <!--<img class="lb_headWrap_return_img" src="__STATIC__/images/user_zp/shezhi@2x.png" onclick="returnFun()"/>-->
-            <span>个人中心</span>
-            <a href="{:U('User/personal')}"><img class="lb_header_righticon" src="__STATIC__/images/user_zp/shezhi@2x.png"/></a>
+        <div class="user-top">
+            <div class="avatar">
+                <img src="{$user.head_pic}" />
+                <a href="{:U('User/p_details')}"><span>完善个人资料</span></a>
+            </div>
+            <div class="user-info">
+                <span class="name">ID【{$user['user_id']}】{$user['nickname']}</span>
+                <if condition="($user.first_leader gt 0)"></if><span class="leader-name">推荐人:{$leader.nickname}-{$leader.user_id}</span></if>
+            </div>
+            <div class="user-msg">
+                <span class="level">{$level.0.level_name}</span>
+                <span class="teams-num">团队人数：10</span>
+            </div>
+            <a href="{:U('User/personal')}"><div class="set-up-btn"></div></a>
         </div>
-        
+
         <!-- 主内容 -->
         <div class="content">
-            <!-- 用户信息 -->
-            <div class="userInfo">
-                <div class="avatar"><img src="{$user.head_pic}" /></div>
-                <div class="userName">
-                    <span class="name">ID【{$user['user_id']}】{$user['nickname']}</span>
-                    <span class="sign">{$level.0.level_name}</span>
+            <!-- 我的订单 -->
+            <div class="order-area">
+                <div class="headline">
+                    <h3>我的订单</h3>
+                    <a href="{:U('Order/order_list')}"><span class="more">订单中心</span></a>
                 </div>
-                <div class="user-msg">
-                    <span><img src="__STATIC__/images/user_zp/sex-icon{$user['sex']}.png"></span>
-                    <a href="{:U('User/p_details')}"><span>完善个人资料<i></i></span></a>
-                    <span>团队人数：10</span>
-
-                    <if condition="($user.first_leader gt 0)"><span>推荐人：{$leader.nickname}--{$leader.user_id}</span></if>
-        </div>
-    </div>
-
-    <!-- 列表项 -->
-            <div class="user-list">
+                <div class="list">
+                    <div class="item">
+                        <a href="#">
+                            <span class="icon">
+                                <img src="__STATIC__/images/user_zp/dfk.png"/>
+                            </span>
+                            <span>待付款</span>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="#">
+                            <span class="icon">
+                                <img src="__STATIC__/images/user_zp/dfh.png"/>
+                            </span>
+                            <span>待发货</span>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="#">
+                            <span class="icon">
+                                <img src="__STATIC__/images/user_zp/dsh.png"/>
+                            </span>
+                            <span>待收货</span>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <a href="#">
+                            <span class="icon">
+                                <img src="__STATIC__/images/user_zp/dpj.png"/>
+                            </span>
+                            <span>待评价</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 导航菜单 -->
+            <div class="nav-wrap">
                 <ul>
-                    <if condition="($user.first_leader gt 0 OR $user.level gt 3)">
-                        <li class="list-item">
-                            <a href="{:U('Shop/User/store_manage')}">
-                                <div class="fl">
-                                    <i class="icon"><img src="__STATIC__/images/user_zp/store-icon.png"/></i>仓库管理
-                                </div>
-                                <div class="fr">
-                                    <span>待发货<i class="num">{$order_info.belowWaitSend}</i></span>
-                                </div>
-                            </a>
-                        </li>
-                    </if>
-                    <li class="list-item">
-                        <a href="{:U('Sign/index')}">
-                            <div class="fl">
-                                <i class="icon"><img src="__STATIC__/images/user_zp/sign-in-icon.png"/></i>每日签到
-                            </div>
-                            <div class="fr">
-                                <span></span>
-                            </div>
+                    <li class="navItem">
+                        <a href="{:U('Shop/User/store_manage')}">
+                            <span><img src="/template/shop/rainbow/static/images/user_zp/ckgl.png"></span>
+                            <span>仓库管理</span>
                         </a>
                     </li>
-                    <li class="list-item">
-                        <a href="{:U('User/team_data')}">
-                            <div class="fl">
-                                <i class="icon"><img src="__STATIC__/images/user_zp/tream-data-icon.png"/></i>团队数据
-                            </div>
-                            <div class="fr">
-                                <span></span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="list-item">
-                        <a href="{:U('Video/video_list')}">
-                            <div class="fl">
-                                <i class="icon"><img src="__STATIC__/images/user_zp/video-icon.png"/></i>我的视频
-                            </div>
-                            <div class="fr">
-                                <span></span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="list-item">
+                    <li class="navItem">
                         <a href="{:U('User/vite_agent')}">
-                            <div class="fl">
-                                <i class="icon"><img src="__STATIC__/images/user_zp/Invitation-icon.png"/></i>邀请代理
-                            </div>
-                            <div class="fr">
-                                <span></span>
-                            </div>
+                            <span><img src="/template/shop/rainbow/static/images/user_zp/yqdl.png"></span>
+                            <span>邀请代理</span>
                         </a>
                     </li>
-                    <li class="list-item">
-                        <a href="{:U('User/apply_grade')}">
-                            <div class="fl">
-                                <i class="icon"><img src="__STATIC__/images/user_zp/Apply-icon.png"/></i>申请等级
-                            </div>
-                            <div class="fr">
-                                <span></span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="list-item">
-                        <a href="{:U('Order/order_list')}">
-                            <div class="fl">
-                                <i class="icon"><img src="__STATIC__/images/user_zp/order-icon.png"/></i>我的订单
-                            </div>
-                            <div class="fr">
-                                <span></span>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="list-item">
+                    <li class="navItem">
                         <a href="{:U('User/wallet')}">
-                            <div class="fl">
-                                <i class="icon"><img src="__STATIC__/images/user_zp/wallet-icon.png"/></i>我的钱包
-                            </div>
-                            <div class="fr">
-                                <span></span>
-                            </div>
+                            <span><img src="/template/shop/rainbow/static/images/user_zp/wdqb.png"></span>
+                            <span>我的钱包</span>
                         </a>
                     </li>
-                    <li class="list-item">
-                        <a href="{:U('Mobile/User/message_notice')}">
-                            <div class="fl">
-                                <i class="icon"><img src="__STATIC__/images/user_zp/news-icon.png"/></i>我的消息
-                            </div>
-                            <div class="fr">
-                                <span></span>
-                            </div>
+                    <li class="navItem">
+                        <a href="{:U('Sign/index')}">
+                            <span><img src="/template/shop/rainbow/static/images/user_zp/mrqd.png"></span>
+                            <span>每日签到</span>
                         </a>
                     </li>
-                    <li class="list-item">
+                    <li class="navItem">
+                        <a href="{:U('User/apply_grade')}">
+                            <span><img src="/template/shop/rainbow/static/images/user_zp/sqdj.png"></span>
+                            <span>申请等级</span>
+                        </a>
+                    </li>
+               
+                    <li class="navItem">
+                        <a href="{:U('User/team_data')}">
+                            <span><img src="/template/shop/rainbow/static/images/user_zp/tdsj.png"></span>
+                            <span>团队数据</span>
+                        </a>
+                    </li>
+                    <li class="navItem">
+                        <a href="{:U('Video/video_list')}">
+                            <span><img src="/template/shop/rainbow/static/images/user_zp/wdsp.png"></span>
+                            <span>我的视频</span>
+                        </a>
+                    </li>
+                    <li class="navItem">
                         <a href="{:U('User/empower_vip')}">
-                            <div class="fl">
-                                <i class="icon"><img src="__STATIC__/images/user_zp/shouquan-icon.png"/></i>授权vip
-                            </div>
-                            <div class="fr">
-                                <span></span>
-                            </div>
+                            <span><img src="/template/shop/rainbow/static/images/user_zp/sq.png"></span>
+                            <span>授权VIP</span>
                         </a>
                     </li>
-                    <li class="list-item">
-                        <a href="{:U('Article/index')}">
-                            <div class="fl">
-                                <i class="icon"><img src="__STATIC__/images/user_zp/sm-icon.png"/></i>商城说明
-                            </div>
-                            <div class="fr">
-                                <span></span>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="list-item">
-                        <a href="tel:{$tpshop_config['shop_info_phone']}">
-                            <div class="fl">
-                                <i class="icon"><img src="__STATIC__/images/user_zp/sm-icon.png"/></i>客服电话
-                            </div>
-                            <div class="fr">
-                                <span style="color: #65b4e5">{$tpshop_config['shop_info_phone']}</span>
-                            </div>
-                        </a>
-                    </li>
-
                 </ul>
             </div>
+        
+            <!-- 我的消息 -->
+            <div class="news">
+                <div class="headline">
+                    <h3>我的消息</h3>
+                    <a href="{:U('Mobile/User/message_notice')}"><span class="more">消息中心</span></a>
+                </div>
+                <div class="news-list">
+                    <ul>
+                        <li><a href="#">未读消息滚动播放1</a></li>
+                        <li><a href="#">未读消息滚动播放2</a></li>
+                        <li><a href="#">未读消息滚动播放3</a></li>
+                        <li><a href="#">未读消息滚动播放4</a></li>
+                        <li><a href="#">未读消息滚动播放5</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="other-area">
+                <div class="item">
+                    <a href="#">
+                        <span class="icon"><img src="__STATIC__/images/user_zp/scsm.png"/></span>
+                        <span>商城说明</span>
+                    </a>
+                </div>
+                <div class="item">
+                   <a href="#">
+                        <span class="icon"><img src="__STATIC__/images/user_zp/kfdh.png"/></span>
+                        <span>客服电话</span>
+                   </a>
+                </div>
+            </div>
+
+            <div class="advert-wrap"></div>
 
         </div>
-
+ 
         <!--底部导航-start-->
         <include file="public/footer_nav"/>
-    		
-		
 	</div>
 	<script src="__STATIC__/js/public/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="__STATIC__/js/layer.js"  type="text/javascript" ></script>
@@ -200,6 +192,7 @@
     <script type="text/javascript">
 
 		$(function(){
+
 			$(".sign-in-zp").click(function(){
 				$(".model").show();
 				$(".dialog-sign-zp").show(100)
@@ -207,7 +200,26 @@
 			$(".model").click(function(){
 				$(".model").hide()
 				$(".dialog-sign-zp").hide(100)
-			})
+            })
+            
+            //新闻滚动效果
+            var time = setInterval(roll,3000);//单位毫秒
+            function roll(){
+                var li = $('.news-list>ul>li').eq(0);
+                li.animate({'margin-top':'-.7rem'},1500,function(){
+                    li.remove();
+                    $('.news-list ul').append(li);
+                    $('.news-list>ul>li:last').css('margin-top','0px');
+                });
+            }
+            $('.news-list').mousemove(function(){
+                clearInterval(time);
+        
+            });
+            $('.news-list').mouseout(function(){
+                time = setInterval(roll,1000);
+            });
+
 		})
 
 

@@ -17,47 +17,51 @@
 
 <body>
 	<div class="wrapper">
+		<!-- 头部搜索 -->
+		<div class="header">
+			<div class="search">
+				<form action="#">
+					<input type="button" class="searchBtn">
+					<input type="text" class="searchText" placeholder="连衣裙">
+				</form>
+			</div>
+
+			<div class="loginBtn">
+				<a href="{:U('Shop/User/index')}">
+					<img src="__STATIC__/images/home_zp/login-btn-index@2x.png" />
+				</a>
+			</div>
+		</div>
+
 		<!-- 视频轮播 -->
+		<!-- <div class="swiper-container bannerWrap">
+			<div class="swiper-wrapper">
+				<adv pid="2" limit="5" item="v">
+					<div class="swiper-slide">
+						<a href="{/'Shop/video/video_play'.$v['id']}">
+							<img src="{$v[ad_code]}" >
+							<span class="playBtn"><img src="__STATIC__/images/home_zp/playBtn-big.png" /></span>
+						</a>
+					</div>
+				</adv>
+
+			</div>
+		</div> -->
 		<div class="swiper-container bannerWrap">
 			<div class="swiper-wrapper">
 				<div class="swiper-slide">
 					<video  id="video1" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
-						loop="loop" poster="__STATIC__/images/home_zp/cover-img01.png" webkit-playsinline="">
+						loop="loop" poster="__STATIC__/images/home_zp/00video-img01.png" webkit-playsinline="">
 					</video>
-					<span class="playBtn"></span>
-					<span class="voiceBtn"></span>
+					<span class="playBtn"><img src="__STATIC__/images/home_zp/playBtn-big.png" /></span>
 				</div>
 				<div class="swiper-slide">
-					<video  id="video2" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
-						loop="loop" poster="__STATIC__/images/home_zp/cover-img01.png" webkit-playsinline="">
+					<video src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
+						loop="loop" poster="__STATIC__/images/home_zp/00video-img02.jpg" webkit-playsinline="">
 					</video>
-					<span class="playBtn"></span>
-					<span class="voiceBtn"></span>
-				</div>
-				<div class="swiper-slide">
-					<video  id="video3" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
-						loop="loop" poster="__STATIC__/images/home_zp/cover-img01.png" webkit-playsinline="">
-					</video>
-					<span class="playBtn"></span>
-					<span class="voiceBtn"></span>
-				</div>
-				<div class="swiper-slide">
-					<video  id="video4" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
-						loop="loop" poster="__STATIC__/images/home_zp/cover-img01.png" webkit-playsinline="">
-					</video>
-					<span class="playBtn"></span>
-					<span class="voiceBtn"></span>
-				</div>
-				<div class="swiper-slide">
-					<video  id="video5" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
-						loop="loop" poster="__STATIC__/images/home_zp/cover-img01.png" webkit-playsinline="">
-					</video>
-					<span class="playBtn"></span>
-					<span class="voiceBtn"></span>
+					<span class="playBtn"><img src="__STATIC__/images/home_zp/playBtn-big.png" /></span>
 				</div>
 			</div>
-			<a href="{:U('Shop/Material/index')}" class="materialLink">素材区</a>
-			<div class="swiper-pagination"></div>
 		</div>
 
 		<!-- 商品介绍 -->
@@ -67,86 +71,58 @@
                 <a href="{:U('shop/find/find_more')}" class="more"><span>查看更多</span><i></i></a>
 			</div>
 			<div class="video_list">
-					<ul>
-						<foreach name='goodsVideo' item='v' >
-							<li class="item">
-								<a href="{:U('shop/video/video_play',array('id'=>$v.goods_id))}">
-									<h3>{$v.goods_name}</h3>
-									<div class="img_wrap">
-										<if $v.original_img >
-											<img src="{$v.original_img}" height="246.41" />
-											<else/>
-											<img src="__STATIC__/images/home_zp/00product-img01.png" />
-										</if>
-										<span class="playBtn_sm">
-											<img src="__STATIC__/images/home_zp/playBtn-sm1.png" />
-										</span>
-									</div>
-								</a>
-							</li>
-						</foreach>
-					</ul>
-				</div>
-			</div>
-		
-		<!-- 用户专区 -->
-		<div class="user-area">
-			<div class="heading">
-				<h3>用户专区</h3>
-			</div>
-			<div class="list" style="height:10rem">
 				<ul>
-					<foreach name='userVideo' item='v' >
+					<foreach name='goodsVideo' item='v' >
 					<li class="item">
-						<a href="{:U('shop/video/user_video_play',array('id'=>$v.id))}">
-							<div class="img-wrap">
-								<if $v.video_img >
-									<img src="{$v.video_img}" height="246.41" />
-									<else/>
-									<img src="__STATIC__/images/home_zp/00product-img01.png" />
-								</if>
-								<span class="playBtn_sm">
-									<img src="__STATIC__/images/home_zp/playBtn-sm1.png" />
-								</span>
-							</div>
-							<div class="userInfo">
-								<div class="avatar"><img src="{$v.head_pic}"/></div>
-								<div class="text">
-									<span class="name">{$v.nickname}</span>
-									<span class="title">{$v.title}</span>
-								</div>
-								
-							</div>
-						</a>
-					</li>
-					</foreach>
-				</ul>
-			</div>
-			<!-- <div class="video_list" id="video_list">
-				<ul>
-					<foreach name='userVideo' item='v' >
-					<li class="item">
-						<a href="{:U('shop/video/user_video_play',array('id'=>$v.id))}">
+						<a href="{:U('shop/video/video_play',array('id'=>$v.goods_id))}">
 							<div class="img_wrap">
-								<if $v.video_img >
-									<img src="{$v.video_img}" height="246.41" />
+								<if $v.original_img >
+									<img src="{$v.original_img}" height="246.41" />
 									<else/>
-									<img src="__STATIC__/images/home_zp/00product-img01.png" />
+								    <img src="__STATIC__/images/home_zp/00product-img01.png" />
 								</if>
 								<span class="playBtn_sm">
 									<img src="__STATIC__/images/home_zp/playBtn-sm.png" />
 								</span>
 							</div>
-							<p>{$v.title}<i class="video_favor {$v.favor}"></i></p>
-							<div class="userInfo">
-								<span class="acatav"><img src="{$v.head_pic}"/></span>
-								<span class="name">{$v.nickname}</span>
-							</div>
+							<p>{$v.goods_name}<i class="video_favor {$v.favor} "></i></p>
 						</a>
 					</li>
 					</foreach>
 				</ul>
-			</div> -->
+			</div>
+
+			<!-- 用户专区 -->
+			<div class="video_goods">
+				<div class="heading">
+					<h3>用户专区</h3>
+				</div>
+				<div class="video_list" id="video_list">
+					<ul>
+						<foreach name='userVideo' item='v' >
+						<li class="item">
+							<a href="{:U('shop/video/user_video_play',array('id'=>$v.id))}">
+								<div class="img_wrap">
+									<if $v.video_img >
+										<img src="{$v.video_img}" height="246.41" />
+										<else/>
+										<img src="__STATIC__/images/home_zp/00product-img01.png" />
+									</if>
+									<span class="playBtn_sm">
+										<img src="__STATIC__/images/home_zp/playBtn-sm.png" />
+									</span>
+								</div>
+								<p>{$v.title}<i class="video_favor {$v.favor}"></i></p>
+								<div class="userInfo">
+									<span class="acatav"><img src="{$v.head_pic}"/></span>
+									<span class="name">{$v.nickname}</span>
+								</div>
+							</a>
+						</li>
+						</foreach>
+					</ul>
+				</div>
+			</div>
 			<div style="text-align: center;">
 				<span id="get_more" >商品加载中...</span>
 				<em id="no_more" style="display:none;">商品加载完毕...</em>
@@ -215,32 +191,6 @@
 						than.show();
 					}
 				} 
-
-				// 静音开关
-				var bool = true;
-				$(".voiceBtn").click(function(event){
-					// 取消冒泡
-					var e = window.event || event;
-					if(e.stopPropagation){
-						e.stopPropagation();
-					}else{
-						e.cancelBubble = true;
-					}
-
-					let v = $(this).parents().children('video')
-					if(bool){
-						//关闭声音
-						v[0].muted = true;
-						$(this).addClass("closing");
-						bool = false;
-					}else{
-						// 开启声音
-						v[0].muted = false;
-						$(this).removeClass("closing");
-						bool = true;
-					}
-				})
-
 			})
             /**
              * 继续加载猜您喜欢

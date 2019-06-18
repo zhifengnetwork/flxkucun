@@ -11,7 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="__STATIC__/css/reset.css?v=111" />
 	<link rel="stylesheet" type="text/css" href="__STATIC__/css/swiper.min.css?v=112" />
 	<link rel="stylesheet" href="__STATIC__/css/public/base.css">
-	<link rel="stylesheet" type="text/css" href="__STATIC__/css/index_zp.css?v=201906151053" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/index_zp.css?v=201906171700" />
 
 
 </head>
@@ -20,9 +20,7 @@
 	<div class="wrapper">
 		<!-- 公共头部 -->
 		<div class="header">
-			<!-- <span class="backBtn" onclick="returnFun()"></span> -->
 			<h1>凡露希</h1>
-			<!-- <span class="right"></span> -->
 		</div>
 
 		<!-- 搜素 -->
@@ -77,68 +75,49 @@
 
 
 		<div class="swiper-container bannerWrap">
-				<div class="swiper-wrapper">
-					<div class="swiper-slide">
-						<video  id="video1" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
-							loop="loop" poster="__STATIC__/images/home_zp/cover-img01.png" webkit-playsinline="">
-						</video>
-						<span class="playBtn"></span>
-						<span class="voiceBtn"></span>
-					</div>
-					<div class="swiper-slide">
-						<video  id="video1" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
-							loop="loop" poster="__STATIC__/images/home_zp/cover-img01.png" webkit-playsinline="">
-						</video>
-						<span class="playBtn"></span>
-						<span class="voiceBtn"></span>
-					</div>
-					<div class="swiper-slide">
-						<video  id="video1" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
-							loop="loop" poster="__STATIC__/images/home_zp/cover-img01.png" webkit-playsinline="">
-						</video>
-						<span class="playBtn"></span>
-						<span class="voiceBtn"></span>
-					</div>
-					<div class="swiper-slide">
-						<video  id="video1" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
-							loop="loop" poster="__STATIC__/images/home_zp/cover-img01.png" webkit-playsinline="">
-						</video>
-						<span class="playBtn"></span>
-						<span class="voiceBtn"></span>
-					</div>
-					<div class="swiper-slide">
-						<video  id="video1" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
-							loop="loop" poster="__STATIC__/images/home_zp/cover-img01.png" webkit-playsinline="">
-						</video>
-						<span class="playBtn"></span>
-						<span class="voiceBtn"></span>
-					</div>
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+					<video  id="video1" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
+						loop="loop" poster="__STATIC__/images/home_zp/cover-img01.png" webkit-playsinline="">
+					</video>
+					<span class="playBtn"></span>
+					<span class="voiceBtn"></span>
 				</div>
-				<a href="{:U('Shop/Material/index')}" class="materialLink">素材区</a>
-				<div class="swiper-pagination"></div>
+				<div class="swiper-slide">
+					<video  id="video1" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
+						loop="loop" poster="__STATIC__/images/home_zp/cover-img01.png" webkit-playsinline="">
+					</video>
+					<span class="playBtn"></span>
+					<span class="voiceBtn"></span>
+				</div>
+				<div class="swiper-slide">
+					<video  id="video1" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
+						loop="loop" poster="__STATIC__/images/home_zp/cover-img01.png" webkit-playsinline="">
+					</video>
+					<span class="playBtn"></span>
+					<span class="voiceBtn"></span>
+				</div>
+				<div class="swiper-slide">
+					<video  id="video1" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
+						loop="loop" poster="__STATIC__/images/home_zp/cover-img01.png" webkit-playsinline="">
+					</video>
+					<span class="playBtn"></span>
+					<span class="voiceBtn"></span>
+				</div>
+				<div class="swiper-slide">
+					<video  id="video1" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
+						loop="loop" poster="__STATIC__/images/home_zp/cover-img01.png" webkit-playsinline="">
+					</video>
+					<span class="playBtn"></span>
+					<span class="voiceBtn"></span>
+				</div>
 			</div>
+			<a href="{:U('Shop/Material/index')}" class="materialLink">素材区</a>
+			<div class="swiper-pagination"></div>
+		</div>
 
 
 		<!-- 菜单导航 -->
-		<!-- <div class="nav-wrap">
-			<ul>
-				<foreach name="cat_list" id="cat">
-					<li class="navItem">
-						<a href="{:U($cat['url'])}">
-							<span><img src="{$cat['image']}"></span>
-							<span>{$cat['name']}</span>
-						</a>
-					</li>
-				</foreach>
-				<li class="navItem">
-					<a href="{:U('Shop/User/superior_store')}">
-						<span><img src="__STATIC__/images/home_zp/store-icon.png" alt=""></span>
-						<span>仓库</span>
-					</a>
-				</li>
-			</ul>
-		</div> -->
-
 		<div class="nav-wrap">
 			<ul>
 				<li class="navItem">
@@ -173,6 +152,24 @@
 				</li>
 			</ul>
 		</div>
+		<!-- <div class="nav-wrap">
+			<ul>
+				<foreach name="cat_list" id="cat">
+					<li class="navItem">
+						<a href="{:U($cat['url'])}">
+							<span><img src="{$cat['image']}"></span>
+							<span>{$cat['name']}</span>
+						</a>
+					</li>
+				</foreach>
+				<li class="navItem">
+					<a href="{:U('Shop/User/superior_store')}">
+						<span><img src="__STATIC__/images/home_zp/store-icon.png" alt=""></span>
+						<span>仓库</span>
+					</a>
+				</li>
+			</ul>
+		</div> -->
 
 		<!-- 每日优品 -->
 		<div class="recommend-wrap">
@@ -226,6 +223,28 @@
 						</div>
 					</a>
 				</div>
+			</div>
+		</div>
+
+		<div class="picc">
+			<img src="__STATIC__/images/home_zp/picc.png" />
+		</div>
+
+		<div class="activity-zone">
+			<a href="#"><img src="__STATIC__/images/home_zp/00activity-zone-adv.png" /></a>
+		</div>
+
+		<!-- 分类专区 -->
+		<div class="area-category clearfix">
+			<div class="cate-item">
+				<a href="#">
+					<img src="__STATIC__/images/home_zp/spike-index.png" />
+				</a>
+			</div>
+			<div class="cate-item">
+				<a href="#">
+					<img src="__STATIC__/images/home_zp/spike-index.png" />
+				</a>
 			</div>
 		</div>
 
@@ -415,7 +434,34 @@
 						video.pause(); 
 						than.show();
 					}
-				} 
+				};
+
+				// 静音开关
+				var bool = true;
+				$(".voiceBtn").click(function(event){
+					// 取消冒泡
+					var e = window.event || event;
+					if(e.stopPropagation){
+						e.stopPropagation();
+					}else{
+						e.cancelBubble = true;
+					}
+
+					let v = $(this).parents().children('video')
+					if(bool){
+						//关闭声音
+						v[0].muted = true;
+						$(this).addClass("closing");
+						bool = false;
+					}else{
+						// 开启声音
+						v[0].muted = false;
+						$(this).removeClass("closing");
+						bool = true;
+					}
+
+				})
+
 			})
 		</script>
 </body>
