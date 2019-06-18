@@ -10,91 +10,56 @@
 
 	<link rel="stylesheet" type="text/css" href="__STATIC__/css/reset.css?v=111" />
 	<link rel="stylesheet" type="text/css" href="__STATIC__/css/swiper.min.css?v=111" />
-	<link rel="stylesheet" type="text/css" href="__STATIC__/css/find/find.css?v=111" />
+	<link rel="stylesheet" href="__STATIC__/css/public/base.css">
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/find/find.css?v=112" />
 
 
 </head>
 
 <body>
 	<div class="wrapper">
-		<!-- 头部搜索 -->
+		<!-- 公共头部 -->
 		<div class="header">
-			<div class="search">
-				<form action="#">
-					<input type="button" class="searchBtn">
-					<input type="text" class="searchText" placeholder="连衣裙">
-				</form>
-			</div>
-
-			<div class="loginBtn">
-				<a href="{:U('Shop/User/index')}">
-					<img src="__STATIC__/images/home_zp/login-btn-index@2x.png" />
-				</a>
-			</div>
+			<span class="backBtn" onclick="returnFun()"></span>
+			<h1>商品介绍</h1>
 		</div>
 
-		<!-- 视频轮播 -->
-		<div class="swiper-container bannerWrap">
-			<div class="swiper-wrapper">
-				<foreach name='videos' item='v' >
-				<div class="swiper-slide">
-					<a href="{/'Shop/video/video_play'.$v['id']}">
-						<img src="__STATIC__/images/home_zp/00video-img01.png" >
-						<span class="playBtn"><img src="__STATIC__/images/home_zp/playBtn-big.png" /></span>
-					</a>
+		<div class="content">			
+			<!-- 商品介绍 -->
+			<div class="video_goods">
+				<div class="video_list" id="video_list">
+					<ul >
+						<foreach name='goodsVideo' item='v' >
+						<li class="item">
+							<a href="{:U('shop/video/video_play',array('id'=>$v.goods_id))}">
+								<h3>{$v.goods_name}</h3>
+								<div class="img_wrap">
+									<if $v.original_img >
+										<img src="{$v.original_img}" height="246.41" />
+										<else/>
+										<img src="__STATIC__/images/home_zp/00product-img01.png" />
+									</if>
+									<span class="playBtn_sm">
+										<img src="__STATIC__/images/home_zp/playBtn-sm1.png" />
+									</span>
+								</div>
+							</a>
+						</li>
+						</foreach>
+					</ul>
 				</div>
-				</foreach>
-				<!-- <div class="swiper-slide">
-					<a href="{:U('Shop/video/video_play')}">
-						<img src="__STATIC__/images/home_zp/00video-img01.png" >
-						<span class="playBtn"><img src="__STATIC__/images/home_zp/playBtn-big.png" /></span>
-					</a>
+				<div style="text-align: center;">
+					<span id="get_more" >商品加载中...</span>
+					<em id="no_more" style="display:none;">商品加载完毕...</em>
 				</div>
-				<div class="swiper-slide">
-					<a href="{:U('Shop/video/video_play')}">
-						<img src="__STATIC__/images/home_zp/00video-img01.png" >
-						<span class="playBtn"><img src="__STATIC__/images/home_zp/playBtn-big.png" /></span>
-					</a>
-				</div> -->
-			</div>
-		</div>
+				<!--底部导航-start-->
+				<include file="public/footer_nav" />
 
-		<!-- 商品介绍 -->
-		<div class="video_goods">
-			<div class="title">
-                <h3>商品介绍</h3>
 			</div>
-			<div class="video_list" id="video_list">
-				<ul >
-					<foreach name='goodsVideo' item='v' >
-					<li class="item">
-						<a href="{:U('shop/video/video_play',array('id'=>$v.goods_id))}">
-							<div class="img_wrap">
-								<if $v.original_img >
-									<img src="{$v.original_img}" height="246.41" />
-									<else/>
-								    <img src="__STATIC__/images/home_zp/00product-img01.png" />
-								</if>
-								<span class="playBtn_sm">
-									<img src="__STATIC__/images/home_zp/playBtn-sm.png" />
-								</span>
-							</div>
-							<p>{$v.goods_name} <i class="video_favor {$v.favor} "></i></p>
-						</a>
-					</li>
-					</foreach>
-				</ul>
-			</div>
-			<div style="text-align: center;">
-				<span id="get_more" >商品加载中...</span>
-				<em id="no_more" style="display:none;">商品加载完毕...</em>
-			</div>
-			<!--底部导航-start-->
-			<include file="public/footer_nav" />
-
 		</div>
 	 </div>
 		<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
+		<script src="__STATIC__/js/public/public.js"></script>
 		<script src="__STATIC__/js/swiper.min.js"></script>
 	    <script type="text/javascript" src="__STATIC__/js/sourch_submit.js"></script>
 		<script>

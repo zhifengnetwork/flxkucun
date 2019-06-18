@@ -29,7 +29,7 @@ body{
     top: 0;
 }
 .header h1{
-    flex: 1;
+    width: 70%;
 	font-size: .36rem;
     text-align: center;
     font-weight: normal;
@@ -41,4 +41,9 @@ body{
 .header .right{
     font-size: .26rem;
     margin-left: .2rem;
+    position: absolute;
+    right: .3rem;
+}
+.header .right a{
+    color: #ffffff;
 }

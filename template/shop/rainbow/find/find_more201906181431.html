@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title>发现-{$tpshop_config['shop_info_store_title']}</title>
+
+	<script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
+
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/reset.css?v=111" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/swiper.min.css?v=111" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/find/find.css?v=111" />
+
+
+</head>
+
+<body>
+	<div class="wrapper">
+		<!-- 头部搜索 -->
+		<div class="header">
+			<div class="search">
+				<form action="#">
+					<input type="button" class="searchBtn">
+					<input type="text" class="searchText" placeholder="连衣裙">
+				</form>
+			</div>
+
+			<div class="loginBtn">
+				<a href="{:U('Shop/User/index')}">
+					<img src="__STATIC__/images/home_zp/login-btn-index@2x.png" />
+				</a>
+			</div>
+		</div>
+
+		<!-- 视频轮播 -->
+		<div class="swiper-container bannerWrap">
+			<div class="swiper-wrapper">
+				<foreach name='videos' item='v' >
+				<div class="swiper-slide">
+					<a href="{/'Shop/video/video_play'.$v['id']}">
+						<img src="__STATIC__/images/home_zp/00video-img01.png" >
+						<span class="playBtn"><img src="__STATIC__/images/home_zp/playBtn-big.png" /></span>
+					</a>
+				</div>
+				</foreach>
+				<!-- <div class="swiper-slide">
+					<a href="{:U('Shop/video/video_play')}">
+						<img src="__STATIC__/images/home_zp/00video-img01.png" >
+						<span class="playBtn"><img src="__STATIC__/images/home_zp/playBtn-big.png" /></span>
+					</a>
+				</div>
+				<div class="swiper-slide">
+					<a href="{:U('Shop/video/video_play')}">
+						<img src="__STATIC__/images/home_zp/00video-img01.png" >
+						<span class="playBtn"><img src="__STATIC__/images/home_zp/playBtn-big.png" /></span>
+					</a>
+				</div> -->
+			</div>
+		</div>
+
+		<!-- 商品介绍 -->
+		<div class="video_goods">
+			<div class="title">
+                <h3>商品介绍</h3>
+			</div>
+			<div class="video_list" id="video_list">
+				<ul >
+					<foreach name='goodsVideo' item='v' >
+					<li class="item">
+						<a href="{:U('shop/video/video_play',array('id'=>$v.goods_id))}">
+							<div class="img_wrap">
+								<if $v.original_img >
+									<img src="{$v.original_img}" height="246.41" />
+									<else/>
+								    <img src="__STATIC__/images/home_zp/00product-img01.png" />
+								</if>
+								<span class="playBtn_sm">
+									<img src="__STATIC__/images/home_zp/playBtn-sm.png" />
+								</span>
+							</div>
+							<p>{$v.goods_name} <i class="video_favor {$v.favor} "></i></p>
+						</a>
+					</li>
+					</foreach>
+				</ul>
+			</div>
+			<div style="text-align: center;">
+				<span id="get_more" >商品加载中...</span>
+				<em id="no_more" style="display:none;">商品加载完毕...</em>
+			</div>
+			<!--底部导航-start-->
+			<include file="public/footer_nav" />
+
+		</div>
+	 </div>
+		<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
+		<script src="__STATIC__/js/swiper.min.js"></script>
+	    <script type="text/javascript" src="__STATIC__/js/sourch_submit.js"></script>
+		<script>
+			// 首页轮播图
+			var swiper = new Swiper('.bannerWrap', {
+				loop: true,
+				pagination: '.swiper-pagination',
+				paginationClickable: true,
+				autoplay: 3000,
+				autoplayDisableOnInteraction: false
+			});
+		</script>
+		<script type="text/javascript">
+			//播放/暂停，采用同一个方法实现
+			function playPause() {
+				//获取视频DOM元素
+				var myVideo = document.getElementById("myVideo");
+				if (myVideo.paused)//判断当前是否处于暂停状态
+					myVideo.play();        //调用play()方法开发播放
+				else
+					myVideo.pause();        //调用pause()方法暂停视频播放
+			}
+			//从中间开始播放
+			function playInMid() {
+				//获取视频DOM元素
+				var myVideo = document.getElementById("myVideo");
+				//得到视频的总时长
+				var duration = myVideo.duration;
+				//得到当前的进度
+				var currentTime = myVideo.currentTime;
+				//判断是否暂停中
+				if (!myVideo.paused)
+					myVideo.pause();
+				//从总时长的一半的位置开始播放
+				myVideo.currentTime = duration / 2;
+				//继续播放视频
+				myVideo.play();
+			}
+            /**
+             * 继续加载猜您喜欢
+             * */
+            var before_request = 1; // 上一次请求是否已经有返回来, 有才可以进行下一次请求
+            var page = 1;
+            function ajax_sourch_submit() {
+                if(before_request == 0) // 上一次请求没回来 不进行下一次请求
+                    return false;
+                before_request = 0;
+                page++;
+                $.ajax({
+                    type: "get",
+                    url: "/index.php/Shop/Find/ajaxGoodsList/page/" + page,
+                    success: function(data) {
+                        if(data) {
+                            $("#video_list>ul").append(data);
+                            before_request = 1;
+                        } else {
+                            $('#get_more').hide();
+                            $('#no_more').show();
+                        }
+                    }
+                });
+            }
+		</script>
+		<script>
+			$(function () {
+				$(".bannerWrap").click(function () {
+					$(this).find(".playBtn").hide();
+					playPause();
+				})
+
+			})
+		</script>
+</body>
+</html>

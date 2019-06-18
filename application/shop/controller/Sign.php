@@ -42,6 +42,12 @@ class Sign extends MobileBase
         return $this->fetch();
     }
 
+    public function sign_rule()
+    {
+
+        return $this->fetch();
+    }
+
     public function ajaxReturn($data){
         header('Content-Type:application/json; charset=utf-8');
         exit(json_encode($data,JSON_UNESCAPED_UNICODE));
@@ -168,10 +174,8 @@ class Sign extends MobileBase
     private function check_auth($user_id)
     {
         //检查身份
-        //只有  分销 和 （购买399可以签到） 可以签到
-        //   super_nsign   用户表  = 1
-        $is_ok = M('users')->where(['user_id' => $user_id])->field('level,super_nsign')->find();
-        if ($is_ok['level'] >= 3 || $is_ok['super_nsign'] == 1) {
+        $is_ok = M('config')->where(['name' => '1sign_require_level'])->field('value')->find();
+        if ($this->user_id >= $is_ok ) {
             return 1;
         } else {
             return 0;
