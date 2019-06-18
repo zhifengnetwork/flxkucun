@@ -42,6 +42,12 @@ class Sign extends MobileBase
         return $this->fetch();
     }
 
+    public function sign_rule()
+    {
+
+        return $this->fetch();
+    }
+
     public function ajaxReturn($data){
         header('Content-Type:application/json; charset=utf-8');
         exit(json_encode($data,JSON_UNESCAPED_UNICODE));

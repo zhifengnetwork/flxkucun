@@ -261,3 +261,12 @@
     font-size: .2rem;
     display: block;
 }
+
+/* 商品介绍列表页 */
+.content{
+    padding: 1.3rem 0 1.38rem;
+    box-sizing: border-box;
+}
+.video_goods{
+    
+}

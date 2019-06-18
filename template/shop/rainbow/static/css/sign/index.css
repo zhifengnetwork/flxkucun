@@ -8,12 +8,18 @@ body {
 	touch-action: pan-y;
 }
 /*头部 背景色 -左向右渐变*/
-.topBox_backgroundColor {
-	background:-webkit-linear-gradient(left,#ffba33, #f95112);
-	background:-o-linear-gradient(right,#ffba33, #f95112);
-	background:-moz-linear-gradient(right,#ffba33, #f95112);
-	background: linear-gradient(to right,#f67b95, #f8568e);
+.backgroundColor{
+	color: #ffffff;
+	background:-webkit-gradient(linear,left top, right top,from(#ff8ea6), to(#fb6797));
+	background:-webkit-linear-gradient(left,#ff8ea6, #fb6797);
+	background:-o-linear-gradient(left,#ff8ea6, #fb6797);
+	background:linear-gradient(left,#ff8ea6, #fb6797);
 }
+.backgroundColor .backBtn{
+	background: url(../../images/public/backBtn-icon-white.png) center center no-repeat;
+    background-size: .22rem .36rem;
+}
+
 
 /*内容*/
 .content_si {
@@ -30,11 +36,15 @@ body {
 	-webkit-box-sizing: border-box;
 	width: 100%;
 	height: 4.3rem;
-	background: url(/template/shop/rainbow/static/image/lj_top_sign.jpg) no-repeat 0 0;
+	background:-webkit-gradient(linear,left top, right top,from(#ff8ea6), to(#fb6797));
+	background:-webkit-linear-gradient(left,#ff8ea6, #fb6797);
+	background:-o-linear-gradient(left,#ff8ea6, #fb6797);
+	background:linear-gradient(left,#ff8ea6, #fb6797);
+	/* background: url(/template/shop/rainbow/static/image/lj_top_sign.jpg) no-repeat 0 0;
 	background-size: cover;
 	-moz-background-size: cover;
 	-webkit-background-size: cover;
-	-o-background-size: cover;
+	-o-background-size: cover; */
 }
 .topImgBox_butBox {
 	padding-top: .2rem;
@@ -197,4 +207,24 @@ body {
 .rules p{
 	color: #666666;
 	font-size: .24rem;
+}
+
+.receive{
+	width: 100%;
+	height: 1.36rem;
+	border-radius: .1rem;
+	padding: 0 .3rem;
+	box-sizing: border-box;
+}
+.receive img{
+	width: 100%;
+}
+
+.sign-rule{
+	font-size: .28rem;
+	color: #333333;
+	text-align: center;
+	padding: 1.18rem .3rem 0 .3rem;
+	box-sizing: border-box;
+
 }

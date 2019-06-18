@@ -8,9 +8,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 		<title>签到</title>
 		<script src="__STATIC__/js/public/rem.js"></script>
-		<link rel="stylesheet" href="__STATIC__/css/public_lb/public.css?v=1553228580" />
-		<link rel="stylesheet" href="__STATIC__/css/public/base.css">
 		<link rel="stylesheet" href="__STATIC__/css/sign/index.css?v=1553228580"/>
+		<link rel="stylesheet" href="__STATIC__/css/public_lb/public.css?v=1553228580" />
 		<!--日历 css-->
     	<link rel="stylesheet" href="__STATIC__/css/sign/date.css" media="screen" title="no title" charset="utf-8">
 		<!--弹框-->
@@ -19,23 +18,16 @@
 	</head>
 	<body>
 		<!--最外边框-->
-		<div class="wrap_signin">	
-			<!-- 公共头部 -->
-			<div class="header backgroundColor">
-				<span class="backBtn" onclick="returnFun()"></span>
-				<h1>团队数据</h1>
-				<span class="right"><a href="{:U('Sign/sign_rule')}">签到规则</a></span>
-			</div>				
+		<div class="wrap_signin">					
 			<!--public head-->
-			<!-- <div class="lb_headWrap lb_headWrap_fiontWhite topBox_backgroundColor">
+			<div class="lb_headWrap lb_headWrap_fiontWhite topBox_backgroundColor">
 				<p class="lb_headWrap_return" data-num="1" onclick="returnFun()">
 					<img class="lb_headWrap_return_img" src="__STATIC__/image/lj_sign_tl.png"/>
 				</p>
 				<span>签到</span>
-				<p class="lb_headWrap_text" onclick="window.location.href='/mobile/Goods/categoryList.html'">领取产品</p>
+				<!--<p class="lb_headWrap_text" onclick="window.location.href='/mobile/Goods/categoryList.html'">领取产品</p>-->
 				<p class="lb_headWrap_text receive_button">领取产品</p>
-			</div> -->
-
+			</div>
 			<!--内容-->
 			<div class="content_si">
 				<!--背景图 box-->
@@ -60,15 +52,10 @@
 					<div class="date"></div>
 				</div>
 				
-				<!-- <div class="rules">
+				<div class="rules">
 					<h5>签到规则</h5>
 					<p>{$config['sign_rule']}</p>
-				</div> -->
-
-				<div class="receive">
-					<img src="__STATIC__/images/user_zp/ljlq-img.png" />	
 				</div>
-
 			</div>
 
 			
@@ -90,7 +77,6 @@
 					
 		<script src="__STATIC__/js/public/jquery-1.8.3.min.js?v=1553228580"></script>
 		<script src="__STATIC__/js/public/public_lb.js?v=1553228580"></script>
-		<script src="__STATIC__/js/public/public.js"></script>
 		<!--以下两个，日历js-->
 		<script src="__STATIC__/js/sign/sign.js?v=1553228580"></script>
 		<script src="__STATIC__/js/sign/DateMarker.js?v=1553228580"></script>

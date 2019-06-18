@@ -19,6 +19,12 @@ class Seckill extends MobileBase
         return $this->fetch();
     }
 
+    public function index()
+    {
+       
+        return $this->fetch();
+    }
+
     /**
      * 秒杀 倒计时    
      * 秒杀 结束
