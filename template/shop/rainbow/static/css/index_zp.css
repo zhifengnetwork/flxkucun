@@ -93,7 +93,7 @@ body{
 }
 .bannerWrap .swiper-slide{ 
     position: relative;
-    border-radius: .28rem;
+    border-radius: .3rem;
     background-color: #000;
     overflow: hidden;
 }

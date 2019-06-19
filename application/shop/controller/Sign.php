@@ -42,7 +42,15 @@ class Sign extends MobileBase
         return $this->fetch();
     }
 
+    // 签到规则
     public function sign_rule()
+    {
+
+        return $this->fetch();
+    }
+
+    // 积分兑换列表页
+    public function exchange()
     {
 
         return $this->fetch();

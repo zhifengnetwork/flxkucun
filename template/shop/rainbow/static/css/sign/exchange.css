@@ -25,7 +25,7 @@
     transform: scale(1.2);
 }
 
-/* 秒杀列表 */
+/* 列表 */
 .single-item{
     width: 100%;
     height: 2.3rem;
@@ -52,8 +52,9 @@
 }
 .single-item .text h3{
     width: 4.4rem;
+    line-height: .34rem;
     font-size: .3rem;
-    margin-bottom: .12rem;
+    margin-bottom: .1rem;
     white-space:nowrap;
     text-overflow:ellipsis;
     overflow:hidden;
@@ -93,11 +94,12 @@
 }
 
 .single-item .text .price{
-    margin-top: .5rem;
+    margin-top: .25rem;
+    margin-bottom: .1rem;
 }
 
 .single-item .text .price .discount-price{
-    color: #ff6b87;
+    color: #e93380;
     font-size: .32rem;
 }
 
@@ -105,6 +107,10 @@
     font-size: .22rem;
     color:#333333;
     text-decoration: line-through;
+}
+.single-item .text .quota{
+    font-size: .22rem;
+    color: #333333;
 }
 
 .single-item .buyBtn{
