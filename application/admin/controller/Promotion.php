@@ -628,7 +628,8 @@ class Promotion extends Base
             foreach($userlevel as $v){
                 $one_commission = I("post.num1_{$v['level']}/f",0);    
                 $tow_commission = I("post.num2_{$v['level']}/f",0);    
-                $not_money = I("post.price1_{$v['level']}/f",0);     
+                $not_money1 = I("post.price1_{$v['level']}/f",0);
+                $not_money2 = I("post.price2_{$v['level']}/f",0);       
                 if($one_commission > $data['price']){
                     $return = ['status' => 0, 'msg' => "{$v['level_name']} 一件佣金不能大于抢购价", 'result' =>'' ];
                     $this->ajaxReturn($return); 
@@ -637,19 +638,24 @@ class Promotion extends Base
                     $return = ['status' => 0, 'msg' => "{$v['level_name']} 两件佣金不能大于抢购价", 'result' =>'' ];
                     $this->ajaxReturn($return); 
                 }
-                if($not_money > $one_commission){
-                    $return = ['status' => 0, 'msg' => "{$v['level_name']} 不可提现金额不能大于一件佣金", 'result' =>'' ];
+                if($not_money1 > $one_commission){
+                    $return = ['status' => 0, 'msg' => "{$v['level_name']} 一件不可提现金额不能大于一件佣金", 'result' =>'' ];
+                    $this->ajaxReturn($return); 
+                }
+                if($not_money2 > $tow_commission){
+                    $return = ['status' => 0, 'msg' => "{$v['level_name']} 两件不可提现金额不能大于两件佣金", 'result' =>'' ];
                     $this->ajaxReturn($return); 
                 }
 
-                $arr1 = ['one_commission'=>$one_commission,'tow_commission'=>$tow_commission,'not_money'=>$not_money,'level'=>$v['level']];
+                $arr1 = ['one_commission'=>$one_commission,'tow_commission'=>$tow_commission,'not_money1'=>$not_money1,'level'=>$v['level'],'not_money2'=>$not_money2];
                 $arr[] = $arr1;
                 $level = $v['level'];
                 $level_name = $v['level_name'];
             }
             $one_commission = I("post.numm1_{$level}/f",0);    
             $tow_commission = I("post.numm2_{$level}/f",0);    
-            $not_money = I("post.pricem1_{$level}/f",0);     
+            $not_money1 = I("post.pricem1_{$level}/f",0);     
+            $not_money2 = I("post.pricem2_{$level}/f",0);  
             if($one_commission > $data['price']){
                 $return = ['status' => 0, 'msg' => "{$level_name}（第二级） 一件佣金不能大于抢购价", 'result' =>'' ];
                 $this->ajaxReturn($return); 
@@ -658,16 +664,16 @@ class Promotion extends Base
                 $return = ['status' => 0, 'msg' => "{$level_name}（第二级） 两件佣金不能大于抢购价", 'result' =>'' ];
                 $this->ajaxReturn($return); 
             }
-            if($not_money > $one_commission){
-                $return = ['status' => 0, 'msg' => "{$level_name}（第二级） 不可提现金额不能大于一件佣金", 'result' =>'' ];
+            if($not_money1 > $one_commission){
+                $return = ['status' => 0, 'msg' => "{$level_name}（第二级）  一件不可提现金额不能大于一件佣金", 'result' =>'' ];
                 $this->ajaxReturn($return); 
             }
-            if($not_money > $tow_commission){
-                $return = ['status' => 0, 'msg' => "{$level_name}（第二级） 不可提现金额不能大于两件佣金", 'result' =>'' ];
+            if($not_money2 > $tow_commission){
+                $return = ['status' => 0, 'msg' => "{$level_name}（第二级） 两件不可提现金额不能大于两件佣金", 'result' =>'' ];
                 $this->ajaxReturn($return); 
             }
 
-            $arr1 = ['one_commission'=>$one_commission,'tow_commission'=>$tow_commission,'not_money'=>$not_money,'level'=>'-'.$level];
+            $arr1 = ['one_commission'=>$one_commission,'tow_commission'=>$tow_commission,'not_money'=>$not_money,'level'=>'-'.$level,'not_money2'=>$not_money2];
             $arr[] = $arr1;            
 
             if (empty($data['id'])) {

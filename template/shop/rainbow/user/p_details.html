@@ -54,10 +54,23 @@
 								</div>
 							</a>
 					</li>
+
 					<li>
-						<a href="modify.html">
+						<a href="modify/name/realname/user_id/{$user.user_id}">
 							<div class="lj_main_d_div">
-								<p>名称</p>
+								<p>真实名称</p>
+								<div class="lj_list_r">
+									<p>{$user.realname}</p>
+									<img class="lj_list_r_img2" src="__STATIC__/image/lj_userinfo_r.png" />
+								</div>
+							</div>
+						</a>
+					</li>
+
+					<li>
+						<a href="modify/name/nickname/user_id/{$user.user_id}">
+							<div class="lj_main_d_div">
+								<p>昵称</p>
 								<div class="lj_list_r">
 									<p>{$user.nickname}</p>
 									<img class="lj_list_r_img2" src="__STATIC__/image/lj_userinfo_r.png" />
@@ -76,6 +89,7 @@
 							</div>
 						</a>						
 					</li>
+					<!--
 					<li>
 						<p>出生日期</p>
 						<div class="lj_list_r">
@@ -84,6 +98,7 @@
 							<img class="lj_list_r_img2" src="__STATIC__/image/lj_userinfo_r.png" />
 						</div>
 					</li>
+					-->
 				</ul>
 				
 			</div>

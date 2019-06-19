@@ -733,14 +733,16 @@ class FanliLogic extends Model
 		$desc = "下级秒杀".$this->goodNum.'件返利';
 		if($this->goodNum == 1){
 			$commission = $commissioninfo['one_commission'];
+			$not_money  = $commissioninfo['not_money1'];
 		}elseif($this->goodNum == 2){
 			$commission = $commissioninfo['tow_commission'];
+			$not_money  = $commissioninfo['not_money2'];
 		}
 		if(!$commission)return;
 		$Users = M('Users');
-		$log = $this->writeLog($user_id,($commission-$commissioninfo['not_money']),$desc,status,$commissioninfo['not_money']); 
-		$Users->where(['user_id'=>$user_id])->setInc('user_money',$commission-$commissioninfo['not_money']);
-		$Users->where(['user_id'=>$user_id])->setInc('frozen_money',$commissioninfo['not_money']);		
+		$log = $this->writeLog($user_id,($commission-$not_money),$desc,status,$not_money); 
+		$Users->where(['user_id'=>$user_id])->setInc('user_money',$commission-$not_money);
+		$Users->where(['user_id'=>$user_id])->setInc('frozen_money',$not_money);		
 	}
 
 	//多返一级
