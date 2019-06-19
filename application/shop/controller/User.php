@@ -133,7 +133,7 @@ class User extends MobileBase
     // 邀请代理
     public function vite_agent()
     {   
-        if(!file_exists("public/upload/zhengshu/users/{$this->user_id}.jpg")){
+        //if(!file_exists("public/upload/zhengshu/users/{$this->user_id}.jpg")){
             \think\Image::open('public/upload/zhengshu/zhengshu.jpg')->text($this->user['nickname'],'hgzb.ttf',32,'#000000',[505,540])->save("public/upload/zhengshu/users/{$this->user_id}.jpg"); 
 
             $level_name = M('User_level')->where(['level'=>$this->user['level']])->value('level_name');
@@ -144,7 +144,7 @@ class User extends MobileBase
 
             if($this->user['mobile'])
             \think\Image::open("public/upload/zhengshu/users/{$this->user_id}.jpg")->text($this->user['mobile'],'hgzb.ttf',30,'#000000',[530,1250])->save("public/upload/zhengshu/users/{$this->user_id}.jpg");    
-        }
+        //}
 
         $levlist = M('user_level')->field('id,level,level_name')->where(['level' => ['elt', $this->user['level']]])->select();
         $this->assign('levlist', $levlist);

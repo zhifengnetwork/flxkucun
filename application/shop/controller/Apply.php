@@ -150,7 +150,7 @@ class Apply extends MobileBase
 		$typemsg = ($type == 1) ? '邀请' : '申请';
 
 		$model = ($type == 1) ? M('Apply') : M('Apply_for');
-		$applyinfo = $model->find($id);	
+		$applyinfo = $model->find($applyid);	
 		if(!$applyinfo)$this->ajaxReturn(['status' => -1, 'msg' => "无此次$typemsg"]);
 		if($applyinfo['uid'] != $this->user_id)$this->ajaxReturn(['status' => -1, 'msg' => "您无权限查看此$typemsg"]);
 		if($applyinfo['status'] != 0)$this->ajaxReturn(['status' => -1, 'msg' => '此'.$typemsg.'您已处理过啦']);
