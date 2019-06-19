@@ -279,6 +279,10 @@ body{
     font-size: .3rem;
     color: #ec6f88;
 }
+.recommend-list .single-item .text .spell-num{
+    font-size: .22rem;
+    line-height: .32rem;
+}
 
 .picc{
     margin: .2rem auto;
@@ -392,10 +396,7 @@ body{
 .hot-list .single-item .text .original-price{
     font-size: .22rem;
 }
-.hot-list .single-item .text .spell-num{
-    font-size: .22rem;
-    line-height: .32rem;
-}
+
 .hot-list .single-item .text .buy-btn{
     width: 1.38rem;
     height: .6rem;

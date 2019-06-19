@@ -25,6 +25,14 @@
     transform: scale(1.2);
 }
 
+.shop-coupon{
+    height: .44rem;
+    line-height: .44rem;
+    font-size: .22rem;
+    color: #e93380;
+    text-align: right;
+}
+
 /* 列表 */
 .single-item{
     width: 100%;

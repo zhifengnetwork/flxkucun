@@ -11,7 +11,8 @@
     position: relative;
 }
 .user-top .avatar{
-    width: 1.2rem;
+    width: 1.3rem;
+    text-align: center;
     margin-right: .2rem;
 }
 .user-top .avatar img{
@@ -68,7 +69,7 @@
     position: relative;
     top: -.55rem;
     z-index: 3;
-    padding: 0 0.3rem;
+    padding: 0 0.3rem 1.18rem;
     box-sizing: border-box;
 }
 
