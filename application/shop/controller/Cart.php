@@ -567,12 +567,15 @@ class Cart extends MobileBase {
             $data =I('post.');
             if(!empty($data))
             {
-                
               
                 $goods_data_ids = $data['goods_ids'];//id
                 $goods_data_number = $data['number'];//数量   
                 $goods_data_checkItem = $data['checkItem'];
                 $pei_parent =$data['pei_parent'];
+                if(!$pei_parent){
+                    $pei_parent =$this->user['first_leader'];
+                }
+                
                 foreach($goods_data_ids as $k=>$v)
                 {
                     if(!empty($goods_data_checkItem[$k]))
@@ -586,37 +589,28 @@ class Cart extends MobileBase {
                                 return  $this->ajaxReturn($message);
                                  break;
                             }
-
                         }else
                         {
+                            $warehouse_goods_list = M("warehouse_goods")->alias('wg')
+                                                    ->field('wg.nums,g.goods_name,g.goods_id,g.shop_price,g.original_img')
+                                                // ->join('users u','wg.user_id=u.user_id','LEFT')
+                                                    ->join('goods g','wg.goods_id=g.goods_id','LEFT')
+                                                    ->where(['wg.user_id'=>$pei_parent,'g.goods_id'=>$goods_data_ids[$k]])
+                                                    ->find();
                             
-                                    $warehouse_goods_list = M("warehouse_goods")->alias('wg')
-                            ->field('wg.nums,g.goods_name,g.goods_id,g.shop_price,g.original_img')
-                             // ->join('users u','wg.user_id=u.user_id','LEFT')
-                            ->join('goods g','wg.goods_id=g.goods_id','LEFT')
-                            ->where(['wg.user_id'=>$pei_parent,'g.goods_id'=>$goods_data_ids[$k]])->find();
-                          // var_dump($warehouse_goods_list );exit;
-
-                              if($warehouse_goods_list['nums']<$goods_data_number[$k])
+                            if($warehouse_goods_list['nums']<$goods_data_number[$k])
                             {
                                 $message =['status' => 0, 'msg' => '商品库存数量不够'];
                                 return  $this->ajaxReturn($message);
-                                 break;
+                                break;
                             }
-
                         }
-                        
-                                   
                     }
-
-
                 }
-
-                
             }
 
-                $message =['status' => 1, 'msg' => '加入购物车成功'];
-                return  $this->ajaxReturn($message);
+            $message =['status' => 1, 'msg' => '加入购物车成功'];
+            return  $this->ajaxReturn($message);
                         
 
             
