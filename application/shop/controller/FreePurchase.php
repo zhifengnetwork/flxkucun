@@ -14,4 +14,8 @@ class FreePurchase extends MobileBase
        
         return $this->fetch();
     }
+    public function free_details(){
+       
+        return $this->fetch();
+    }
 }
