@@ -166,8 +166,8 @@ class Distribut extends Base {
         //     }
         // }
 
-        // $config['qr_back'] = M('config')->where(['name'=>'qr_back'])->value('value');
-        // $this->assign('config',$config);
+        // $['qr_back'] = M('')->where(['name'=>'qr_back'])->value('value');
+        // $this->assign('',$);
         // $this->assign('rate', $distribut['rate']);
         // return $this->fetch();
         
