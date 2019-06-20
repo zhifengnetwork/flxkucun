@@ -112,6 +112,13 @@ return array(
             array('name' => '音频列表', 'act' => 'audio_list', 'op' => 'Audio'),
             array('name' => '音频类别', 'act' => 'audio_type_list', 'op' => 'Audio'),
         )),
+        array('name' => '首页活动专区图片', 'child' => array(
+            array('name' => '图片设置', 'act' => 'img_set', 'op' => 'ActivityImg'),
+        )),
+        array('name' => '素材专区', 'child' => array(
+            array('name' => '素材专区分类', 'act' => 'material_zone_cate_list', 'op' => 'MaterialZone'),
+            array('name' => '素材专区列表', 'act' => 'material_zone_list', 'op' => 'MaterialZone'),
+        )),
         array('name' => '文章', 'child' => array(
             array('name' => '文章列表', 'act' => 'articleList', 'op' => 'Article'),
             array('name' => '文章分类', 'act' => 'categoryList', 'op' => 'Article'),
