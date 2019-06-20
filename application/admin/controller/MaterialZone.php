@@ -58,9 +58,9 @@ class MaterialZone extends Base {
 
 		if($res){
 			$this->ajaxReturn(['status' => 1, 'msg' => '删除成功！']);
-		}else{
-			$this->ajaxReturn(['status' => 0, 'msg' => '删除失败！']);
 		}
+		
+		$this->ajaxReturn(['status' => 0, 'msg' => '删除失败！']);
 	}
 
 	public function cate_sort(){
@@ -75,156 +75,149 @@ class MaterialZone extends Base {
 		}
 	}
 
+	public function material_zone_list(){
+		$where = [];
+        $pageParam = ['query' => []];
+
+		$list = Db::name('material_zone')->alias('mz')
+				->join('material_zone_cate mzc','mzc.cat_id=mz.cat_id','LEFT')
+				->where($where)
+				->field('mz.*,mzc.cat_name')
+				->order('mz.sort DESC,id DESC')
+				->paginate(10,false,$pageParam);
+
+		return $this->fetch('',[
+			'list'	=>	$list,
+		]);
+
+	}
+
+	public function add(){
+		$id = input('id');
+
+		if(request()->isPost()){
+			$data = input('post.');
+
+			if(!$data['name']){
+				$this->ajaxReturn(['status' => 0, 'msg' => '名字必须填写！']);
+			}
+
+			if(!$data['cat_id']){
+				$this->ajaxReturn(['status' => 0, 'msg' => '分类必须选择！']);
+			}
+
+			if($id){
+				$res = Db::name('material_zone')->strict(false)->update($data);
+
+				//组图
+				if( isset($data['img']) && !empty($data['img'][0])){
+					foreach ($data['img'] as $key => $value) {
+						$saveName = $data['add_time'].rand(0,99999) . '.png';
+
+						$img=base64_decode($value);
+						//生成文件夹
+						$names = "material_zone" ;
+						$name = "material_zone/" .date('Ymd',$data['add_time']) ;
+						if (!file_exists(ROOT_PATH .'/public/upload/'.$names)){ 
+							mkdir(ROOT_PATH .'/public/upload/'.$names,0777,true);
+						}
+						//保存图片到本地
+						file_put_contents(ROOT_PATH .'/public/upload/'.$name.$saveName,$img);
+
+						unset($data['img'][$key]);
+						$data['img'][] = '/public/upload/'.$name.$saveName;
+					}
+					$data['img'] = array_values($data['img']);
+					
+					foreach ($data['img'] as $key => $value) {
+						$datas[$key]['img'] = $value;
+						$datas[$key]['mz_id'] = $id;
+					}
+					Db::name('material_zone_img')->insertAll($datas);
+				}
+			}else{
+				$data['add_time'] = time();
+
+				$res = Db::name('material_zone')->strict(false)->insertGetId($data);
+				if($res){
+					//组图
+					if( isset($data['img']) && !empty($data['img'][0])){
+						foreach ($data['img'] as $key => $value) {
+							$saveName = $data['add_time'].rand(0,99999) . '.png';
+	
+							$img=base64_decode($value);
+							//生成文件夹
+							$names = "material_zone" ;
+							$name = "material_zone/" .date('Ymd',$data['add_time']) ;
+							if (!file_exists(ROOT_PATH .'/public/upload/'.$names)){ 
+								mkdir(ROOT_PATH .'/public/upload/'.$names,0777,true);
+							}
+							//保存图片到本地
+							file_put_contents(ROOT_PATH .'/public/upload/'.$name.$saveName,$img);
+	
+							unset($data['img'][$key]);
+							$data['img'][] = '/public/upload/'.$name.$saveName;
+						}
+						$data['img'] = array_values($data['img']);
+						
+						foreach ($data['img'] as $key => $value) {
+							$datas[$key]['img'] = $value;
+							$datas[$key]['mz_id'] = $res;
+						}
+						Db::name('material_zone_img')->insertAll($datas);
+					}
+				}
+			}
 
 
-	public function materialList(){//素材列表
-	if($_POST){
-		$id = input('cat_id/s');
-		$search = input('search/s');
-		if($id==1){
-			$where = "title like '%$search%'";
-		}elseif($id==2){
-			$where = "cat_name like '%$search%'";
+			if($res !== false){
+				$this->ajaxReturn(['status' => 1, 'msg' => '成功！']);
+			}else{
+				$this->ajaxReturn(['status' => 0, 'msg' => '失败！']);
+			}
+
 		}
-	}
-	$count = M('material')->join('tp_material_cat','tp_material.cat_id=tp_material_cat.cat_id')->where($where)->count();
-	$page = new Page($count,10);
-	$list = M('material')->join('tp_material_cat','tp_material.cat_id=tp_material_cat.cat_id')->where($where)->order('tp_material.material_id','desc')->limit($Page->firstRow.','.$Page->listRows)->select();
-	$this->assign('page',$page);
-	$this->assign('list',$list);
-	return $this->fetch();
-	}
-	
-	
-	public function materialClass(){//素材分类列表
-	$count = Db::name('material_cat')->count();
-	$page = new Page($count,10);
-	$class = Db::name('material_cat')->limit("$Page->firstRow,$Page->listRows")->select();
-	$this->assign('page',$page);
-	$this->assign('cat_list',$class);
-	return $this->fetch();
-	}
-	
-	public function mOperate($material_id=""){//素材编辑列表
-	$class = M('material_cat')->select();
-	$this->assign('class',$class);
-	if($material_id>0){
-		$gain = M('material')->where('material_id',$material_id)->select();
-		$this->assign('info',$gain[0]);
-	}
-	
-	if($_POST){
-		$material_id = I('material_id');
-		
-		$title = I('title');
-		$thumb = I('thumb');
-		$cat_id = I('cat_id');
-		$video_type = I('video_type');
-		$video = I('video');
-		$is_open = I('is_open');
-		$describe = I('describe');
-		$content = I('content');
-		$data = array(
-			'title'=>$title,
-			'thumb'=>$thumb,
-			'cat_id'=>$cat_id,
-			'video_type'=>$video_type,
-			'video'=>$video,
-			'is_open'=>$is_open,
-			'describe'=>$describe,
-			'content'=>$content
-		);
-		if($title==""){
-			$this->ajaxReturn(['status' => 0, 'msg' => '请填写标题！']);
-		}elseif($cat_id==0){
-			$this->ajaxReturn(['status' => 0, 'msg' => '请选择分类,没有请先添加！']);
-		}elseif($content==""){
-			$this->ajaxReturn(['status' => 0, 'msg' => '请填写内容！']);
-		}elseif($video!=""&&$video_type==0){
-			$this->ajaxReturn(['status' => 0, 'msg' => '请选择视频类别！']);
-		}elseif($material_id>0){
-			$res = M('material')->data($data)->where('material_id',$material_id)->save();
-			$msg = "您没有修改信息！";
-		}else{
-			$data['add_time'] = time();
-			$res = M('material')->insert($data);
-			$msg = "参数错误！";
-		}
-		if($res>0){
-			$this->ajaxReturn(['status' => 1, 'msg' => '操作成功！']);
-		}else{
-			$this->ajaxReturn(['status' => 0, 'msg' => $msg]);
-		}
-	}
-	
-	return $this->fetch();
-	}
-	
-	public function mClassadd($cat_id=""){//素材分类编辑表
-	if($cat_id>0){
-		$red = M('material_cat')->where('cat_id',$cat_id)->select();
-		$this->assign('cat_info',$red[0]);
-	}
-	
-	if($_POST){
-		$cat_id = I('cat_id');
-		
-		$cat_name = I('cat_name');
-		$show_in_nav = I('show_in_nav');
-		$sort_order = I('sort_order');
-		$cat_desc = I('cat_desc');
-		if($sort_order==""){
-			$sort_order = 50;
-		}
-		$data = array(
-			'cat_name'=>$cat_name,
-			'show_in_nav'=>$show_in_nav,
-			'sort_order'=>$sort_order,
-			'cat_desc'=>$cat_desc
-		);
-		if($cat_name==""){
-			$this->ajaxReturn(['status' => 0, 'msg' => '请填写分类名称！']);
-		}
-		if($cat_id>0){
-			$res = M('material_cat')->data($data)->where('cat_id',$cat_id)->save();
-			$msg = "您没有修改信息！";
-		}else{
-			$res = M('material_cat')->insert($data);
-			$msg = "参数错误!";
-		}
-		if($res>0){
-			$this->ajaxReturn(['status' => 1, 'msg' => '操作成功！']);
-		}else{
-			$this->ajaxReturn(['status' => 0, 'msg' => $msg]);
-		}
-	}
-	
-	return $this->fetch();
-	}
-	
-	public function del(){//删除操作
-	$cat_id = I('cat_id');
-	if($cat_id>0){
-		$judge = Db::query("SELECT count(*) from tp_material,tp_material_cat where tp_material.cat_id=tp_material_cat.cat_id and tp_material.cat_id=$cat_id");
-		if($judge!=0){
-			$this->ajaxReturn(['status' => 0, 'msg' => '该分类下有素材，不允许删除，请先删除该分类下的素材！']);
-		}else{
-			$del = M('material_cat')->where('cat_id',$cat_id)->delete();
-			$this->ajaxReturn(['status' => 1]);
+
+		$info = [];
+		$img_arr = [];
+		if($id){
+			$info = Db::name('material_zone')->find($id);
+			$img_arr = Db::name('material_zone_img')->where('mz_id',$id)->select();
 		}
 		
-	}else{
-		$this->ajaxReturn(['status' => 0, 'msg' => '参数错误！']);
+		$cat_list = Db::name('material_zone_cate')->order('sort DESC,cat_id DESC')->select();
+
+		return $this->fetch('',[
+			'info'	=>	$info,
+			'cat_list'	=>	$cat_list,
+			'img_arr'	=>	$img_arr,
+		]);
+
 	}
-	}
-	
-	public function listdel(){
-		$material_id = I('material_id');
-		if($material_id>0){
-			$del = M('material')->where('material_id',$material_id)->delete();
-			$this->ajaxReturn(['status' => 1]);
-		}else{
-			$this->ajaxReturn(['status' => 0, 'msg' => $material_id]);
+
+	public function del(){
+		$id = input('id');
+
+		$res = Db::name('material_zone')->where('id',$id)->delete();
+
+		if($res){
+			Db::name('material_zone_img')->where('mz_id',$id)->delete();
+			$this->ajaxReturn(['status' => 1, 'msg' => '删除成功！']);
 		}
+
+		$this->ajaxReturn(['status' => 0, 'msg' => '删除失败！']);
 	}
+
+	public function del_img(){
+		$id = input('id');
+		$res = Db::name('material_zone_img')->find();
+		if($res){
+			Db::name('material_zone_img')->where('id',$id)->delete();
+			@unlink($res['img']);
+			$this->ajaxReturn(['status' => 1, 'msg' => '删除成功！']);
+		}
+		$this->ajaxReturn(['status' => 0, 'msg' => '删除失败！']);
+	}
+
+
 }

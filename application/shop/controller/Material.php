@@ -17,6 +17,28 @@ class Material extends MobileBase {
      * @time 2019-3
      */
     public function index(){  
+        $cat_id = input('cat_id');
+
+        $cat_list = Db::name('material_zone_cate')->order('sort DESC,cat_id DESC')->select();
+
+        if(!$cat_id){
+            $cat_id = $cat_list[0]['cat_id'];
+        }
+
+        $list = Db::name('material_zone')->where('cat_id',$cat_id)->order('sort DESC,id DESC')->select();
+
+
+        foreach($list as $key=>$value){
+            $list[$key]['img_arr'] = Db::name('material_zone_img')->where('mz_id',$value['id'])->select();
+        }
+
+        return $this->fetch('',[
+            'cat_list'  =>  $cat_list,
+            'list'      =>  $list,
+            'cat_id'    =>  $cat_id,
+        ]);
+
+        die;
         // 获取素材分类渲染到页面
         $catWhere = " show_in_nav=1";
         $category = M('material_cat')->field('cat_id, cat_name')->where($catWhere)->order('sort_order')->select();   
