@@ -7,6 +7,76 @@ use think\Db;
 
 
 class MaterialZone extends Base {
+
+	public function material_zone_cate_list(){
+		$list = Db::name('material_zone_cate')->order('sort DESC,cat_id DESC')->select();
+		return $this->fetch('',[
+			'list'	=>	$list,
+		]);
+
+	}
+
+	public function add_cate(){
+
+		$cat_id = input('cat_id');
+
+		if(request()->isPost()){
+			$data = input('post.');
+			
+			if(!$data['cat_name']){
+				$this->ajaxReturn(['status' => 0, 'msg' => '分类名称必须填写！']);
+			}
+
+			if($cat_id){
+				$res = Db::name('material_zone_cate')->update($data);
+			}else{
+				$res = Db::name('material_zone_cate')->insert($data);
+			}
+
+			if($res !== false){
+				$this->ajaxReturn(['status' => 1, 'msg' => '成功！']);
+			}else{
+				$this->ajaxReturn(['status' => 0, 'msg' => '失败！']);
+			}
+		}
+
+		$info = [];
+		if($cat_id){
+			$info = Db::name('material_zone_cate')->find($cat_id);
+		}
+		
+		return $this->fetch('',[
+			'info'	=>	$info,
+		]);
+
+	}
+
+	public function cate_del(){
+		$cat_id = input('cat_id');
+
+		$res = Db::name('material_zone_cate')->where('cat_id',$cat_id)->delete();
+
+		if($res){
+			$this->ajaxReturn(['status' => 1, 'msg' => '删除成功！']);
+		}else{
+			$this->ajaxReturn(['status' => 0, 'msg' => '删除失败！']);
+		}
+	}
+
+	public function cate_sort(){
+		$data = input('post.');
+
+		$res = Db::name('material_zone_cate')->update($data);
+
+		if($res){
+			$this->ajaxReturn(['status' => 1, 'msg' => '更新成功！']);
+		}else{
+			$this->ajaxReturn(['status' => 0, 'msg' => '更新失败！']);
+		}
+	}
+
+
+
 	public function materialList(){//素材列表
 	if($_POST){
 		$id = input('cat_id/s');
