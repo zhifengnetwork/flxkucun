@@ -1,0 +1,126 @@
+.content{
+    padding: 1.3rem .3rem 0;
+    box-sizing: border-box;
+}
+.banner-wrap{
+    width: 6.9rem;
+    height: 2.5rem;
+    border-radius: .24rem;
+    overflow: hidden;
+    margin-bottom: .54rem;
+}
+.banner-wrap img{
+    width: 100%;
+}
+.banner-wrap .swiper-pagination{
+    bottom: .05rem;
+}
+.banner-wrap  .swiper-pagination-bullet{
+    width: .1rem;
+    height: .1rem;
+    opacity: 1;
+    background-color: #e93380;
+}
+.banner-wrap  .swiper-pagination-bullet-active{
+    transform: scale(1.2);
+}
+
+
+/* 公共标题 */
+.headline{
+    width: 100%;
+    margin-bottom: .15rem;
+}
+.headline h3{
+    color: #ff6b87;
+    font-size: .36rem;
+    font-weight: normal;
+    float: left;
+}
+.headline a{
+    float: right;
+    font-size: .26rem;
+    color: #cccccc;
+    margin-top: .1rem;
+}
+.headline .more{
+    min-width: .14rem;
+    min-height: .22rem;
+    background: url(../../images/user_zp/right-arrow2.png) no-repeat right center;
+    background-size: .14rem .22rem;
+    padding-right: .22rem;;
+}
+
+/* 课程分类 */
+.cate-item{
+    margin-bottom: .5rem;
+}
+.cate-item .course-item{
+    height: 2.3rem;
+    border-radius: .12rem;
+    background-color: #f7f7f7;
+    overflow: hidden;
+    position: relative;
+}
+.cate-item .course-item p{
+    width: 100%;
+    height: .5rem;
+    line-height: .5rem;
+    text-align: right;
+    background-color: #e93380;
+    padding: 0 .36rem;
+    box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+.cate-item .course-item p a{
+    color: #ffffff;
+    font-size: .28rem;
+}
+
+/* 音频 */
+.audio-wrap{
+    width: 100%;
+    height: 1rem;
+    background-color: #e93380;
+    border-radius: .12rem;
+    padding: .1rem .4rem .1rem .1rem;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+}
+.audio-wrap .thumb{
+    width: .8rem;
+    height: .8rem;
+    background-color: #a2a2a2;
+    border-radius: .1rem;
+    overflow: hidden;
+    margin-right: .12rem;
+}
+.audio-wrap .thumb img{
+    width: 100%;
+}
+.audio-wrap .text{
+    flex: 1;
+}
+.audio-wrap .text .title{
+    font-size: .3rem;
+    color: #ffffff;
+    font-weight: normal;
+    margin-bottom: .12rem;
+}
+.audio-wrap .text .player-time{
+    font-size: .26rem;
+    color: #cccccc;
+}
+.audio-wrap .btnplay{
+    width: .5rem;
+    height: .5rem;
+    background: url(../../images/microclass/paly-icon.png) no-repeat;
+    background-size: 100%;
+}
+.audio-wrap .playing{
+    background: url(../../images/microclass/pause-icon.png) no-repeat;
+    background-size: 100%;
+}

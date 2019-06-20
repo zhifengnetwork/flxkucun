@@ -1,0 +1,57 @@
+.qr-code{
+    width: 100%;
+    min-height:100vh;
+    background: url(../../images/user_zp/qr-code-bg.png) no-repeat;
+    background-size: 100%;
+}
+
+.qr-code .urlText{
+    display: block;
+    margin: 0 auto;
+    visibility: hidden;
+}
+
+.qr-code .user-info{
+    text-align: center;
+    margin-bottom: .4rem;
+}
+.qr-code .user-info .avatar{
+    width: 1.95rem;
+    height: 1.95rem;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto .3rem;
+}
+.qr-code .user-info .avatar img{
+    width: 100%;
+}
+.qr-code .user-info .name{
+    font-size: .3rem;
+    color: #fa3c63;
+    margin-bottom: .16rem;
+}
+.qr-code .user-info .name span{
+    font-size: .3rem;
+    font-weight: 700;
+} 
+.qr-code .user-info .dec{
+    font-size: .24rem;
+    color: #fa3c63;
+}
+
+.qr-code .code{
+    width: 4.46rem;
+    height: 4.46rem;
+    background: #fffefe url(../../images/user_zp/code-bg.png) no-repeat;
+    background-size: 100%;
+    margin: 0 auto;
+    position: relative;
+}
+.qr-code .code img{
+    width: 3.3rem;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 3;
+    transform: translate(-50%,-50%);
+}

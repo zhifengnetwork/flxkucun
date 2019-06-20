@@ -396,7 +396,10 @@ body{
 .hot-list .single-item .text .original-price{
     font-size: .22rem;
 }
-
+.hot-list .single-item .text .spell-num{
+    font-size: .22rem;
+    line-height: .32rem;
+}
 .hot-list .single-item .text .buy-btn{
     width: 1.38rem;
     height: .6rem;

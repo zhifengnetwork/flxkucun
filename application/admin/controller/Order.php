@@ -793,10 +793,41 @@ exit("请联系DC环球直供网络客服购买高级版支持此功能");
             if($delivery_record){
                 $order['invoice_no'] = $delivery_record[count($delivery_record)-1]['invoice_no'];
             }
+
+            $shipping_list = Db::name('shipping')->field('shipping_name,shipping_code')->where('')->select();
+            //快递信息
+            $kuaidi_info = [];
+            if($order['shipping_status']==1 && $order['shipping_code']){
+                switch($order['shipping_code']){
+                    case 'shunfeng':
+                        $type = 'shunfeng';break;
+                    case 'YZPY':
+                        $type = 'youzhengguonei';break;
+                    case 'YTO':
+                        $type = 'yuantong';break;
+                    case 'YD':
+                        $type = 'yunda';break;
+                    case 'ZTO':
+                        $type = 'zhongtong';break;
+                    case 'shentong':
+                        $type = 'shentong';break;
+                    default:
+                        $type='';break;
+                }
+                
+                if($type){
+                    $sj = mt_rand();
+                    $url = "https://www.kuaidi100.com/query?type={$type}&postid={$order['invoice_no']}&temp=0.{$sj}";
+                    // $res = httpRequest($url);
+                }
+
+            }
+
+
             $this->assign('order',$order);
             $this->assign('orderGoods',$orderGoods);
             $this->assign('delivery_record',$delivery_record);//发货记录
-            $shipping_list = Db::name('shipping')->field('shipping_name,shipping_code')->where('')->select();
+            
             $this->assign('shipping_list',$shipping_list);
             $express_switch = tpCache('express.express_switch');
             $this->assign('express_switch',$express_switch);

@@ -1706,10 +1706,10 @@ class User extends MobileBase
 //        }
 
         //判断是否存在海报背景图
-        if(!DB::name('poster')->where(['enabled'=>1])->find()){
-            echo "<script>alert('请上传海报背景');</script>";
-            return $this->fetch();
-        }
+        // if(!DB::name('poster')->where(['enabled'=>1])->find()){
+        //     echo "<script>alert('请上传海报背景');</script>";
+        //     return $this->fetch();
+        // }
 
             //分享数据来源
             $shareLink = urlencode("http://{$_SERVER['HTTP_HOST']}/index.php?m=Mobile&c=Index&a=index&first_leader={$user['user_id']}");

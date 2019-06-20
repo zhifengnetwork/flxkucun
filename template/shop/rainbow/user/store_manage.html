@@ -56,12 +56,17 @@
 	        	</div>
 	        	<!--进货/取货按钮-->
         		<div class="BuyTake">
-        			<!--进货按钮-->
-        			<a class="buy_btn" href="{:U('User/superior_store')}">进货</a>
-        			<!--取货按钮-->
-        			<a class="take_btn" href="#">取货</a>
-        			<!--发货按钮-->
-        			<a class="goods_btn" href="{:U('Order/order_send')}">发货</a>
+					<if condition="$user.level elt 2">
+						<!--进货按钮-->
+						<a class="buy_btn" href="{:U('User/superior_store')}">进货</a>
+						<!--取货按钮-->
+						<a class="take_btn" href="#">取货</a>
+						<!--发货按钮-->
+						<a class="goods_btn" href="{:U('Order/order_send')}">发货</a>
+					<elseif condition="$user.level gt 2">
+						<!--进货按钮-->
+						<a class="buy_btn" href="{:U('User/superior_store')}">进货</a>
+					</if>
         		</div>
 	        </div>
 	    </div>

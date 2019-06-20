@@ -145,7 +145,7 @@
 					</a>
 				</li>
 				<li class="navItem">
-					<a href="#">
+					<a href="{:U('User/store_manage')}">
 						<span><img src="__STATIC__/images/home_zp/store-icon1.png"></span>
 						<span>仓库</span>
 					</a>
@@ -186,8 +186,8 @@
 						</div>
 						<div class="text">
 							<div class="price">
-								<span class="discount-price">$29.9</span>
-								<span class="original-price">$29.9</span>
+								<span class="discount-price">¥29.9</span>
+								<span class="original-price">¥29.9</span>
 							</div>
 							<p class="spell-num">已拼1万件</p>
 						</div>
@@ -201,8 +201,8 @@
 						</div>
 						<div class="text">
 							<div class="price">
-								<span class="discount-price">$29.9</span>
-								<span class="original-price">$29.9</span>
+								<span class="discount-price">¥29.9</span>
+								<span class="original-price">¥29.9</span>
 							</div>
 							<p class="spell-num">已拼1万件</p>
 						</div>
@@ -216,8 +216,8 @@
 						</div>
 						<div class="text">
 							<div class="price">
-								<span class="discount-price">$29.9</span>
-								<span class="original-price">$29.9</span>
+								<span class="discount-price">¥29.9</span>
+								<span class="original-price">¥29.9</span>
 							</div>
 							<p class="spell-num">已拼1万件</p>
 						</div>
@@ -238,12 +238,12 @@
 		<div class="area-category clearfix">
 			<div class="cate-item">
 				<a href="{:U('Seckill/index')}">
-					<img src="__STATIC__/images/home_zp/spike-index.png" />
+					<img src="<if condition='isset($activity_img.limited_img) and $activity_img.limited_img'>{$activity_img.limited_img}<else />__STATIC__/images/home_zp/spike-index.png</if>" />
 				</a>
 			</div>
 			<div class="cate-item">
 				<a href="#">
-					<img src="__STATIC__/images/home_zp/pt.png" />
+					<img src="<if condition='isset($activity_img.group_img) and $activity_img.group_img'>{$activity_img.group_img}<else />__STATIC__/images/home_zp/pt.png</if>" />
 				</a>
 			</div>
 		</div>
@@ -287,8 +287,8 @@
 						<a href="#"><h3>凡露希</h3></a>
 						<p class="dec">温和低敏 纯植物精华</p>
 						<div class="price">
-							<span class="discount-price">$29.9</span>
-							<span class="original-price">$29.9</span>
+							<span class="discount-price">¥29.9</span>
+							<span class="original-price">¥29.9</span>
 						</div>
 						<p class="spell-num">已拼9741万件</p>
 						<span class="buy-btn">立即购买</span>
@@ -302,8 +302,8 @@
 						<a href="#"><h3>凡露希</h3></a>
 						<p class="dec">温和低敏 纯植物精华</p>
 						<div class="price">
-							<span class="discount-price">$29.9</span>
-							<span class="original-price">$29.9</span>
+							<span class="discount-price">¥29.9</span>
+							<span class="original-price">¥29.9</span>
 						</div>
 						<p class="spell-num">已拼9741万件</p>
 						<span class="buy-btn">立即购买</span>
@@ -317,8 +317,8 @@
 						<a href="#"><h3>凡露希</h3></a>
 						<p class="dec">温和低敏 纯植物精华</p>
 						<div class="price">
-							<span class="discount-price">$29.9</span>
-							<span class="original-price">$29.9</span>
+							<span class="discount-price">¥29.9</span>
+							<span class="original-price">¥29.9</span>
 						</div>
 						<p class="spell-num">已拼9741万件</p>
 						<span class="buy-btn">立即购买</span>
