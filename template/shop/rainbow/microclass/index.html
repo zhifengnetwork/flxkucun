@@ -3,14 +3,14 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-	<title>免单团购</title>
+	<title>听书商城</title>
 
 	<script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
 
 	<link rel="stylesheet" type="text/css" href="__STATIC__/css/reset.css?v=111" />
 	<link rel="stylesheet" type="text/css" href="__STATIC__/css/swiper.min.css?v=111" />
 	<link rel="stylesheet" href="__STATIC__/css/public/base.css">
-	<link rel="stylesheet" type="text/css" href="__STATIC__/css/group_purchase/index.css" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/microclass/index.css" />
 
 </head>
 
@@ -46,9 +46,40 @@
                 <div class="swiper-pagination"></div>
             </div>
 
-			<div class="headline">
-				
+			<div class="cate-wrap">
+				<div class="cate-item">
+					<div class="headline clearfix">
+						<h3>营销</h3>
+						<a href="#"><span class="more">更多</span></a>
+					</div>
+					<div class="course-item">
+						<p><a href="#">立即学习</a></p>
+					</div>
+				</div>
+				<div class="cate-item">
+					<div class="headline clearfix">
+						<h3>抖音</h3>
+						<a href="#"><span class="more">更多</span></a>
+					</div>
+					<div class="course-item">
+						<p><a href="#">立即学习</a></p>
+					</div>
+				</div>
 			</div>
+
+			<div class="audio-wrap">
+				<div class="thumb"></div>
+				<div class="text">
+					<h3 class="title">营销策略</h3>
+					<div class="player-time"><span class="currentTime"></span>00:00/<span class="allTime">06:55</span></div>
+					<audio controls="controls" id="audio" style="display: none">
+						<source src="http://www.w3school.com.cn/i/song.ogg" type="audio/ogg">
+						<source src="http://www.w3school.com.cn/i/song..mp3" type="audio/mpeg">
+					</audio>					
+				</div>
+				<div class="btnplay"  onclick="playAudio(this)"></div>
+			</div>
+			
 		
 		</div>
 	 </div>
@@ -66,6 +97,55 @@
 				el: '.swiper-pagination',
 			}
 		});
+
+		var audio = document.getElementById("audio");
+		function playAudio() {
+			//如果暂停   点击即可播放
+			if (audio.paused) {
+				// 播放
+				audio.play();
+				$(".btnplay").addClass("playing")
+				//如果播放  点击暂停
+			} else if (audio.play()) {
+				//暂停
+				audio.pause();
+				$(".btnplay").removeClass("playing")
+			}
+		}
+
+		var currentTime =  audio.currentTime;
+		console.log(currentTime)
+
+		// var _audio = $('#audio')[0];
+		// _audio.load();
+		audio.load();
+
+		function duration(){
+		
+			var time = audio.duration;
+						
+			//分钟
+			var minute = time / 60;
+			var minutes = parseInt(minute);
+			if (minutes < 10) {
+				minutes = "0" + minutes;
+			}
+			//秒
+			var second = time % 60;
+			var seconds = Math.round(second);
+			if (seconds < 10) {
+				seconds = "0" + seconds;
+			}
+
+			//总共时长的秒数
+			var allTime = parseInt(minutes*60 + seconds);
+			// $(".allTime").html(allTime)
+		}
+
+		audio.onloadedmetadata = duration;
+
+		
+
 	</script>
 </body>
 </html>
