@@ -28,106 +28,33 @@
     		<div class="inner">
     			<!-- 切换标题 -->
     			<div class="nav_wrap">
-    				<span class="active">产品素材</span>
-    				<span>营销素材</span>
+					<volist name="cat_list" id="vo">
+						<span <if condition="$cat_id eq $vo.cat_id"> class="active" </if> ><a href="{:U('Material/index',['cat_id'=>$vo.cat_id])}">{$vo.cat_name}</a></span>
+					</volist>
     			</div>
     			<!-- 切换内容 -->
     			<div class="tab_content">
+
+					<volist name="list" id="vo">
     				<div class="main active">
     					<div class="tit">
 	    					<div class="img">
-	    						<img src="__STATIC__/images/public_lb/00004.png" />
+	    						<img src="{$vo.avatar}" />
 	    					</div>
-	    					<div class="name">刘禹君</div>
+	    					<div class="name">{$vo.name}</div>
     					</div>
-    					<p class="section">护肤品，即保护皮肤的产品。随着社会经济的不断进步和物质生活的丰富，护肤品，不再是过去只有富人才用的起的东西。现如今护肤品已走进了平常百姓家。它对人们的精神、形象提升起到了极大的作用。</p>
+    					<p class="section">{$vo.content}</p>
     					<div class="img_list">
-    						<!--循环项-->
+
+    						<volist name="vo.img_arr" id="v">
     						<div class="item_img">
-    							<img src="__STATIC__/images/handpick/004.png" />
+    							<img src="{$v.img}" />
     						</div>
-    						<!--循环项-->
-    						
-    						<!--循环项-->
-    						<div class="item_img">
-    							<img src="__STATIC__/images/handpick/006.png" />
-    						</div>
-    						<!--循环项-->
-    						
-    						<!--循环项-->
-    						<div class="item_img">
-    							<img src="__STATIC__/images/handpick/005.png" />
-    						</div>
-    						<!--循环项-->
-    						
-    						<!--循环项-->
-    						<div class="item_img">
-    							<img src="__STATIC__/images/handpick/003.png" />
-    						</div>
-    						<!--循环项-->
-    						
-    						<!--循环项-->
-    						<div class="item_img">
-    							<img src="__STATIC__/images/handpick/002.png" />
-    						</div>
-    						<!--循环项-->
-    						
-    						<!--循环项-->
-    						<div class="item_img">
-    							<img src="__STATIC__/images/handpick/001.png" />
-    						</div>
-    						<!--循环项-->
+    						</volist>
     						
     					</div>
     				</div>
-    				
-    				<div class="main">
-    					<div class="tit">
-	    					<div class="img">
-	    						<img src="__STATIC__/images/handpick/007.png" />
-	    					</div>
-	    					<div class="name">君</div>
-    					</div>
-    					<p class="section">护肤品，即保护皮肤的产品。随着社会经济的不断进步和物质生活的丰富，护肤品，不再是过去只有富人才用的起的东西。现如今护肤品已走进了平常百姓家。它对人们的精神、形象提升起到了极大的作用。</p>
-    					<div class="img_list">
-    						<!--循环项-->
-    						<div class="item_img">
-    							<img src="__STATIC__/images/handpick/001.png" />
-    						</div>
-    						<!--循环项-->
-    						
-    						<!--循环项-->
-    						<div class="item_img">
-    							<img src="__STATIC__/images/handpick/002.png" />
-    						</div>
-    						<!--循环项-->
-    						
-    						<!--循环项-->
-    						<div class="item_img">
-    							<img src="__STATIC__/images/handpick/003.png" />
-    						</div>
-    						<!--循环项-->
-    						
-    						<!--循环项-->
-    						<div class="item_img">
-    							<img src="__STATIC__/images/handpick/004.png" />
-    						</div>
-    						<!--循环项-->
-    						
-    						<!--循环项-->
-    						<div class="item_img">
-    							<img src="__STATIC__/images/handpick/005.png" />
-    						</div>
-    						<!--循环项-->
-    						
-    						<!--循环项-->
-    						<div class="item_img">
-    							<img src="__STATIC__/images/handpick/006.png" />
-    						</div>
-    						<!--循环项-->
-    						
-    					</div>
-    				</div>
+					</volist>
     				
     			</div>
     		</div>
