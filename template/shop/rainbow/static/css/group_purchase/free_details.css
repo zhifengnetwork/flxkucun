@@ -7,8 +7,11 @@
 }
 /* 选项卡-s */
 .TabBar{
+    width: 100%;
     height: 1rem;
     color: #ddd;
+    background: #fff;
+    z-index: 30;
     display:-webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
@@ -33,12 +36,7 @@
 }
 /* 选项卡-e */
 /* 选项页-s */
-.TabBar_wrap .active{
-    display: block;
-}
-.TabBar_item{
-    display: none;
-}
+
 /* 选项页-e */
 /* 商品-s */
 .carousel{
