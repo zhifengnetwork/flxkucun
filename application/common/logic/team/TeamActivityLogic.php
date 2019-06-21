@@ -57,6 +57,7 @@ class TeamActivityLogic extends Prom
     }
 
     public function getActivityGoodsInfo(){
+       
         if($this->specGoodsPrice){
             //活动商品有规格，规格和活动是一对一
             $activityGoods = $this->specGoodsPrice;

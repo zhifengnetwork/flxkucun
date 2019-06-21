@@ -145,7 +145,10 @@ class User extends Base
              } else {
                  $_POST['password'] = encrypt($_POST['password']);
              }
- 
+             
+             if(empty($_POST['email'])){
+                exit($this->error('邮箱不能为空不同'));
+             }
              if (!empty($_POST['email'])) {
                  $email = trim($_POST['email']);
                  $c = M('users')->where("user_id != $uid and email = '$email'")->count();

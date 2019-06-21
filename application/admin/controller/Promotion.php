@@ -390,6 +390,10 @@ class Promotion extends Base
     public function groupbuyHandle()
     {
         $data = I('post.');
+        if($data['goods_num'] < 1){
+            $return = ['status' => 0,'msg' =>'团购数量不能小于0','result' =>''  ];
+            $this->ajaxReturn($return);
+        }
         $data['groupbuy_intro'] = htmlspecialchars(stripslashes($this->request->param('groupbuy_intro')));
         $data['start_time'] = strtotime($data['start_time']);
         $data['end_time'] = strtotime($data['end_time']);
@@ -617,11 +621,9 @@ class Promotion extends Base
             $data['end_time'] = $data['start_time']+7200;
             $flashSaleValidate = Loader::validate('FlashSale');
             if (!$flashSaleValidate->batch()->check($data)) {
-                $return = ['status' => 0, 'msg' => '操作失败', 'result' => $flashSaleValidate->getError()];
+                $return = ['status' => 3, 'msg' => '操作失败', 'result' => $flashSaleValidate->getError()];
                 $this->ajaxReturn($return);
-
             }
-
             $userlevel = M('User_level')->field('level,level_name')->where(['level'=>['gt',2]])->order('level asc')->select();
             $arr = $arr1 = [];
             $FlashSaleCommission = M('Flash_sale_commission');
@@ -673,7 +675,7 @@ class Promotion extends Base
                 $this->ajaxReturn($return); 
             }
 
-            $arr1 = ['one_commission'=>$one_commission,'tow_commission'=>$tow_commission,'not_money'=>$not_money,'level'=>'-'.$level,'not_money2'=>$not_money2];
+            $arr1 = ['one_commission'=>$one_commission,'tow_commission'=>$tow_commission,'not_money1'=>$not_money1,'level'=>'-'.$level,'not_money2'=>$not_money2];
             $arr[] = $arr1;            
 
             if (empty($data['id'])) {

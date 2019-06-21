@@ -110,6 +110,7 @@ class GroupBuyLogic extends Prom
      * @return static
      */
     public function getActivityGoodsInfo(){
+        
         if($this->specGoodsPrice){
             //活动商品有规格，规格和活动是一对一
             $activityGoods = $this->specGoodsPrice;
@@ -118,7 +119,7 @@ class GroupBuyLogic extends Prom
             $activityGoods = $this->goods;
         }
         $activityGoods['activity_title'] = $this->GroupBuy['title'];
-        $activityGoods['market_price'] = $this->goods['shop_price'];
+        $activityGoods['market_price'] = $this->goods['market_price'];
         $activityGoods['shop_price'] = $this->GroupBuy['price'];
         $activityGoods['store_count'] = $this->GroupBuy['store_count'];
         $activityGoods['start_time'] = $this->GroupBuy['start_time'];
