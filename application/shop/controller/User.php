@@ -2576,7 +2576,7 @@ class User extends MobileBase
         if ($type != 1) {
             //非下级且不是普通会员/VIP
             if (($info['first_leader'] != $this->user_id) && !in_array($info['level'], [1, 2])) {
-                $this->ajaxReturn(['status' => -1, 'msg' => '不能邀请该用户!', 'data' => null]);
+                $this->ajaxReturn(['status' => -1, 'msg' => '非下级且不是普通会员/VIP!', 'data' => null]);
             }
         }
 

@@ -48,15 +48,15 @@
 					</div>
 				</div>
 			
-				<!--<div class="agent-info" style='display:none;'>
-					<div class="name">
+				<div class="agent-info" style='display:none;font-size: .28rem;  padding: 0.4rem .5rem 0;color: #ff6b87'>
+					<div class="name" style="margin: 0 auto .35rem;">
 						名称
 					</div>
-					<div class="avatar">
+					<div class="avatar"  style="margin: 0 auto .35rem;">
 						<img src="__STATIC__/images/user_zp/000avatar-03.png" />
 					</div>
-					<div class="phone">139xxxxxx88</div>
-				</div>-->
+					<div class="phone"  style="margin: 0 auto .35rem;">139xxxxxx88</div>
+				</div>
 
 				<button class="inviteBtn">确认授权</button>
 
@@ -98,8 +98,8 @@
 							layer.open({content: data.msg, time: 2000});
 							return;
 						}else{
-							$('.name').html(data.data.nickname);
-							$('.phone').html(data.data.mobile);
+							$('.name').html('名称：'+data.data.nickname);
+							$('.phone').html('手机号：'+data.data.mobile);
 							$('.avatar img').attr('src',data.data.head_pic);
 							$('.agent-info').show();
 						}
