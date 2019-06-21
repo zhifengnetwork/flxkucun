@@ -32,6 +32,7 @@
 
             <!-- 详情 -->
             <div class="details-content">
+                <!-- 产品视频&主图轮播 -->
                 <div class="slider-wrap">
                     <div class="swiper-container" style="height:100%">
                         <div class="swiper-wrapper">
@@ -55,13 +56,40 @@
                                 <img src="__STATIC__/images/details/details-img05.png">
                             </div>
                         </div>
+                        <div class="swiper-pagination"></div>
                         <div class="nav-tag">
                             <span class="tag-item active"><i class="paly-icon"></i> 视频</span>
                             <span class="tag-item">图片</span>
                         </div>
-                        <div class="swiper-pagination" style="right:.3rem;left: auto;width:1rem;padding:.1rem;background:#a4a3a3;box-sizing: border-box;border-radius:1rem;color:#fff;"></div>
                     </div>
                 </div>
+                
+                <!-- 销售信息 -->
+                <div class="sale-info">
+                    <div class="price">
+                        <span class="discount-price">￥3665.00</span>
+                        <span class="tag-price">￥8852.00</span>
+                    </div>
+                    <div class="center">
+                        <div class="title">限时秒杀<span>包邮</span></div>
+                        <!-- 进度条 -->
+                        <div class="progress">
+                            <div class="progress-bar">
+                                <span></span>
+                            </div>
+                            <div class="percentage">87%</div>
+                        </div>
+                    </div>
+                    <div class="count-down">
+                        <div class="down-text">距离结束还剩</div>
+                        <div class="clock-run">
+                            <span>00</span> :
+                            <span>00</span> :
+                            <span>00</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
 
@@ -276,17 +304,14 @@
             autoplay: false,
             pagination: {
                 el: '.swiper-pagination',
-                //type: 'bullets',
                 type: 'fraction',
-                //type : 'progressbar',
-                //type : 'custom',
             },
             on: {
                 slideChangeTransitionStart: function(){
                     if(this.activeIndex==0){
-                        $('.carousel_classify_item').eq(0).addClass('active').siblings().removeClass('active');
+                        $('.tag-item').eq(0).addClass('active').siblings().removeClass('active');
                     }else{
-                        $('.carousel_classify_item').eq(1).addClass('active').siblings().removeClass('active');
+                        $('.tag-item').eq(1).addClass('active').siblings().removeClass('active');
                     }
                 },
             },

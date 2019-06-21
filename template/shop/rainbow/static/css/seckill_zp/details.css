@@ -82,7 +82,7 @@
 }
 
 .slider-wrap .nav-tag .tag-item{
-    width: .86rem;
+    width: .84rem;
     height: .38rem;
     line-height: .38rem;
     text-align: center;
@@ -101,4 +101,112 @@
     display: inline-block;
     background:url(../../images/details/play-tag.png) no-repeat;
     background-size: .12rem .13rem;
+}
+.slider-wrap .swiper-pagination{
+    width: .84rem;
+    height: .38rem;
+    line-height: .38rem;
+    font-size: .24rem;
+    color:#fff;
+    background:#a4a3a3;
+    border-radius: .15rem;
+    position: absolute;
+    right: .3rem;
+    left: auto;
+}
+
+.sale-info{
+    width: 100%;
+    height: 1.5rem;
+    color: #ffffff;
+    background-color: #e93380;
+    /* display: flex;
+    align-items: center; */
+    padding:.54rem .3rem 0;
+    box-sizing: border-box;
+}
+.sale-info .price,.sale-info .center{
+    float: left;
+}
+
+/* 价格 */
+.sale-info .price{
+    margin-right: .3rem;
+}
+.sale-info .price span{
+    display: block;
+}
+.sale-info .price .discount-price{
+    font-size: .36rem;
+    margin-bottom: .15rem;
+}
+.sale-info .price .tag-price{
+    font-size: .22rem;
+}
+
+/* 标题 */
+.sale-info .center .title{
+    font-size: .32rem;
+    margin-bottom: .2rem;
+}
+.sale-info .center .title span{
+    font-size: .18rem;
+    height: .26rem;
+    line-height: .26rem;
+    border: .01rem solid #ffffff;
+    padding: 0 .04rem;
+    border-radius: .03rem;
+    margin-left: .3rem;
+}
+
+/* 进度条 */
+.progress{
+    height: .12rem;
+    display: flex;
+    align-items: center;
+}
+.progress .progress-bar{
+    width: 1.5rem;
+    height: .06rem;
+    background: rgba(255,255,255,.4);
+    border-radius: .04rem;
+    margin-right: .1rem;
+    overflow: hidden;
+    position: relative;
+}
+.progress .progress-bar span{
+    width: 1.2rem;
+    height: 100%;
+    display: block;
+    background-color: #ffffff;
+    border-radius: .04rem;
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.progress  .percentage{
+    font-size: .22rem;
+}
+
+/* 倒计时 */
+.sale-info .count-down{
+    float: right;
+}
+.sale-info .count-down .down-text{
+    font-size: .22rem;
+    margin-bottom: .14rem;
+}
+.sale-info .count-down .clock-run{
+    font-size: .2rem
+}
+.sale-info .count-down .clock-run span{
+    width: .34rem;
+    height: .34rem;
+    line-height: .34rem;
+    text-align: center;
+    display: inline-block;
+    background-color: #fff;
+    color: #e93380;
+    border-radius: 50%;
 }
