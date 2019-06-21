@@ -44,6 +44,10 @@ body{
     position: absolute;
     right: .3rem;
 }
+.right_img{
+    width: .36rem;
+    height: .36rem;
+}
 .header .right a{
     color: #e93380;
 }
