@@ -36,6 +36,9 @@ class Video extends MobileBase{
         $goodsInfo["video_img"]=$videoImg[0].".jpg";
         $addtime=strtotime(date("Y-m-d"));
         $res = Db::name('video_favor')->where(['addtime'=>$addtime,'user_id'=>$user_id,'video_id'=>$goods_id,'type'=>1])->find();
+        //总点赞数
+        $count = Db::name('video_favor')->where(['video_id'=>$goods_id])->count();
+      
         if($res){
             $favor=true;
         }else{
@@ -44,6 +47,7 @@ class Video extends MobileBase{
         return $this->fetch('',[
             'goodsInfo'=>$goodsInfo,
             'favor'=>$favor,
+            'count' => $count,
         ]);
 
     }

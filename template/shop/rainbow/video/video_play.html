@@ -43,7 +43,9 @@
 		</div>
 
 		<div class="content">
-			<h3>{$goodsInfo['goods_name']} <i class="video_favor <if $favor> red</if> " onclick="videoFavor(1,{$goodsInfo['goods_id']})"></i></h3>
+			<h3>{$goodsInfo['goods_name']} <i class="video_favor <if $favor> red</if> " onclick="videoFavor(1,{$goodsInfo['goods_id']})"></i>
+			</h3>
+			<span style="font-size:13px;margin-left: 92%;">{$count}</span>
 			<p class="date">
 				<span><?php echo date("Y-m-d",$goodsInfo['last_update']) ?></span>
 				<span><?php echo date("H:i:s",$goodsInfo['last_update']) ?></span>

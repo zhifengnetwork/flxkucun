@@ -794,6 +794,7 @@
                 return false;
             }
         }
+        
         $.ajax({
             type: 'post',
             dataType: 'json',
@@ -1216,6 +1217,7 @@
         var group_by_price = $("input[name='shop_price']").attr('value');
         var group_by_count = $("input[name='store_count']").attr('value');
         var goods_num = parseInt($("input[name='goods_num']").attr('value'));
+        var market_price = $("input[name='market_price']").attr('value');
         if (goods_num > group_by_count) {
             goods_num = group_by_count;
 //            layer.open({content:'库存仅剩 ' + group_by_count + ' 件',time: 2});
