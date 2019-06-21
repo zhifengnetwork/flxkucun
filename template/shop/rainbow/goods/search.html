@@ -66,7 +66,7 @@
             <foreach name="goods_list" item="vo" key="k">
              <div class="pro-box">
                  <div class="itemImg">
-                    <a href="">
+                    <a href="{:U('Shop/Goods/goodsInfo',array('id'=>$vo[goods_id]))}">
                         <img src="{$vo.goods_id|goods_thum_images=400,400}" alt="">
                     </a>
                  </div>
@@ -79,7 +79,7 @@
                           <div class="prices">
                            <p class="sc_pri fl"><span>￥</span><b>{$vo[shop_price]}元</b></p>
                           </div>
-                                <a href="" class="moda">
+                                <a href="{:U('Shop/Goods/goodsInfo',array('id'=>$vo[goods_id]))}" class="moda">
                                     <span>MODA专营店<img src="/template/shop/rainbow/static/images/Back@2x.png"></span>
                                 </a>
                           <p class="weight">

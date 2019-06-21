@@ -53,7 +53,6 @@ class Warehouse extends Base
         ->where($where)
         ->order('wg.id desc')->limit($Page->firstRow . ',' . $Page->listRows)->select();
         $this->assign('page',$Page);
-//        dump($list);exit;
         $this->assign('list', $list);
         return $this->fetch();
     }
@@ -67,15 +66,16 @@ class Warehouse extends Base
         {
             $where.=' and u.user_id='.$user_id;
         }
-         if($user_id)
+         if($goods_id)
         {
             $where.=' and g.goods_id='.$goods_id;
         }
-        
+      
         $count = db("warehouse_goods_log")->alias('wgl')
-         ->join('users u','wgl.user_id=u.user_id','LEFT')
-        ->join('goods g','wgl.goods_id=g.goods_id','LEFT')
-        ->where($where)->count();
+            ->join('users u','wgl.user_id=u.user_id','LEFT')
+            ->join('goods g','wgl.goods_id=g.goods_id','LEFT')
+            ->where($where)
+            ->count();
         $Page = new Page($count, 10);
         $list = M("warehouse_goods_log")->alias('wgl')
          ->field('wgl.id,u.nickname,u.user_id,wgl.id,wgl.changenum,wgl.time,g.goods_name,wgl.type')
