@@ -67,9 +67,23 @@ class Index extends MobileBase {
         return $this->fetch();
     }
 
-    public function ajaxGetMore(){
+    public function ajaxGetgoodslist(){
+        $level = $_SESSION['think']['user']['level'];
+        $p = I('get.p/d',1);
+        $num = 6;
         //获取热销新品前6
-        $goodslist = M('Goods')->field('goods_id,goods_name,market_price,goods_remark,original_img,virtual_sales_sum,sales_sum')->where(['is_on_sale'=>1,'is_new'=>1,'is_hot'=>1])->order('sort asc')->limit(6)->select();
+        $goodslist = M('Goods')->field('goods_id,goods_name,market_price,goods_remark,original_img,virtual_sales_sum,sales_sum')->where(['is_on_sale'=>1,'is_new'=>1,'is_hot'=>1])->order('sort asc')->limit(($p-1)*$num . ',' . $num)->select();
+
+        $GoodsLevelPrice = M('goods_level_price');
+        foreach($goodslist as $k=>$v){
+            if(!$level){
+                $goodslist[$k]['price'] = $v['market_price'];
+                continue;
+            }
+            $price = $GoodsLevelPrice->where(['goods_id'=>$v['goods_id'],'level'=>$level])->value('price');
+            $goodslist[$k]['price'] = $price ? $price : $v['market_price'];
+        }
+
         $this->assign('goodslist',$goodslist);    
         return $this->fetch();   
     }

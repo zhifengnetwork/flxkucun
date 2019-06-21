@@ -1,0 +1,18 @@
+<foreach name="goodslist" item="v">
+<div class="single-item">
+	<div class="img-wrap">
+		<a href="#"><img src="{$v.original_img}" /></a>
+	</div>
+	<div class="text">
+		<a href="#"><h3>{$v.goods_name}</h3></a>
+		<p class="dec">{$v.goods_remark}</p>
+		<div class="price">
+			<span class="discount-price">¥{$v.price}</span>
+			<span class="original-price">¥{$v.market_price}</span>
+		</div>
+		<p class="spell-num">已售{:cknum($v.virtual_sales_sum + $v.sales_sum)}件</p>
+		<span class="buy-btn">立即购买</span>
+	</div>
+</div>
+	
+</foreach>
