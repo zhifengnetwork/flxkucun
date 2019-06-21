@@ -93,7 +93,7 @@ body{
 }
 .bannerWrap .swiper-slide{ 
     position: relative;
-    border-radius: .28rem;
+    border-radius: .3rem;
     background-color: #000;
     overflow: hidden;
 }
@@ -278,6 +278,10 @@ body{
 .recommend-list .single-item .price .discount-price{
     font-size: .3rem;
     color: #ec6f88;
+}
+.recommend-list .single-item .text .spell-num{
+    font-size: .22rem;
+    line-height: .32rem;
 }
 
 .picc{

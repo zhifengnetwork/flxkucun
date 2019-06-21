@@ -11,7 +11,8 @@
     position: relative;
 }
 .user-top .avatar{
-    width: 1.2rem;
+    width: 1.3rem;
+    text-align: center;
     margin-right: .2rem;
 }
 .user-top .avatar img{
@@ -68,7 +69,7 @@
     position: relative;
     top: -.55rem;
     z-index: 3;
-    padding: 0 0.3rem;
+    padding: 0 0.3rem 1.18rem;
     box-sizing: border-box;
 }
 
@@ -110,12 +111,13 @@
 }
 
 /* 公共标题 */
-.headline{
+.headline>a{
     width: 100%;
+    height: .7rem;
     color: #333333;
     display: flex;
     justify-content: space-between;
-    padding-bottom: .25rem;
+    align-items: center;
     border-bottom: .01rem solid #e5e5e5;
 }
 .headline h3{
@@ -123,6 +125,8 @@
     font-weight: normal;
 }
 .headline .more{
+    min-width: .11rem;
+    min-height: .19rem;
     color: #333333;
     font-size: .22rem;
     background: url(../../images/user_zp/right-arrow1.png) no-repeat right center;
@@ -175,7 +179,7 @@
 .news{
     border-radius: .12rem;
     background-color: #f7f7f7;
-    padding: .17rem .12rem 0;
+    padding: 0 .12rem;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     margin-bottom: .25rem;

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title>0元购</title>
+
+	<script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
+
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/reset.css?v=111" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/swiper.min.css?v=111" />
+	<link rel="stylesheet" href="__STATIC__/css/public/base.css">
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/group_purchase/index.css" />
+
+
+</head>
+
+<body>
+	<div class="wrapper">
+		<!-- 公共头部 -->
+		<div class="header">
+			<span class="backBtn" onclick="returnFun()"></span>
+			<h1>0元购</h1>
+		</div>
+
+		<div class="content">
+			<!-- 轮播图 -->
+			<div class="swiper-container banner-wrap">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide">
+						<img src="__STATIC__/images/public/banner01.png" />
+					</div>
+					<div class="swiper-slide">
+                        <img src="__STATIC__/images/public/banner02.png" />
+					</div>
+					<div class="swiper-slide">
+                        <img src="__STATIC__/images/public/banner03.png" />
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="__STATIC__/images/public/banner04.png" />
+					</div>
+					<div class="swiper-slide">
+                        <img src="__STATIC__/images/public/banner05.png" />
+					</div>
+				</div>
+				<div class="swiper-pagination"></div>
+			</div>
+
+			<div class="shop-coupon">我的购物券：1</div>
+			<!-- 列表 -->
+			<div class="seckill-list">
+				<div class="single-item" onclick="window.location.href='{:U(\'shop/free_purchase/free_details\')}'">
+					<div class="img-wrap"></div>
+					<div class="text">
+						<h3><a href="#">可爱多洗衣液500ml*6袋</a></h3>
+						<p class="dec">温和低敏 强力去污易漂洗</p>
+						<div class="progress">
+							<div class="progress-bar">
+								<span></span>
+							</div>
+							<div class="percentage">剩余10件</div>
+						</div>
+						<div class="price">
+							<span class="discount-price">$29.9</span>
+							<span class="original-price">$99.9</span>
+						</div>
+						<div class="quota">剩余名额93人</div>
+					</div>
+					<div class="buyBtn">立即领取</div>
+				</div>
+				<div class="single-item" onclick="window.location.href='{:U(\'shop/free_purchase/free_details\')}'">
+					<div class="img-wrap"></div>
+					<div class="text">
+						<h3><a href="#">可爱多洗衣液500ml*6袋</a></h3>
+						<p class="dec">温和低敏 强力去污易漂洗</p>
+						<div class="progress">
+							<div class="progress-bar">
+								<span></span>
+							</div>
+							<div class="percentage">剩余10件</div>
+						</div>
+						<div class="price">
+							<span class="discount-price">$29.9</span>
+							<span class="original-price">$99.9</span>
+						</div>
+						<div class="quota">剩余名额99人</div>
+					</div>
+					<div class="buyBtn">立即领取</div>
+				</div>
+			</div>
+		
+		</div>
+	 </div>
+	<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
+	<script src="__STATIC__/js/public/public.js"></script>
+	<script src="__STATIC__/js/public/swiper.min.js"></script>
+	<script>
+		// 轮播图
+		var swiper = new Swiper('.banner-wrap', {
+			loop: true,
+			paginationClickable: true,
+			autoplay: 3000,
+			autoplayDisableOnInteraction: false,
+			pagination: {
+				el: '.swiper-pagination',
+			}
+		});
+	</script>
+</body>
+</html>

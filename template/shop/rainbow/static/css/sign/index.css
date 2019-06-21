@@ -20,6 +20,10 @@ body {
     background-size: .22rem .36rem;
 }
 
+.header .right a{
+	color: #ffffff;
+}
+
 
 /*内容*/
 .content_si {

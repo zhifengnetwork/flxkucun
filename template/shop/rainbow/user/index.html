@@ -35,8 +35,10 @@
             <!-- 我的订单 -->
             <div class="order-area">
                 <div class="headline">
-                    <h3>我的订单</h3>
-                    <a href="{:U('Order/order_list')}"><span class="more">订单中心</span></a>
+                    <a href="{:U('Order/order_list')}">
+                        <h3>我的订单</h3>
+                        <span class="more">订单中心</span>
+                    </a>
                 </div>
                 <div class="list">
                     <div class="item">
@@ -132,8 +134,16 @@
             <!-- 我的消息 -->
             <div class="news">
                 <div class="headline">
-                    <h3>我的消息</h3>
-                    <a href="{:U('Shop/User/message_notice')}"><span class="more">消息中心</span></a>
+                    <a href="{:U('Shop/User/qr_code')}">
+                        <h3>我的二维码</h3>
+                        <span class="more"></span>
+                    </a>
+                </div>
+                <div class="headline">
+                    <a href="{:U('Shop/User/message_notice')}">
+                        <h3>我的消息</h3>
+                        <span class="more">消息中心</span>
+                    </a>
                 </div>
                 <div class="news-list">
                     <ul>

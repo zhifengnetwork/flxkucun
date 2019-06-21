@@ -11,7 +11,7 @@ class BonusPool extends Base {
      */
     public function ranking()
     {
-        $bonus_time = M('config')->where('name', 'bonus_time')->value('value');
+        $bonus_time = M('')->where('name', 'bonus_time')->value('value');
         $bonus_time = (int)$bonus_time;
         $condition['rank.status'] = 0;
         if($bonus_time){

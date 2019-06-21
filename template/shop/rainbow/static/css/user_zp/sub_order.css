@@ -14,12 +14,12 @@ body{
     display: flex;
     align-items: center;
     margin-bottom: .15rem;
-    padding: 0 .24rem;
+    padding: 0 .3rem;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 .id{
-	padding: 0 .24rem;
+	padding: 0 .3rem;
     margin-right: .33rem;
     font-size: .24rem;
     line-height: .65rem;
@@ -32,12 +32,12 @@ body{
     border: .01rem solid #ff6b87;
     border-radius: 6px;
     display: inline-block;
-    background: url(../../images/user_zp/drop-down-icon.png) no-repeat;
+    /* background: url(../../images/user_zp/drop-down-icon.png) no-repeat;
     background-size: .08rem .05rem;
     background-position: 2.15rem center ;
     padding-right: .2rem;
     -webkit-box-sizing: border-box;
-    box-sizing: border-box;
+    box-sizing: border-box; */
 }
 .query-wrap span input{
     width: 100%;
@@ -52,21 +52,21 @@ body{
 .query-wrap .line{
     width: .18rem;
     height: .01rem;
-    background-color: #595959;
+    background-color: #ff6287;
     display: inline-block;
-    margin: 0 .05rem;
+    margin: 0 .26rem;
 }
 .query-wrap .queryBtn{
-    width: .8rem;
+    width: .74rem;
     height: .3rem;
-    font-size: .18rem;
+    font-size: .2rem;
     background-color: #ff6b87;
 	border-radius: 4px;
 	color: #fff;
     border: none;
     outline: none;
     display: inline-block;
-    margin-left: .17rem;
+    margin-left: .26rem;
 }
 
 .order-list {
@@ -75,6 +75,7 @@ body{
 
 .order-list .thead{
     height: .62rem;
+    font-size: .24rem;
     background-color: #fff;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -85,7 +86,7 @@ body{
     -webkit-box-pack: justify;
     -ms-flex-pack: justify;
     justify-content: space-between;
-    padding: 0 .24rem;
+    padding: 0 .3rem;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
@@ -93,28 +94,30 @@ body{
     text-align: center;
 }
 .order-list .thead span:nth-child(1){
-    width: 15%;
+    width: 25%;
 }
 .order-list .thead span:nth-child(2){
     width: 25%;
 }
 .order-list .thead span:nth-child(3){
-    width: 25%;
-}
-.order-list .thead span:nth-child(4){
     width: 15%;
 }
-.order-list .thead span:nth-child(5){
+.order-list .thead span:nth-child(4){
     width: 20%;
+}
+.order-list .thead span:nth-child(5){
+    width: 15%;
 }
 
 .order-list .tbody{
-    padding: 0 .24rem;
+    padding: 0 .3rem;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 .order-list .tbody li .box_wrap{
     height: .5rem;
+    font-size: .2rem;
+    color: #808080;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -129,10 +132,7 @@ body{
 .order-list .tbody li .box_wrap div{
     text-align: center;
 }
-.order-list .tbody li .box_wrap .view{
-    width: 15%;
-    color: #e93380;
-}
+
 .order-list .tbody li .box_wrap .date{
     width: 25%;
 }
@@ -144,6 +144,10 @@ body{
 }
 .order-list .tbody li .box_wrap .amount-money{
     width: 20%;
+}
+.order-list .tbody li .box_wrap .view{
+    width: 15%;
+    color: #e93380;
 }
 
 /*下拉列表*/
@@ -162,14 +166,13 @@ body{
 	border-bottom: 1px solid #dadada;
 }
 .item_cont .imgs {
-	margin: 0 .2rem 0 0;
-	width: 1.41rem;
-	height: 1.41rem;
-	border-radius: 4px;
+	width: 1.2rem;
+	height: 1.2rem;
+    border-radius: .04rem;
+    overflow: hidden;
+    margin: 0 .2rem 0 0;
 }
-.item_cont .imgs img {
-	border-radius: 4px;
-}
+
 .item .imgs,.right {
 	display: inline-block;
 	vertical-align: top;
@@ -178,6 +181,7 @@ body{
 	width: 70%;
 }
 .explain {
+    font-size: .24rem;
 	color: #151515;
 	overflow: hidden;
     text-overflow: ellipsis;
@@ -186,12 +190,20 @@ body{
     -webkit-box-orient: vertical;
 }
 .cost {
+    font-size: .2rem;
+    color: #808080;
 	line-height: .65rem;
+}
+.money{
+    font-size: .24rem
 }
 .money .ey {
 	margin-right: .25rem;
-	-color: #ee1515;
 }
+.money .ey span{
+    color: #e93380;
+}
+
 .amount {
 	padding-left: .22rem;
 	line-height: .45rem;
@@ -212,12 +224,12 @@ body{
 }
 .btn_wrap a {
 	display: inline-block;
-	width: 1.2rem;
-	height: .5rem;
+	width: 1.06rem;
+	height: .42rem;
 	border-radius: 4px;
 	font-size: .2rem;
 	text-align: center;
-	line-height: .5rem;
+	line-height: .42rem;
 }
 .call_btn {
 	color: #333;
@@ -276,7 +288,7 @@ img {
 }
 .ma_btn {
 	margin: 0 .45rem 0 .72rem;
-	background: #f60b26;
+	background: #e93380;
 }
 .ca_btn {
 	background: #5b5c5e;

@@ -132,9 +132,23 @@ class User extends MobileBase
     }
     // 邀请代理
     public function vite_agent()
-    {
+    {   
+        //if(!file_exists("public/upload/zhengshu/users/{$this->user_id}.jpg")){
+            \think\Image::open('public/upload/zhengshu/zhengshu.jpg')->text($this->user['nickname'],'hgzb.ttf',32,'#000000',[505,540])->save("public/upload/zhengshu/users/{$this->user_id}.jpg"); 
+
+            $level_name = M('User_level')->where(['level'=>$this->user['level']])->value('level_name');
+            \think\Image::open("public/upload/zhengshu/users/{$this->user_id}.jpg")->text($level_name,'hgzb.ttf',30,'#000000',[430,1120])->save("public/upload/zhengshu/users/{$this->user_id}.jpg");
+            
+            if($this->user['realname'])
+                \think\Image::open("public/upload/zhengshu/users/{$this->user_id}.jpg")->text($this->user['realname'],'hgzb.ttf',30,'#000000',[420,1185])->save("public/upload/zhengshu/users/{$this->user_id}.jpg");
+
+            if($this->user['mobile'])
+            \think\Image::open("public/upload/zhengshu/users/{$this->user_id}.jpg")->text($this->user['mobile'],'hgzb.ttf',30,'#000000',[530,1250])->save("public/upload/zhengshu/users/{$this->user_id}.jpg");    
+        //}
+
         $levlist = M('user_level')->field('id,level,level_name')->where(['level' => ['elt', $this->user['level']]])->select();
         $this->assign('levlist', $levlist);
+        $this->assign('pic', "/public/upload/zhengshu/users/{$this->user_id}.jpg");
         return $this->fetch();
     }
 
@@ -484,7 +498,27 @@ class User extends MobileBase
 
     public function modify()
     {
+        $name = I('get.name/s','nickname');
+        $user_id = I('get.user_id/d',0);
+        if(!$user_id || !in_array($name,['nickname','realname']))$this->error('参数错误！');
+        $name1 = M('Users')->where(['user_id'=>$user_id])->value($name);
+        $this->assign('user_id', $user_id);
+        $this->assign('name', $name);
+        $this->assign('name1', $name1);
         return $this->fetch();
+    }
+
+    public function update_realname(){
+        $user_id = I('get.user_id/d',0); 
+        $realname = I('get.realname/s','');
+        if(!$user_id || !$realname || ($user_id != $_SESSION['think']['user']['user_id'])){
+            echo json_encode(['msg'=>'参数错误','status'=>-1]);
+        }
+        $res = M('Users')->update(['user_id'=>$user_id,'realname'=>$realname]);
+        if(false !== $res)
+            echo json_encode(['msg'=>'操作成功','status'=>1]);
+        else
+            echo json_encode(['msg'=>'操作失败','status'=>-1]);
     }
 
     public function edit_personal()
@@ -2139,10 +2173,10 @@ class User extends MobileBase
         //        }
 
         //判断是否存在海报背景图
-        if (!DB::name('poster')->where(['enabled' => 1])->find()) {
-            echo "<script>alert('请上传海报背景');</script>";
-            return $this->fetch();
-        }
+        // if (!DB::name('poster')->where(['enabled' => 1])->find()) {
+        //     echo "<script>alert('请上传海报背景');</script>";
+        //     return $this->fetch();
+        // }
 
         //分享数据来源
         $shareLink = urlencode("http://{$_SERVER['HTTP_HOST']}/index.php?m=Shop&c=Index&a=index&first_leader={$user['user_id']}");

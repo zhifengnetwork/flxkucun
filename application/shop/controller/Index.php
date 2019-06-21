@@ -55,6 +55,11 @@ class Index extends MobileBase {
         $favourite_goods = M('goods')->where("is_recommend=1 and is_on_sale=1")->order('sort DESC')->limit(20)->cache(true,TPSHOP_CACHE_TIME)->select();//首页推荐商品
         $goods = getGoodsPrice($favourite_goods,$user['level']);
         $this->assign('favourite_goods',$goods);
+
+        //活动专区图片
+        $activity_img = M('config')->where('inc_type','activity_mg')->cache(true, TPSHOP_CACHE_TIME, 'activity_mg')->column('name,value');
+        $this->assign('activity_img',$activity_img);
+
         return $this->fetch();
     }
 

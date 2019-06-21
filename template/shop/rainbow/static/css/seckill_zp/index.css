@@ -1,11 +1,13 @@
 .content{
-    padding-top: 1.3rem;
+    padding: 1.3rem .3rem 0;
+    box-sizing: border-box;
 }
 .banner-wrap{
     width: 6.9rem;
     height: 2.5rem;
     border-radius: .24rem;
     overflow: hidden;
+    margin-bottom: .54rem;
 }
 .banner-wrap img{
     width: 100%;
@@ -21,4 +23,100 @@
 }
 .banner-wrap  .swiper-pagination-bullet-active{
     transform: scale(1.2);
+}
+
+/* 秒杀列表 */
+.single-item{
+    width: 100%;
+    height: 2.3rem;
+    background-color: #f7f7f7;
+    border-radius: .14rem;
+    margin-bottom: .2rem;
+    padding: .2rem;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.single-item .img-wrap{
+    width: 2rem;
+    height: 2rem;
+    background-color: #c59864;
+    border-radius: .08rem;
+    overflow: hidden;
+    margin-right: .13rem;
+}
+
+.single-item .text{
+    flex: 1;
+}
+.single-item .text h3{
+    width: 4.4rem;
+    font-size: .3rem;
+    margin-bottom: .12rem;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    overflow:hidden;
+}
+.single-item .text .dec{
+    font-size: .26rem;
+    margin-bottom: .2rem;
+}
+
+/* 进度条 */
+.progress{
+    display: flex;
+}
+.progress .progress-bar{
+    width: 1.62rem;
+    height: .2rem;
+    background-color: #cccccc;
+    border-radius: .04rem;
+    margin-right: .15rem;
+    overflow: hidden;
+    position: relative;
+}
+.progress .progress-bar span{
+    width: 1.2rem;
+    height: 100%;
+    display: block;
+    background-color: #e93380;
+    border-radius: .04rem;
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.progress  .percentage{
+    font-size: .22rem;
+    color: #e93380;
+}
+
+.single-item .text .price{
+    margin-top: .5rem;
+}
+
+.single-item .text .price .discount-price{
+    color: #ff6b87;
+    font-size: .32rem;
+}
+
+.single-item .text .price .original-price{
+    font-size: .22rem;
+    color:#333333;
+    text-decoration: line-through;
+}
+
+.single-item .buyBtn{
+    width: 1.38rem;
+    height: .6rem;
+    color: #fff;
+    background-color: #e93380;
+    font-size: .3rem;
+    border-radius: .06rem;
+    text-align: center;
+    line-height: .6rem;
+    position: absolute;
+    right: .2rem;
+    bottom: .2rem;
 }
