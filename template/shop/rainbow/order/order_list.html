@@ -119,7 +119,7 @@
                         <if condition="$order.comment_btn eq 1">
                             <a class="shop-rebuy" href="{:U('/Shop/Order/comment')}">评价</a>
                         </if>
-                        <if condition="$order.shipping_btn eq 1 && $order.shipping_name neq '' ">
+                        <if condition="$order.shipping_code && $order.shipping_name">
                             <a class="shop-rebuy" href="{:U('Shop/Order/express',array('order_id'=>$order['order_id']))}">查看物流</a>
                         </if>
                     </div>

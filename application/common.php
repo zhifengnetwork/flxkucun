@@ -24,6 +24,60 @@ function pred($data){
     print_r($data);die;
 }
 
+function kuaidi_code($code){
+    switch($code){
+        case 'shunfeng':
+            $type = 'shunfeng';break;
+        case 'YZPY':
+            $type = 'youzhengguonei';break;
+        case 'YTO':
+            $type = 'yuantong';break;
+        case 'YD':
+            $type = 'yunda';break;
+        case 'ZTO':
+            $type = 'zhongtong';break;
+        case 'shentong':
+            $type = 'shentong';break;
+        default:
+            $type='';break;
+    }
+    return $type;
+}
+
+/**
+*物流接口
+*/
+function getDelivery($shipping_code, $invoice_no)
+{
+    $host = "https://wuliu.market.alicloudapi.com";//api访问链接
+    $path = "/kdi";//API访问后缀
+    $method = "GET";
+    //物流
+    $appcode = 'c5ccb196109848fe8ea5e1668410132a';//替换成自己的阿里云appcode
+    $headers = array();
+    array_push($headers, "Authorization:APPCODE " . $appcode);
+    $querys = "no=".$invoice_no."&type=".$shipping_code;  //参数写在这里
+    $bodys = "";
+    $url = $host . $path . "?" . $querys;//url拼接
+
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($curl, CURLOPT_FAILONERROR, false);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_HEADER, false);
+    //curl_setopt($curl, CURLOPT_HEADER, true); 如不输出json, 请打开这行代码，打印调试头部状态码。
+    //状态码: 200 正常；400 URL无效；401 appCode错误； 403 次数用完； 500 API网管错误
+    if (1 == strpos("$".$host, "https://"))
+    {
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+    }
+
+    return curl_exec($curl);
+}
+
 function access_token()
 {
     $token = M('wx_user')->find();

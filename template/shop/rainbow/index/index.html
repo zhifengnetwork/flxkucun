@@ -253,51 +253,9 @@
 				<h3>热销新品</h3>
 			</div>
 			<div class="hot-list">
-				<div class="single-item">
-					<div class="img-wrap">
-						<a href="#"><img src="__STATIC__/images/home_zp/00hot-img01.png" /></a>
-					</div>
-					<div class="text">
-						<a href="#"><h3>凡露希</h3></a>
-						<p class="dec">温和低敏 纯植物精华</p>
-						<div class="price">
-							<span class="discount-price">¥29.9</span>
-							<span class="original-price">¥29.9</span>
-						</div>
-						<p class="spell-num">已拼9741万件</p>
-						<span class="buy-btn">立即购买</span>
-					</div>
-				</div>
-				<div class="single-item">
-					<div class="img-wrap">
-						<a href="#"><img src="__STATIC__/images/home_zp/00hot-img02.png" /></a>
-					</div>
-					<div class="text">
-						<a href="#"><h3>凡露希</h3></a>
-						<p class="dec">温和低敏 纯植物精华</p>
-						<div class="price">
-							<span class="discount-price">¥29.9</span>
-							<span class="original-price">¥29.9</span>
-						</div>
-						<p class="spell-num">已拼9741万件</p>
-						<span class="buy-btn">立即购买</span>
-					</div>
-				</div>
-				<div class="single-item">
-					<div class="img-wrap">
-						<a href="#"><img src="__STATIC__/images/home_zp/00hot-img03.png" /></a>
-					</div>
-					<div class="text">
-						<a href="#"><h3>凡露希</h3></a>
-						<p class="dec">温和低敏 纯植物精华</p>
-						<div class="price">
-							<span class="discount-price">¥29.9</span>
-							<span class="original-price">¥29.9</span>
-						</div>
-						<p class="spell-num">已拼9741万件</p>
-						<span class="buy-btn">立即购买</span>
-					</div>
-				</div>
+
+
+
 			</div>
 		</div>
 	
@@ -377,9 +335,10 @@
 
 <script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
 <script src="__STATIC__/js/swiper.min.js"></script>
-<script src="__STATIC__/js/public/public.js?v=201906181700"></script>
+<script src="__STATIC__/js/public/public.js?v=201906181700"></script>	
 
 <script>
+
 	$(function () {
 		// 首页轮播
 		var swiper = new Swiper('.bannerWrap', {
@@ -452,14 +411,15 @@
 		**/
 		var before_request = 1; // 上一次请求是否已经有返回来, 有才可以进行下一次请求
 		var page = 1;
-		function ajax_sourch_submit() {
+		ajax_sourch_submit(1);
+		function ajax_sourch_submit(p) {
 			if(before_request == 0) // 上一次请求没回来 不进行下一次请求
 				return false;
 			before_request = 0;
-			page ++;
+			!p && page ++;
 			$.ajax({
 				type: "get",
-				url: "/index.php?m=Shop&c=Index&a=ajaxGetMore&p=" + page,
+				url: "/index.php?m=Shop&c=Index&a=ajaxGetgoodslist&p=" + page,
 				success: function(data) {
 					if(data) {
 						$(".hot-list").append(data);
@@ -472,7 +432,18 @@
 				}
 			});
 		}
-
+		//滚动加载更多
+		$(window).scroll(
+			function() {
+				var scrollTop = parseInt($(this).scrollTop());
+				var scrollHeight = parseInt($(document).height());
+				var windowHeight = parseInt($(this).height());
+				var chazhi = (scrollTop + windowHeight ) - (scrollHeight-60);
+				if ( chazhi >= -800 ){
+					ajax_sourch_submit();//调用加载更多
+				}
+			}
+		);	
 
 	})
 

@@ -390,13 +390,6 @@ class Promotion extends Base
     public function groupbuyHandle()
     {
         $data = I('post.');
-        if($data['goods_num'] < 1){
-            $return = ['status' => 0,'msg' =>'团购数量不能小于0','result' =>''  ];
-            $this->ajaxReturn($return);
-        }
-        $data['groupbuy_intro'] = htmlspecialchars(stripslashes($this->request->param('groupbuy_intro')));
-        $data['start_time'] = strtotime($data['start_time']);
-        $data['end_time'] = strtotime($data['end_time']);
 
         if ($data['act'] == 'del') {
 
@@ -422,7 +415,16 @@ class Promotion extends Base
             $messageLogic->deletedMessage($data['id'], 2);
 
             if ($r) exit(json_encode(1));
-        }     
+        }   
+
+        if($data['goods_num'] < 1){
+            $return = ['status' => 0,'msg' =>'团购数量不能小于0','result' =>''  ];
+            $this->ajaxReturn($return);
+        }
+        $data['groupbuy_intro'] = htmlspecialchars(stripslashes($this->request->param('groupbuy_intro')));
+        $data['start_time'] = strtotime($data['start_time']);
+        $data['end_time'] = strtotime($data['end_time']);
+
         $groupBuyValidate = Loader::validate('GroupBuy');
         if($data['item_id'] > 0){
             $spec_goods_price = Db::name("spec_goods_price")->where(['item_id'=>$data['item_id']])->find();

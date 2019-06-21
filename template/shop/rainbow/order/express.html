@@ -14,33 +14,55 @@
 <div class="listschdule orderrefuce ma-to-20">
     <if condition="$delivery['shipping_code'] AND $delivery['invoice_no']">
         <p class="logis-detail-date" id="express_info"></p>
-        <script>
-            queryExpress();
-            function queryExpress()
-            {
-                var shipping_code = "{$delivery['shipping_code']}";
-                var invoice_no = "{$delivery['invoice_no']}";
-                $.ajax({
-                    type : "GET",
-                    dataType: "json",
-                    url:"/index.php?m=Home&c=Api&a=queryExpress&shipping_code="+shipping_code+"&invoice_no="+invoice_no,//+tab,
-                    success: function(data){
-                        var html = '';
-                        if(data.status == 200){
-                            $.each(data.data, function(i,o){
-                                html +="<div class='tittimlord red-around'><h2>"+ o.context +"</h2> <p>"+ o.time +"</p></div>";
-                            });
-                        }else{
-                            html +="<div class='tittimlord red-around'><h2>"+data.message+"</h2> <p></p></div>";
-                        }
-                        $("#express_info").after(html);
-                    }
-                });
-            }
-        </script>
+        
     </if>
     <!--  物流信息 end-->
 </div>
 <div class="mask-filter-div" style="display: none;"></div>
+
+<style>
+table{
+    border: solid 1px #D7D7D7;
+    width: 100%;
+    font-size: .5rem;
+}
+
+table thead th{
+    text-align: center;
+    min-height: 20px;
+    padding: 9px;
+    text-align: center;
+    min-height: 20px;
+    padding: 9px;
+}
+
+table tbody td{
+    border-bottom: solid 1px #D7D7D7;
+    word-break: break-all;
+    text-align: center;
+}
+
+</style>
+
+<table id="express_info">
+    <if condition="$kuaidi_info">
+        <thead>
+            <tr>
+                <th style="width:30%;">操作时间</th>
+                <th>状态</th>
+            </tr>
+        </thead>
+        <foreach name="$kuaidi_info" item="v">
+            <tbody>
+                <tr>
+                    <td class="text-center">{$v.time}</td>
+                    <td class="text-center">{$v.status}</td>
+                </tr>
+            </tbody>
+        </foreach>
+    <else />
+        暂无快递信息！
+    </if>
+</table>
 </body>
 </html>
