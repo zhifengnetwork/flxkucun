@@ -25,7 +25,13 @@ class Seckill extends MobileBase
 
     public function index_zp()
     {
-       
+        $flash_salelist = M('flash_sale')->alias('FS')->join('goods G','FS.goods_id=G.goods_id','left')->field('FS.id,FS.title,FS.goods_id,FS.item_id,FS.price,FS.goods_num,FS.buy_num,FS.order_num,G.market_price,FS.goods_name,G.original_img')->where(['FS.end_time'=>['gt',time()],'FS.is_end'=>0])->order('FS.start_time desc')->select(); 
+
+        foreach($flash_salelist as $k=>$v){
+            $flash_salelist[$k]['rate'] = !$v['order_num'] ? 100 : 100-intval(($v['order_num']/$v['goods_num'])*100);
+        }
+
+        $this->assign('flash_salelist',$flash_salelist);             
         return $this->fetch();
     }
 

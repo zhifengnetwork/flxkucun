@@ -172,59 +172,33 @@
 		</div> -->
 
 		<!-- 每日优品 -->
+		<if condition="$grouplist neq []">
 		<div class="recommend-wrap">
 			<div class="headline">
 				<h3>每日优品·免单团</h3>
 				<a href="{:U('Shop/GroupPurchase/index')}"><span class="more">更多</span></a>
 			</div>
 			<div class="recommend-list">
+				<volist name='grouplist' id='v'>
 				<div class="single-item">
-					<a href="#">
+					<a href="/Mobile/Goods/goodsInfo/id/{$v.goods_id}/item_id/{$v.item_id}">
 						<div class="img-wrap">
-							<img src="__STATIC__/images/home_zp/00recommend-img01.png" />
+							<img src="{$v.original_img}" />
 							<span class="tag"><img src="__STATIC__/images/home_zp/hot-icon.png" /></span>
 						</div>
 						<div class="text">
 							<div class="price">
-								<span class="discount-price">¥29.9</span>
-								<span class="original-price">¥29.9</span>
+								<span class="discount-price">¥{$v.price}</span>
+								<span class="original-price">¥{$v.goods_price}</span>
 							</div>
-							<p class="spell-num">已拼1万件</p>
+							<p class="spell-num">已拼{:cknum($v.buy_num + $v.virtual_num)}件</p>
 						</div>
 					</a>
 				</div>
-				<div class="single-item">
-					<a href="#">
-						<div class="img-wrap">
-							<img src="__STATIC__/images/home_zp/00recommend-img02.png" />
-							<span class="tag"><img src="__STATIC__/images/home_zp/hot-icon.png" /></span>
-						</div>
-						<div class="text">
-							<div class="price">
-								<span class="discount-price">¥29.9</span>
-								<span class="original-price">¥29.9</span>
-							</div>
-							<p class="spell-num">已拼1万件</p>
-						</div>
-					</a>
-				</div>
-				<div class="single-item">
-					<a href="#">
-						<div class="img-wrap">
-							<img src="__STATIC__/images/home_zp/00recommend-img03.png" />
-							<span class="tag"><img src="__STATIC__/images/home_zp/hot-icon.png" /></span>
-						</div>
-						<div class="text">
-							<div class="price">
-								<span class="discount-price">¥29.9</span>
-								<span class="original-price">¥29.9</span>
-							</div>
-							<p class="spell-num">已拼1万件</p>
-						</div>
-					</a>
-				</div>
+				</volist>
 			</div>
 		</div>
+		</if>
 
 		<div class="picc">
 			<img src="__STATIC__/images/home_zp/picc.png" />
@@ -242,7 +216,7 @@
 				</a>
 			</div>
 			<div class="cate-item">
-				<a href="#">
+				<a href="{:U('Shop/GroupPurchase/index')}">
 					<img src="<if condition='isset($activity_img.group_img) and $activity_img.group_img'>{$activity_img.group_img}<else />__STATIC__/images/home_zp/pt.png</if>" />
 				</a>
 			</div>

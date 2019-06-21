@@ -32,6 +32,10 @@ class Index extends MobileBase {
             exit();
         }
 
+        //获取团购活动前三
+        $grouplist = M('group_buy')->alias('GB')->join('goods G','GB.goods_id=G.goods_id','left')->field('GB.id,GB.title,GB.goods_id,GB.item_id,GB.price,GB.buy_num,GB.virtual_num,GB.goods_price,G.original_img')->where(['GB.end_time'=>['gt',time()],'GB.is_on'=>1,'GB.is_end'=>0])->order('GB.start_time desc')->limit(3)->select();
+        $this->assign('grouplist',$grouplist);
+
          $this->assign('shareid',$shareid);
 
         $GoodsLogic = new GoodsLogic();

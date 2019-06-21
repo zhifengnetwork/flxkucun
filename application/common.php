@@ -2222,13 +2222,13 @@ function user_kucun_goods($user_id, $goods_id)
  */
 function getGoodsPrice($goodsInfo, $level = 1)
 {
-
-    foreach ($goodsInfo as $key => $value) {
-        $level_price = M('goods_level_price')->where(['goods_id' => $value['goods_id'], 'level' => $level])->order('level asc')->value('price');
-        //            $price = array_column($level_price,NULL,'level');
-        $goodsInfo[$key]['price'] = $level_price;
+    if ($goodsInfo) {
+        foreach ($goodsInfo as $key => $value) {
+            $level_price = M('goods_level_price')->where(['goods_id' => $value['goods_id'], 'level' => $level])->order('level asc')->value('price');
+            //            $price = array_column($level_price,NULL,'level');
+            $goodsInfo[$key]['price'] = $level_price;
+        }
     }
-
     return $goodsInfo;
 }
 
@@ -2332,4 +2332,19 @@ function get_level_commission($flash_sale_id, $level, $key)
 {
     $val = M('flash_sale_commission')->where(['flash_sale_id' => $flash_sale_id, 'level' => $level])->value($key);
     return $val ? $val : 0.00;
+}
+
+function cknum($num){
+    if($num > 100000000){
+        return round(($num/100000000),2) . '亿';
+    }elseif($num > 10000000){
+        return round(($num/10000000),1) . '千万';
+    }elseif($num > 1000000){
+        return round(($num/1000000),1) . '百万';
+    }elseif($num > 10000){
+        return round(($num/10000),2) . '万';
+    }elseif($num > 1000){
+        return round(($num/1000),2) . '千';
+    }else
+    return $num;
 }

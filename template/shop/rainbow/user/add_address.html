@@ -100,10 +100,15 @@
                                 <div class="fl">
                                     <span>智能填写:</span>
                                 </div>
-                                <div class="fl">
+                                <div class="fr " style="font-size: .64rem;">
+                                    <a href="javascript:void(0)" onclick="intelligence()" style="    color: #fff;
+                                    background-color: #e30000;height: 1.5rem;
+    width: 2.9rem;line-height: 1.5rem;border-radius:0.5rem;text-align: center">智能填写</a>
+                                </div>
+                                <!-- <div class="fl">
                                     <input type="text" value="" name="Intelligence"/>
                                     <a href="javascript:void(0)" onclick="intelligence()">智能填写</a>
-                                </div>
+                                </div> -->
                             </div>
                         <!--</a>-->
                     </div>
@@ -277,8 +282,10 @@
             success: function(data){
                 if(data.status != 0){
 
+
                     $("input[name=consignee]").val(data.msg.name);
                     $("input[name=mobile]").val(data.msg.mobile);
+
 
                     var province = data.msg.detail[1].name;
                     var city = data.msg.detail[2].name;
