@@ -2333,3 +2333,18 @@ function get_level_commission($flash_sale_id, $level, $key)
     $val = M('flash_sale_commission')->where(['flash_sale_id' => $flash_sale_id, 'level' => $level])->value($key);
     return $val ? $val : 0.00;
 }
+
+function cknum($num){
+    if($num > 100000000){
+        return round(($num/100000000),2) . '亿';
+    }elseif($num > 10000000){
+        return round(($num/10000000),1) . '千万';
+    }elseif($num > 1000000){
+        return round(($num/1000000),1) . '百万';
+    }elseif($num > 10000){
+        return round(($num/10000),2) . '万';
+    }elseif($num > 1000){
+        return round(($num/1000),2) . '千';
+    }else
+    return $num;
+}
