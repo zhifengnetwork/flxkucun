@@ -71,21 +71,23 @@
 				<div class="thumb"></div>
 				<div class="text">
 					<h3 class="title">营销策略</h3>
-					<div class="player-time"><span class="currentTime"></span>00:00/<span class="allTime">06:55</span></div>
-					<audio controls="controls" id="audio" style="display: none">
-						<source src="http://www.w3school.com.cn/i/song.ogg" type="audio/ogg">
-						<source src="http://www.w3school.com.cn/i/song..mp3" type="audio/mpeg">
-					</audio>					
+					<div class="player-time"><span class="currentTime">00:00</span>/<span class="allTime">06:55</span></div>
+									
 				</div>
 				<div class="btnplay"  onclick="playAudio(this)"></div>
+				<audio controls="controls" id="audio" style="display: none">
+					<source src="http://music.163.com/song/media/outer/url?id=476592630.mp3" type="audio/ogg">
+					<source src="http://music.163.com/song/media/outer/url?id=476592630.mp3" type="audio/mpeg">
+				</audio>
 			</div>
 			
-		
+
 		</div>
 	 </div>
 	<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
 	<script src="__STATIC__/js/public/public.js"></script>
 	<script src="__STATIC__/js/public/swiper.min.js"></script>
+	
 	<script>
 		// 轮播图
 		var swiper = new Swiper('.banner-wrap', {
@@ -98,53 +100,72 @@
 			}
 		});
 
-		var audio = document.getElementById("audio");
+		/*
+		* 音频
+		*/
+		var audio = document.getElementById("audio");//获取音频
+		// 控制播放/暂停
 		function playAudio() {
-			//如果暂停   点击即可播放
+			//如果暂停，点击即可播放
 			if (audio.paused) {
-				// 播放
-				audio.play();
-				$(".btnplay").addClass("playing")
-				//如果播放  点击暂停
-			} else if (audio.play()) {
-				//暂停
-				audio.pause();
-				$(".btnplay").removeClass("playing")
+				audio.play();// 播放
+				$(".btnplay").addClass("playing");//更换图标
+				
+			}
+			//如果播放，点击暂停
+			else if (audio.play()) {
+				audio.pause();//暂停
+				$(".btnplay").removeClass("playing");//恢复图标
 			}
 		}
 
-		var currentTime =  audio.currentTime;
-		console.log(currentTime)
 
-		// var _audio = $('#audio')[0];
-		// _audio.load();
-		audio.load();
-
-		function duration(){
-		
-			var time = audio.duration;
-						
+		//监听播放时间
+		var video = document.getElementById('audio');
+		//使用事件监听方式捕捉事件
+		video.addEventListener("timeupdate",function(){
+			var timeDisplay;
+			timeDisplay = Math.floor(video.currentTime);//用秒数来显示当前播放进度
 			//分钟
-			var minute = time / 60;
-			var minutes = parseInt(minute);
+			var minute = parseInt(timeDisplay / 60);
+			if (minute < 10) {
+				minute = "0" + minute;
+			}
+			//秒
+			var second = Math.round(timeDisplay % 60);
+			if (second < 10) {
+				second = "0" + second;
+			}
+			// 注入当前播放时间
+			$(".currentTime").html(minute+':'+ second)
+
+		},false);
+
+		// 获取总时长
+		function duration(){
+			var time = audio.duration;
+			//分钟
+			var minutes = parseInt(time / 60);
 			if (minutes < 10) {
 				minutes = "0" + minutes;
 			}
 			//秒
-			var second = time % 60;
-			var seconds = Math.round(second);
+			var seconds = Math.round(time % 60);
 			if (seconds < 10) {
 				seconds = "0" + seconds;
 			}
 
-			//总共时长的秒数
-			var allTime = parseInt(minutes*60 + seconds);
-			// $(".allTime").html(allTime)
-		}
+			//注入总时长
+			$(".allTime").html(minutes +':'+ seconds)
 
+		}
+		// 音频元素数据加载后触发
 		audio.onloadedmetadata = duration;
 
-		
+		// 监听音频是否播放完毕
+		$("#audio").bind('ended',function () {
+			$(".btnplay").removeClass("playing");
+		});
 
 	</script>
 </body>

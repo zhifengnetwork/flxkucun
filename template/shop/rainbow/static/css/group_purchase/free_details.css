@@ -7,8 +7,11 @@
 }
 /* 选项卡-s */
 .TabBar{
+    width: 100%;
     height: 1rem;
     color: #ddd;
+    background: #fff;
+    z-index: 30;
     display:-webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
@@ -33,17 +36,33 @@
 }
 /* 选项卡-e */
 /* 选项页-s */
-.TabBar_wrap .active{
-    display: block;
-}
-.TabBar_item{
-    display: none;
-}
+
 /* 选项页-e */
 /* 商品-s */
 .carousel{
     height: 5.2rem;
-    background: #cdcbcc;
+    font-size: .3rem;
+}
+.carousel_classify{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 10px;
+    margin: auto;
+    text-align: center;
+}
+.carousel_classify .active{
+    display: inline-block;
+    background: #e93380;
+}
+.carousel_classify_item{
+    width: 1rem;
+    height: 100%;
+    color: #fff;
+    padding: .1rem;
+    border-radius: 1rem;
+    box-sizing: border-box;
+    background: #a4a3a3;
 }
 .seckill{
     height: 1.5rem;
@@ -261,5 +280,22 @@
 }
 .shop_details_title{
     line-height: 1rem;
+}
+table{
+    margin-bottom: .2rem;
+    width: 100%;
+    line-height: .6rem;
+    border: none;
+    border-collapse: collapse;
+}
+td:nth-child(1){
+    width: 30%;
+    padding: 0;
+    color: #ccc;
+    text-align: center;
+}
+td{
+    padding-left: .2rem;
+    border: solid #ddd .02rem;
 }
 /* 产品信息-e */
