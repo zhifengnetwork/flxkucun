@@ -2222,13 +2222,13 @@ function user_kucun_goods($user_id, $goods_id)
  */
 function getGoodsPrice($goodsInfo, $level = 1)
 {
-
-    foreach ($goodsInfo as $key => $value) {
-        $level_price = M('goods_level_price')->where(['goods_id' => $value['goods_id'], 'level' => $level])->order('level asc')->value('price');
-        //            $price = array_column($level_price,NULL,'level');
-        $goodsInfo[$key]['price'] = $level_price;
+    if ($goodsInfo) {
+        foreach ($goodsInfo as $key => $value) {
+            $level_price = M('goods_level_price')->where(['goods_id' => $value['goods_id'], 'level' => $level])->order('level asc')->value('price');
+            //            $price = array_column($level_price,NULL,'level');
+            $goodsInfo[$key]['price'] = $level_price;
+        }
     }
-
     return $goodsInfo;
 }
 
