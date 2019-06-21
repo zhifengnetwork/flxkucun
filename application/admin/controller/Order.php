@@ -393,6 +393,24 @@ exit("请联系DC环球直供网络客服购买高级版支持此功能");
         if(empty($order)){
             $this->error('订单不存在或已被删除');
         }
+        
+        $delivery_record = M('delivery_doc')->alias('d')->join('__ADMIN__ a','a.admin_id = d.admin_id')->where('d.order_id='.$order_id)->select();
+        if($delivery_record){
+            $order['invoice_no'] = $delivery_record[count($delivery_record)-1]['invoice_no'];
+        }
+
+        //快递信息
+        $kuaidi_info = [];
+        if($order['shipping_status']==1 && $order['shipping_code']){
+            $type = kuaidi_code($order['shipping_code']);
+            if($type){
+                $kuaidi_info = getDelivery($type,$order['invoice_no']);
+                $kuaidi_info = json_decode($kuaidi_info,true);
+                if($kuaidi_info['msg']=='ok' || isset($kuaidi_info['result']['list'])) $kuaidi_info = $kuaidi_info['result']['list'];
+            }
+        }
+        
+        $this->assign('kuaidi_info', $kuaidi_info);
         $this->assign('order', $order);
         return $this->fetch();
     }
@@ -795,34 +813,6 @@ exit("请联系DC环球直供网络客服购买高级版支持此功能");
             }
 
             $shipping_list = Db::name('shipping')->field('shipping_name,shipping_code')->where('')->select();
-            //快递信息
-            $kuaidi_info = [];
-            if($order['shipping_status']==1 && $order['shipping_code']){
-                switch($order['shipping_code']){
-                    case 'shunfeng':
-                        $type = 'shunfeng';break;
-                    case 'YZPY':
-                        $type = 'youzhengguonei';break;
-                    case 'YTO':
-                        $type = 'yuantong';break;
-                    case 'YD':
-                        $type = 'yunda';break;
-                    case 'ZTO':
-                        $type = 'zhongtong';break;
-                    case 'shentong':
-                        $type = 'shentong';break;
-                    default:
-                        $type='';break;
-                }
-                
-                if($type){
-                    $sj = mt_rand();
-                    $url = "https://www.kuaidi100.com/query?type={$type}&postid={$order['invoice_no']}&temp=0.{$sj}";
-                    // $res = httpRequest($url);
-                }
-
-            }
-
 
             $this->assign('order',$order);
             $this->assign('orderGoods',$orderGoods);
