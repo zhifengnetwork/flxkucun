@@ -100,15 +100,13 @@
                                 <div class="fl">
                                     <span>智能填写:</span>
                                 </div>
-                                <div class="fr " style="font-size: .64rem;">
-                                    <a href="javascript:void(0)" onclick="intelligence()" style="    color: #fff;
-                                    background-color: #e30000;height: 1.5rem;
-    width: 2.9rem;line-height: 1.5rem;border-radius:0.5rem;text-align: center">智能填写</a>
+                                <!--<div class="fr " >-->
+
+                                <!--</div>-->
+                                 <div class="fl"style="font-size: .64rem;">
+                                     <textarea rows="3" cols="40" name="Intelligence" id="Intelligence" placeholder="例如：广东省广州市天河区高德置地****号 张小明 18811112222"></textarea>
+                                     <a  href="javascript:void(0)" onclick="intelligence()" style="color: #fff;background-color: #e30000;height: 1.5rem;width: 2.9rem;line-height: 1.5rem;border-radius:0.5rem;text-align: center">智能填写</a>
                                 </div>
-                                <!-- <div class="fl">
-                                    <input type="text" value="" name="Intelligence"/>
-                                    <a href="javascript:void(0)" onclick="intelligence()">智能填写</a>
-                                </div> -->
                             </div>
                         <!--</a>-->
                     </div>
@@ -273,7 +271,10 @@
     }
 
     function intelligence() {
-        var areas = $('input[name="Intelligence"]').val();
+        var areas = $("#Intelligence").val();
+        if(areas == ''){
+            alert('内容不能为空');
+        }
         $.ajax({
             type : "POST",
             url:"/Shop/User/intelligent_write",
