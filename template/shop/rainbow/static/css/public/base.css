@@ -44,10 +44,23 @@ body{
     position: absolute;
     right: .3rem;
 }
-.right_img{
+.header .right .right-icon{
     width: .36rem;
     height: .36rem;
 }
 .header .right a{
     color: #e93380;
+}
+
+/* loading 加载*/
+.loading-wrap{
+    text-align: center;
+    margin-top: .4rem;
+}
+.loading-wrap .loading{
+    width: 100%;
+    margin-bottom: .15rem;
+}
+.loading-wrap .end{
+    font-size: .24rem;
 }

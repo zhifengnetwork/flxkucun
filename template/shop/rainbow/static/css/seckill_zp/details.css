@@ -1,0 +1,104 @@
+.content{
+    padding-top: .88rem;
+    background: #f6f6f6;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+.tab-Tit{
+    width: 100%;
+    height: .88rem;
+    color: #cccccc;
+    background: #ffffff;
+    font-size: .36rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack:distribute;
+    justify-content:space-around;
+    -webkit-box-align:center;
+    -ms-flex-align:center;
+    align-items:center;
+    margin-bottom: .22rem;
+}
+
+.tab-Tit .item{
+    padding: 0 .16rem .2rem;
+}
+
+.tab-Tit .active{
+    color: #eb88a9;
+    border-bottom: .04rem solid #e5618d;
+}
+
+/* 产品视频&主图轮播 */
+.slider-wrap{
+    width: 100%;
+    height: 5.24rem!important;
+    background-color: #000;
+    position: relative;
+}
+
+.slider-wrap img{
+    width: 100%;
+    display: block;
+}
+
+.slider-wrap .swiper-container .playBtn{
+    width: .67rem;
+    height: .67rem;
+    background: url(../../images/home_zp/playBtn-big.png) no-repeat;
+    background-size: 100%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 3;
+    transform: translate(-50%,-50%);
+}
+
+.slider-wrap .swiper-container .voiceBtn{
+    width: .5rem;
+    height: .5rem;
+    background: url(../../images/home_zp/voice-icon.png) no-repeat;
+    background-size: 100%;
+    position: absolute;
+    right: .3rem;
+    top: .4rem;
+}
+.slider-wrap .swiper-container .closing{
+    background: url(../../images/home_zp/mute-icon.png) no-repeat;
+    background-size: 100%;
+}
+
+.slider-wrap .nav-tag{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 10px;
+    margin: auto;
+    text-align: center;
+    z-index: 99;
+}
+
+.slider-wrap .nav-tag .tag-item{
+    width: .86rem;
+    height: .38rem;
+    line-height: .38rem;
+    text-align: center;
+    font-size: .24rem;
+    color: #fff;
+    border-radius: .15rem;
+    background: #a4a3a3;
+}
+.slider-wrap .nav-tag .active{
+    display: inline-block;
+    background: #e93380;
+}
+.slider-wrap .nav-tag .paly-icon{
+    width: .12rem;
+    height:.13rem;
+    display: inline-block;
+    background:url(../../images/details/play-tag.png) no-repeat;
+    background-size: .12rem .13rem;
+}

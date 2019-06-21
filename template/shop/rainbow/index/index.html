@@ -382,117 +382,127 @@
 				</foreach>
 			</ul>
 		</div> -->
-	</div>
 
-		<!--底部导航-start-->
-		<include file="public/footer_nav" />
 
+		<!-- <div class="jz-loods">
+			<span id="get_more">商品加载中...</span>
+			<em id="no_more" style="display:none;">商品加载完毕...</em>
+		</div> -->
+
+		<div class="loading-wrap">
+			<p class="loading"><img src="__STATIC__/images/public/loading.gif" /></p>
+			<p class="end">加载完毕</p>
 		</div>
 
-		<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
-		<script src="__STATIC__/js/swiper.min.js"></script>
-		<script src="__STATIC__/js/public/public.js?v=201906181700"></script>
-		<script>
-			// 首页轮播图
-			var swiper = new Swiper('.bannerWrap', {
-				loop: false,
-				// pagination: '.swiper-pagination',
-				paginationClickable: true,
-				// autoplay: 3000,
-				autoplayDisableOnInteraction: false,
-				pagination: {
-					el: '.swiper-pagination',
+	</div>
+
+	<!--底部导航-start-->
+	<include file="public/footer_nav" />
+
+</div>
+
+<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
+<script src="__STATIC__/js/swiper.min.js"></script>
+<script src="__STATIC__/js/public/public.js?v=201906181700"></script>
+
+<script>
+	$(function () {
+		// 首页轮播
+		var swiper = new Swiper('.bannerWrap', {
+			loop: false,
+			paginationClickable: true,
+			// autoplay: 3000,
+			autoplayDisableOnInteraction: false,
+			pagination: {
+				el: '.swiper-pagination',
+			}
+		});
+
+		// 轮播视频
+		$('.swiper-slide').click(function(){
+			var span = 	$(this).children('.playBtn')
+			//播放
+			span.hide();
+			let video = $(this).children('video')
+			playPause(video[0],span)
+		});
+		function playPause(video,than){ 
+			if (video.paused) {
+				video.play(); than.hide();
+			}
+			else{
+				video.pause(); 
+				than.show();
+			}
+		};
+
+		// 静音开关
+		var bool = true;
+		$(".voiceBtn").click(function(event){
+			// 取消冒泡
+			var e = window.event || event;
+			if(e.stopPropagation){
+				e.stopPropagation();
+			}else{
+				e.cancelBubble = true;
+			}
+
+			let v = $(this).parents().children('video')
+			if(bool){
+				//关闭声音
+				v[0].muted = true;
+				$(this).addClass("closing");
+				bool = false;
+			}else{
+				// 开启声音
+				v[0].muted = false;
+				$(this).removeClass("closing");
+				bool = true;
+			}
+		});
+
+		/**
+		* 搜索
+		**/
+		$(".search").click(function () {
+			$(window).attr('location', `/shop/Goods/ajaxSearch`);
+		})
+		$(document).keydown(function (event) {
+			if (event.keyCode == 13) {
+				$('.search').triggerHandler('click');
+			}
+		});
+
+		/**
+		* 继续加载热销新品
+		**/
+		var before_request = 1; // 上一次请求是否已经有返回来, 有才可以进行下一次请求
+		var page = 1;
+		function ajax_sourch_submit() {
+			if(before_request == 0) // 上一次请求没回来 不进行下一次请求
+				return false;
+			before_request = 0;
+			page ++;
+			$.ajax({
+				type: "get",
+				url: "/index.php?m=Shop&c=Index&a=ajaxGetMore&p=" + page,
+				success: function(data) {
+					if(data) {
+						$(".hot-list").append(data);
+						before_request = 1;
+					}else {
+						$('.loading-wrap .loading').hide();
+
+						$('.loading-wrap .end').show();
+					}
 				}
 			});
-		</script>
-		<script type="text/javascript">
-			//播放/暂停，采用同一个方法实现
-			function playPause() {
-				//获取视频DOM元素
-				var myVideo = document.getElementById("myVideo");
-				if (myVideo.paused)//判断当前是否处于暂停状态
-					myVideo.play();        //调用play()方法开发播放
-				else
-					myVideo.pause();        //调用pause()方法暂停视频播放
-			}
-			//从中间开始播放
-			function playInMid() {
-				//获取视频DOM元素
-				var myVideo = document.getElementById("myVideo");
-				//得到视频的总时长
-				var duration = myVideo.duration;
-				//得到当前的进度
-				var currentTime = myVideo.currentTime;
-				//判断是否暂停中
-				if (!myVideo.paused)
-					myVideo.pause();
-				//从总时长的一半的位置开始播放
-				myVideo.currentTime = duration / 2;
-				//继续播放视频
-				myVideo.play();
-			}
-		</script>
-		<script>
-			$(function () {
-				$('.swiper-slide').click(function(){
-				var span = 	$(this).children('.playBtn')
-					//播放
-					span.hide();
-					let video = $(this).children('video')
-					playPause(video[0],span)
-				});
-				function playPause(video,than){ 
-					if (video.paused) {
-						video.play(); than.hide();
-					}
-					else{
-						video.pause(); 
-						than.show();
-					}
-				};
+		}
 
-				// 静音开关
-				var bool = true;
-				$(".voiceBtn").click(function(event){
-					// 取消冒泡
-					var e = window.event || event;
-					if(e.stopPropagation){
-						e.stopPropagation();
-					}else{
-						e.cancelBubble = true;
-					}
 
-					let v = $(this).parents().children('video')
-					if(bool){
-						//关闭声音
-						v[0].muted = true;
-						$(this).addClass("closing");
-						bool = false;
-					}else{
-						// 开启声音
-						v[0].muted = false;
-						$(this).removeClass("closing");
-						bool = true;
-					}
+	})
 
-				})
-
-			})
-
-			/**
-			 * 搜索
-			 * */
-			$(function () {
-				$(".search").click(function () {
-					$(window).attr('location', ` /shop/Goods/ajaxSearch`);
-				})
-				$(document).keydown(function (event) {
-					if (event.keyCode == 13) {
-						$('.search').triggerHandler('click');
-					}
-				});
-			})
-		</script>
+</script>
 </body>
 
 </html>

@@ -11,6 +11,7 @@
     height: 1rem;
     color: #ddd;
     background: #fff;
+    font-size: .36rem;
     z-index: 30;
     display:-webkit-box;
     display: -moz-box;
@@ -29,16 +30,41 @@
 }
 .TabBar .active{
     color: #eb88a9;
-    border-bottom: .02rem solid #e5618d;
+    border-bottom: .04rem solid #e5618d;
 }
 .TabBar_list{
-    padding: 0 .2rem .2rem;
+    padding: 0 .16rem .2rem;
 }
 /* 选项卡-e */
 /* 选项页-s */
 
 /* 选项页-e */
 /* 商品-s */
+.carousel .playBtn{
+    width: .67rem;
+    height: .67rem;
+    background: url(../../images/home_zp/playBtn-big.png) no-repeat;
+    background-size: 100%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 3;
+    transform: translate(-50%,-50%);
+}
+
+.carousel .voiceBtn{
+    width: .5rem;
+    height: .5rem;
+    background: url(../../images/home_zp/voice-icon.png) no-repeat;
+    background-size: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.carousel .closing{
+    background: url(../../images/home_zp/mute-icon.png) no-repeat;
+    background-size: 100%;
+}
 .carousel{
     height: 5.2rem;
     font-size: .3rem;
@@ -64,6 +90,10 @@
     box-sizing: border-box;
     background: #a4a3a3;
 }
+.carousel img{
+    width: 100%;
+}
+
 .seckill{
     height: 1.5rem;
     padding: .5rem .3rem 0;
