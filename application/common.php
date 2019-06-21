@@ -24,6 +24,60 @@ function pred($data){
     print_r($data);die;
 }
 
+function kuaidi_code($code){
+    switch($code){
+        case 'shunfeng':
+            $type = 'shunfeng';break;
+        case 'YZPY':
+            $type = 'youzhengguonei';break;
+        case 'YTO':
+            $type = 'yuantong';break;
+        case 'YD':
+            $type = 'yunda';break;
+        case 'ZTO':
+            $type = 'zhongtong';break;
+        case 'shentong':
+            $type = 'shentong';break;
+        default:
+            $type='';break;
+    }
+    return $type;
+}
+
+/**
+*物流接口
+*/
+function getDelivery($shipping_code, $invoice_no)
+{
+    $host = "https://wuliu.market.alicloudapi.com";//api访问链接
+    $path = "/kdi";//API访问后缀
+    $method = "GET";
+    //物流
+    $appcode = 'c5ccb196109848fe8ea5e1668410132a';//替换成自己的阿里云appcode
+    $headers = array();
+    array_push($headers, "Authorization:APPCODE " . $appcode);
+    $querys = "no=".$invoice_no."&type=".$shipping_code;  //参数写在这里
+    $bodys = "";
+    $url = $host . $path . "?" . $querys;//url拼接
+
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($curl, CURLOPT_FAILONERROR, false);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_HEADER, false);
+    //curl_setopt($curl, CURLOPT_HEADER, true); 如不输出json, 请打开这行代码，打印调试头部状态码。
+    //状态码: 200 正常；400 URL无效；401 appCode错误； 403 次数用完； 500 API网管错误
+    if (1 == strpos("$".$host, "https://"))
+    {
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+    }
+
+    return curl_exec($curl);
+}
+
 function access_token()
 {
     $token = M('wx_user')->find();
@@ -2222,13 +2276,13 @@ function user_kucun_goods($user_id, $goods_id)
  */
 function getGoodsPrice($goodsInfo, $level = 1)
 {
-
-    foreach ($goodsInfo as $key => $value) {
-        $level_price = M('goods_level_price')->where(['goods_id' => $value['goods_id'], 'level' => $level])->order('level asc')->value('price');
-        //            $price = array_column($level_price,NULL,'level');
-        $goodsInfo[$key]['price'] = $level_price;
+    if ($goodsInfo) {
+        foreach ($goodsInfo as $key => $value) {
+            $level_price = M('goods_level_price')->where(['goods_id' => $value['goods_id'], 'level' => $level])->order('level asc')->value('price');
+            //            $price = array_column($level_price,NULL,'level');
+            $goodsInfo[$key]['price'] = $level_price;
+        }
     }
-
     return $goodsInfo;
 }
 
@@ -2332,4 +2386,19 @@ function get_level_commission($flash_sale_id, $level, $key)
 {
     $val = M('flash_sale_commission')->where(['flash_sale_id' => $flash_sale_id, 'level' => $level])->value($key);
     return $val ? $val : 0.00;
+}
+
+function cknum($num){
+    if($num > 100000000){
+        return round(($num/100000000),2) . '亿';
+    }elseif($num > 10000000){
+        return round(($num/10000000),1) . '千万';
+    }elseif($num > 1000000){
+        return round(($num/1000000),1) . '百万';
+    }elseif($num > 10000){
+        return round(($num/10000),2) . '万';
+    }elseif($num > 1000){
+        return round(($num/1000),2) . '千';
+    }else
+    return $num;
 }

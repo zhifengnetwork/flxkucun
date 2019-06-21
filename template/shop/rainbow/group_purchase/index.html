@@ -51,44 +51,27 @@
 
 			<!-- 列表 -->
 			<div class="seckill-list">
+				<volist name='grouplist' id='v'>
 				<div class="single-item">
-					<div class="img-wrap"></div>
+					<div class="img-wrap"><img style='width:100%;height:100%;' src='{$v.original_img}' /></div>
 					<div class="text">
-						<h3><a href="#">可爱多洗衣液500ml*6袋</a></h3>
-						<p class="dec">温和低敏 强力去污易漂洗</p>
+						<h3><a href="/Mobile/Goods/goodsInfo/id/{$v.goods_id}/item_id/{$v.item_id}">{$v.title}</a></h3>
+						<p class="dec">{$v.goods_name}</p>
 						<div class="progress">
 							<div class="progress-bar">
 								<span></span>
 							</div>
-							<div class="percentage">总名额200人</div>
+							<div class="percentage">总名额{$v.goods_num + $v.virtual_num}人</div>
 						</div>
 						<div class="price">
-							<span class="discount-price">¥29.9</span>
-							<span class="original-price">¥99.9</span>
+							<span class="discount-price">¥{$v.price}</span>
+							<span class="original-price">¥{$v.goods_price}</span>
 						</div>
-						<div class="quota">剩余名额93人</div>
+						<div class="quota">剩余名额{$v.goods_num - $v.buy_num}人</div>
 					</div>
-					<div class="buyBtn">立即领取</div>
+					<a href="/Mobile/Goods/goodsInfo/id/{$v.goods_id}/item_id/{$v.item_id}" class="buyBtn">立即领取</a>
 				</div>
-				<div class="single-item">
-					<div class="img-wrap"></div>
-					<div class="text">
-						<h3><a href="#">可爱多洗衣液500ml*6袋</a></h3>
-						<p class="dec">温和低敏 强力去污易漂洗</p>
-						<div class="progress">
-							<div class="progress-bar">
-								<span></span>
-							</div>
-							<div class="percentage">总名额200人</div>
-						</div>
-						<div class="price">
-							<span class="discount-price">¥29.9</span>
-							<span class="original-price">¥99.9</span>
-						</div>
-						<div class="quota">剩余名额99人</div>
-					</div>
-					<div class="buyBtn">立即领取</div>
-				</div>
+				</volist>
 			</div>
 		
 		</div>

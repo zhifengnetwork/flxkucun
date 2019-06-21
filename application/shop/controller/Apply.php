@@ -66,13 +66,13 @@ class Apply extends MobileBase
 		if($applyid){
 			if($info['openid']){
 				$url = SITE_URL."/Shop/apply/invitation_agent?id=".$applyid;
-				$wx_content = "您的上级邀请您成为$level_name！\n\n<a href='{$url}'>点击处理</a>";
+				$wx_content = "您的上级邀请您成为".$level_name."！\n\n<a href='{$url}'>点击处理</a>";
 				$wechat = new \app\common\logic\wechat\WechatUtil();
 				$wechat->sendMsg($info['openid'], 'text', $wx_content);
 			}
 
 			//发送站内消息
-			$msid = M('message_notice')->add(['message_title'=>'邀请代理通知','message_content'=>"您的上级邀请您成为$level_name！",'send_time'=>time(),'mmt_code'=>"/Shop/apply/invitation_agent?id=".$applyid,'type'=>7]);
+			$msid = M('message_notice')->add(['message_title'=>'邀请代理通知','message_content'=>"您的上级邀请您成为".$level_name."！",'send_time'=>time(),'mmt_code'=>"/Shop/apply/invitation_agent?id=".$applyid,'type'=>7]);
 			if($msid)M('user_message')->add(['user_id'=>$uid1,'message_id'=>$msid]);
 			$this->ajaxReturn(['status'=>0,'msg'=>'邀请成功!','data'=>$msid]);
 		}else{

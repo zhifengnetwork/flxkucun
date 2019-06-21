@@ -32,7 +32,11 @@ class Index extends MobileBase {
             exit();
         }
 
-         $this->assign('shareid',$shareid);
+        //获取团购活动前三
+        $grouplist = M('group_buy')->alias('GB')->join('goods G','GB.goods_id=G.goods_id','left')->field('GB.id,GB.title,GB.goods_id,GB.item_id,GB.price,GB.buy_num,GB.virtual_num,GB.goods_price,G.original_img')->where(['GB.end_time'=>['gt',time()],'GB.is_on'=>1,'GB.is_end'=>0])->order('GB.start_time desc')->limit(3)->select();
+        $this->assign('grouplist',$grouplist);
+
+        $this->assign('shareid',$shareid);
 
         $GoodsLogic = new GoodsLogic();
         $cat_list = $GoodsLogic->getSortCategoryList();
@@ -61,6 +65,27 @@ class Index extends MobileBase {
         $this->assign('activity_img',$activity_img);
 
         return $this->fetch();
+    }
+
+    public function ajaxGetgoodslist(){
+        $level = $_SESSION['think']['user']['level'];
+        $p = I('get.p/d',1);
+        $num = 6;
+        //获取热销新品前6
+        $goodslist = M('Goods')->field('goods_id,goods_name,market_price,goods_remark,original_img,virtual_sales_sum,sales_sum')->where(['is_on_sale'=>1,'is_new'=>1,'is_hot'=>1])->order('sort asc')->limit(($p-1)*$num . ',' . $num)->select();
+
+        $GoodsLevelPrice = M('goods_level_price');
+        foreach($goodslist as $k=>$v){
+            if(!$level){
+                $goodslist[$k]['price'] = $v['market_price'];
+                continue;
+            }
+            $price = $GoodsLevelPrice->where(['goods_id'=>$v['goods_id'],'level'=>$level])->value('price');
+            $goodslist[$k]['price'] = $price ? $price : $v['market_price'];
+        }
+
+        $this->assign('goodslist',$goodslist);    
+        return $this->fetch();   
     }
 
 

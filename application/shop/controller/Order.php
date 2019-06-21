@@ -305,11 +305,28 @@ class Order extends MobileBase
     public function express()
     {
         $order_id = I('get.order_id/d', 0);
+
+        $order = Db::name('order')->where('order_id',$order_id)->field('shipping_code')->find();
+
+        $delivery_record = M('delivery_doc')->alias('d')->join('__ADMIN__ a','a.admin_id = d.admin_id')->where('d.order_id='.$order_id)->select();
+        if($delivery_record){
+            $order['invoice_no'] = $delivery_record[count($delivery_record)-1]['invoice_no'];
+        }
+
+        $type = kuaidi_code($order['shipping_code']);
+        $kuaidi_info = [];
+        if($type){
+            $kuaidi_info = getDelivery($type,$order['invoice_no']);
+            $kuaidi_info = json_decode($kuaidi_info,true);
+            if($kuaidi_info['msg']=='ok' || isset($kuaidi_info['result']['list'])) $kuaidi_info = $kuaidi_info['result']['list'];
+        }
+
         $order_goods = M('order_goods')->where("order_id", $order_id)->select();
         if(empty($order_goods) || empty($order_id)){
             $this->error('没有获取到订单信息');
         }
         $delivery = M('delivery_doc')->where("order_id", $order_id)->find();
+        $this->assign('kuaidi_info', $kuaidi_info);
         $this->assign('order_goods', $order_goods);
         $this->assign('delivery', $delivery);
         return $this->fetch();

@@ -172,59 +172,33 @@
 		</div> -->
 
 		<!-- 每日优品 -->
+		<if condition="$grouplist neq []">
 		<div class="recommend-wrap">
 			<div class="headline">
 				<h3>每日优品·免单团</h3>
 				<a href="{:U('Shop/GroupPurchase/index')}"><span class="more">更多</span></a>
 			</div>
 			<div class="recommend-list">
+				<volist name='grouplist' id='v'>
 				<div class="single-item">
-					<a href="#">
+					<a href="/Mobile/Goods/goodsInfo/id/{$v.goods_id}/item_id/{$v.item_id}">
 						<div class="img-wrap">
-							<img src="__STATIC__/images/home_zp/00recommend-img01.png" />
+							<img src="{$v.original_img}" />
 							<span class="tag"><img src="__STATIC__/images/home_zp/hot-icon.png" /></span>
 						</div>
 						<div class="text">
 							<div class="price">
-								<span class="discount-price">¥29.9</span>
-								<span class="original-price">¥29.9</span>
+								<span class="discount-price">¥{$v.price}</span>
+								<span class="original-price">¥{$v.goods_price}</span>
 							</div>
-							<p class="spell-num">已拼1万件</p>
+							<p class="spell-num">已拼{:cknum($v.buy_num + $v.virtual_num)}件</p>
 						</div>
 					</a>
 				</div>
-				<div class="single-item">
-					<a href="#">
-						<div class="img-wrap">
-							<img src="__STATIC__/images/home_zp/00recommend-img02.png" />
-							<span class="tag"><img src="__STATIC__/images/home_zp/hot-icon.png" /></span>
-						</div>
-						<div class="text">
-							<div class="price">
-								<span class="discount-price">¥29.9</span>
-								<span class="original-price">¥29.9</span>
-							</div>
-							<p class="spell-num">已拼1万件</p>
-						</div>
-					</a>
-				</div>
-				<div class="single-item">
-					<a href="#">
-						<div class="img-wrap">
-							<img src="__STATIC__/images/home_zp/00recommend-img03.png" />
-							<span class="tag"><img src="__STATIC__/images/home_zp/hot-icon.png" /></span>
-						</div>
-						<div class="text">
-							<div class="price">
-								<span class="discount-price">¥29.9</span>
-								<span class="original-price">¥29.9</span>
-							</div>
-							<p class="spell-num">已拼1万件</p>
-						</div>
-					</a>
-				</div>
+				</volist>
 			</div>
 		</div>
+		</if>
 
 		<div class="picc">
 			<img src="__STATIC__/images/home_zp/picc.png" />
@@ -242,7 +216,7 @@
 				</a>
 			</div>
 			<div class="cate-item">
-				<a href="#">
+				<a href="{:U('Shop/GroupPurchase/index')}">
 					<img src="<if condition='isset($activity_img.group_img) and $activity_img.group_img'>{$activity_img.group_img}<else />__STATIC__/images/home_zp/pt.png</if>" />
 				</a>
 			</div>
@@ -279,51 +253,9 @@
 				<h3>热销新品</h3>
 			</div>
 			<div class="hot-list">
-				<div class="single-item">
-					<div class="img-wrap">
-						<a href="#"><img src="__STATIC__/images/home_zp/00hot-img01.png" /></a>
-					</div>
-					<div class="text">
-						<a href="#"><h3>凡露希</h3></a>
-						<p class="dec">温和低敏 纯植物精华</p>
-						<div class="price">
-							<span class="discount-price">¥29.9</span>
-							<span class="original-price">¥29.9</span>
-						</div>
-						<p class="spell-num">已拼9741万件</p>
-						<span class="buy-btn">立即购买</span>
-					</div>
-				</div>
-				<div class="single-item">
-					<div class="img-wrap">
-						<a href="#"><img src="__STATIC__/images/home_zp/00hot-img02.png" /></a>
-					</div>
-					<div class="text">
-						<a href="#"><h3>凡露希</h3></a>
-						<p class="dec">温和低敏 纯植物精华</p>
-						<div class="price">
-							<span class="discount-price">¥29.9</span>
-							<span class="original-price">¥29.9</span>
-						</div>
-						<p class="spell-num">已拼9741万件</p>
-						<span class="buy-btn">立即购买</span>
-					</div>
-				</div>
-				<div class="single-item">
-					<div class="img-wrap">
-						<a href="#"><img src="__STATIC__/images/home_zp/00hot-img03.png" /></a>
-					</div>
-					<div class="text">
-						<a href="#"><h3>凡露希</h3></a>
-						<p class="dec">温和低敏 纯植物精华</p>
-						<div class="price">
-							<span class="discount-price">¥29.9</span>
-							<span class="original-price">¥29.9</span>
-						</div>
-						<p class="spell-num">已拼9741万件</p>
-						<span class="buy-btn">立即购买</span>
-					</div>
-				</div>
+
+
+
 			</div>
 		</div>
 	
@@ -382,117 +314,140 @@
 				</foreach>
 			</ul>
 		</div> -->
-	</div>
 
-		<!--底部导航-start-->
-		<include file="public/footer_nav" />
 
+		<!-- <div class="jz-loods">
+			<span id="get_more">商品加载中...</span>
+			<em id="no_more" style="display:none;">商品加载完毕...</em>
+		</div> -->
+
+		<div class="loading-wrap">
+			<p class="loading"><img src="__STATIC__/images/public/loading.gif" /></p>
+			<p class="end">加载完毕</p>
 		</div>
 
-		<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
-		<script src="__STATIC__/js/swiper.min.js"></script>
-		<script src="__STATIC__/js/public/public.js?v=201906181700"></script>
-		<script>
-			// 首页轮播图
-			var swiper = new Swiper('.bannerWrap', {
-				loop: false,
-				// pagination: '.swiper-pagination',
-				paginationClickable: true,
-				// autoplay: 3000,
-				autoplayDisableOnInteraction: false,
-				pagination: {
-					el: '.swiper-pagination',
+	</div>
+
+	<!--底部导航-start-->
+	<include file="public/footer_nav" />
+
+</div>
+
+<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
+<script src="__STATIC__/js/swiper.min.js"></script>
+<script src="__STATIC__/js/public/public.js?v=201906181700"></script>	
+
+<script>
+
+	$(function () {
+		// 首页轮播
+		var swiper = new Swiper('.bannerWrap', {
+			loop: false,
+			paginationClickable: true,
+			// autoplay: 3000,
+			autoplayDisableOnInteraction: false,
+			pagination: {
+				el: '.swiper-pagination',
+			}
+		});
+
+		// 轮播视频
+		$('.swiper-slide').click(function(){
+			var span = 	$(this).children('.playBtn')
+			//播放
+			span.hide();
+			let video = $(this).children('video')
+			playPause(video[0],span)
+		});
+		function playPause(video,than){ 
+			if (video.paused) {
+				video.play(); than.hide();
+			}
+			else{
+				video.pause(); 
+				than.show();
+			}
+		};
+
+		// 静音开关
+		var bool = true;
+		$(".voiceBtn").click(function(event){
+			// 取消冒泡
+			var e = window.event || event;
+			if(e.stopPropagation){
+				e.stopPropagation();
+			}else{
+				e.cancelBubble = true;
+			}
+
+			let v = $(this).parents().children('video')
+			if(bool){
+				//关闭声音
+				v[0].muted = true;
+				$(this).addClass("closing");
+				bool = false;
+			}else{
+				// 开启声音
+				v[0].muted = false;
+				$(this).removeClass("closing");
+				bool = true;
+			}
+		});
+
+		/**
+		* 搜索
+		**/
+		$(".search").click(function () {
+			$(window).attr('location', `/shop/Goods/ajaxSearch`);
+		})
+		$(document).keydown(function (event) {
+			if (event.keyCode == 13) {
+				$('.search').triggerHandler('click');
+			}
+		});
+
+		/**
+		* 继续加载热销新品
+		**/
+		var before_request = 1; // 上一次请求是否已经有返回来, 有才可以进行下一次请求
+		var page = 1;
+		ajax_sourch_submit(1);
+		function ajax_sourch_submit(p) {
+			if(before_request == 0) // 上一次请求没回来 不进行下一次请求
+				return false;
+			before_request = 0;
+			!p && page ++;
+			$.ajax({
+				type: "get",
+				url: "/index.php?m=Shop&c=Index&a=ajaxGetgoodslist&p=" + page,
+				success: function(data) {
+					if(data) {
+						$(".hot-list").append(data);
+						before_request = 1;
+					}else {
+						$('.loading-wrap .loading').hide();
+
+						$('.loading-wrap .end').show();
+					}
 				}
 			});
-		</script>
-		<script type="text/javascript">
-			//播放/暂停，采用同一个方法实现
-			function playPause() {
-				//获取视频DOM元素
-				var myVideo = document.getElementById("myVideo");
-				if (myVideo.paused)//判断当前是否处于暂停状态
-					myVideo.play();        //调用play()方法开发播放
-				else
-					myVideo.pause();        //调用pause()方法暂停视频播放
+		}
+		//滚动加载更多
+		$(window).scroll(
+			function() {
+				var scrollTop = parseInt($(this).scrollTop());
+				var scrollHeight = parseInt($(document).height());
+				var windowHeight = parseInt($(this).height());
+				var chazhi = (scrollTop + windowHeight ) - (scrollHeight-60);
+				if ( chazhi >= -800 ){
+					ajax_sourch_submit();//调用加载更多
+				}
 			}
-			//从中间开始播放
-			function playInMid() {
-				//获取视频DOM元素
-				var myVideo = document.getElementById("myVideo");
-				//得到视频的总时长
-				var duration = myVideo.duration;
-				//得到当前的进度
-				var currentTime = myVideo.currentTime;
-				//判断是否暂停中
-				if (!myVideo.paused)
-					myVideo.pause();
-				//从总时长的一半的位置开始播放
-				myVideo.currentTime = duration / 2;
-				//继续播放视频
-				myVideo.play();
-			}
-		</script>
-		<script>
-			$(function () {
-				$('.swiper-slide').click(function(){
-				var span = 	$(this).children('.playBtn')
-					//播放
-					span.hide();
-					let video = $(this).children('video')
-					playPause(video[0],span)
-				});
-				function playPause(video,than){ 
-					if (video.paused) {
-						video.play(); than.hide();
-					}
-					else{
-						video.pause(); 
-						than.show();
-					}
-				};
+		);	
 
-				// 静音开关
-				var bool = true;
-				$(".voiceBtn").click(function(event){
-					// 取消冒泡
-					var e = window.event || event;
-					if(e.stopPropagation){
-						e.stopPropagation();
-					}else{
-						e.cancelBubble = true;
-					}
+	})
 
-					let v = $(this).parents().children('video')
-					if(bool){
-						//关闭声音
-						v[0].muted = true;
-						$(this).addClass("closing");
-						bool = false;
-					}else{
-						// 开启声音
-						v[0].muted = false;
-						$(this).removeClass("closing");
-						bool = true;
-					}
-
-				})
-
-			})
-
-			/**
-			 * 搜索
-			 * */
-			$(function () {
-				$(".search").click(function () {
-					$(window).attr('location', ` /shop/Goods/search/q/面膜`);
-				})
-				$(document).keydown(function (event) {
-					if (event.keyCode == 13) {
-						$('.search').triggerHandler('click');
-					}
-				});
-			})
-		</script>
+</script>
 </body>
 
 </html>

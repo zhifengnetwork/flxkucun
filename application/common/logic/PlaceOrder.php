@@ -38,6 +38,7 @@ class PlaceOrder
     private $preSell;
     private $user_id;
     private $source_uid = 0;
+    private $order_prom_amount = 0;
 
     /**
      * PlaceOrder constructor.
@@ -250,6 +251,7 @@ class PlaceOrder
                 $order_amount = $total_amount;
             }
         }
+        $this->order_prom_amount = isset($use_user_money) ? $use_user_money : $this->pay->getUserMoney();
         $orderData = [
             'order_sn' => $OrderLogic->get_order_sn(), // 订单编号
             'user_id' => $user['user_id'], // 用户id
@@ -259,7 +261,7 @@ class PlaceOrder
             'goods_price' => $this->pay->getGoodsPrice(),//'商品价格',
             'shipping_price' => $this->pay->getShippingPrice(),//'物流价格',
             'user_money' => isset($use_user_money) ? $use_user_money : $this->pay->getUserMoney(),//'使用余额',
-            'order_prom_amount' => isset($use_user_money) ? $use_user_money : $this->pay->getUserMoney(),//'优惠金额',
+            'order_prom_amount' => $this->order_prom_amount,//'优惠金额',
             'coupon_price' => $this->pay->getCouponPrice(),//'使用优惠券',
             'integral' => $this->pay->getPayPoints(), //'使用积分',
             'integral_money' => $this->pay->getIntegralMoney(),//'使用积分抵多少钱',
@@ -447,13 +449,14 @@ class PlaceOrder
             if($this->pay->getPayPoints() > 0){
                 $user->pay_points = $user->pay_points - $this->pay->getPayPoints();// 消费积分
             }
+            $use_money =  $this->pay->getUserMoney() - $this->order_prom_amount;
             if($this->pay->getUserMoney() > 0){
-                $user->user_money = $user->user_money - $this->pay->getUserMoney();// 抵扣余额
+                $user->user_money = $user->user_money - $this->pay->getUserMoney() + $use_money;// 抵扣余额
             }
             $user->save();
             $accountLogData = [
                 'user_id' => $order['user_id'],
-                'user_money' => -$this->pay->getUserMoney(),
+                'user_money' => -$this->pay->getUserMoney() + $use_money,
                 'pay_points' => -$this->pay->getPayPoints(),
                 'change_time' => time(),
                 'desc' => '下单消费',
