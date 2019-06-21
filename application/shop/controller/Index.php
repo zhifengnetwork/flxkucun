@@ -36,7 +36,7 @@ class Index extends MobileBase {
         $grouplist = M('group_buy')->alias('GB')->join('goods G','GB.goods_id=G.goods_id','left')->field('GB.id,GB.title,GB.goods_id,GB.item_id,GB.price,GB.buy_num,GB.virtual_num,GB.goods_price,G.original_img')->where(['GB.end_time'=>['gt',time()],'GB.is_on'=>1,'GB.is_end'=>0])->order('GB.start_time desc')->limit(3)->select();
         $this->assign('grouplist',$grouplist);
 
-         $this->assign('shareid',$shareid);
+        $this->assign('shareid',$shareid);
 
         $GoodsLogic = new GoodsLogic();
         $cat_list = $GoodsLogic->getSortCategoryList();
@@ -65,6 +65,13 @@ class Index extends MobileBase {
         $this->assign('activity_img',$activity_img);
 
         return $this->fetch();
+    }
+
+    public function ajaxGetMore(){
+        //获取热销新品前6
+        $goodslist = M('Goods')->field('goods_id,goods_name,market_price,goods_remark,original_img,virtual_sales_sum,sales_sum')->where(['is_on_sale'=>1,'is_new'=>1,'is_hot'=>1])->order('sort asc')->limit(6)->select();
+        $this->assign('goodslist',$goodslist);    
+        return $this->fetch();   
     }
 
 

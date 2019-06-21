@@ -12,7 +12,8 @@
     <div class="mesg_info"><b>类型：<i>{$message_details.category_name}</i></b><em>时间：<i>{$message_details.send_time_text}</i></em></div>
     <div class="mesg_con">
     	<span>{$message_details.message_content}
-		</span>
+        </span>
+        <if condition="$message_details.mmt_code neq ''"><a style='color:blue;' href="{$message_details.mmt_code}">查看详情</a></if>
     </div>
 </div>
 </body>
