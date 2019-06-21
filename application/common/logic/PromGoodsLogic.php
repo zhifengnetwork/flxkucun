@@ -117,6 +117,7 @@ class PromGoodsLogic extends Prom
      * @return static
      */
     public function getActivityGoodsInfo(){
+      
         $activityGoods = $this->goods;
         $activityGoods['activity_title'] = $this->promGoods['title'];
         $activityGoods['market_price'] = $this->goods['market_price'];

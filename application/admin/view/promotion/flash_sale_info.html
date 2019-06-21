@@ -220,21 +220,26 @@
             url: "{:U('Admin/Promotion/flash_sale_info')}",
             data: $('#handleposition').serialize(),
             dataType: "json",
-            error: function () {
+            error: function (e) {
+                console.log(e);
                 ajax_return_status = 1
                 layer.alert("服务器繁忙, 请联系管理员!");
             },
             success: function (data) { 
+                 ajax_return_status = 1;
                 if (data.status == 1) {
                     layer.msg(data.msg, {icon: 1, time: 1000}, function(){
                         location.href = "{:U('Admin/Promotion/flash_sale')}";
                     });
-                } else {
+                } else if(data.status == 3){
+                    ajax_return_status = 1;
                     layer.msg(data.result.title, {icon: 2,time: 1000});
                     $.each(data.result, function (index, item) {
                         $('#err_' + index).text(item).show();
                     });
+                }else{
                     ajax_return_status = 1;
+                    layer.msg(data.msg, {icon: 2,time: 1000});
                 }
             }
         });
