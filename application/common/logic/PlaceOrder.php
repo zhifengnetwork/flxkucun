@@ -259,6 +259,7 @@ class PlaceOrder
             'goods_price' => $this->pay->getGoodsPrice(),//'商品价格',
             'shipping_price' => $this->pay->getShippingPrice(),//'物流价格',
             'user_money' => isset($use_user_money) ? $use_user_money : $this->pay->getUserMoney(),//'使用余额',
+            'order_prom_amount' => isset($use_user_money) ? $use_user_money : $this->pay->getUserMoney(),//'优惠金额',
             'coupon_price' => $this->pay->getCouponPrice(),//'使用优惠券',
             'integral' => $this->pay->getPayPoints(), //'使用积分',
             'integral_money' => $this->pay->getIntegralMoney(),//'使用积分抵多少钱',

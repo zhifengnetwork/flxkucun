@@ -169,7 +169,7 @@ class Cart extends MobileBase {
         if ($this->user_id == 0) {
             exit(json_encode(array('status' => -100, 'msg' => "登录超时请重新登录!", 'result' => null))); // 返回结果状态
         }
-        $address_id = input("address_id/d", 0); //  收货地址id
+        $address_id  = input("address_id/d", 0); //  收货地址id
         $invoice_title = input('invoice_title');  // 发票
         $taxpayer = input('taxpayer');       // 纳税人识别号
         $invoice_desc = input('invoice_desc');       // 发票内容
@@ -189,8 +189,9 @@ class Cart extends MobileBase {
         $is_virtual = input('is_virtual/d',0);
         $source_uid = input('source_uid/d',0);
         $data = input('request.');
+       
         $cart_validate = Loader::validate('Cart');
-
+        
         if($is_virtual === 1){
             $cart_validate->scene('is_virtual');
         }
@@ -215,7 +216,7 @@ class Cart extends MobileBase {
                 $cartLogic->checkStockCartList($userCartList);
                 $pay->payCart($userCartList);
             }
-
+          
             $pay->setUserId($this->user_id)->setShopById($shop_id)->delivery($address['district'])->orderPromotion()
                 ->useCouponById($coupon_id)->useUserMoney($user_money)->usePayPoints($pay_points,false,'mobile')
                 ->getAuction();
@@ -223,12 +224,14 @@ class Cart extends MobileBase {
             if ($_REQUEST['act'] == 'submit_order') {
                 $prominfo = M('goods')->field('prom_type,prom_id')->find($goods_id);
                 $placeOrder = new PlaceOrder($pay);
+                // $this->ajaxReturn(['status' => 0, 'msg' => '123132', 'result' => $placeOrder]);
                 $placeOrder->setMobile($mobile)->setUserAddress($address)->setConsignee($consignee)->setInvoiceTitle($invoice_title)
                     ->setUserNote($user_note)->setTaxpayer($taxpayer)->setInvoiceDesc($invoice_desc)->setPayPsw($pay_pwd)->setSourceUid($source_uid)->setTakeTime($take_time)->addNormalOrder($prominfo['prom_type'],$prominfo['prom_id']);
                 $cartLogic->clear();
                 $order = $placeOrder->getOrder();
                 $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn']]);
             }
+          
             $this->ajaxReturn(['status' => 1, 'msg' => '计算成功', 'result' => $pay->toArray()]);
         } catch (TpshopException $t) {
             $error = $t->getErrorArr();
