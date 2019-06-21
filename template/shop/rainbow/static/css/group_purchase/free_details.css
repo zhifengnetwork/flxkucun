@@ -283,4 +283,21 @@
 .shop_details_title{
     line-height: 1rem;
 }
+table{
+    margin-bottom: .2rem;
+    width: 100%;
+    line-height: .6rem;
+    border: none;
+    border-collapse: collapse;
+}
+td:nth-child(1){
+    width: 30%;
+    padding: 0;
+    color: #ccc;
+    text-align: center;
+}
+td{
+    padding-left: .2rem;
+    border: solid #ddd .02rem;
+}
 /* 产品信息-e */
