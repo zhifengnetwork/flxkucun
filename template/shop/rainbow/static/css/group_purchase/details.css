@@ -120,95 +120,44 @@
     height: 1.5rem;
     color: #ffffff;
     background-color: #e93380;
-    padding:.54rem .3rem 0;
+    padding:.3rem .3rem 0;
     box-sizing: border-box;
 }
-.sale-info .price,.sale-info .center{
-    float: left;
+
+/* 标题 */
+.sale-info .title{
+    font-size: .26rem;
+    margin-bottom: .3rem;
+}
+.sale-info .title span{
+    font-size: .18rem;
+    height: .24rem;
+    line-height: .24rem;
+    border: .01rem solid #ffffff;
+    padding: 0 .04rem;
+    border-radius: .03rem;
+    margin-left: .16rem;
 }
 
 /* 价格 */
 .sale-info .price{
-    margin-right: .3rem;
-}
-.sale-info .price span{
-    display: block;
+    float: left;
 }
 .sale-info .price .discount-price{
     font-size: .36rem;
-    margin-bottom: .15rem;
 }
 .sale-info .price .tag-price{
     font-size: .22rem;
+    text-decoration: line-through;
 }
-
-
-/* 标题 */
-.sale-info .center .title{
-    font-size: .32rem;
-    margin-bottom: .2rem;
-}
-.sale-info .center .title span{
-    font-size: .18rem;
-    height: .26rem;
-    line-height: .26rem;
-    border: .01rem solid #ffffff;
-    padding: 0 .04rem;
-    border-radius: .03rem;
-    margin-left: .3rem;
-}
-
-/* 进度条 */
-.progress{
-    height: .12rem;
-    display: flex;
-    align-items: center;
-}
-.progress .progress-bar{
-    width: 1.5rem;
-    height: .06rem;
-    background: rgba(255,255,255,.4);
-    border-radius: .04rem;
-    margin-right: .1rem;
-    overflow: hidden;
-    position: relative;
-}
-.progress .progress-bar span{
-    width: 1.2rem;
-    height: 100%;
-    display: block;
-    background-color: #ffffff;
-    border-radius: .04rem;
-    overflow: hidden;
-    position: absolute;
-    left: 0;
-    top: 0;
-}
-.progress  .percentage{
+.sale-info .number{
     font-size: .22rem;
-}
-
-/* 倒计时 */
-.sale-info .count-down{
     float: right;
+    margin-top: .1rem;
 }
-.sale-info .count-down .down-text{
-    font-size: .22rem;
-    margin-bottom: .14rem;
-}
-.sale-info .count-down .clock-run{
-    font-size: .2rem
-}
-.sale-info .count-down .clock-run span{
-    width: .34rem;
-    height: .34rem;
-    line-height: .34rem;
-    text-align: center;
-    display: inline-block;
-    background-color: #fff;
-    color: #e93380;
-    border-radius: 50%;
-}
+
+
+
 
 /* 商品信息 */
 .goodsInfo{
@@ -252,6 +201,122 @@
 .border-none{
     border: none;
 }
+
+/* 免单团信息 */
+.tuanRule{
+    height: .6rem;
+    display: flex;
+    align-items: center;
+    font-size: .24rem;
+    color: #cccccc;
+    background-color: #fff;
+    border-top: .01rem solid #e5e5e5;
+    padding: 0 .3rem;
+    box-sizing: border-box;
+}
+.tuanRule span{
+    margin-right: .15rem;
+}
+.tuanRule .tag{
+    color: #ff6b87;
+    border: .01rem solid #ff6b87;
+    padding: .05rem;
+    border-radius: .08rem;
+}
+.tuanRule span:last-child{
+    color: #ff6b87;
+}
+
+.tuan-wrap{
+    background-color: #fff;
+    padding: .15rem 0;
+    box-sizing: border-box;
+}
+.tuan-wrap .headline{
+    height: .4rem;
+    font-size: .24rem;
+    color: #333333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 .3rem;
+    box-sizing: border-box;
+}
+.tuan-wrap .headline p span{
+    color: #ff6b87;
+}
+.tuan-wrap .headline .more{
+    color: #cccccc;
+}
+.tuan-wrap .headline .more{
+    min-width: .13rem;
+    font-size: .21rem;
+    color: #cccccc;
+    background: url(../../images/public/right-arrow-13.png) no-repeat right center;
+    background-size: .13rem .21rem;
+    padding-right: .2rem;
+}
+.tuan-list .tuan-item{
+    height: .88rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: .01rem solid #e5e5e5;
+    padding: 0 .3rem;
+    box-sizing: border-box;
+}
+.tuan-list .tuan-item:last-child{
+    border-bottom: none;
+}
+.tuan-list .tuan-item .user-info{
+    font-size: .22rem;
+    display: flex;
+    align-items: center;
+}
+.tuan-list .tuan-item .user-info .avatar{
+    width: .6rem;
+    height: .6rem;
+    background-color: #333333;
+    border-radius: 50%;
+    margin-right: .08rem;
+}
+.tuan-list .tuan-item .user-info .avatar img{
+    width: 100%;
+}
+.tuan-list .tuan-item .user-info .name{
+    color: #999999;
+    display: block;
+    margin-bottom: .05rem;
+}
+.tuan-list .tuan-item .user-info .text{
+    color: #343434;
+}
+.tuan-list .tuan-item .right{
+    height: .45rem;
+    font-size: .22rem;
+    display: flex;
+    align-items: center;
+}
+.tuan-list .tuan-item .count-down .surplu-number{
+    text-align: right;
+    color: #333333;
+    margin-bottom: .05rem;
+}
+.tuan-list .tuan-item .count-down .time{
+    color: #b3b3b3;
+}
+.tuan-list .tuan-item .right .btn{
+    width: 1.18rem;
+    height: .45rem;
+    line-height: .45rem;
+    font-size: .24rem;
+    border-radius: .08rem;
+    text-align: center;
+    color: #ffffff;
+    background-color: #e93380;
+    margin-left: .14rem;
+}
+
 
 /* 评价 */
 .comment{

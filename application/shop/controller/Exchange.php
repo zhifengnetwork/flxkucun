@@ -1,6 +1,6 @@
 <?php
 /**
- * 0元购
+ * 积分兑换
  */
 // namespace app\mobile\controller;
 namespace app\shop\controller;
@@ -8,15 +8,14 @@ namespace app\shop\controller;
 use think\Db;
 use app\common\model\WxNews;
 
-class FreePurchase extends MobileBase
+class Exchange extends MobileBase
 {
-    // 0元购首页
+    // 积分兑换首页
     public function index(){
         return $this->fetch();
     }
-    // 0元购详情
+    // 积分兑换详情
     public function details(){
-       
         return $this->fetch();
     }
 }

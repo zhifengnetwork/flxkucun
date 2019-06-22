@@ -53,9 +53,10 @@
 			<div class="seckill-list">
 				<volist name='grouplist' id='v'>
 				<div class="single-item">
-					<div class="img-wrap"><img style='width:100%;height:100%;' src='{$v.original_img}' /></div>
+					<div class="img-wrap"><a href="{:U('Shop/GroupPurchase/details')}"><img style='width:100%;height:100%;' src='{$v.original_img}' /></a></div>
 					<div class="text">
-						<h3><a href="/Mobile/Goods/goodsInfo/id/{$v.goods_id}/item_id/{$v.item_id}">{$v.title}</a></h3>
+						<h3><a href="{:U('Shop/GroupPurchase/details')}">{$v.title}</a></h3>
+						<!-- <h3><a href="/Mobile/Goods/goodsInfo/id/{$v.goods_id}/item_id/{$v.item_id}">{$v.title}</a></h3> -->
 						<p class="dec">{$v.goods_name}</p>
 						<div class="progress">
 							<div class="progress-bar">

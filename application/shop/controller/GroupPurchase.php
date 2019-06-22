@@ -16,4 +16,8 @@ class GroupPurchase extends MobileBase
        
         return $this->fetch();
     }
+    public function details(){
+              
+        return $this->fetch();
+    }
 }

@@ -3,12 +3,12 @@
 <head>
     <meta charset="utf-8">
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>秒杀详情</title>
+    <title>免单团详情</title>
 	<script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" type="text/css" href="__STATIC__/css/reset.css?v=111" />
 	<link rel="stylesheet" href="__STATIC__/css/public/base.css">
 	<link rel="stylesheet" type="text/css" href="__STATIC__/css/swiper.min.css?v=111" />
-	<link rel="stylesheet" type="text/css" href="__STATIC__/css/seckill_zp/details.css" />
+	<link rel="stylesheet" type="text/css" href="__STATIC__/css/group_purchase/details.css" />
 </head>
 <body>
     <div class="wrapper">
@@ -65,51 +65,71 @@
                         </div>
                     </div>
                         
-                    <!-- 秒杀信息 -->
+                    <!--销售信息 -->
                     <div class="sale-info">
+                        <div class="title">免单团<span>包邮</span></div>
                         <div class="price">
-                            <span class="discount-price">￥3665.00</span>
-                            <span class="tag-price">￥8852.00</span>
+                            <span class="discount-price">￥168.00</span>
+                            <span class="tag-price">￥188.00</span>
                         </div>
-                        <div class="center">
-                            <div class="title">限时秒杀<span>包邮</span></div>
-                            <!-- 进度条 -->
-                            <div class="progress">
-                                <div class="progress-bar">
-                                    <span></span>
-                                </div>
-                                <div class="percentage">87%</div>
-                            </div>
-                        </div>
-                        <!-- 倒计时 -->
-                        <div class="count-down">
-                            <div class="down-text">距离结束还剩</div>
-                            <div class="clock-run">
-                                <span class="hour">00</span> :
-                                <span class="minute">00</span> :
-                                <span class="second">00</span>
-                            </div>
-                        </div>
+                        <div class="number">已团9741件</div>
                     </div>
 
                     <div class="goodsInfo">
                         <!-- 商品名称 -->
-                        <div class="goodsName group-line">
+                        <div class="goodsName group-line border-none">
                             <h1>可爱多洗衣液500ml*6袋</h1>
                         </div>
-                        <div class="group-line">
-                            <div class="label">活动</div>
-                            <div class="center">限时秒杀（总限购3000</div>
-                            <div class="right-arrow"></div>
+                        <div class="tuanRule">
+                            <span class="tag">免单团</span>
+                            <span>团满5人,</span>
+                            <span>团长免单</span>
                         </div>
-                        <div class="group-line border-none">
-                            <div class="label">已选</div>
-                            <div class="center">8片装 8件</div>
-                            <div class="right-arrow"></div>
+                    </div>
+
+                    <div class="tuan-wrap">
+                        <div class="headline">
+                            <p>有<span>48人</span>正在拼团，参与可直接成团哦~</p>
+                            <span class="more">查看更多</span>
+                        </div>
+                        <div class="tuan-list">
+                            <div class="tuan-item">
+                                <div class="user-info">
+                                    <div class="avatar"></div>
+                                    <div class="info">
+                                        <span class="name">小腊肉</span>
+                                        <span class="text">点我，然后参团</span>
+                                    </div>
+                                </div>
+                                <div class="right">
+                                    <div class="count-down">
+                                        <p class="surplu-number">还差<span>1人</span>成团</p>
+                                        <p class="time">仅剩 20:17:28</p>
+                                    </div>
+                                    <div class="btn">去参团</div>
+                                </div>
+                            </div>
+                            <div class="tuan-item">
+                                <div class="user-info">
+                                    <div class="avatar"></div>
+                                    <div class="info">
+                                        <span class="name">小腊肉</span>
+                                        <span class="text">点我，然后参团</span>
+                                    </div>
+                                </div>
+                                <div class="right">
+                                    <div class="count-down">
+                                        <p class="surplu-number">还差<span>1人</span>成团</p>
+                                        <p class="time">仅剩 20:17:28</p>
+                                    </div>
+                                    <div class="btn">去参团</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                 </div>
+
 
                 <!-- 评价 -->
                 <div class="floor-con comment">
@@ -166,7 +186,7 @@
                             </tr>
                         </table>
                     </div>
-                    <img src="__STATIC__/images/details/detailsImg01.jpg" />
+                    <img src="__STATIC__/images/details/detailsImg03.jpg" />
                 </div>
 
             </div>
@@ -245,41 +265,43 @@
 
 
         /*
-        *倒计时效果
+        *倒计时方法
         **/
-        //1.自定义将来时间
-        var nextDate = new Date('2019/06/22 20:00:00');
-        //2.开启定时器
-        setInterval(function(){
-            //2.1获取现在的时间
-            var currentDate = new Date();
-            
-            //2.2获取时间戳
-            var currentTime = currentDate.getTime();
-            var nextTime = nextDate.getTime();
-            
-            // 2.3剩下的时间戳
-            var allTime = nextTime - currentTime;
-            
-            //2.4把剩下的时间戳转为秒,取整
-            var allSecond = parseInt(allTime / 1000);
+        function countdowm(){
+             //1.自定义将来时间
+            var nextDate = new Date('2019/06/22 20:00:00');
+            //2.开启定时器
+            setInterval(function(){
+                //2.1获取现在的时间
+                var currentDate = new Date();
+                
+                //2.2获取时间戳
+                var currentTime = currentDate.getTime();
+                var nextTime = nextDate.getTime();
+                
+                // 2.3剩下的时间戳
+                var allTime = nextTime - currentTime;
+                
+                //2.4把剩下的时间戳转为秒,取整
+                var allSecond = parseInt(allTime / 1000);
 
-            //2.5转化
-            var d = checkTime(parseInt(allSecond / 3600 / 24));
-            var h = checkTime(parseInt(allSecond / 3600 % 24));
-            var m = checkTime(parseInt(allSecond / 60 % 60));
-            var s = checkTime(parseInt(allSecond % 60));
+                //2.5转化
+                var d = checkTime(parseInt(allSecond / 3600 / 24));
+                var h = checkTime(parseInt(allSecond / 3600 % 24));
+                var m = checkTime(parseInt(allSecond / 60 % 60));
+                var s = checkTime(parseInt(allSecond % 60));
 
-            // 2.6注入
-            $(".clock-run .hour").html(h);
-            $(".clock-run .minute").html(m);
-            $(".clock-run .second").html(s);
+                // 2.6注入
+                $(".count-down .time").html("仅剩"+ h + ":"+ m + ":" + s);
 
-        },1000);
-        // 3.补零操作
-        function checkTime(i){
-            return i >= 10 ? i : "0" + i ;
+            },1000);
+            // 3.补零操作
+            function checkTime(i){
+                return i >= 10 ? i : "0" + i ;
+            }
         }
+        countdowm();
+       
 
         // 点击楼梯让对应的内容模块移动到对应的位置
         $('.tab-Tit .item').click(function(){

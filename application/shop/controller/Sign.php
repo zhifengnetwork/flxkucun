@@ -49,13 +49,6 @@ class Sign extends MobileBase
         return $this->fetch();
     }
 
-    // 积分兑换列表页
-    public function exchange()
-    {
-
-        return $this->fetch();
-    }
-
     public function ajaxReturn($data){
         header('Content-Type:application/json; charset=utf-8');
         exit(json_encode($data,JSON_UNESCAPED_UNICODE));

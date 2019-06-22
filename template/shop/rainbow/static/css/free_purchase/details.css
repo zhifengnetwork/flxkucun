@@ -120,95 +120,44 @@
     height: 1.5rem;
     color: #ffffff;
     background-color: #e93380;
-    padding:.54rem .3rem 0;
+    padding:.3rem .3rem 0;
     box-sizing: border-box;
 }
-.sale-info .price,.sale-info .center{
-    float: left;
+
+/* 标题 */
+.sale-info .title{
+    font-size: .26rem;
+    margin-bottom: .3rem;
+}
+.sale-info .title span{
+    font-size: .18rem;
+    height: .24rem;
+    line-height: .24rem;
+    border: .01rem solid #ffffff;
+    padding: 0 .04rem;
+    border-radius: .03rem;
+    margin-left: .16rem;
 }
 
 /* 价格 */
 .sale-info .price{
-    margin-right: .3rem;
-}
-.sale-info .price span{
-    display: block;
+    float: left;
 }
 .sale-info .price .discount-price{
     font-size: .36rem;
-    margin-bottom: .15rem;
 }
 .sale-info .price .tag-price{
     font-size: .22rem;
+    text-decoration: line-through;
 }
-
-
-/* 标题 */
-.sale-info .center .title{
-    font-size: .32rem;
-    margin-bottom: .2rem;
-}
-.sale-info .center .title span{
-    font-size: .18rem;
-    height: .26rem;
-    line-height: .26rem;
-    border: .01rem solid #ffffff;
-    padding: 0 .04rem;
-    border-radius: .03rem;
-    margin-left: .3rem;
-}
-
-/* 进度条 */
-.progress{
-    height: .12rem;
-    display: flex;
-    align-items: center;
-}
-.progress .progress-bar{
-    width: 1.5rem;
-    height: .06rem;
-    background: rgba(255,255,255,.4);
-    border-radius: .04rem;
-    margin-right: .1rem;
-    overflow: hidden;
-    position: relative;
-}
-.progress .progress-bar span{
-    width: 1.2rem;
-    height: 100%;
-    display: block;
-    background-color: #ffffff;
-    border-radius: .04rem;
-    overflow: hidden;
-    position: absolute;
-    left: 0;
-    top: 0;
-}
-.progress  .percentage{
+.sale-info .number{
     font-size: .22rem;
-}
-
-/* 倒计时 */
-.sale-info .count-down{
     float: right;
+    margin-top: .1rem;
 }
-.sale-info .count-down .down-text{
-    font-size: .22rem;
-    margin-bottom: .14rem;
-}
-.sale-info .count-down .clock-run{
-    font-size: .2rem
-}
-.sale-info .count-down .clock-run span{
-    width: .34rem;
-    height: .34rem;
-    line-height: .34rem;
-    text-align: center;
-    display: inline-block;
-    background-color: #fff;
-    color: #e93380;
-    border-radius: 50%;
-}
+
+
+
 
 /* 商品信息 */
 .goodsInfo{
