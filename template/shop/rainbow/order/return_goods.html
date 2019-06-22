@@ -188,12 +188,15 @@
             <em class="turenoff" onclick="turenoff()"></em>
         </div>
         <div class="resonco">
-            <div class="radio"><span class="che" data-val="订单不能按预计时间送达"><i></i><span>订单不能按预计时间送达</span></span></div>
-            <div class="radio"><span class="che" data-val="操作有误（商品、地址等选错）"><i></i><span>操作有误（商品、地址等选错）</span></span></div>
+            <volist name="refund_reason" id="vo">
+
+                <div class="radio"><span class="che" data-val="{$vo}"><i></i><span>{$vo}</span></span></div>
+            </volist>
+            <!-- <div class="radio"><span class="che" data-val="操作有误（商品、地址等选错）"><i></i><span>操作有误（商品、地址等选错）</span></span></div>
             <div class="radio"><span class="che" data-val="重复下单/误下单"><i></i><span>重复下单/误下单</span></span></div>
             <div class="radio"><span class="che" data-val="其他渠道价格更低"><i></i><span>其他渠道价格更低</span></span></div>
             <div class="radio"><span class="che" data-val="该商品降价了"><i></i><span>该商品降价了</span></span></div>
-            <div class="radio"><span class="che" data-val="不想买了"><i></i><span>不想买了</span></span></div>
+            <div class="radio"><span class="che" data-val="不想买了"><i></i><span>不想买了</span></span></div> -->
         </div>
     </div>
 </div>

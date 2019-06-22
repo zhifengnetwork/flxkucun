@@ -228,12 +228,19 @@
             success: function (data) { 
                  ajax_return_status = 1;
                 if (data.status == 1) {
+                    console.log(data);
                     layer.msg(data.msg, {icon: 1, time: 1000}, function(){
                         location.href = "{:U('Admin/Promotion/flash_sale')}";
                     });
                 } else if(data.status == 3){
+                    alert(2222);
+                    console.log(data);
                     ajax_return_status = 1;
-                    layer.msg(data.result.title, {icon: 2,time: 1000});
+                    if(data.result.price == undefined){
+                        layer.msg(data.result.title, {icon: 2,time: 1000});
+                    }else{
+                        layer.msg(data.result.price, {icon: 2,time: 1000});
+                    }
                     $.each(data.result, function (index, item) {
                         $('#err_' + index).text(item).show();
                     });

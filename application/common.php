@@ -24,6 +24,21 @@ function pred($data){
     print_r($data);die;
 }
 
+function refund_reason(){
+    return array(
+        0 => '7天无理由退款',
+        1 => '退运费',
+        2 => '商品描述不符',
+        3 => '质量问题',
+        4 => '少件漏发',
+        5 => '包装/商品破损/污渍',
+        6 => '发票问题',
+        7 => '卖家发错货',
+        8 => '有刺激性异味',
+        9 => '未按约定时间发货',
+    );
+}
+
 function kuaidi_code($code){
     switch($code){
         case 'shunfeng':
@@ -41,7 +56,15 @@ function kuaidi_code($code){
         default:
             $type='';break;
     }
-    return $type;
+    if($type){
+        return $type;
+    }
+
+    $array = ['ems','shentong','shunfeng','yuantong','yunda','huitong','tiantian','zhongtong','zhaijisong','pingyou','quanfeng','guotong','jingdong','sure','yd','kuaijie','ririshun','zhongtie','yousu','longbang','debang','rufeng','lianhaotong','fedex','fedexcn','dhl','xinfeng','eyoubao','changtong','usps','huaqi','gnxb','nell','zengyi','yuxin','xingchengzhaipei','anneng','dada','tongzhishu','aol','dongjun','suning','upu','quanyi','huayu','fengcheng','ane66','800best','minhang','zhongyou','jiaji','wanxiang','beihai','junda','zqlwl','ups','tnt','shenghui','yafeng','dsu','datian','jiayi','jiayunmei','quanchen','ocs','shengfeng','xinbang','chengguang','fengda','feihang','jinyue','yuefeng','anjie','aae','yuntong','dpex','yuancheng','gdyz','aramex','intmail','ytfh','santai','gongsuda','ees','scs','pinganda','yad','disifang','yinjie','jldt','coe','chuanxi','feibao','jingguang','cszx','rpx','citylink','chengshi100','lijisong','balunzhi','dayang','fanyu','haosheng','hebeijianhua','jixianda','suijia','shengan','weitepai','fardar','henglu','hwhq','jinda','kuayue','kcs','mingliang','minbang','minsheng','xianglong','yishunhang','benteng','zhengzhoujianhua','feite','huahan','baotongda','chukouyi','yumeijie','nanbei','wanbo','suchengzhaipei','shengbang','baiqian','guanda','haolaiyun','huahang','huangmajia','ucs','jiuyi','menduimen','riyu','lindao','nsf','dajin','coscon','yuhong','gangkuai','sutong','anxun','hkpost','jppost','singpost','ztwl','ppbyb','yanwen','feiyang','zuochuan','hengyu','mengsu','ande','rongqing','dashun','fangfangda','huiwen','dhlde','baiteng','dpd','tengxunda','pinjun','bse','ueq','xru','ycky','anpost','koreapost','posten','auspost','posteit','nzpost','bpost','depost','correos','postnl','thailand','bjems','canpost','postdanmark','ruston','pochta','ukrposhta','posmy','postifi','indiapost','pocztex','fanjie','yikeman','fastgo','cnpex','auexpress','pca','adp','a2u','omniva','laposte','swisspost','ada','stous','quantium','ontrac','eltacourier','tntuk','jcex','efspost','ctt','gls','gaticn','southafricanpost','gatikwe','gsm','iparcel','brazilcorreios','saudipost','cambodiapost','vnpost','chronopost','buylogic','speedpost','laopost','emirates','cuckoo','dhl','asendia','yamato','china','royal','parcel','dpd','dpd','czech','gofly','chronopost','laposte','correos','jc56','posta','belpost','ptt','bgpost','iceland','lietuvos','cyprus','magyar','hrvatska','postnord','macau','israel','correo','nigeria','pakistan','latvijas','q','pos','afghan','nova','liban','post','iran','slovenska','tianfeng','one','yunexpress','bangladesh','uk','skynet','colissimo','phlpost','egypt','fastway','fastway','courierpost','fastway','austrian','qexpress','cfe','yisu','suchi','shunda','arkexpress','changjiang','fox','yixiang','feiying','post','maltapost','correo','poslaju','tanzania','bermuda','peru','venezuela','colombia','correos','albania','antilles','armenia','ecuador','rwanda','aruba','el','senegal','macedonia','ethiopia','madagascar','azerbaijan','maldives','slovenia','bahamas','mali','solomon','barbados','gabon','georgia','mauritania','mauritius','benin','ghana','moldova','bhutan','mongolia','bosnia','guyana','montenegro','botswana','mozambique','myanmar','uganda','nepal','cayman','uzbekistan','ivory','papua','vanuatu','jamaica','paraguay','costa','jordan','zambia','cuba','kazakhstan','zimbabwe','kenya','morocco','brunei','dominican','anlexpress','expressplus','ewe','zhunshi','jgwl','qq','srilanka','fengtong','duoduo','zhixing','happylink','360zebra','ezhuanyun','jixiangyou','easytocn','shlexp','hermes','postelbe','hermes','hermes','tianma','apkex','otobv','asiax','scorejp','amazon','itl','polarexpress','ftd','rtexpress','tykd','ause','astexpress','wykjt','6ls','qdants','aplusex','bcwelt','cncexp','cnair','jxfex','xinhua','thunderex','skydexpress','xiyoug','taohuaex','wzhuanyun','u2c','cgeusa','52hbl','feigex','zhonghuanus','ipehua','haidaibao','atians','59express','datongex','belsexp','chn','cccc58','ynztsy','cosco','yifankd','yimidida','yzs56','yatfai','u','eta100','bsht','bosind','polarisexpress','europe8','comexpress','cloudexpress','cex','spring56','longvast','parcelchina','easyexpress','ecallturn','crazyexpress','fedroad','fecobv','beebird','guosong','airgtc','ccd','httx56','hivewms','hnht56','hltop','jiuyescm','jieanda','newsway','jiazhoumao','jieborne','kfwnet','ltexp','szuem','mchy','valueway','zsmhwl','mantoo','noll','ndwl','canhold','euasia','qbexpress','linkglobalexpress','qinyuan','qichen','qskdyxgs','guexp','bjqywl','subida','sufast','sihaiet','sendtochina','superb','s2c','shunshid','synship','sdsy888','sxexpress','shangqiao56','shd56','shenma','superoz','zjstky','lntjs','surpassgo','tianxiang','shpost','uex','utaoscm','wtdchina','gswtkd','wotu','wandougongzhu','wto56kj','sunjex','westwing','littlebearbear','wlwex','yingchao','1hcang','lineone','yyqc56','iyoungspeed','zgyzt','eupackage','yangbaoguo','uluckex','ubonex','yue777','yongbangwuliu','yyox','youyou','euguoji','uscbexpress','yfsuyun','youban','zhichengtongda','esdex','365zf','auvanda','zto56','ibuywl','boyol','chinacod','trakpak','ycs','huaxialong','ykouan','transrush','suteng','zongxing','yuetu','yaofei','exfresh','huacheng','haihong','8dt','11183','quansu','staky','wdm','edlogistics','el56','mosuda','topspeedex','ugoexpress','xilaikd','humpline','jiugong','hhair56','adlerlogi','dekuncn','decnlh','zyzoom','zhongchuan','farlogistis','fyex','koali','hjs','luben','56kuaiyun','wowvip','beckygo','sfpost','dadaoex','eucpost','est365','edtexpress','flysman','jingshun','jcsuda','ksudi','kyue','longfx','lfexpress','wanjiatong','zhpex'];
+    if(in_array($code,$array)){
+        return $code;
+    }
+    return false;
 }
 
 /**
@@ -2086,7 +2109,7 @@ function provingReceive($user, $type, $num = 1)
     //获得当日凌晨的时间戳
     $today = strtotime(date("Y-m-d"), time());
 
-    $levelGetNum = M('UserLevel')->where('level', $user['level'])->value('get');
+    $levelGetNum = M('UserLevel')->where('level', $user['level'])->value('level');
 
     //签到商品
     if ($type == 1) {

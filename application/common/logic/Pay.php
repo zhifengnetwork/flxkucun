@@ -586,6 +586,23 @@ class Pay
         return $this->totalNum;
     }
 
+    public function checkGoods($goodsinfo = []){
+        if(!$goodsinfo)
+            return $this;
+        
+        if($goodsinfo['prom_type'] == 1){
+            $flash_saleinfo = M('flash_sale')->where(['item_id'=>$goodsinfo['item_id']])->find($goodsinfo['prom_id']);
+            if(!$flash_saleinfo)
+                return  $this;
+            if($goodsinfo['goods_num'] == 2){
+                $this->orderPromAmount = floor(($flash_saleinfo['price']/2)*100)/100;
+                $this->orderAmount && $this->orderAmount -= $this->orderPromAmount;
+            }
+        }
+
+        return $this;
+    }
+
     public function toArray()
     {
         return [

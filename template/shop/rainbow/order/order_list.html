@@ -18,6 +18,9 @@
             <li id="WAITSEND" <if condition="$Request.param.type eq 'WAITSEND'">class="red"</if>>
                 <a href="{:U('/Shop/Order/order_list',array('type'=>'WAITSEND'))}"  class="tab_head">待发货</a>
             </li>
+            <li id="WAITRECEIVE" <if condition="$Request.param.type eq 'WAITRECEIVE'">class="red"</if>>
+                <a href="{:U('/Shop/Order/order_list',array('type'=>'WAITRECEIVE'))}"  class="tab_head">待收货</a>
+            </li>
             <li id="WAITCCOMMENT"  <if condition="$Request.param.type eq 'FINISH'">class="red"</if>>
                 <a href="{:U('/Shop/Order/order_list',array('type'=>'FINISH'))}" class="tab_head">已完成</a>
             </li>
