@@ -597,7 +597,7 @@ class Cart extends MobileBase {
                                                     ->join('goods g','wg.goods_id=g.goods_id','LEFT')
                                                     ->where(['wg.user_id'=>$pei_parent,'g.goods_id'=>$goods_data_ids[$k]])
                                                     ->find();
-                            
+
                             if($warehouse_goods_list['nums']<$goods_data_number[$k])
                             {
                                 $message =['status' => 0, 'msg' => '商品库存数量不够'];

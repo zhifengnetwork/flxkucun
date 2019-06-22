@@ -191,6 +191,11 @@ class User extends MobileBase
         $new_kucun = array();
         $pei_parent = find_prepareuserinfo($this->user_id);
 
+        if(!I('get.leaderid/d',0)){
+            $this->redirect(U("User/store_manage",['level'=>I('get.leaderid/d',0)]));
+            return;
+        }
+
        if($pei_parent==null)
         {
             $kucun = M("goods")->alias('g')
