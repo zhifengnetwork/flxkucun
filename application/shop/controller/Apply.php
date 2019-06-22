@@ -163,7 +163,14 @@ class Apply extends MobileBase
 		try{
 			$res = m('apply_info')->add(['applyid'=>$applyinfo,'name'=>$name,'weixin'=>$weixin,'tel'=>$tel,'idcard'=>$idcard,'wx_nickname'=>$wx_nickname,'type'=>$type]);
 			$res ? $model->where(['id'=>$applyid])->update(['status'=>1]) : Db::rollback();
-			//M('Users')->where(['user_id'=>$applyinfo['uid']])->update(['level'=>$applyinfo['level']]);
+			/* 2019-06-22 add */
+			// 提交事务
+			Db::commit(); 
+			//跳转到上级仓库
+			$this->redirect(U("User/superior_store",['leaderid'=>$applyinfo['leaderid'],'level'=>$applyinfo['level']]));
+			return;
+			/* 2019-06-22 add */
+			///* 2019-06-22 del */M('Users')->where(['user_id'=>$applyinfo['uid']])->update(['level'=>$applyinfo['level']]);
 
 			$nickname = M('Users')->where(['user_id'=>$applyinfo['uid']])->value('nickname');
 			$openid = M('Users')->where(['user_id'=>$applyinfo['leaderid']])->value('openid');
@@ -177,6 +184,8 @@ class Apply extends MobileBase
 			//发送站内消息
 			$msid = M('message_notice')->add(['message_title'=>$typemsg.'成功通知','message_content'=>"您的下级 $nickname 已填写资料，$typemsg成功!",'send_time'=>time(),'mmt_code'=>'','type'=>8]);
 			if($msid)M('user_message')->add(['user_id'=>$applyinfo['leaderid'],'message_id'=>$msid]);
+			// 提交事务
+			Db::commit(); 			
 			$this->ajaxReturn(['status'=>0,'msg'=>'请求成功!']);
 		} catch (TpshopException $t) {
 			// 回滚事务

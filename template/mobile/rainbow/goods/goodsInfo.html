@@ -57,7 +57,7 @@
             </div>
             <div class="scunde p">
                 <span class="red" id="price">￥{$goods.shop_price}</span>
-                <span id="market_price_title">市场价：</span><span class="linethr" id="market_price">{$goods.market_price}</span>
+                <span id="market_price_title">市场价：￥</span><span class="linethr" id="market_price">{$goods.market_price}</span>
                 <p class="inlist">
                     <if condition="$goods.prom_type neq 2"><span style="float:left;">销量：{$goods['sales_sum']+$goods['virtual_sales_sum']}</span></if>
                     <!--<span >当前库存：<span class="spec_store_count">{$goods.store_count}</span></span>-->
@@ -816,7 +816,7 @@
                     $('input[name="deposit_price"]').attr('value', data.result.goods.deposit_price);//订金
                     $('input[name="balance_price"]').attr('value', data.result.goods.balance_price);//尾款
                     $('input[name="ing_amount"]').attr('value', data.result.goods.ing_amount);//已预订了多少个
-                    $('#market_price').html(data.result.goods.market_price);
+                    $('#market_price').html('￥'+data.result.goods.market_price);
                     if(data.result.goods.is_virtual){
                         $('.buy_limit').show();
                     }else{
@@ -1156,7 +1156,7 @@
             $("#goods_price").html(integral + '+' +exchange_integral + '积分'); //变动价格显示
             $("#price").html("<em>￥</em>" + integral + '+' +exchange_integral + '积分'); //积分显示
         }else{
-            $("#goods_price").html(goods_price); //变动价格显示
+            $("#goods_price").html("<em>￥</em>" + goods_price); //变动价格显示
             $("#price").html("<em>￥</em>" + goods_price); //变动价格显示
         }
         $('#market_price_title').html('市场价：');
@@ -1178,7 +1178,7 @@
             $("#goods_num").val(goods_num);
         }
         $('#number').attr('max', pre_sale_count);
-        $("#goods_price").html(pre_sale_price); //变动价格显示
+        $("#goods_price").html("<em>￥</em>" + pre_sale_price); //变动价格显示
         $("#price").html("预售价￥" + pre_sale_price); //变动价格显示
         $('#market_price_title').html('原价：');
         $('#activity_type').html('预售');
@@ -1202,7 +1202,7 @@
             $("#goods_num").val(goods_num);
         }
         $('#number').attr('max', flash_sale_count);
-        $("#goods_price").html(flash_sale_price); //变动价格显示
+        $("#goods_price").html("<em>￥</em>" + flash_sale_price); //变动价格显示
         $("#price").html("抢购价￥" + flash_sale_price); //变动价格显示
         $('#market_price_title').html('原价：');
         $('#activity_type').html('限时抢购');
@@ -1224,7 +1224,7 @@
             $("#goods_num").val(goods_num);
         }
         $('#number').attr('max', group_by_count);
-        $("#goods_price").html(group_by_price); //变动价格显示
+        $("#goods_price").html("<em>￥</em>" + group_by_price); //变动价格显示
         $("#price").html("团购价￥" + group_by_price); //变动价格显示
         $('#market_price_title').html('原价：');
         $('#activity_type').html('限时团购');
@@ -1265,7 +1265,7 @@
             }
         });
         $('#number').attr('max', prom_goods_count);
-        $("#goods_price").html(prom_goods_price); //变动价格显示
+        $("#goods_price").html("<em>￥</em>" + prom_goods_price); //变动价格显示
         $('#spec_store_count').html(prom_goods_count);
         $('.spec_store_count').html(prom_goods_count);
         $('.presale-time').show();
