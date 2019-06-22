@@ -228,7 +228,6 @@
             success: function (data) { 
                  ajax_return_status = 1;
                 if (data.status == 1) {
-                    alert(1111);
                     console.log(data);
                     layer.msg(data.msg, {icon: 1, time: 1000}, function(){
                         location.href = "{:U('Admin/Promotion/flash_sale')}";

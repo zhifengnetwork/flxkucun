@@ -261,7 +261,7 @@ class PlaceOrder
             'goods_price' => $this->pay->getGoodsPrice(),//'商品价格',
             'shipping_price' => $this->pay->getShippingPrice(),//'物流价格',
             'user_money' => isset($use_user_money) ? $use_user_money : $this->pay->getUserMoney(),//'使用余额',
-            'order_prom_amount' => $this->order_prom_amount,//'优惠金额',
+            'order_prom_amount' => $this->pay->getOrderPromAmount(),//'优惠金额',
             'coupon_price' => $this->pay->getCouponPrice(),//'使用优惠券',
             'integral' => $this->pay->getPayPoints(), //'使用积分',
             'integral_money' => $this->pay->getIntegralMoney(),//'使用积分抵多少钱',
@@ -271,6 +271,7 @@ class PlaceOrder
             'add_time' => time(), // 下单时间
             'source_uid'    => (($user['user_id'] !== $this->source_uid) ? $this->source_uid : 0)
         ];
+
         if($orderData["order_amount"] < 0){
             throw new TpshopException("订单入库", 0, ['status' => -8, 'msg' => '订单金额不能小于0', 'result' => '']);
         }

@@ -211,20 +211,23 @@ class Cart extends MobileBase {
                 $buyGoods = $cartLogic->buyNow();
                 $cartList[0] = $buyGoods;
                 $pay->payGoodsList($cartList);
+                $goodsinfo = M('goods')->field('prom_type,prom_id')->find($goods_id);
+                $goodsinfo['goods_num'] = $goods_num;
+                $goodsinfo['item_id'] = $item_id;
             } else {
                 $userCartList = $cartLogic->getCartList(1);
                 $cartLogic->checkStockCartList($userCartList);
                 $pay->payCart($userCartList);
+                $goodsinfo = [];
             }
           
             $pay->setUserId($this->user_id)->setShopById($shop_id)->delivery($address['district'])->orderPromotion()
                 ->useCouponById($coupon_id)->useUserMoney($user_money)->usePayPoints($pay_points,false,'mobile')
-                ->getAuction();
+                ->getAuction()->checkGoods($goodsinfo);
             // 提交订单
             if ($_REQUEST['act'] == 'submit_order') {
                 $prominfo = M('goods')->field('prom_type,prom_id')->find($goods_id);
                 $placeOrder = new PlaceOrder($pay);
-                // $this->ajaxReturn(['status' => 0, 'msg' => '123132', 'result' => $placeOrder]);
                 $placeOrder->setMobile($mobile)->setUserAddress($address)->setConsignee($consignee)->setInvoiceTitle($invoice_title)
                     ->setUserNote($user_note)->setTaxpayer($taxpayer)->setInvoiceDesc($invoice_desc)->setPayPsw($pay_pwd)->setSourceUid($source_uid)->setTakeTime($take_time)->addNormalOrder($prominfo['prom_type'],$prominfo['prom_id']);
                 $cartLogic->clear();

@@ -2109,7 +2109,7 @@ function provingReceive($user, $type, $num = 1)
     //获得当日凌晨的时间戳
     $today = strtotime(date("Y-m-d"), time());
 
-    $levelGetNum = M('UserLevel')->where('level', $user['level'])->value('get');
+    $levelGetNum = M('UserLevel')->where('level', $user['level'])->value('level');
 
     //签到商品
     if ($type == 1) {

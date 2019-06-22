@@ -157,7 +157,7 @@ class FlashSaleLogic extends Prom
         }else{
             //活动商品没有规格，活动和商品是一对一
             $activityGoods = $this->goods;
-            $activityGoods['market_price'] =$this->goods['shop_price'];
+            //$activityGoods['market_price'] =$this->goods['shop_price'];
         }
         $activityGoods['activity_title'] = $this->flashSale['title'];
         $activityGoods['shop_price'] = $this->flashSale['price'];
