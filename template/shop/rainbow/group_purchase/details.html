@@ -102,9 +102,13 @@
                                     </div>
                                 </div>
                                 <div class="right">
-                                    <div class="count-down">
+                                    <div class="count-down" id="dateShow1" data-date="2019/06/22 22:00:28">
                                         <p class="surplu-number">还差<span>1人</span>成团</p>
-                                        <p class="time">仅剩 20:17:28</p>
+                                        <p class="time">仅剩 
+                                            <span class="date-tiem h">00</span>:
+                                            <span class="date-tiem m">00</span>:
+                                            <span class="date-s s">00</span>
+                                        </p>
                                     </div>
                                     <div class="btn">去参团</div>
                                 </div>
@@ -118,9 +122,13 @@
                                     </div>
                                 </div>
                                 <div class="right">
-                                    <div class="count-down">
+                                    <div class="count-down" id="dateShow2" data-date="2019/06/22 23:30:00">
                                         <p class="surplu-number">还差<span>1人</span>成团</p>
-                                        <p class="time">仅剩 20:17:28</p>
+                                        <p class="time">仅剩 
+                                            <span class="date-tiem h">00</span>:
+                                            <span class="date-tiem m">00</span>:
+                                            <span class="date-s s">00</span>
+                                        </p>
                                     </div>
                                     <div class="btn">去参团</div>
                                 </div>
@@ -197,6 +205,8 @@
     <script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
 	<script src="__STATIC__/js/public/public.js"></script>
     <script src="__STATIC__/js/public/swiper.min.js"></script>
+    <!-- 倒计时 -->
+    <script src="__STATIC__/js/public/leftTime.min.js"></script>
     <script>
         /*
         *主图轮播效果
@@ -265,42 +275,25 @@
 
 
         /*
-        *倒计时方法
+        *多个倒计时方法
         **/
-        function countdowm(){
-             //1.自定义将来时间
-            var nextDate = new Date('2019/06/22 20:00:00');
-            //2.开启定时器
-            setInterval(function(){
-                //2.1获取现在的时间
-                var currentDate = new Date();
-                
-                //2.2获取时间戳
-                var currentTime = currentDate.getTime();
-                var nextTime = nextDate.getTime();
-                
-                // 2.3剩下的时间戳
-                var allTime = nextTime - currentTime;
-                
-                //2.4把剩下的时间戳转为秒,取整
-                var allSecond = parseInt(allTime / 1000);
+        var data_show = $('.count-down');
 
-                //2.5转化
-                var d = checkTime(parseInt(allSecond / 3600 / 24));
-                var h = checkTime(parseInt(allSecond / 3600 % 24));
-                var m = checkTime(parseInt(allSecond / 60 % 60));
-                var s = checkTime(parseInt(allSecond % 60));
-
-                // 2.6注入
-                $(".count-down .time").html("仅剩"+ h + ":"+ m + ":" + s);
-
-            },1000);
-            // 3.补零操作
-            function checkTime(i){
-                return i >= 10 ? i : "0" + i ;
-            }
+        for(var i = 1;i <= data_show.length; i++ ){
+            function_name($("#dateShow"+i).data("date"),"#dateShow"+i);
         }
-        countdowm();
+       
+        function function_name(time,obj) {
+            $.leftTime(time,function(d){
+                if(d.status){
+                    var $dateShow1=$(obj);
+                    $dateShow1.find(".d").html(d.d);
+                    $dateShow1.find(".h").html(d.h);
+                    $dateShow1.find(".m").html(d.m);
+                    $dateShow1.find(".s").html(d.s);
+                }
+            });
+        }
        
 
         // 点击楼梯让对应的内容模块移动到对应的位置
