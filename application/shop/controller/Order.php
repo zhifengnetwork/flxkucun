@@ -457,6 +457,7 @@ class Order extends MobileBase
         $this->assign('return_address',implode(',',$return_address));
         $this->assign('return_type', C('RETURN_TYPE'));
         $this->assign('goods', $order_goods);
+        $this->assign('refund_reason', refund_reason());
         $this->assign('order',$order);
         return $this->fetch();
     }

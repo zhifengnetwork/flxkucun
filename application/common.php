@@ -24,6 +24,21 @@ function pred($data){
     print_r($data);die;
 }
 
+function refund_reason(){
+    return array(
+        0 => '7天无理由退款',
+        1 => '退运费',
+        2 => '商品描述不符',
+        3 => '质量问题',
+        4 => '少件漏发',
+        5 => '包装/商品破损/污渍',
+        6 => '发票问题',
+        7 => '卖家发错货',
+        8 => '有刺激性异味',
+        9 => '未按约定时间发货',
+    );
+}
+
 function kuaidi_code($code){
     switch($code){
         case 'shunfeng':
