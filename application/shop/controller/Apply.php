@@ -85,7 +85,8 @@ class Apply extends MobileBase
 		$id = I('get.id/d',1);
 		$type = I('get.type/d',1);
 		if(!$id)$this->error('参数错误');
-		$applyinfo = M('Apply_for')->find($id);			
+		$model = ($type == 0) ? M('Apply') ? M('Apply_for');
+		$applyinfo = $model->find($id);			
 		if(!$applyinfo)$this->error('无此次邀请');
 		if($applyinfo['uid'] != $this->user_id)$this->error('您无权限查看此邀请');
 		if($applyinfo['status'] == 1){//跳转到上级页面
@@ -100,7 +101,7 @@ class Apply extends MobileBase
 		$applyinfo['leaderidinfo'] = M('Users')->field('nickname,mobile,head_pic')->find($applyinfo['leaderid']);
 		$applyinfo['level_name'] = M('User_level')->where(['level'=>$applyinfo['level']])->value('level_name');
 
-		//M('Apply')->save(['id'=>$id,'status'=>1]);
+		//$model->save(['id'=>$id,'status'=>1]);
 
 		$this->assign('applyinfo',$applyinfo);
 		$this->assign('type',$type);
