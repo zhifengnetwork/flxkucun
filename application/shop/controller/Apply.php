@@ -85,7 +85,7 @@ class Apply extends MobileBase
 		$id = I('get.id/d',1);
 		$type = I('get.type/d',1);
 		if(!$id)$this->error('参数错误');
-		$applyinfo = M('Apply')->find($id);			
+		$applyinfo = M('Apply_for')->find($id);			
 		if(!$applyinfo)$this->error('无此次邀请');
 		if($applyinfo['uid'] != $this->user_id)$this->error('您无权限查看此邀请');
 		if($applyinfo['status'] == 1){//跳转到上级页面
