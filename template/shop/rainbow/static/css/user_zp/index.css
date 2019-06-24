@@ -29,9 +29,14 @@
 
 /* 用户信息 */
 .user-top .user-info{
+    max-width: 3rem;
     margin-right: .3rem;
 }
 .user-top .user-info .name{
+    width: 3rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
     font-size: .36rem;
     margin: .3rem auto .1rem;
     display: block;
