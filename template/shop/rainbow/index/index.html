@@ -3,13 +3,15 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<!-- <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /> -->
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"/>
 	<title>首页-{$tpshop_config['shop_info_store_title']}</title>
 
 	<script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
 
 	<link rel="stylesheet" type="text/css" href="__STATIC__/css/reset.css?v=111" />
 	<link rel="stylesheet" type="text/css" href="__STATIC__/css/swiper.min.css?v=112" />
+	<link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.8.2/skins/default/aliplayer-min.css" />
 	<link rel="stylesheet" href="__STATIC__/css/public/base.css?v=201906191807">
 	<link rel="stylesheet" type="text/css" href="__STATIC__/css/index_zp.css?v=201906191807" />
 
@@ -44,78 +46,54 @@
 		<div class="content">
 
 		<!-- 视频轮播 -->
-		<!-- <div class="swiper-container bannerWrap">
-			<div class="swiper-wrapper">
-				<adv pid="1" limit="5" item="v">
-					<div class="swiper-slide">
-						<a href="{$v.ad_link}">
-							<img src="{$v[ad_code]}" >
-							<span class="playBtn"><img src="__STATIC__/images/home_zp/playBtn-big.png" /></span>
-						</a>
-					</div>
-				</adv>
+		<div class="bannerWrap">
+			<div class="prism-player" id="player-con" >
+				<span class="voiceBtn"></span>
+				<a href="{:U('Shop/Material/index')}" class="materialLink">素材区</a>	
 			</div>
-		</div> -->
-
-		<!-- <div class="swiper-container bannerWrap">
-			<div class="swiper-wrapper">
-				<adv pid="1" limit="5" item="v">
-					<div class="swiper-slide">
-						<video  id="video1" src="{$v[ad_link]}" width="100%" height="100%"
-							loop="loop" poster="{$v[ad_code]}" webkit-playsinline="">
-						</video>
-						<span class="playBtn"></span>
-						<span class="voiceBtn"></span>
-					</div>
-				</adv>
-			</div>
-			<a href="{:U('Shop/Material/index')}" class="materialLink">素材区</a>
-			<div class="swiper-pagination"></div>
-		</div> -->
-
-
-		<div class="swiper-container bannerWrap">
-			<div class="swiper-wrapper">
-				<div class="swiper-slide">
-					<video  id="video1" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
-						loop="loop" poster="__STATIC__/images/public/banner01.png" webkit-playsinline="true" >
-					</video>
-					<span class="playBtn"></span>
-					<span class="voiceBtn"></span>
-				</div>
-				<div class="swiper-slide">
-					<video  id="video1" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
-						loop="loop" poster="__STATIC__/images/public/banner02.png" webkit-playsinline="true">
-					</video>
-					<span class="playBtn"></span>
-					<span class="voiceBtn"></span>
-				</div>
-				<div class="swiper-slide">
-					<video  id="video1" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
-						loop="loop" poster="__STATIC__/images/public/banner03.png" webkit-playsinline="true">
-					</video>
-					<span class="playBtn"></span>
-					<span class="voiceBtn"></span>
-				</div>
-				<div class="swiper-slide">
-					<video  id="video1" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
-						loop="loop" poster="__STATIC__/images/public/banner04.png" webkit-playsinline="true">
-					</video>
-					<span class="playBtn"></span>
-					<span class="voiceBtn"></span>
-				</div>
-				<div class="swiper-slide">
-					<video  id="video1" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
-						loop="loop" poster="__STATIC__/images/public/banner05.png" webkit-playsinline="true">
-					</video>
-					<span class="playBtn"></span>
-					<span class="voiceBtn"></span>
-				</div>
-			</div>
-			<a href="{:U('Shop/Material/index')}" class="materialLink">素材区</a>
-			<div class="swiper-pagination"></div>
 		</div>
-
+		
+		<!-- <div class="swiper-container bannerWrap">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+					<video  id="video1" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
+						loop="loop" poster="__STATIC__/images/public/banner01.png" webkit-playsinline="true" playsinline="true" >
+					</video>
+					<span class="playBtn"></span>
+					<span class="voiceBtn"></span>
+				</div>
+				<div class="swiper-slide">
+					<video  id="video1" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
+						loop="loop" poster="__STATIC__/images/public/banner02.png" webkit-playsinline="true" playsinline="true">
+					</video>
+					<span class="playBtn"></span>
+					<span class="voiceBtn"></span>
+				</div>
+				<div class="swiper-slide">
+					<video  id="video1" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
+						loop="loop" poster="__STATIC__/images/public/banner03.png" webkit-playsinline="true" playsinline="true">
+					</video>
+					<span class="playBtn"></span>
+					<span class="voiceBtn"></span>
+				</div>
+				<div class="swiper-slide">
+					<video  id="video1" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
+						loop="loop" poster="__STATIC__/images/public/banner04.png" webkit-playsinline="true" playsinline="true">
+					</video>
+					<span class="playBtn"></span>
+					<span class="voiceBtn"></span>
+				</div>
+				<div class="swiper-slide">
+					<video  id="video1" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
+						loop="loop" poster="__STATIC__/images/public/banner05.png" webkit-playsinline="true" playsinline="true">
+					</video>
+					<span class="playBtn"></span>
+					<span class="voiceBtn"></span>
+				</div>
+			</div>
+			<a href="{:U('Shop/Material/index')}" class="materialLink">素材区</a>
+			<div class="swiper-pagination"></div>
+		</div> -->
 
 		<!-- 菜单导航 -->
 		<div class="nav-wrap">
@@ -335,7 +313,68 @@
 
 <script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
 <script src="__STATIC__/js/swiper.min.js"></script>
+
+<script type="text/javascript" charset="utf-8" src="https://g.alicdn.com/de/prismplayer/2.8.2/aliplayer-min.js"></script>
 <script src="__STATIC__/js/public/public.js?v=201906181700"></script>	
+<script>
+	var player = new Aliplayer({
+	  "id": "player-con",
+	  "source": "http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4",
+	  "width": "6.9rem",
+	  "height": "3.2rem",
+	  "autoplay": false,
+	  "isLive": false,
+	  "cover": "http://kucun.com/template/shop/rainbow/static/images/public/banner01.png",
+	  "rePlay": true,
+	  "videoHeight": "2.47rem",
+	  "playsinline": true,
+	  "preload": false,
+	  "controlBarVisibility": "hover",
+	  "videoWidth": "6.9rem",
+	  "useH5Prism": true,
+	  "skinLayout": [
+		{
+		  "name": "bigPlayButton",
+		  "align": "blabs",
+		  "x": 30,
+		  "y": 80
+		},
+		{
+		  "name": "H5Loading",
+		  "align": "cc"
+		},
+		{
+		  "name": "controlBar",
+		  "align": "blabs",
+		  "x": 0,
+		  "y": 0,
+		  "children": [
+			{
+			  "name": "progress",
+			  "align": "blabs",
+			  "x": 0,
+			  "y": 44
+			},
+			{
+			  "name": "playButton",
+			  "align": "tl",
+			  "x": 15,
+			  "y": 12
+			},
+			{
+			  "name": "timeDisplay",
+			  "align": "tl",
+			  "x": 10,
+			  "y": 7
+			}
+		  ]
+		}
+	  ]
+	}, function (player) {
+		console.log("The player is created");
+	  }
+	);
+</script>
 
 <script>
 
@@ -356,8 +395,8 @@
 			var span = 	$(this).children('.playBtn')
 			//播放
 			span.hide();
-			let video = $(this).children('video')
-			playPause(video[0],span)
+			let video = $(this).children('video');
+			playPause(video[0],span);
 		});
 		function playPause(video,than){ 
 			if (video.paused) {

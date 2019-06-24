@@ -173,6 +173,37 @@
 
         </div>
 
+        <!-- 商品规格-->
+        <div class="mask" onclick="skuHide()">
+            <div class="sku-content" onclick="cancelTap()">
+                <div class="header">
+                    <div class="img-wrap"></div>
+                    <div class="main"></div>
+                    <div class="close-btn" onclick="skuHide()"></div>
+                </div>
+                
+                <!-- 尺寸 -->
+                <div class="sku-row">
+                    <div class="sku-row-title">尺寸</div>
+                    <div class="sku-row-con">
+                        <span class="sku-row-item active">S</span>
+                        <span class="sku-row-item">M</span>
+                        <span class="sku-row-item">L</span>
+                    </div>
+                </div>
+              
+                <!-- 颜色分类 -->
+                <div class="sku-row">
+                    <div class="sku-row-title" style="padding-bottom:.25rem">购买数量</div>
+                    <div class="stepper"></div>
+                </div>
+
+                <!-- 按钮 -->
+                <button class="confirmBtn" >确定</button>
+
+            </div>
+        </div>
+
         <!-- 操作栏 -->
 		<div class="action-bar">
             <div class="home">
@@ -189,7 +220,7 @@
                 </span>
             </div>
             <div class="price">原价:<span>$</span>69</div>
-            <div class="btn">立即领取</div>
+            <div class="btn" onclick="skuShow()">立即领取</div>
 		</div>
 
     </div>
@@ -197,6 +228,7 @@
 	<script src="__STATIC__/js/public/public.js"></script>
     <script src="__STATIC__/js/public/swiper.min.js"></script>
     <script>
+        
         /*
         *主图轮播效果
         **/

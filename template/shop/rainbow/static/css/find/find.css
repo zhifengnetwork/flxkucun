@@ -2,10 +2,27 @@
 /* 视频轮播 */
 .bannerWrap{
     width: 6.9rem;
-    height: 2.47rem;  
-    margin: 0 .3rem .3rem;
-    overflow: hidden;
+    height: 3.2rem;  
+    margin: 0 .3rem;
     z-index: 3;
+    border-radius: .3rem;
+    background-color: #000;
+    overflow: hidden;
+}
+/* 大播放按钮 */
+.prism-player .prism-big-play-btn {
+    width: .67rem;
+    height: .67rem;
+    background: url(../../images/home_zp/playBtn-big.png) no-repeat;
+    background-size: 100%;
+    position: absolute;
+    left: 50%!important;
+    top: 50%!important;
+    z-index: 1000;
+    transform: translate(-50%,-50%); 
+}
+.prism-player .prism-big-play-btn .outter{
+    display: none;
 }
 .bannerWrap .swiper-slide{ 
     position: relative;
@@ -38,7 +55,7 @@
     position: absolute;
     left: 50%;
     top: 50%;
-    z-index: 3;
+    z-index: 1000;
     transform: translate(-50%,-50%);
 }
 
@@ -50,6 +67,7 @@
     position: absolute;
     right: 0;
     top: 0;
+    z-index: 1000;
 }
 .bannerWrap .closing{
     background: url(../../images/home_zp/mute-icon.png) no-repeat;
