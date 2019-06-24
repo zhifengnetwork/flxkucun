@@ -371,11 +371,13 @@ class Goods extends Base {
             /* $this->assign('level_cat', $level_cat);
             $this->assign('level_cat2', $level_cat2);
             $thise->assign('brandList', $brandList); */
+            $temp = $level;
             $level = Db::name('goods_level_price')
                 ->alias('p')
                 ->join('user_level u','p.level =u.level')
                 ->field('p.*,u.level,u.level_name')
                 ->where('p.goods_id',$goods_id)->select();
+            $level = $level ? $level : $temp;
         }
 
         $cat_list = Db::name('goods_category')->select(); // 已经改成联动菜单
@@ -441,8 +443,11 @@ class Goods extends Base {
             $level_goods_data[$k]['goods_id'] = $goods['goods_id'];
         }
 
-        model('goodsLevelPrice')->saveAll($level_goods_data);
-
+        if($level_goods_data[1]['id']){
+            model('goodsLevelPrice')->saveAll($level_goods_data);
+        }else{
+            Db::name('goods_level_price')->insertAll($level_goods_data);
+        }
 
         $GoodsLogic = new GoodsLogic();
         $GoodsLogic->afterSave($goods['goods_id']);
