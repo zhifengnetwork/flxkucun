@@ -114,7 +114,7 @@
                     <label><em>*</em>音频名称</label>
                 </dt>
                 <dd class="opt">
-                    <input type="text" id="title" name="title" class="input-txt"/>
+                    <input type="text" id="title" name="title" value="{$info.title}" class="input-txt"/>
                 </dd>
             </dl>
             <dl class="row">
@@ -122,7 +122,7 @@
                     <label><em>*</em>音频描述</label>
                 </dt>
                 <dd class="opt">
-                  <textarea cols="88" id="content" name="content" style="height: 105px;width: 280px;overflow: hidden;" ></textarea>
+                  <textarea cols="88" id="content" name="content" style="height: 105px;width: 280px;overflow: hidden;" >{$info.content}</textarea>
                 </dd>
             </dl>
             <dl class="row">
@@ -132,13 +132,13 @@
                 <dd class="opt">
                     <div class="input-file-show">
                         <span class="show">
-                                <a id="img_a" target="_blank" class="nyroModal" rel="gal" href="{$goods.original_img}">
+                                <a id="img_a" target="_blank" class="nyroModal" rel="gal" href="{$info.banner}">
                                     <i id="img_i" class="fa fa-picture-o"
-                                       onMouseOver="layer.tips('<img src={$goods.original_img}>',this,{tips: [1, '#fff']});" onMouseOut="layer.closeAll();"></i>
+                                       onMouseOver="layer.tips('<img src={$info.banner}>',this,{tips: [1, '#fff']});" onMouseOut="layer.closeAll();"></i>
                                 </a>
                         </span>
                         <span class="type-file-box">
-                            <input type="text" id="imagetext" name="banner" value="{$goods.original_img}" class="type-file-text">
+                            <input type="text" id="imagetext" name="banner" value="{$info.banner}" class="type-file-text">
                             <input type="button" name="button" id="button1" value="选择上传..." class="type-file-button">
                             <input    class="type-file-file" onClick="GetUploadify(1,'','audio','img_call_back')" size="30"
                                    title="点击前方预览图可查看大图，点击按钮选择文件并提交表单后上传生效">
@@ -157,7 +157,7 @@
                     <select name="type"  class="small form-control">
                         <option value="0">请选择音频分类</option>
                         <foreach name="typeList" item="vo" key="k" >
-                        <option value="{$vo.id}">{$vo.name}</option>
+                        <option <if condition="isset($info.type) and $vo.id eq $info.type">selected</if> value="{$vo.id}">{$vo.name}</option>
                         </foreach>
                     </select>
                     <span class="err" id="err_cat_id"></span>
@@ -166,8 +166,8 @@
             <dl class="row">
                 <dt class="tit">是否有效</dt>
                 <dd class="opt">
-                    <input  type="radio" name="status" value="0" <if condition="$userVideoInfo['status'] eq 0">checked="checked"</if> ><label for="">否</label>
-                    <input  type="radio" name="status" value="1" <if condition="$userVideoInfo['status'] eq 1">checked="checked"</if>><label for="">是</label>
+                    <input  type="radio" name="status" value="0" <if condition="$info['status'] eq 0">checked="checked"</if> ><label for="">否</label>
+                    <input  type="radio" name="status" value="1" <if condition="$info['status'] eq 1">checked="checked"</if>><label for="">是</label>
                     <span class="err" id="err_is_virtual"></span>
                     <p class="notic"></p>
                 </dd>
@@ -176,10 +176,10 @@
                 <dt class="tit">是否推荐</dt>
                 <dd class="opt">
                     <div class="onoff">
-                        <label for="is_virtual1" class="cb-enable <if condition='$userVideoInfo[is_recommend] eq 1'>selected</if>">是</label>
-                        <label for="is_virtual0" class="cb-disable <if condition='$userVideoInfo[is_recommend] eq 0'>selected</if>">否</label>
-                        <input id="is_virtual1" name="is_recommend" <if condition="$userVideoInfo['is_recommend'] eq 1">checked="checked"</if> value="1" type="radio">
-                        <input id="is_virtual0" name="is_recommend" <if condition="$userVideoInfo['is_recommend'] eq 0">checked="checked"</if> value="0" type="radio">
+                        <label for="is_virtual1" class="cb-enable <if condition='$info[is_recommend] eq 1'>selected</if>">是</label>
+                        <label for="is_virtual0" class="cb-disable <if condition='$info[is_recommend] eq 0'>selected</if>">否</label>
+                        <input id="is_virtual1" name="is_recommend" <if condition="$info['is_recommend'] eq 1">checked="checked"</if> value="1" type="radio">
+                        <input id="is_virtual0" name="is_recommend" <if condition="$info['is_recommend'] eq 0">checked="checked"</if> value="0" type="radio">
                     </div>
                     <p class="notic">推荐将在首页优先展示</p>
                 </dd>
@@ -189,13 +189,13 @@
                     <label>排序</label>
                 </dt>
                 <dd class="opt">
-                    <input type="text" value="{$userVideoInfo.sort}" name="sort" class="input-txt"/>
+                    <input type="text" value="{$info.sort}" name="sort" class="input-txt"/>
                 </dd>
             </dl>
         </div>
 		<div class="ncap-form-default">
             <div class="bot">
-                <input type="hidden" value="{$userVideoInfo.id}" name="id"   class="input-txt"/>
+                <input type="hidden" value="{$info.id}" name="id"   class="input-txt"/>
                 <a href="JavaScript:void(0);" id="submit" class="ncap-btn-big ncap-btn-green">确认提交</a>
                 <span class="err" id="err_goods_id"></span>
             </div>
