@@ -211,7 +211,7 @@ class User extends Base
          if (!$user)
             $this->ajaxReturn(['status'=>0,'msg'=>'会员不存在','result'=>'']);
  
-         $user['level_name'] = M('user_level')->where("level = {$user['level']}")->value('level_name');
+         $user['level_name'] = $user['level'] ? M('user_level')->where("level = {$user['level']}")->value('level_name') : '无';
  
         $this->ajaxReturn(['status'=>1,'msg'=>'查询成功','result'=>$user]);
      }
