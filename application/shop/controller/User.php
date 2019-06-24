@@ -84,6 +84,25 @@ class User extends MobileBase
         $leader = get_uper_users($this->user['first_leader']);
         $this->assign('leader', $leader);
 
+        /*未读消息 */
+        $message_logic = new Message();
+        $message_logic->checkPublicMessage();
+
+        $where = array(
+            'user_id'   => $this->user_id,
+            'deleted'   => 0,
+            'category'  => 0,
+            //'is_see'    => 1,
+        );
+        $userMessage = new UserMessage();
+        $count = $userMessage->where($where)->count();
+        $page = new Page($count, 5);
+
+        $rec_id = $userMessage->where($where)->LIMIT($page->firstRow . ',' . $page->listRows)->order('rec_id desc')->column('rec_id');
+        $msglists = $message_logic->sortMessageListBySendTime($rec_id, $type);  
+        $this->assign('msglists', $msglists);   
+        /*未读消息 */   
+
         //当前登录用户信息
         $logic = new UsersLogic();
         $user_info = $logic->get_info($this->user_id);
