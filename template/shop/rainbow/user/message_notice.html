@@ -18,34 +18,36 @@
 	        <!--内容-->
 	        <div class="content">
 	        	<div class="mess_wrap">
-	        		<div class="box_close">
+	        		<div class="box_close" data-url="{:U('User/message_notice_detail', array('type'=>2,'title'=>'物流消息'))}">
 	        			<div class="img">
-	        				<img src="__STATIC__/images/notice/toSend.png" />
+							<img src="__STATIC__/images/notice/toSend.png" />
+							<if condition="$no_read['message_logistics_no_read'] gt 0"><i>{$no_read['message_logistics_no_read']}</i></if>
 	        			</div>
 	        			<div class="right_not">
-	        				<p class="name_past">物流</p>
-	        				<p class="news">暂无消息</p>
+	        				<p class="name_past">物流 &nbsp;&nbsp;<span style="color:#808080;font-size:.2rem;">{$message_logistics.MessageLogistics.send_time_text}</span></p>
+	        				<p class="news">{$message_logistics.MessageLogistics.message_title|default="暂无消息"}</p>
 	        			</div>
 	        		</div>
 	        		
-	        		<div class="box_close">
+	        		<div class="box_close" data-url="{:U('User/message_notice_detail', array('type'=>0,'title'=>'通知消息'))}">
 	        			<div class="img">
 							<img src="__STATIC__/images/notice/mess.png" />
-							<i>3</i>
+							<if condition="$no_read['message_notice_no_read'] gt 0"><i>{$no_read['message_notice_no_read']}</i></if>
 	        			</div>
 	        			<div class="right_not">
-	        				<p class="name_past">通知</p>
-	        				<p class="news">暂无消息</p>
+	        				<p class="name_past">通知 &nbsp;&nbsp;<span style="color:#808080;font-size:.2rem;">{$message_notice.MessageNotice.send_time_text}</span></p>
+	        				<p class="news">{$message_notice.MessageNotice.message_title|default="暂无消息"}</p>
 	        			</div>
 	        		</div>
 	        		
-	        		<div class="box_close">
+	        		<div class="box_close" data-url="{:U('User/message_notice_detail', array('type'=>1,'title'=>'活动消息'))}">
 	        			<div class="img">
-	        				<img src="__STATIC__/images/notice/activity.png" />
+							<img src="__STATIC__/images/notice/activity.png" />
+							<if condition="$no_read['message_activity_no_read'] gt 0"><i>{$no_read['message_activity_no_read']}</i></if>
 	        			</div>
 	        			<div class="right_not">
-	        				<p class="name_past">活动</p>
-	        				<p class="news">暂无消息</p>
+	        				<p class="name_past">活动 &nbsp;&nbsp;<span style="color:#808080;font-size:.2rem;">{$message_activity.MessageActivity.send_time_text}</span></p>
+	        				<p class="news">{$message_activity.MessageActivity.message_title|default="暂无消息"}</p>
 	        			</div>
 	        		</div>
 	        	</div>
@@ -56,7 +58,11 @@
 		<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
 		<script src="__STATIC__/js/public/public.js"></script>
 		<script>
-			
+			$(function(){
+				$(".box_close").click(function(){
+					location.href = $(this).attr('data-url')
+				})
+			})			
 			
 		</script>
 	</body>
