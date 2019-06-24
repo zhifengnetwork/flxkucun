@@ -127,7 +127,7 @@ class Apply extends Base
 		$info = M('Apply_for')->find($id);
 		$info1 = M('Apply_info')->where(['applyid'=>$id])->find();
 
-		$info['uidinfo'] = M('Users')->field('nickname,mobile,head_pic')->find($info['uidinfo']);
+		$info['uidinfo'] = M('Users')->field('nickname,mobile,head_pic')->find($info['uid']);
 		$info['leaderidinfo'] = M('Users')->field('nickname,mobile,head_pic')->find($info['leaderid']);
 		$info['level_name'] = M('User_level')->where(['level'=>$info['level']])->value('level_name');
 
