@@ -317,7 +317,7 @@ class User extends MobileBase
             }
 
             //发送站内消息
-            $msid = M('message_notice')->add(['message_title' => '转账通知', 'message_content' => "$this->user['nickname']向您转账！", 'send_time' => time(), 'mmt_code' => "/Shop/apply/invitation_agent?id=" . $applyid, 'type' => 6]);
+            $msid = M('message_notice')->add(['message_title' => '转账通知', 'message_content' => $this->user['nickname'] . "向您转账！", 'send_time' => time(), 'mmt_code' => "/Shop/apply/invitation_agent?id=" . $applyid, 'type' => 6]);
             if ($msid) {
                 M('user_message')->add(['user_id' => $data['uid'], 'message_id' => $msid]);
             }
