@@ -102,7 +102,7 @@ class Sign extends MobileBase
 
             // 提交事务
             Db::commit();
-            return $this->ajaxReturn(['status' => 1, 'msg' => '签到成功', 'date' => $date,'a'=> $agent_free_num,'d'=>$distribut_free_num]);
+            return $this->ajaxReturn(['status' => 1, 'msg' => '今日签到成功', 'date' => $date,'a'=> $agent_free_num,'d'=>$distribut_free_num]);
 
         } catch (\Exception $e) {
             // 回滚事务

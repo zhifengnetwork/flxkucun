@@ -74,6 +74,7 @@ class Goods extends Validate
     //检查阶梯价格中的价格
     protected function checkLadderPrice($value, $rule, $data)
     {
+        if(empty($value[0]))return true;
         if(empty($data['shop_price'])){
             return '价格不能为空!!!';
         }
