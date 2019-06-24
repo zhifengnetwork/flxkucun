@@ -161,7 +161,7 @@ class Apply extends MobileBase
 
 		Db::startTrans();
 		try{
-			$res = m('apply_info')->add(['applyid'=>$applyinfo,'name'=>$name,'weixin'=>$weixin,'tel'=>$tel,'idcard'=>$idcard,'wx_nickname'=>$wx_nickname,'type'=>$type]);
+			$res = m('apply_info')->add(['applyid'=>$applyid,'name'=>$name,'weixin'=>$weixin,'tel'=>$tel,'idcard'=>$idcard,'wx_nickname'=>$wx_nickname,'type'=>$type]);
 			$res ? $model->where(['id'=>$applyid])->update(['status'=>1]) : Db::rollback();
 			/* 2019-06-22 add */
 			// 提交事务
