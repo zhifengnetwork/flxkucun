@@ -24,10 +24,10 @@
     <div class="ncap-form-default">
       <dl class="row">
         <dt class="tit">
-          <label for="t_mane"><em>*</em>邀请人</label>
+          <label for="t_mane"><em>*</em>申请人</label>
         </dt>
         <dd class="opt">
-          <img src="{$info.uidinfo.head_pic}" style='width:90px height:90px;border-radius:50%;' />
+          <img src="{$info.uidinfo.head_pic}" style='width:90px; height:90px;border-radius:50%;' />
 		  <br />
 		  {$info.uidinfo.mobile}
 		  <br />
@@ -37,7 +37,7 @@
 
       <dl class="row">
         <dt class="tit">
-          <label for="t_mane"><em>*</em>被邀请人</label>
+          <label for="t_mane"><em>*</em>接收上级</label>
         </dt>
         <dd class="opt">
           <img src="{$info.leaderidinfo.head_pic}" style='width:90px height:90px;border-radius:50%;' />
@@ -50,7 +50,7 @@
 
       <dl class="row">
         <dt class="tit">
-          <label for="t_mane"><em>*</em>邀请级别</label>
+          <label for="t_mane"><em>*</em>申请级别</label>
         </dt>
         <dd class="opt">
           <input type="text" placeholder="名称" class="input-txt" name="name" value="{$info.level_name}">
@@ -61,7 +61,7 @@
 
       <dl class="row">
         <dt class="tit">
-          <label for="t_mane"><em>*</em>邀请时间</label>
+          <label for="t_mane"><em>*</em>申请时间</label>
         </dt>
         <dd class="opt">
           <input type="text" placeholder="名称" class="input-txt" name="name" value="{:date('Y-m-d H:i:s',$info.addtime)}">

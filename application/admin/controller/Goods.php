@@ -371,11 +371,13 @@ class Goods extends Base {
             /* $this->assign('level_cat', $level_cat);
             $this->assign('level_cat2', $level_cat2);
             $thise->assign('brandList', $brandList); */
+            $temp = $level;
             $level = Db::name('goods_level_price')
                 ->alias('p')
                 ->join('user_level u','p.level =u.level')
                 ->field('p.*,u.level,u.level_name')
                 ->where('p.goods_id',$goods_id)->select();
+            $level = $level ? $level : $temp;
         }
 
         $cat_list = Db::name('goods_category')->select(); // 已经改成联动菜单
@@ -430,19 +432,20 @@ class Goods extends Base {
 
         //等级价格
         if($data['goods_id'] > 0){
-            foreach ($data['level_price_id'] as $k=>$v){
-                $level_goods_data[$k]['id'] = $v;
+            if(is_array($data['level_price_id']))
+                foreach ($data['level_price_id'] as $k=>$v){
+                    $level_goods_data[$k]['id'] = $v;
+                }
+        }
+
+        if(is_array($data['shop_price'])){
+            foreach ($data['shop_price'] as $k=>$v){
+                $level_goods_data[$k]['level'] = $k;
+                $level_goods_data[$k]['price'] = $v;
+                $level_goods_data[$k]['goods_id'] = $goods['goods_id'];
             }
-        }
-
-        foreach ($data['shop_price'] as $k=>$v){
-            $level_goods_data[$k]['level'] = $k;
-            $level_goods_data[$k]['price'] = $v;
-            $level_goods_data[$k]['goods_id'] = $goods['goods_id'];
-        }
-
-        model('goodsLevelPrice')->saveAll($level_goods_data);
-
+        } 
+        $level_goods_data && model('goodsLevelPrice')->saveAll($level_goods_data);
 
         $GoodsLogic = new GoodsLogic();
         $GoodsLogic->afterSave($goods['goods_id']);

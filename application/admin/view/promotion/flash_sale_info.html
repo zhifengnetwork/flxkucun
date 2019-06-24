@@ -80,7 +80,7 @@
                     <p class="notic">此抢购活动最多允许抢购的商品数量</p>
                 </dd>
             </dl>
-            <dl class="row" style="display:none;">
+            <dl class="row" style="display:block;">
                 <dt class="tit">
                     <label><em>*</em>限购数量</label>
                 </dt>
@@ -233,7 +233,6 @@
                         location.href = "{:U('Admin/Promotion/flash_sale')}";
                     });
                 } else if(data.status == 3){
-                    alert(2222);
                     console.log(data);
                     ajax_return_status = 1;
                     if(data.result.price == undefined){

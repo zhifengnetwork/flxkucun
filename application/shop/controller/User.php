@@ -84,6 +84,25 @@ class User extends MobileBase
         $leader = get_uper_users($this->user['first_leader']);
         $this->assign('leader', $leader);
 
+        /*未读消息 */
+        $message_logic = new Message();
+        $message_logic->checkPublicMessage();
+
+        $where = array(
+            'user_id'   => $this->user_id,
+            'deleted'   => 0,
+            'category'  => 0,
+            //'is_see'    => 1,
+        );
+        $userMessage = new UserMessage();
+        $count = $userMessage->where($where)->count();
+        $page = new Page($count, 5);
+
+        $rec_id = $userMessage->where($where)->LIMIT($page->firstRow . ',' . $page->listRows)->order('rec_id desc')->column('rec_id');
+        $msglists = $message_logic->sortMessageListBySendTime($rec_id, $type);  
+        $this->assign('msglists', $msglists);   
+        /*未读消息 */   
+
         //当前登录用户信息
         $logic = new UsersLogic();
         $user_info = $logic->get_info($this->user_id);
@@ -95,7 +114,7 @@ class User extends MobileBase
 
     // 仓库管理
     public function store_manage()
-    {
+    {   
         //读取会员仓库信息
         $kucun = user_kucun($this->user_id);
 
@@ -179,7 +198,6 @@ class User extends MobileBase
     // 上级仓库
     public function superior_store()
     {
-
         $logic = new UsersLogic();
         $data = $logic->get_info($this->user_id);
         $user = $data['result'];
@@ -190,11 +208,6 @@ class User extends MobileBase
         // 存找配货上级
         $new_kucun = array();
         $pei_parent = find_prepareuserinfo($this->user_id);
-
-        if(!I('get.leaderid/d',0)){
-            $this->redirect(U("User/store_manage",['level'=>I('get.leaderid/d',0)]));
-            return;
-        }
 
        if($pei_parent==null)
         {

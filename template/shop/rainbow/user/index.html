@@ -140,18 +140,18 @@
                     </a>
                 </div>
                 <div class="headline">
-                    <a href="{:U('Shop/User/message_notice')}">
+                       
+                    <!--<a href="{:U('Shop/User/message_notice')}">-->
+                    <a href="/shop/User/message_notice_detail/type/0/title/通知消息.html">
                         <h3>我的消息</h3>
                         <span class="more">消息中心</span>
                     </a>
                 </div>
                 <div class="news-list">
                     <ul>
-                        <li><a href="#">未读消息滚动播放1</a></li>
-                        <li><a href="#">未读消息滚动播放2</a></li>
-                        <li><a href="#">未读消息滚动播放3</a></li>
-                        <li><a href="#">未读消息滚动播放4</a></li>
-                        <li><a href="#">未读消息滚动播放5</a></li>
+                        <volist name="msglists" id="v">
+                            <li><a href="/shop/User/message_notice_info.html?msg_id={$v.rec_id}&type=0">{$v.message_notice.message_title}</a></li>
+                        </volist>
                     </ul>
                 </div>
             </div>

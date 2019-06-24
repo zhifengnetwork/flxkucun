@@ -127,7 +127,7 @@ class Apply extends Base
 		$info = M('Apply_for')->find($id);
 		$info1 = M('Apply_info')->where(['applyid'=>$id])->find();
 
-		$info['uidinfo'] = M('Users')->field('nickname,mobile,head_pic')->find($info['uidinfo']);
+		$info['uidinfo'] = M('Users')->field('nickname,mobile,head_pic')->find($info['uid']);
 		$info['leaderidinfo'] = M('Users')->field('nickname,mobile,head_pic')->find($info['leaderid']);
 		$info['level_name'] = M('User_level')->where(['level'=>$info['level']])->value('level_name');
 
@@ -179,6 +179,8 @@ class Apply extends Base
 		if($res){
 			$level_name = M('user_level')->where(['level'=>$applyinfo['level']])->value('level_name');
 
+			//更改级别
+			M('users')->where(['user_id'=>$applyinfo['uid']])->update(['level'=>$applyinfo['level']]);
 			$openid = M('users')->where(['user_id'=>$applyinfo['uid']])->value('openid');
 			if($openid){
 				$url = SITE_URL."/Shop/apply/invitation_agent?type=2&id=".$id;

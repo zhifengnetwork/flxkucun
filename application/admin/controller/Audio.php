@@ -46,10 +46,16 @@ class Audio extends Base {
    */
 
   public function add(){
+        $id = input('id');
+        $info = [];
+        if($id){
+            $info = Db::name('audio')->find($id);
+        }
 
-     $typeList=Db::name("audio_type")->where(['status'=>1])->select();
-     $this->assign('typeList',$typeList);
-     return $this->fetch();
+        $typeList=Db::name("audio_type")->where(['status'=>1])->select();
+        $this->assign('typeList',$typeList);
+        $this->assign('info',$info);
+        return $this->fetch();
   }
 
  /**
@@ -60,8 +66,12 @@ class Audio extends Base {
 
      $data=I('post.','');
      $data['addtime']=time();
-     $res=Db::name("audio")->insert($data);
-     if($res){
+     if($data['id']){
+        $res=Db::name("audio")->update($data);
+     }else{
+        $res=Db::name("audio")->insert($data);
+     }
+     if($res !== false){
          $this->ajaxReturn(['status'=>1,'msg'=>'操作成功']);
      }else{
          $this->ajaxReturn(['status'=>1,'msg'=>'参数失败']);
