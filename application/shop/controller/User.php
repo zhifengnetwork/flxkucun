@@ -95,7 +95,7 @@ class User extends MobileBase
 
     // 仓库管理
     public function store_manage()
-    {
+    {   
         //读取会员仓库信息
         $kucun = user_kucun($this->user_id);
 
@@ -179,7 +179,6 @@ class User extends MobileBase
     // 上级仓库
     public function superior_store()
     {
-
         $logic = new UsersLogic();
         $data = $logic->get_info($this->user_id);
         $user = $data['result'];
@@ -190,11 +189,6 @@ class User extends MobileBase
         // 存找配货上级
         $new_kucun = array();
         $pei_parent = find_prepareuserinfo($this->user_id);
-
-        if(!I('get.leaderid/d',0)){
-            $this->redirect(U("User/store_manage",['level'=>I('get.leaderid/d',0)]));
-            return;
-        }
 
        if($pei_parent==null)
         {
