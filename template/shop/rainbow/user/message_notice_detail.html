@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>{$Think.get.title}--{$tpshop_config['shop_info_store_title']}</title>
+    <title>{:urldecode($Think.get.title)}--{$tpshop_config['shop_info_store_title']}</title>
     <!-- <link rel="stylesheet" href="__STATIC__/css/style.css"> -->
     <link rel="stylesheet" type="text/css" href="__STATIC__/css/iconfont.css"/>
     <link rel="stylesheet" type="text/css" href="__STATIC__/css/reset.css"/>
@@ -25,7 +25,7 @@
 </style>
 <div class="header mesg_tit">
 	<a href="javascript:history.back(-1);"><img src="__STATIC__/images/return.png"></a>
-    <span>{$Think.get.title}</span>
+    <span>{:urldecode($Think.get.title)}</span>
     <button value="清空" class="clear_mesgbtn">清空</button>
 </div>
 <div class="logistics_mesg" id="ajax_return">
