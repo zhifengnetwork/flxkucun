@@ -1,6 +1,6 @@
 .content{
-    padding-top: .88rem;
     background: #f6f6f6;
+    padding: .88rem 0 1.18rem;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -161,7 +161,11 @@
 /* 进度条 */
 .progress{
     height: .12rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
 }
 .progress .progress-bar{
@@ -227,8 +231,13 @@
     background-color: #ffffff;
     border-bottom: .01rem solid #e5e5e5;
     padding: 0 .3rem;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
 }
 .group-line .label{
@@ -237,10 +246,13 @@
     margin-right: .48rem;
 }
 .group-line .center{
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
     flex: 1;
     margin-right: .6rem;
     overflow: hidden; 
     white-space: nowrap; 
+    -o-text-overflow: ellipsis; 
     text-overflow: ellipsis;
 }
 .group-line .right-arrow{
@@ -260,10 +272,17 @@
     box-sizing: border-box;
 }
 .comment .headline{
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
     padding:0 .3rem;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 .comment .headline h3{
@@ -292,7 +311,11 @@
 }
 .comment-list .single-item .user-info{
     font-size: .3rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     padding: .2rem 0;
 }
@@ -332,7 +355,7 @@
 .comment-list .comment-sku{
     font-size: .24rem;
     color: #b3b3b3;
-    padding-bottom: .2rem;
+    padding: .2rem 0 1.18rem;
 }
 
 /* 商品详情 */

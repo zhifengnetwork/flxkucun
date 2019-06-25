@@ -12,8 +12,6 @@
 	<link rel="stylesheet" type="text/css" href="__STATIC__/css/swiper.min.css?v=111" />
 	<link rel="stylesheet" href="__STATIC__/css/public/base.css">
 	<link rel="stylesheet" type="text/css" href="__STATIC__/css/seckill_zp/index.css" />
-
-
 </head>
 
 <body>
@@ -47,6 +45,51 @@
 					</div>
 				</div>
 				<div class="swiper-pagination"></div>
+			</div>
+
+			<!-- 秒杀时间 -->
+			<div class="kill-time">
+				<div class="swiper-container swiper-container-horizontal swiper-container-free-mode" id="timeaxis">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide swiper-slide-active" data-num="0">
+							<div class="time-item">
+								<div class="time">17:00</div>
+								<div class="info">抢购中</div>
+							</div>
+						</div>
+						<div class="swiper-slide swiper-slide-next" data-num="1">
+							<div class="time-item">
+								<div class="time">19:00</div>
+								<div class="info">即将开抢</div>
+							</div>
+						</div>
+						<div class="swiper-slide" data-num="2">
+							<div class="time-item">
+								<div class="time">21:00</div>
+								<div class="info">即将开抢</div>
+							</div>
+						</div>
+						<div class="swiper-slide" data-num="3">
+							<div class="time-item">
+								<div class="time">22:00</div>
+								<div class="info">即将开抢</div>
+							</div>
+						</div>
+						<div class="swiper-slide" data-num="4">
+							<div class="time-item">
+								<div class="time">23:00</div>
+								<div class="info">即将开抢</div>
+							</div>
+						</div>
+						<div class="swiper-slide" data-num="5">
+							<div class="time-item">
+								<div class="time">00:00</div>
+								<div class="info">即将开抢</div>
+							</div>
+						</div>
+						
+					</div>
+				</div>
 			</div>
 
 			<!-- 秒杀列表 -->
@@ -90,6 +133,19 @@
 				el: '.swiper-pagination',
 			}
 		});
+
+		/**
+		 * 秒杀时间轴效果
+		 */ 
+		var mySwiper = new Swiper('#timeaxis', {
+			slidesPerView: "auto",/*设置slider容器能够同时显示的slides数量(carousel模式)。可以设置为number或者 'auto'则自动根据slides的宽度来设定数量。*/
+			freeMode: true, /*自动贴合*/
+			freeModeSticky: true,/*自动贴合。*/
+			centeredSlides: true,/*设定为true时，活动块会居中，而不是默认状态下的居左。*/
+			slideToClickedSlide: true,/*设置为true则swiping时点击slide会过渡到这个slide。*/
+		})
+
 	</script>
+
 </body>
 </html>
