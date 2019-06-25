@@ -11,9 +11,13 @@ img {
 }
 .opt_btn {
 	position: absolute;
-	top: 0;
+	font-size: .36rem;
+	top: .2rem;
 	right: .2rem;
-	color: #2f2f2f;
+	color: #e93380;
+}
+.opt_btn a {
+	color:#e93380; 
 }
 .content {
 	padding: .29rem .25rem 0;
@@ -85,16 +89,16 @@ input:checked:after{
 	
 }
 .btn_inp {
-	margin: 1.5rem 0 0;
-	width: 7.02rem;
-	height: .6rem;
-	background: #e31a49;
-	border-radius: 4px;
-	letter-spacing: 2px;
-	font-size: .3rem;
-	color: #fff;
-	text-align: center;
-	line-height: .6rem;
+	margin: 1.5rem auto;
+    width: 7.02rem;
+    height: .9rem;
+    text-align: center;
+    line-height: .9rem;
+    letter-spacing: 3px;
+    color: #fff;
+    font-size: .36rem;
+    background: #e93380;
+    border-radius: 45px;
 }
 .pass {
 	color: #f90029;
