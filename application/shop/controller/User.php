@@ -211,12 +211,13 @@ class User extends MobileBase
         }
 
         $goods_id = I('get.goods_id/d',0);
+        $type = I('get.type/d',0);
         //if(!$goods_id)$this->error('参数错误');
 
         // 存找配货上级
         $new_kucun = array();
         //$pei_parent = find_prepareuserinfo($this->user_id);
-        if(($this->user['level'] <= 2) && !$goods_id){
+        if(($this->user['level'] <= 2) && !$goods_id && !$type){
             $this->redirect(U('User/store_manage',['third_leader'=>$this->user['third_leader']])); return;
         }
         if($goods_id && ($this->user['level'] <= 2)){
