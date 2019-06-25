@@ -27,9 +27,10 @@
             <input type="hidden" name="mobile" value="">
             <input type="hidden" name="shop_id" value="">
             <input type="hidden" name="take_time" value="">
+            <input type="hidden" name="type" value="{$type}">
         </form>
         <!--地址-s-->
-        <div class="edit_gtfix shipping_div" id="addressDefault" style="display: none">
+        <div class="edit_gtfix shipping_div" id="addressDefault" <if condition="$type eq 1">style="display: none"</if>>
             <div class="namephone fl">
                 <div class="top">
                     <div class="le fl" id="default_address_consignee"></div>

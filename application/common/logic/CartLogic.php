@@ -816,7 +816,7 @@ class CartLogic extends Model
         $cartWhere['combination_group_id'] = 0;
          $cartWhere['cart_type'] = 1;
         $cartList = $cart->with('goods')->where($cartWhere)->select();  // 获取购物车商品
-        $cartCheckAfterList = $this->checkCartList($cartList);
+        $cartCheckAfterList = $this->checkCartList($cartList); 
         return $cartCheckAfterList;
     }
 
@@ -850,10 +850,10 @@ class CartLogic extends Model
         foreach ($cartList as $cartKey => $cart) {
             //商品不存在或者已经下架
             if (empty($cart['goods']) || $cart['goods']['is_on_sale'] != 1 || $cart['goods_num'] == 0) {
-                $cart->delete();
+                $cart->delete(); 
                 unset($cartList[$cartKey]);
                 continue;
-            }
+            } 
             //活动商品的活动是否失效
             if ($goodsPromFactory->checkPromType($cart['prom_type'])) {
                 if (!empty($cart['spec_key'])) {
@@ -878,7 +878,7 @@ class CartLogic extends Model
                     continue;
                 }
 
-            }elseif ($cart['prom_type'] == 7){
+            }elseif ($cart['prom_type'] == 7){ 
                 //如果结束时间小于当前时间，该套餐已过期
                 if($cart['combination']['end_time'] < time() || $cart['combination']['is_on_sale']==0){
                     //删除自己的过期套餐
