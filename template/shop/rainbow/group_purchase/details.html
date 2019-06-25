@@ -201,7 +201,54 @@
 
         </div>
 
-         <!-- 操作栏 -->
+       <!-- 商品规格-->
+       <div class="mask" onclick="skuHide()">
+            <div class="sku-content" onclick="cancelTap()">
+                <div class="thead">
+                    <div class="img-wrap">
+                        <a href="#">
+                            <img src="__STATIC__/images/home_zp/00recommend-img02.png" >
+                        </a>
+                    </div>
+                    <div class="main">
+                        <div class="goods-name">可爱多洗衣液500ml*6袋</div>
+                        <div class="goods-price">$2900.00</div>
+                        <div class="sku-choose"><span>已选:</span>洗衣液300ml*2</div>
+                    </div>
+                    <div class="close-btn" onclick="skuHide()"></div>
+                </div>
+
+                <div class="tbody">
+                    <div class="sku-row">
+                        <div class="sku-row-title">套餐</div>
+                        <div class="sku-row-con">
+                            <span class="sku-row-item active">洗衣液300ml*2</span>
+                            <span class="sku-row-item">洗衣液500ml*2</span>
+                            <span class="sku-row-item">洗衣液500ml*6</span>
+                            <span class="sku-row-item">可爱多洗衣液100ml*6袋</span>
+                        </div>
+                    </div> 
+
+                    <div class="sku-row">
+                        <div class="sku-row-title">数量</div>
+                        <div class="stepper">
+                            <a href="javascript:" class="min"></a>
+                            <input type="text" value="1" size="2" class="number">
+                            <a href="javascript:" class="add" ></a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- 按钮 -->
+                <div class="tfoot">
+                    <button class="confirmBtn" onclick="skuHide()">确定</button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 操作栏 -->
 		<div class="action-bar">
             <div class="home">
                 <a href="/shop/Index/index.html">
@@ -217,7 +264,7 @@
                 </span>
             </div>
             <div class="price">原价:<span>$</span>69</div>
-            <div class="btn">立即领取</div>
+            <div class="btn" onclick="skuShow()">立即拼团</div>
 		</div>
 
     </div>
