@@ -412,6 +412,7 @@ class Goods extends Base {
                     }
                 }
             }
+            
             $return_arr = ['status' => 0, 'msg' => $error_msg[0], 'result' => $error];
             $this->ajaxReturn($return_arr);
         }

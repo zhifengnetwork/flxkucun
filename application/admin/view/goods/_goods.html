@@ -582,6 +582,7 @@
                         价格<input type="text" class="input-number addprine" name="ladder_price[]"  <if condition="$goods['price_ladder']">value="{$goods['price_ladder'][0]['price']}"</if> onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" style="width: 100px;" >
                         <a class="p_plus" href="javascript:;"><strong>[+]</strong></a>
                     </div>
+                    
                     <volist name="goods['price_ladder']" id="vo" offset="1">
                         <div class="alisth">
                             单次购买个数达到<input type="text" class="input-number addprine" name="ladder_amount[]" value="{$vo['amount']}" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value=this.value.replace(/[^\d.]/g,'')" style="width: 100px;" >&nbsp;
