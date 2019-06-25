@@ -104,7 +104,7 @@ class Apply extends MobileBase
 		//$model->save(['id'=>$id,'status'=>1]);
 
 		$this->assign('applyinfo',$applyinfo);
-		$this->assign('type',$type);
+		$this->assign('type',$type); 
         return $this->fetch();
 	}
 	
@@ -167,8 +167,9 @@ class Apply extends MobileBase
 			// 提交事务
 			Db::commit(); 
 			//跳转到上级仓库
-			$this->redirect(U("User/superior_store",['leaderid'=>$applyinfo['leaderid'],'level'=>$applyinfo['level']]));
-			return;
+			//2019-06-25注释下面两行代码
+			// $this->redirect(U("User/superior_store",['leaderid'=>$applyinfo['leaderid'],'level'=>$applyinfo['level']]));
+			// return;
 			/* 2019-06-22 add */
 			///* 2019-06-22 del */M('Users')->where(['user_id'=>$applyinfo['uid']])->update(['level'=>$applyinfo['level']]);
 

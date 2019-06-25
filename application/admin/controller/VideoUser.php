@@ -8,7 +8,6 @@ class VideoUser extends Base {
 
 
 	public function video_list(){
-
         $model = M('video');
         $res = $list = array();
         $p = empty($_REQUEST['p']) ? 1 : $_REQUEST['p'];
@@ -94,7 +93,6 @@ class VideoUser extends Base {
     /**
      * 批量用户删除视频
      */
-
     public function  delManyVideo(){
 
         $ids = I('post.ids','');
@@ -140,7 +138,16 @@ class VideoUser extends Base {
 //     }
 
 
-
+    /**
+     * 后台视频管理
+     */
+    public function admin_video()
+    {
+        $list = Db::name('video')->where('user_id','0')->order('sort desc ,update_time desc')->paginate(10);
+        $this->assign('list',$list);
+        $this->assign('page',$list->render());
+        return $this->fetch();
+    }
 
 
 
