@@ -1130,7 +1130,8 @@
         var integral = round(goods_price - (exchange_integral / point_rate),2);
         if(exchange_integral > 0){
             $("#goods_price").html(integral + '+' +exchange_integral + '积分'); //变动价格显示
-            $("#price").html("<em>￥</em>" + integral + '+' +exchange_integral + '积分'); //积分显示
+            // $("#price").html("<em>￥</em>" + integral + '+' +exchange_integral + '积分'); //积分显示
+            $("#price").html("<em>￥</em>" + exchange_integral + '积分'); //积分显示
         }else{
             $("#goods_price").html(goods_price); //变动价格显示
             $("#price").html("<em>￥</em>" + goods_price); //变动价格显示
