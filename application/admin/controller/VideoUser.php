@@ -2,6 +2,7 @@
 namespace app\admin\controller;
 use think\Page;
 use think\Db;
+use think\Request;
 
 class VideoUser extends Base {
 
@@ -12,7 +13,7 @@ class VideoUser extends Base {
         $res = $list = array();
         $p = empty($_REQUEST['p']) ? 1 : $_REQUEST['p'];
         $size = empty($_REQUEST['size']) ? 20 : $_REQUEST['size'];
-        $where = " 1 = 1 ";
+        $where = " user_id != 0 ";
         if(isset($_REQUEST['content'])&&!empty($_REQUEST['content'])){
             $content = trim(I('content'));
             $content && $where.=" and content like '%$content%' ";
@@ -60,7 +61,6 @@ class VideoUser extends Base {
      * 更新是视频的审核状态
      */
     public function updateCheckVideo(){
-
          $data=I('post.','');
          $res=Db::name("Video")->update($data);
         if($res){
@@ -143,14 +143,90 @@ class VideoUser extends Base {
      */
     public function admin_video()
     {
-        $list = Db::name('video')->where('user_id','0')->order('sort desc ,update_time desc')->paginate(10);
+        $p = empty($_REQUEST['p']) ? 1 : $_REQUEST['p'];
+        $size = empty($_REQUEST['size']) ? 20 : $_REQUEST['size'];
+        $list = M('video')->where('user_id','0')->order('sort desc ,update_time desc')->page($p,$size)->select();
+        $count =  M('video')->where('user_id','0')->count();// 查询满足要求的总记录数
+        $pager = new Page($count,$size);// 实例化分页类 传入总记录数和每页显示的记录数
+        $page = $pager->show();
         $this->assign('list',$list);
-        $this->assign('page',$list->render());
+        $this->assign('page',$page);
         return $this->fetch();
     }
 
+    /**
+     * 添加后台视频
+     */
+    public function add()
+    {
+        $id = input('id');
+        $info = Db::name('video')->where('id',$id)->find();
+        $this->assign('info',$info);
+        return $this->fetch();
+    }
 
+    //上传公共方法
+    public function upload()
+    {
+        $uploadDir = './public/uploads/video/';
+        $path = '';
+        $file = request()->file('video');
+        $info = $file->validate(['size' =>1024*1024*5,'ext'=>'avi,mp4,flw'])->move($uploadDir);
+        if($info){
+            $path = str_replace("\\","/",$info->getSaveName());
+        }else{
+            $result['msg'] = $file->getError();
+            $result['status'] = 2;
+            return json($result);
+        }
+        $result['url'] = ltrim($uploadDir.$path,'.');
+        $result['img'] = '';
+        if($result['url']){     
+            $videoImg=explode('.',$result['url']);
+            if(!empty($videoImg)){
+                $result['img']=$videoImg[0].".jpg";
+            }
+        };
+        $result['status'] = 1;
+        return json($result);
+    }
 
-
+    //添加/修改视频的提交
+    public function videoPost()
+    {
+        if(Request::instance()->isPost()){
+            $post = input('post.');
+            if(!$post['title']){
+                $result['status'] = 2;
+                $result['msg'] = '请输入标题';
+                return json($result);
+            }
+            if(!$post['video_url']){
+                $result['status'] = 2;
+                $result['msg'] = '请上传视频';
+                return json($result);
+            }
+            if(!$post['content']){
+                $result['status'] = 2;
+                $result['msg'] = '请输入描述';
+                return json($result);
+            }
+            if($post['id']){
+                $res = Db::name('video')->where('id',$post['id'])->update($post);
+            }else{
+                $post['update_time'] = time();
+                $res = Db::name('video')->insert($post);
+            }
+            if($res){
+                $result['status'] = 1;
+                $result['msg'] = '操作成功';
+                return json($result);
+            }else{
+                $result['status'] = 2;
+                $result['msg'] = '操作失败';
+                return json($result);
+            }
+        }
+    }
 }
 ?>	

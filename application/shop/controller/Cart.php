@@ -198,6 +198,7 @@ class Cart extends MobileBase {
 
         $cartList = array_merge($cartList,$cartPriceInfo);
         $this->assign('type', $type);
+        $this->assign('third_leader', $this->user['third_leader']);
         $this->assign('cartGoodsTotalNum', $cartGoodsTotalNum);
         $this->assign('cartList', $cartList['cartList']); // 购物车的商品
         $this->assign('cartPriceInfo', $cartPriceInfo);//商品优惠总价
@@ -304,7 +305,7 @@ class Cart extends MobileBase {
                     if($msid)M('user_message')->add(['user_id'=>$seller_id,'message_id'=>$msid]);
                 }
 
-                $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn']]);
+                $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn'],'third_leader'=>$this->user['third_leader']]);
             }
 
             $pricedata = $pay->toArray(); 
@@ -509,6 +510,7 @@ class Cart extends MobileBase {
         $this->assign('bank_img',$bank_img);
         $this->assign('order',$order);
         $this->assign('bankCodeList',$bankCodeList);
+        $this->assign('third_leader',I('get.third_leader/d',0));
         $this->assign('pay_date',date('Y-m-d', strtotime("+1 day")));
         return $this->fetch();
     }
