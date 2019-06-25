@@ -285,7 +285,7 @@ class User extends MobileBase
             if ($data['uid'] != $this->user['balance_leader']) {
                 if ($data['uid'] != $this->user['third_leader']) {
 
-                    $this->ajaxReturn(['status' => 0, 'msg' => '非上级ID无法转账']);
+                    // $this->ajaxReturn(['status' => 0, 'msg' => '非上级ID无法转账']);
                 }
             }
         }
