@@ -50,8 +50,7 @@ class Goods extends Base {
             {
                 $goods_category_info = D('GoodsCategory')->where('id='.I('GET.id',0))->find();
                 $this->assign('goods_category_info',$goods_category_info);
-                
-                
+                                
                 $all_type = M('goods_category')->where("level<3")->getField('id,name,parent_id');//上级分类数据集，限制3级分类，那么只拿前两级作为上级选择
                 if(!empty($all_type)){
                 	$parent_id = empty($goods_category_info) ? I('parent_id',0) : $goods_category_info['parent_id'];
