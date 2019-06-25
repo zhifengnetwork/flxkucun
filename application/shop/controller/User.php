@@ -134,7 +134,7 @@ class User extends MobileBase
         $GoodsLevelPrice = M('goods_level_price');
         foreach($kucun as $k=>$v){
             $price = $GoodsLevelPrice->where(['goods_id'=>$v['goods_id'],'level'=>$this->user['level']])->value('price');
-            $price && ($kucun['shop_price'] = $price);
+            $price && ($kucun[$k]['shop_price'] = $price);
         }           
 
         $this->assign('kucun', $kucun);
@@ -258,9 +258,10 @@ class User extends MobileBase
 
         //读取会员仓库信息
 
-        //print_r($kucun);exit;
+        //dump($kucun);exit;
         $this->assign('pei_parent', $pei_parent);
         $this->assign('kucun', $kucun);
+        $this->assign('type', $type);
         return $this->fetch();
     }
 

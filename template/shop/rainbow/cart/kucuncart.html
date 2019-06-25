@@ -27,9 +27,10 @@
             <input type="hidden" name="mobile" value="">
             <input type="hidden" name="shop_id" value="">
             <input type="hidden" name="take_time" value="">
+            <input type="hidden" name="type" value="{$type}">
         </form>
         <!--地址-s-->
-        <div class="edit_gtfix shipping_div" id="addressDefault" style="display: none">
+        <div class="edit_gtfix shipping_div" id="addressDefault" <if condition="$type eq 1">style="display: none"</if>>
             <div class="namephone fl">
                 <div class="top">
                     <div class="le fl" id="default_address_consignee"></div>
@@ -93,6 +94,86 @@
             </div>
         </div>
         <!--配送方式-e-->
+        <if condition="$third_leader eq 0">
+        <div class="information_dr">
+                <div class="maleri30">
+
+                    <!--使用余额-s-->
+                    <div class="invoice list7">
+                        <div class="myorder p">
+                            <div class="content30">
+                                <a class="remain" href="javascript:void(0);">
+                                    <div class="order">
+                                        <div class="fl">
+                                            <span>使用余额</span>
+    
+                                            <p>余额：￥{$user['user_money']}</p>
+                                        </div>
+                                        <div class="fr z-toggle-btn">
+                                            <label class="z-toggle z-toggle-royal">
+                                                <input type="checkbox" id="user_money" value="{$user['user_money']}"/>
+    
+                                                <div class="z-tarck">
+                                                    <div class="z-handle">
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--使用余额-e-->
+                    <!-- <div class="invoice list7">
+                        <div class="myorder p">
+                            <div class="content30">
+                                <a class="remain" href="javascript:void(0);">
+                                    <div class="order">
+                                        <div class="fl">
+                                            <span>使用积分</span>
+    
+                                            <p>积分：{$user['pay_points']}<i>可抵扣:{$user['pay_points']|pay_point_money|round=2}元</i></p>
+                                        </div>
+                                        <div class="fr z-toggle-btn">
+                                            <label class="z-toggle z-toggle-royal">
+                                                <input type="checkbox" id="pay_points" value="{$user['pay_points']}"/>
+    
+                                                <div class="z-tarck">
+                                                    <div class="z-handle">
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div> -->
+    
+                    <!--使用余额、积分-s-->
+                    <div id="balance-li" class="invoice list7">
+    
+                        <div class="myorder myorder-2 p" id="paypwd_view" style="display: none">
+                            <div class="content30">
+                                <label>
+                                    <div class="incorise">
+                                        <span>支付密码：</span>
+                                        <input type="password" id="pay_pwd" placeholder="请输入支付密码" autocomplete="off"/>
+                                        <if condition="empty($user['paypwd'])">
+                                            <a class="go-set-password" href="{:U('Mobile/User/paypwd')}?redirect_url={$redirect_url}">去设置支付密码?</a>
+                                        </if>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!--使用余额、积分-e-->
+    
+       
+                </div>
+        </div>
+        </if>
         <!--卖家留言-s-->
         <div class="customer-messa">
             <div class="maleri30">
@@ -476,6 +557,20 @@
 
     })
 
+    //积分余额密码
+    $(function () {
+        //选择使用积分和余额
+        $(document).on('click', '#pay_points,#user_money', function () {
+            pay_pwd_view();
+            ajax_order_price();
+        });
+        //支付密码点击事件
+        $(document).on('blur', '#pay_pwd', function () {
+            var pay_pwd = md5($("input[name='auth_code']").val() + $.trim($('#pay_pwd').val()));
+            $('input[name="pay_pwd"]').val(pay_pwd);
+        })
+    })    
+
     //备注
     $(function () {
         //备注输入
@@ -494,6 +589,27 @@
             }
         });
     })
+
+    //支付密码是否显示
+    function pay_pwd_view() {  
+        var user_money = $('#user_money');
+        var pay_points = $('#pay_points'); 
+        if (user_money.is(':checked')) {
+            $("input[name='user_money']").val(user_money.val());
+        }else{
+            $("input[name='user_money']").val('');
+        }
+        if (pay_points.is(':checked')) {
+            $("input[name='pay_points']").val(pay_points.val());
+        }else{
+            $("input[name='pay_points']").val('');
+        }
+        if (user_money.is(':checked') || pay_points.is(':checked')) {
+            $('#paypwd_view').show();
+        } else {
+            $('#paypwd_view').hide();
+        }
+    }    
 
     // 获取订单价格
     function ajax_order_price() {
@@ -575,7 +691,7 @@
                 $("#payables").text(data.result.order_amount);// 应付
                 $("#order_prom_amount").text(data.result.order_prom_amount);// 订单 优惠活动
                 showErrorMsg('订单提交成功，跳转支付页面!');
-                location.href = "/index.php?m=Shop&c=Cart&a=cart5&order_sn=" + data.result;
+                location.href = "/index.php?m=Shop&c=Cart&a=cart5&order_sn=" + data.result + '&third_leader=' + data.third_leader;
             }
         });
     }

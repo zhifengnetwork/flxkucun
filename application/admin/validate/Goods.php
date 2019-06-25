@@ -14,7 +14,8 @@ class Goods extends Validate
         'cat_id' => 'number|gt:0',
         'goods_sn' => 'unique:goods|max:20',
 //        'shop_price' => ['require', 'regex' => '([1-9]\d*(\.\d*[1-9])?)|(0\.\d*[1-9])'],
-        'shop_price' => 'checkShopPrice',
+        // 'shop_price' => 'checkShopPrice|shoprequire:商品价格必填',
+        'shop_price' => 'checkShopPrice|shoprequire',
 //        'market_price' => 'require|regex:\d{1,10}(\.\d{1,2})?$|checkMarketPrice',
         'weight' => 'regex:\d{1,10}(\.\d{1,2})?$',
         'give_integral' => 'regex:^\d+$',
@@ -59,6 +60,17 @@ class Goods extends Validate
         return true;
     }
 
+    //检查商品价格
+    protected function shoprequire($value,$rule,$data){
+        foreach($value as $k=>$v){
+            if($v==''){
+                $levelitem=Db::name('user_level')->where('level',$k)->find();
+                return "{$levelitem['level_name']}价不能为空";
+            }
+        }
+        return true;
+    }
+    
     //检查阶梯价格中的价格
     protected function checkShopPrice($value, $rule, $data)
     {

@@ -201,12 +201,13 @@
                     </dt>
                     <dd class="opt">
                         <input type="hidden" value="{$lo.id}" name="level_price_id[{$lo.level}]" />
-                        <input type="text" value="{$lo.price}" name="shop_price[{$lo.level}]" class="t_mane"
+                        <input type="text" value="{$lo.price}" name="shop_price[{$lo.level}]" class="t_mane" 
                                onKeyUp="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"/>
-                        <span class="err" id="err_shop_price"></span>
+                        <span class="err" id="err_shop_price_{$lo.level}"></span>
                     </dd>
                 </dl>
             </foreach>
+         
             <dl class="row">
                 <dt class="tit"><em>*</em>
                     <label>市场价</label>
@@ -581,6 +582,7 @@
                         价格<input type="text" class="input-number addprine" name="ladder_price[]"  <if condition="$goods['price_ladder']">value="{$goods['price_ladder'][0]['price']}"</if> onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" style="width: 100px;" >
                         <a class="p_plus" href="javascript:;"><strong>[+]</strong></a>
                     </div>
+                    
                     <volist name="goods['price_ladder']" id="vo" offset="1">
                         <div class="alisth">
                             单次购买个数达到<input type="text" class="input-number addprine" name="ladder_amount[]" value="{$vo['amount']}" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onKeyUp="this.value=this.value.replace(/[^\d.]/g,'')" style="width: 100px;" >&nbsp;
@@ -706,6 +708,8 @@
         initIsVirtual();
         initCategory();
     });
+
+
     //提交
     $(function(){
         $(document).on("click",'#submit',function(){
@@ -725,6 +729,7 @@
                 layer.alert("已选规格必须全部都传图或都不传图" , {icon:2, time:2000});
                 return;
             }
+           
             $.ajax({
                 type: "POST",
                 url: "{:U('Goods/save')}",

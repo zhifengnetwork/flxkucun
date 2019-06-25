@@ -95,7 +95,7 @@
         <div class="tDiv">
             <div class="tDiv2">
                 <div class="fbutton">
-                    <a href="javascript:;" onclick="publicHandleAll('del')">
+                    <a href="javascript:;" onclick="delAll22()">
                         <div class="add" title="批量删除">
                             <span>批量删除</span>
                         </div>
@@ -209,6 +209,35 @@
                 layer.close(index);
             }
         );
+    }
+
+    function delAll22(){
+        var ids = '';
+        $(".trSelected").each(function(){
+            var id = $(this).attr('data-id');
+            if(id > 0){
+                ids += id+',';
+            }
+        });
+        if(!ids){
+            layer.msg('请选择要删除的视频',{'icon':2});
+            return false;
+        }
+        layer.confirm('确认删除'+ids+'?', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                layer.closeAll();
+                $.post('{:url('VideoUser/delManyVideo')}',{'ids':ids},function(data){
+                    if(data.status == 1){
+                        layer.msg(data.msg,{'icon':1},function(){
+                            location.reload();
+                        })
+                    }
+                },'json')
+            }, function(index){
+                layer.closeAll();
+            }
+        )
     }
 
 </script>

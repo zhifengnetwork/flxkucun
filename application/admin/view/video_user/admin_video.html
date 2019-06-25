@@ -6,8 +6,8 @@
     <div class="fixed-bar">
         <div class="item-title">
             <div class="subject">
-                <h3>用户视频管理</h3>
-                <h5>用户专区视频管理</h5>
+                <h3>后台视频管理</h3>
+                <h5>后台专区视频管理</h5>
             </div>
         </div>
     </div>
@@ -19,8 +19,8 @@
             <span title="收起提示" id="explanationZoom" style="display: block;"></span>
         </div>
         <ul>
-            <li>用户上传的视频</li>
-            <li>审核通过后才会显示</li>
+            <!-- <li>用户上传的视频</li> -->
+            <!-- <li>审核通过后才会显示</li> -->
             <li>"推荐"将在首页展示</li>
             <li>排序：按照升序排序，数字越大，越靠前</li>
         </ul>
@@ -32,7 +32,7 @@
                 <h5></h5>
             </div>
             <a href=""><div title="刷新数据" class="pReload"><i class="fa fa-refresh"></i></div></a>
-            <form class="navbar-form form-inline"  method="post" action="{:U('Admin/VideoUser/video_list')}" method="post">
+            <!-- <form class="navbar-form form-inline"  method="post" action="{:U('Admin/VideoUser/video_list')}" method="post">
                 <div class="sDiv">
                     <div class="sDiv2">
                         <input type="text" size="30" name="content" value="<if $content>{$content}</if>" class="qsbox" placeholder="描述...">
@@ -44,7 +44,7 @@
                         <input type="submit" class="btn" value="搜索">
                     </div>
                 </div>
-            </form>
+            </form> -->
         </div>
         <div class="hDiv">
             <div class="hDivBox">
@@ -56,12 +56,6 @@
                         </th>
                         <th align="left" abbr="id" axis="col1" class="" >
                             <div style="text-align: left;width: 50px;" class="">视频ID</div>
-                        </th>
-                        <th align="left" abbr="username" axis="col3" class="" >
-                            <div style="text-align: left;width: 80px; " class="">用户昵称</div>
-                        </th>
-                        <th align="left" abbr="username" axis="col3" class="" >
-                            <div style="text-align: left;width: 80px; " class="">用户userID</div>
                         </th>
                         <th align="left" abbr="consignee" axis="col3" class="" >
                             <div style="text-align: left;width:80px; " class="">标题</div>
@@ -82,9 +76,6 @@
                             <div style="text-align: center;width: 80px; " class="">上传时间</div>
                         </th>
                         <th align="center" abbr="article_time" axis="col6" class="" >
-                            <div style="text-align: center;width: 50px; " class="">&nbsp;&nbsp;状态&nbsp;&nbsp;</div>
-                        </th>
-                        <th align="center" abbr="article_time" axis="col6" class="" >
                             <div style="text-align: center;width:80px;" class=""> &nbsp;操作&nbsp;</div>
                         </th>
                     </tr>
@@ -95,9 +86,12 @@
         <div class="tDiv">
             <div class="tDiv2">
                 <div class="fbutton">
-                    <a href="javascript:;" onclick="publicHandleAll('del')">
-                        <div class="add" title="批量删除">
+                    <a href="javascript:;" onclick="delAll22()">
+                        <div class="add" title="批量删除" style="float: left;">
                             <span>批量删除</span>
+                        </div>
+                        <div class="add" title="上传视频" style="float: left;margin-left: 10px;">
+                            <a href="{:url('VideoUser/add')}"><span>上传视频</span></a>
                         </div>
                     </a>
                 </div>
@@ -108,7 +102,7 @@
             <div id="flexigrid" cellpadding="0" cellspacing="0" border="0" data-url="/index.php/admin/VideoUser/delManyVideo">
                 <table>
                     <tbody>
-                    <foreach name="videoList" item="vo" key="k" >
+                    <foreach name="list" item="vo" key="k" >
                         <tr data-id="{$vo[id]}">
                             <td class="sign">
                                 <div style="width: 24px;"><i class="ico-check"></i></div>
@@ -116,12 +110,7 @@
                             <td align="left" class="">
                                 <div style="text-align: left; width: 50px;">{$vo[id]}</div>
                             </td>
-                            <td align="left" class="">
-                                <div style="text-align: left; width: 80px;">{$vo['nickname']}</div>
-                            </td>
-                            <td align="left" class="">
-                                <div style="text-align: left; width: 80px;">{$vo['user_id']}</div>
-                            </td>
+                            
                             <td align="left" class="">
                                 <div style="text-align: left; width: 80px;">{$vo['title']}</div>
                             </td>
@@ -148,16 +137,9 @@
                        <td align="left" class="">
                                 <div style="text-align: left; width: 80px;"><?php echo date("Y.m.d ",$vo['update_time'])?></div>
                        </td>
-                       <td align="left" class="">
-                            <div style="text-align: left; width: 50px;"><if condition="$vo['status'] eq 0"><span class="gray_button">待审核</span>
-                                <elseif condition="$vo['status'] eq 1" />
-                                <span class="green_button">通过</span>
-                                <else/>
-                                <span class="red_button">失败</span>
-                            </if></div>
-                     </td>
             <td align="" class="" style="width: 100%;">
-                <div><a href="{:U('VideoUser/checkUserVideo',array('id'=>$vo['id']))}" class="btn blue"><i class="fa fa-pencil-square-o"></i>审核</a>
+                <div>
+                    <a href="{:U('VideoUser/add',array('id'=>$vo['id']))}" class="btn blue"><i class="fa fa-pencil-square-o"></i>编辑</a>
                     <a class="btn red" onClick="delfunc(this)" data-url="{:U('VideoUser/delUserVideo')}" data-id="{$vo.id}"><i class="fa fa-trash-o"></i>删除</a>
                 </div>
 
@@ -166,7 +148,7 @@
             </foreach>
             </tbody>
             </table>
-                <!--分页位置--> {$pager}
+                <!--分页位置--> {$page}
     </div>
 </div>
 </div>
@@ -209,6 +191,35 @@
                 layer.close(index);
             }
         );
+    }
+
+    function delAll22(){
+        var ids = '';
+        $(".trSelected").each(function(){
+            var id = $(this).attr('data-id');
+            if(id > 0){
+                ids += id+',';
+            }
+        });
+        if(!ids){
+            layer.msg('请选择要删除的视频',{'icon':2});
+            return false;
+        }
+        layer.confirm('确认删除'+ids+'?', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                layer.closeAll();
+                $.post('{:url('VideoUser/delManyVideo')}',{'ids':ids},function(data){
+                    if(data.status == 1){
+                        layer.msg(data.msg,{'icon':1},function(){
+                            location.reload();
+                        })
+                    }
+                },'json')
+            }, function(index){
+                layer.closeAll();
+            }
+        )
     }
 
 </script>

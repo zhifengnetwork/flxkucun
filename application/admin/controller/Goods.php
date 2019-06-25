@@ -32,6 +32,7 @@ class Goods extends Base {
         return $this->fetch();
     }
     
+    
     /**
      * 添加修改商品分类
      * 手动拷贝分类正则 ([\u4e00-\u9fa5/\w]+)  ('393','$1'), 
@@ -41,6 +42,7 @@ class Goods extends Base {
         insert into `tp_goods_category` (`parent_id`,`name`) values 
         ('393','时尚饰品'),
      */
+
     public function addEditCategory($id=""){
         /* 
             $GoodsLogic = new GoodsLogic();        
@@ -62,6 +64,7 @@ class Goods extends Base {
                 return $this->fetch('_category');
                 exit;
             }
+
 
             $GoodsCategory = new GoodsCategory(); // D('GoodsCategory'); //
 
@@ -398,12 +401,21 @@ class Goods extends Base {
     //商品保存
     public function save(){
         $data = input('post.');
-
         $spec_item = input('item/a');
         $validate = Loader::validate('Goods');// 数据验证
         if (!$validate->batch()->check($data)) {
             $error = $validate->getError();
             $error_msg = array_values($error);
+            if(!empty($error['shop_price'])){
+                $levelitem=Db::name('user_level')->select();
+                foreach($levelitem as $lk=>$lv){
+                    if(strpos($error['shop_price'],$lv['level_name'])!==false){
+                        $temkey="shop_price_{$lv['level']}";
+                        $error[$temkey]=$error['shop_price'];
+                    }
+                }
+            }
+            
             $return_arr = ['status' => 0, 'msg' => $error_msg[0], 'result' => $error];
             $this->ajaxReturn($return_arr);
         }
