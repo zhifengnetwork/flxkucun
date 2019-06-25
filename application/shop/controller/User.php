@@ -115,10 +115,15 @@ class User extends MobileBase
     // 仓库管理
     public function store_manage()
     {   
+        $third_leader = I('get.third_leader/d',0);
         //读取会员仓库信息
-        $kucun = user_kucun($this->user_id);
+        if($third_leader)
+            $kucun = user_kucun($third_leader);
+        else
+            $kucun = user_kucun($this->user_id);
 
         $this->assign('kucun', $kucun);
+        $this->assign('third_leader', $third_leader);
         return $this->fetch();
     }
     // 团队数据
@@ -211,9 +216,12 @@ class User extends MobileBase
         // 存找配货上级
         $new_kucun = array();
         //$pei_parent = find_prepareuserinfo($this->user_id);
-        if($goods_id && ($this->user['level'] <= 2))
+        if(($this->user['level'] <= 2) && !$goods_id){
+            $this->redirect(U('User/store_manage',['third_leader'=>$this->user['third_leader']])); return;
+        }
+        if($goods_id && ($this->user['level'] <= 2)){
             $pei_parent = getThird_leader($this->user_id, $goods_id);
-        else 
+        }else 
             $pei_parent = getThird_leader1($this->user_id, $this->user['level']);
 
        if(!$pei_parent)
