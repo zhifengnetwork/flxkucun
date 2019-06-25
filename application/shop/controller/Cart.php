@@ -572,15 +572,16 @@ class Cart extends MobileBase {
                 $goods_data_number = $data['number'];//数量   
                 $goods_data_checkItem = $data['checkItem'];
                 $pei_parent =$data['pei_parent'];
+                /*
                 if(!$pei_parent){
                     $pei_parent =$this->user['first_leader'];
-                }
+                }*/
                 
                 foreach($goods_data_ids as $k=>$v)
                 {
                     if(!empty($goods_data_checkItem[$k]))
                     {
-                        if($this->user['level']==5)
+                        if(($this->user['level']==5) || !$pei_parent)
                         {
                             $store_count =  $goods = M("goods")->where(['goods_id'=>$goods_data_ids[$k]])->value('store_count');
                             if($store_count<$goods_data_number[$k])

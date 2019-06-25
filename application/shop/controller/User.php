@@ -205,24 +205,31 @@ class User extends MobileBase
             $this->error('请先绑定手机号码', U('Shop/User/setMobile'));
         }
 
+        $goods_id = I('get.goods_id/d',0);
+        //if(!$goods_id)$this->error('参数错误');
+
         // 存找配货上级
         $new_kucun = array();
-        $pei_parent = find_prepareuserinfo($this->user_id);
+        //$pei_parent = find_prepareuserinfo($this->user_id);
+        if($goods_id && ($this->user['level'] <= 2))
+            $pei_parent = getThird_leader($this->user_id, $goods_id);
+        else 
+            $pei_parent = getThird_leader1($this->user_id, $this->user['level']);
 
-       if($pei_parent==null)
+       if(!$pei_parent)
         {
             $kucun = M("goods")->alias('g')
                 ->field('g.store_count as nums,g.goods_name,g.goods_id,g.shop_price,g.original_img')
             //->join('users u','g.user_id=u.user_id','LEFT')
-                ->where("is_on_sale=1")->select();
-        } else {
-            $kucun = user_kucun($pei_parent['user_id']);
+                ->where("is_on_sale=1 and g.prom_type=0")->select();
+        } else { 
+            $kucun = user_kucun($pei_parent);
         }
 
         //读取会员仓库信息
 
         //print_r($kucun);exit;
-        $this->assign('pei_parent', $pei_parent['user_id']);
+        $this->assign('pei_parent', $pei_parent);
         $this->assign('kucun', $kucun);
         return $this->fetch();
     }
