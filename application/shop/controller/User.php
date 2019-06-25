@@ -134,7 +134,7 @@ class User extends MobileBase
         $GoodsLevelPrice = M('goods_level_price');
         foreach($kucun as $k=>$v){
             $price = $GoodsLevelPrice->where(['goods_id'=>$v['goods_id'],'level'=>$this->user['level']])->value('price');
-            $price && ($kucun['shop_price'] = $price);
+            $price && ($kucun[$k]['shop_price'] = $price);
         }           
 
         $this->assign('kucun', $kucun);

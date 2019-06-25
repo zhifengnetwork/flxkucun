@@ -25,6 +25,7 @@
                 <span class="fr">{$order[order_amount]}元</span>
             </div>
         </div>
+        <if condition="$third_leader eq 0">
         <!--其他支付方式-s-->
         <div class="paylist">
             <div class="myorder debit otherpay p">
@@ -42,7 +43,7 @@
                 </div>
             </div>
         </div>
-
+        
         <div class="pay-list-4 p">
             <div class="maleri30">
                 <ul>
@@ -68,6 +69,7 @@
                 </ul>
             </div>
         </div>
+        </if>
         <!--其他支付方式-s-->
         <!--上传凭证-s-->
         <div class="paylist">
