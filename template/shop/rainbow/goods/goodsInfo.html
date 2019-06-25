@@ -62,7 +62,7 @@
             </div>
             <div class="keep fr">
                 <a href="javascript:collect_goods({$goods.goods_id});" id="favorite_add">
-                    <i class=" <if condition='$collect gt 0'>red</if>"></i>
+                    <i sc="{$collect}" class=" <if condition='$collect gt 0'>red</if>"></i>
                     <span>收藏</span>
                 </a>
             </div>
@@ -828,8 +828,13 @@
             success: function(data){
                 layer.open({content:data.msg, time:2});
                 if(data.status == 1){
-                    //收藏点亮
-                    $('.de_font .keep').find('i').addClass('red');
+                    if($('.de_font .keep').find('i').attr('sc')==1){
+                        $('.de_font .keep').find('i').attr('sc',0);
+                        $('.de_font .keep').find('i').removeClass('red');
+                    }else{
+                        $('.de_font .keep').find('i').attr('sc',1);
+                        $('.de_font .keep').find('i').addClass('red');
+                    }
                 }
             }
         });

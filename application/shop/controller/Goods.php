@@ -630,6 +630,26 @@ class Goods extends MobileBase
     }
 
     /**
+     * 收藏列表
+     */
+    public function collection_list(){
+        $user_id = cookie('user_id');
+        if(!$user_id){
+            $this->ajaxReturn(['status' => -1, 'msg' => '未找到用户！', 'result' => '']);
+        }
+
+        $list = Db::name('goods_collect')->alias('c')
+                ->join('goods g','g.goods_id=c.goods_id','LEFT')
+                ->field('g.goods_id,g.goods_name,g.shop_price,g.original_img img')
+                ->where('user_id',$user_id)
+                ->select();
+
+        return $this->fetch('',[
+            'list'  =>  $list,
+        ]);       
+    }
+
+    /**
      * 用户收藏某一件商品
      */
     public function collect_goods()
