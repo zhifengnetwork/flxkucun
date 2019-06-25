@@ -24,6 +24,12 @@
 .prism-player .prism-big-play-btn .outter{
     display: none;
 }
+
+.bannerWrap .prism-player{
+    border-radius: .3rem;
+    overflow: hidden;
+}
+
 .bannerWrap .swiper-slide{ 
     position: relative;
     border-radius: .28rem;

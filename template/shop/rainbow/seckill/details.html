@@ -102,7 +102,7 @@
                             <div class="center">限时秒杀（总限购3000</div>
                             <div class="right-arrow"></div>
                         </div>
-                        <div class="group-line border-none">
+                        <div class="group-line border-none" onclick="skuShow()">
                             <div class="label">已选</div>
                             <div class="center">8片装 8件</div>
                             <div class="right-arrow"></div>
@@ -176,30 +176,46 @@
         <!-- 商品规格-->
         <div class="mask" onclick="skuHide()">
             <div class="sku-content" onclick="cancelTap()">
-                <div class="header">
-                    <div class="img-wrap"></div>
-                    <div class="main"></div>
+                <div class="thead">
+                    <div class="img-wrap">
+                        <a href="#">
+                            <img src="__STATIC__/images/home_zp/00recommend-img02.png" >
+                        </a>
+                    </div>
+                    <div class="main">
+                        <div class="goods-name">可爱多洗衣液500ml*6袋</div>
+                        <div class="goods-price">$2900.00</div>
+                        <div class="sku-choose"><span>已选:</span>洗衣液300ml*2</div>
+                    </div>
                     <div class="close-btn" onclick="skuHide()"></div>
                 </div>
-                
-                <!-- 尺寸 -->
-                <div class="sku-row">
-                    <div class="sku-row-title">尺寸</div>
-                    <div class="sku-row-con">
-                        <span class="sku-row-item active">S</span>
-                        <span class="sku-row-item">M</span>
-                        <span class="sku-row-item">L</span>
+
+                <div class="tbody">
+                    <div class="sku-row">
+                        <div class="sku-row-title">套餐</div>
+                        <div class="sku-row-con">
+                            <span class="sku-row-item active">洗衣液300ml*2</span>
+                            <span class="sku-row-item">洗衣液500ml*2</span>
+                            <span class="sku-row-item">洗衣液500ml*6</span>
+                            <span class="sku-row-item">可爱多洗衣液100ml*6袋</span>
+                        </div>
+                    </div> 
+
+                    <div class="sku-row">
+                        <div class="sku-row-title">数量</div>
+                        <div class="stepper">
+                            <a href="javascript:" class="min"></a>
+                            <input type="text" value="1" size="2" class="number">
+                            <a href="javascript:" class="add" ></a>
+                        </div>
                     </div>
-                </div>
-              
-                <!-- 颜色分类 -->
-                <div class="sku-row">
-                    <div class="sku-row-title" style="padding-bottom:.25rem">购买数量</div>
-                    <div class="stepper"></div>
+
                 </div>
 
                 <!-- 按钮 -->
-                <button class="confirmBtn" >确定</button>
+                <div class="tfoot">
+                    <button class="confirmBtn" onclick="skuHide()">确定</button>
+                </div>
 
             </div>
         </div>
@@ -228,10 +244,10 @@
 	<script src="__STATIC__/js/public/public.js"></script>
     <script src="__STATIC__/js/public/swiper.min.js"></script>
     <script>
-        
-        /*
-        *主图轮播效果
-        **/
+
+       	/**
+         * 主图轮播效果
+         */
         var mySwiper = new Swiper('.swiper-container', {
             //可选选项，自动滑动
             autoplay: false,
@@ -250,7 +266,9 @@
             },
         })
 
-        // 视频播放
+        /**
+         * 视频播放
+         */
         $('.swiper-slide').click(function(){
             var span = 	$(this).children('.playBtn')
                 //播放
@@ -268,7 +286,9 @@
             }
         };
 
-        // 声音开关
+        /**
+         *声音开关 
+         */
         var bool = true;
         $(".voiceBtn").click(function(event){
             // 取消冒泡
@@ -332,7 +352,9 @@
             return i >= 10 ? i : "0" + i ;
         }
 
-        // 点击楼梯让对应的内容模块移动到对应的位置
+        /**
+         *点击楼梯让对应的内容模块移动到对应的位置 
+         */ 
         $('.tab-Tit .item').click(function(){
             $(this).addClass('active').siblings().removeClass('active');
             $('.tab-Tit .item').each(function(ind,ele){
@@ -352,7 +374,9 @@
             });
         })
 
-        // 监听滚动效果
+        /**
+         *监听滚动效果 
+         */  
         $(window).on('scroll',function(){
             var $scroll=$(this).scrollTop();//当前滚动条距离顶部的距离
             
@@ -374,9 +398,7 @@
             });
         });
 
-
-        
-
+     
     </script>
 </body>
 </html>
