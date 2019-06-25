@@ -398,12 +398,20 @@ class Goods extends Base {
     //商品保存
     public function save(){
         $data = input('post.');
-
         $spec_item = input('item/a');
         $validate = Loader::validate('Goods');// 数据验证
         if (!$validate->batch()->check($data)) {
             $error = $validate->getError();
             $error_msg = array_values($error);
+            if(!empty($error['shop_price'])){
+                $levelitem=Db::name('user_level')->select();
+                foreach($levelitem as $lk=>$lv){
+                    if(strpos($error['shop_price'],$lv['level_name'])!==false){
+                        $temkey="shop_price_{$lv['level']}";
+                        $error[$temkey]=$error['shop_price'];
+                    }
+                }
+            }
             $return_arr = ['status' => 0, 'msg' => $error_msg[0], 'result' => $error];
             $this->ajaxReturn($return_arr);
         }
