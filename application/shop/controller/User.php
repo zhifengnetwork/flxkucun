@@ -122,6 +122,12 @@ class User extends MobileBase
         else
             $kucun = user_kucun($this->user_id);
 
+        $GoodsLevelPrice = M('goods_level_price');
+        foreach($kucun as $k=>$v){
+            $price = $GoodsLevelPrice->where(['goods_id'=>$v['goods_id'],'level'=>$this->user['level']])->value('price');
+            $price && ($kucun['shop_price'] = $price);
+        }           
+
         $this->assign('kucun', $kucun);
         $this->assign('third_leader', $third_leader);
         return $this->fetch();
@@ -233,6 +239,12 @@ class User extends MobileBase
                 ->where("is_on_sale=1 and g.prom_type=0")->select();
         } else { 
             $kucun = user_kucun($pei_parent);
+        }
+
+        $GoodsLevelPrice = M('goods_level_price');
+        foreach($kucun as $k=>$v){
+            $price = $GoodsLevelPrice->where(['goods_id'=>$v['goods_id'],'level'=>$this->user['level']])->value('price');
+            $price && ($kucun['shop_price'] = $price);
         }
 
         //读取会员仓库信息

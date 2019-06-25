@@ -2266,7 +2266,7 @@ function user_kucun($user_id)
     $user_info = M('users')->field($field)->where(['user_id' => $user_id])->find();
 
     $warehouse_goods_list = M("warehouse_goods")->alias('wg')
-        ->field('u.nickname,u.user_id,wg.nums,g.goods_name,g.goods_id,g.shop_price,g.original_img')
+        ->field('u.nickname,u.user_id,wg.nums,g.goods_name,g.goods_id,g.market_price as shop_price,g.original_img')
         ->join('users u', 'wg.user_id=u.user_id', 'LEFT')
         ->join('goods g', 'wg.goods_id=g.goods_id', 'LEFT')
         ->where(['wg.user_id' => $user_id,'g.prom_type'=>0])->select();

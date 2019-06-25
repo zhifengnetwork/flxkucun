@@ -190,6 +190,11 @@ class Cart extends MobileBase {
             $cartGoodsTotalNum = count($cartList['cartList']);
         }
         $cartPriceInfo = $cartLogic->getCartPriceInfo($cartList['cartList']);  //初始化数据。商品总额/节约金额/商品总共数量
+
+        //$levellist = M('user_level')->field('stock,replenish')->where(['level'=>['gt',$this->user['level']]])->select();
+        $levelinfo = M('user_level')->field('stock,replenish')->where(['level'=>$this->user['level']])->find();
+        if(($cartPriceInfo['total_fee'] < $levelinfo['replenish']) && ($action=="kucun_buy"))$this->error('补货金额必须达到'.$levelinfo['replenish'].'元','/shop/User/superior_store/type/1');
+
         $cartList = array_merge($cartList,$cartPriceInfo);
         $this->assign('cartGoodsTotalNum', $cartGoodsTotalNum);
         $this->assign('cartList', $cartList['cartList']); // 购物车的商品
