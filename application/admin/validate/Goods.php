@@ -71,6 +71,7 @@ class Goods extends Validate
         return true;
     }
 
+    
 
     //检查阶梯价格中的价格
     protected function checkShopPrice($value, $rule, $data)
