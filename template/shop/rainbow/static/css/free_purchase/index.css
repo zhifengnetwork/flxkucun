@@ -41,8 +41,13 @@
     border-radius: .14rem;
     margin-bottom: .2rem;
     padding: .2rem;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     position: relative;
 }
@@ -56,6 +61,8 @@
 }
 
 .single-item .text{
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
     flex: 1;
 }
 .single-item .text h3{
@@ -74,6 +81,8 @@
 
 /* 进度条 */
 .progress{
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
 }
 .progress .progress-bar{

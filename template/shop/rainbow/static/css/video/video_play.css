@@ -80,6 +80,8 @@
     width: .65rem;
 }
 .goods-item .text{
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
     flex: 1;
 }
 .goods-item .text h3{

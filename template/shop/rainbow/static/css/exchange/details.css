@@ -1,6 +1,6 @@
 .content{
-    padding-top: .88rem;
     background: #f6f6f6;
+    padding: .88rem 0 1.18rem;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -176,8 +176,13 @@
     background-color: #ffffff;
     border-bottom: .01rem solid #e5e5e5;
     padding: 0 .3rem;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
 }
 .group-line .label{
@@ -205,13 +210,18 @@
 /* 免单团信息 */
 .tuanRule{
     height: .6rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     font-size: .24rem;
     color: #cccccc;
     background-color: #fff;
     border-top: .01rem solid #e5e5e5;
     padding: 0 .3rem;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 .tuanRule span{
@@ -236,10 +246,17 @@
     height: .4rem;
     font-size: .24rem;
     color: #333333;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     padding: 0 .3rem;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 .tuan-wrap .headline p span{
@@ -258,11 +275,18 @@
 }
 .tuan-list .tuan-item{
     height: .88rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
     border-bottom: .01rem solid #e5e5e5;
     padding: 0 .3rem;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 .tuan-list .tuan-item:last-child{
@@ -270,7 +294,11 @@
 }
 .tuan-list .tuan-item .user-info{
     font-size: .22rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
 }
 .tuan-list .tuan-item .user-info .avatar{
@@ -294,7 +322,11 @@
 .tuan-list .tuan-item .right{
     height: .45rem;
     font-size: .22rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
 }
 .tuan-list .tuan-item .count-down .surplu-number{
@@ -325,10 +357,17 @@
     box-sizing: border-box;
 }
 .comment .headline{
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
     justify-content: space-between;
     padding:0 .3rem;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 .comment .headline h3{
@@ -357,7 +396,11 @@
 }
 .comment-list .single-item .user-info{
     font-size: .3rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     padding: .2rem 0;
 }
