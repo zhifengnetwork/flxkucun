@@ -288,6 +288,13 @@ class Cart extends MobileBase {
                 $placeOrder->setUserAddress($address)->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
                 $cartLogic->clear();
                 $order = $placeOrder->getOrder();
+
+                if($seller_id){
+                    $msid = M('message_notice')->add(['message_title'=>'下级进货通知','message_content'=>"您有下级提交进货订单!",'send_time'=>time(),'mmt_code'=>'/shop/Order/order_send','type'=>11]);
+                    if($msid)M('user_message')->add(['user_id'=>$seller_id,'message_id'=>$msid]);
+                }
+                
+
                 $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn']]);
             }
 

@@ -141,6 +141,14 @@ class Order extends MobileBase
             $orderLogic->setUserId($this->user_id);
             $Result = $orderLogic->superiorProcessOrder($order_id, $goods['user_id'], $action,array('note'=>I('note'),'admin_id'=>0));
             if($res !== false && $Result !== false){
+                if($action == 'confirm'){
+                    $orderinfo = M('Order')->field('user_id,total_amount')->find($order_id);
+                    $orderuserlevel = M('Users')->where(['user_id'=>$orderinfo['user_id']])->value('level');
+                    $level = M('user_level')->field('level')->where(['level'=>['gt',$orderuserlevel],'stock'=>['elt',$orderinfo['total_amount']]])->order('level desc')->limit(1)->find();
+                    $level = $level['level'] ? $level['level'] : 0;
+                    if($level > $orderuserlevel)
+                        M('Users')->where(['user_id'=>$orderinfo['user_id']])->update(['level'=>$level]);
+                }
                 if ($action == 'remove') {
                     $this->ajaxReturn(['status' => 1, 'msg' => '操作成功', 'url' => U('Order/index')]);
                 }

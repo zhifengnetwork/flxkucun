@@ -103,12 +103,21 @@ class User extends MobileBase
         $this->assign('msglists', $msglists);   
         /*未读消息 */   
 
+        //客服电话
+        $phone = M('config')->where('inc_type','shop_info')->where('name','phone')->value('value');
+
+        //获取团队借鉴团队数据里面的获取止推下级的方法
+        $zhitui_sub = getAlldp($this->user_id);
+        $zhitui_num = count($zhitui_sub);
+        
         //当前登录用户信息
         $logic = new UsersLogic();
         $user_info = $logic->get_info($this->user_id);
         $order_info['belowWaitSend'] = $user_info['result']['belowWaitSend']; //下级待发货数
         $this->assign('order_info', $order_info);
 
+        $this->assign('phone',$phone);
+        $this->assign('zhitui_num',$zhitui_num);
         return $this->fetch();
     }
 
@@ -244,7 +253,7 @@ class User extends MobileBase
         $GoodsLevelPrice = M('goods_level_price');
         foreach($kucun as $k=>$v){
             $price = $GoodsLevelPrice->where(['goods_id'=>$v['goods_id'],'level'=>$this->user['level']])->value('price');
-            $price && ($kucun['shop_price'] = $price);
+            $price && ($kucun[$k]['shop_price'] = $price);
         }
 
         //读取会员仓库信息
