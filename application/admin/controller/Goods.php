@@ -63,6 +63,7 @@ class Goods extends Base {
                 return $this->fetch('_category');
                 exit;
             }
+            
 
             $GoodsCategory = new GoodsCategory(); // D('GoodsCategory'); //
 
