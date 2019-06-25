@@ -258,9 +258,10 @@ class User extends MobileBase
 
         //读取会员仓库信息
 
-        //print_r($kucun);exit;
+        //dump($kucun);exit;
         $this->assign('pei_parent', $pei_parent);
         $this->assign('kucun', $kucun);
+        $this->assign('type', $type);
         return $this->fetch();
     }
 
