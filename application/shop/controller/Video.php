@@ -125,7 +125,7 @@ class Video extends MobileBase{
              //$this->ajaxReturn(['status'=>1,'msg'=>'操作成功']);
              $this->success('视频上传成功',url("/shop/video/video_list"));
            }else{
-            $this->erro('视频上传失败，请重试');
+            $this->error('视频上传失败，请重试');
            }
         };
        
@@ -141,7 +141,7 @@ class Video extends MobileBase{
         if($info){
             $path = str_replace("\\","/",$info->getSaveName());
         }else{
-            echo $file->getError();
+            $this->error($file->getError());
         }
         return ltrim($uploadDir.$path,'.');
     }

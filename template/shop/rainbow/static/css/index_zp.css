@@ -208,6 +208,10 @@ body{
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
+.nav-wrap ul li{
+    flex:1;
+}
+
 .nav-wrap .navItem{
     width: 20%;
     text-align: center;
