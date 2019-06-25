@@ -42,6 +42,7 @@ class Goods extends Base {
         insert into `tp_goods_category` (`parent_id`,`name`) values 
         ('393','时尚饰品'),
      */
+    
     public function addEditCategory($id=""){
         /* 
             $GoodsLogic = new GoodsLogic();        
@@ -63,7 +64,7 @@ class Goods extends Base {
                 return $this->fetch('_category');
                 exit;
             }
-            
+
 
             $GoodsCategory = new GoodsCategory(); // D('GoodsCategory'); //
 
