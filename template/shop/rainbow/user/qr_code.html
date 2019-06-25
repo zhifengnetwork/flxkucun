@@ -7,7 +7,7 @@
 	<title>二维码</title>
 
 	<script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
-
+    <link rel="stylesheet" href="__STATIC__/css/public/base.css?v=201906191807">
 	<link rel="stylesheet" type="text/css" href="__STATIC__/css/reset.css?v=111" />
 	<link rel="stylesheet" type="text/css" href="__STATIC__/css/user_zp/qr_code.css" />
 
@@ -16,6 +16,11 @@
 
 <body>
 	<div class="wrapper">
+        <!-- 公共头部 -->
+		<div class="header">
+            <span class="backBtn" onclick="returnFun()"></span>
+            <h1>我的二维码</h1>
+        </div>
         <div class="qr-code">
             <!-- 传入链接 -->
             <input type="text" class="urlText" id="urlText" value="http://jindo.dev.naver.com/collie" style="width:80%">
@@ -66,6 +71,11 @@
                     makeCode();
                 }
             });
+
+    function returnFun(){
+        window.history.back();
+        return false;
+    }
     </script>	
 	
 </body>
