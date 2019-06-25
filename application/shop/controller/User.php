@@ -103,22 +103,42 @@ class User extends MobileBase
         $this->assign('msglists', $msglists);   
         /*未读消息 */   
 
+        //客服电话
+        $phone = M('config')->where('inc_type','shop_info')->where('name','phone')->value('value');
+
+        //获取团队借鉴团队数据里面的获取止推下级的方法
+        $zhitui_sub = getAlldp($this->user_id);
+        $zhitui_num = count($zhitui_sub);
+        
         //当前登录用户信息
         $logic = new UsersLogic();
         $user_info = $logic->get_info($this->user_id);
         $order_info['belowWaitSend'] = $user_info['result']['belowWaitSend']; //下级待发货数
         $this->assign('order_info', $order_info);
 
+        $this->assign('phone',$phone);
+        $this->assign('zhitui_num',$zhitui_num);
         return $this->fetch();
     }
 
     // 仓库管理
     public function store_manage()
     {   
+        $third_leader = I('get.third_leader/d',0);
         //读取会员仓库信息
-        $kucun = user_kucun($this->user_id);
+        if($third_leader)
+            $kucun = user_kucun($third_leader);
+        else
+            $kucun = user_kucun($this->user_id);
+
+        $GoodsLevelPrice = M('goods_level_price');
+        foreach($kucun as $k=>$v){
+            $price = $GoodsLevelPrice->where(['goods_id'=>$v['goods_id'],'level'=>$this->user['level']])->value('price');
+            $price && ($kucun['shop_price'] = $price);
+        }           
 
         $this->assign('kucun', $kucun);
+        $this->assign('third_leader', $third_leader);
         return $this->fetch();
     }
     // 团队数据
@@ -205,24 +225,41 @@ class User extends MobileBase
             $this->error('请先绑定手机号码', U('Shop/User/setMobile'));
         }
 
+        $goods_id = I('get.goods_id/d',0);
+        $type = I('get.type/d',0);
+        //if(!$goods_id)$this->error('参数错误');
+
         // 存找配货上级
         $new_kucun = array();
-        $pei_parent = find_prepareuserinfo($this->user_id);
+        //$pei_parent = find_prepareuserinfo($this->user_id);
+        if(($this->user['level'] <= 2) && !$goods_id && !$type){
+            $this->redirect(U('User/store_manage',['third_leader'=>$this->user['third_leader']])); return;
+        }
+        if($goods_id && ($this->user['level'] <= 2)){
+            $pei_parent = getThird_leader($this->user_id, $goods_id);
+        }else 
+            $pei_parent = getThird_leader1($this->user_id, $this->user['level']);
 
-       if($pei_parent==null)
+       if(!$pei_parent)
         {
             $kucun = M("goods")->alias('g')
                 ->field('g.store_count as nums,g.goods_name,g.goods_id,g.shop_price,g.original_img')
             //->join('users u','g.user_id=u.user_id','LEFT')
-                ->where("is_on_sale=1")->select();
-        } else {
-            $kucun = user_kucun($pei_parent['user_id']);
+                ->where("is_on_sale=1 and g.prom_type=0")->select();
+        } else { 
+            $kucun = user_kucun($pei_parent);
+        }
+
+        $GoodsLevelPrice = M('goods_level_price');
+        foreach($kucun as $k=>$v){
+            $price = $GoodsLevelPrice->where(['goods_id'=>$v['goods_id'],'level'=>$this->user['level']])->value('price');
+            $price && ($kucun[$k]['shop_price'] = $price);
         }
 
         //读取会员仓库信息
 
         //print_r($kucun);exit;
-        $this->assign('pei_parent', $pei_parent['user_id']);
+        $this->assign('pei_parent', $pei_parent);
         $this->assign('kucun', $kucun);
         return $this->fetch();
     }
@@ -278,7 +315,7 @@ class User extends MobileBase
             if ($data['uid'] != $this->user['balance_leader']) {
                 if ($data['uid'] != $this->user['third_leader']) {
 
-                    $this->ajaxReturn(['status' => 0, 'msg' => '非上级ID无法转账']);
+                    // $this->ajaxReturn(['status' => 0, 'msg' => '非上级ID无法转账']);
                 }
             }
         }

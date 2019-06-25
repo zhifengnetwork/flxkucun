@@ -2266,10 +2266,10 @@ function user_kucun($user_id)
     $user_info = M('users')->field($field)->where(['user_id' => $user_id])->find();
 
     $warehouse_goods_list = M("warehouse_goods")->alias('wg')
-        ->field('u.nickname,u.user_id,wg.nums,g.goods_name,g.goods_id,g.shop_price,g.original_img')
+        ->field('u.nickname,u.user_id,wg.nums,g.goods_name,g.goods_id,g.market_price as shop_price,g.original_img')
         ->join('users u', 'wg.user_id=u.user_id', 'LEFT')
         ->join('goods g', 'wg.goods_id=g.goods_id', 'LEFT')
-        ->where(['wg.user_id' => $user_id])->select();
+        ->where(['wg.user_id' => $user_id,'g.prom_type'=>0])->select();
 
     return $warehouse_goods_list;
 
@@ -2348,6 +2348,38 @@ function find_prepareuserinfo($user_id, $type = 1, $first_leader_id = 0, &$userL
 
     }
 
+}
+
+//找出配货上级
+function getThird_leader($user_id, $goods_id){
+    $third_leader = M('Users')->where(['user_id'=>$user_id])->find('third_leader');
+    if(!$third_leader)
+        return 0;
+    $num = M('Warehouse_goods')->where(['user_id'=>$third_leader,'goods_id'=>$goods_id])->value('num');
+    if($num > 0)
+        return $third_leader;
+    else
+        return getThird_leader($third_leader, $goods_id);
+}
+
+//找出配货上级
+function getThird_leader1($user_id, $level){
+    $third_leader = M('Users')->where(['user_id'=>$user_id])->value('third_leader');
+    if(!$third_leader)return 0;
+
+    $third_leader_level = M('Users')->where(['user_id'=>$third_leader])->value('level');
+    if($third_leader_level <= $level)
+        return getThird_leader1($third_leader,$level);
+    else
+        return $third_leader;
+
+    if(!$third_leader)
+        return 0;
+    $num = M('Warehouse_goods')->where(['user_id'=>$third_leader,'goods_id'=>$goods_id])->value('num');
+    if($num > 0)
+        return $third_leader;
+    else
+        return getThird_leader($third_leader, $goods_id);
 }
 
 //获取所有的下级

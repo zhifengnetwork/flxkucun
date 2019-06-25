@@ -132,7 +132,7 @@ class GoodsLogic extends Model
     }
 
     /**
-     * 商品收藏
+     * 商品收藏|取消收藏
      * @param $user_id|用户id
      * @param $goods_id|商品id
      * @return array
@@ -142,13 +142,27 @@ class GoodsLogic extends Model
         if(!is_numeric($user_id) || $user_id <= 0){
             return array('status'=>-1,'msg'=>'必须登录后才能收藏','result'=>array());
         }
-        $count = Db::name('goods_collect')->where("user_id", $user_id)->where("goods_id", $goods_id)->count();
-        if($count > 0){
-            return array('status'=>-3,'msg'=>'商品已收藏','result'=>array());
+        // $count = Db::name('goods_collect')->where("user_id", $user_id)->where("goods_id", $goods_id)->count();
+        // if($count > 0){
+        //     return array('status'=>-3,'msg'=>'商品已收藏','result'=>array());
+        // }
+        if(!$goods_id) return ['status' => -1 , 'msg'=>'参数错误！','result'=>[]];
+
+        $where['user_id'] = $user_id;
+        $where['goods_id'] = $goods_id;
+
+        $res = Db::name('goods_collect')->where($where)->count();
+        if($res){
+            $res = Db::name('goods_collect')->where($where)->delete();
+            Db::name('goods')->where('goods_id', $goods_id)->setDec('collect_sum');
+            return ['status' => 1 , 'msg'=>'已取消收藏！','data'=>''];
+        }else{
+            $where['add_time'] = time();
+            $res = Db::name('goods_collect')->insert($where);
+            Db::name('goods')->where('goods_id', $goods_id)->setInc('collect_sum');
+            return ['status' => 1 , 'msg'=>'收藏成功!请到个人中心查看','data'=>''];
         }
-        Db::name('goods')->where('goods_id', $goods_id)->setInc('collect_sum');
-        Db::name('goods_collect')->add(array('goods_id'=>$goods_id,'user_id'=>$user_id, 'add_time'=>time()));
-        return array('status'=>1,'msg'=>'收藏成功!请到个人中心查看','result'=>array());
+        
     }
     /**
      * 这个方法已经废弃

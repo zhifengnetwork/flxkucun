@@ -12,7 +12,7 @@ use think\Db;
 class Index extends Base {
 
     public function index(){
-        $this->pushVersion();        
+        $this->pushVersion();
         $admin_info = getAdminInfo(session('admin_id'));
         $order_amount = M('order')->where("order_status=0 and (pay_status=1 or pay_code='cod')")->count();
         $this->assign('order_amount',$order_amount);

@@ -9,7 +9,7 @@ use app\common\util\Session;
 use app\admin\logic\GoodsLogic;
 class Index extends MobileBase {
 
-    public function index(){
+    public function index(){ 
 
         $shareid = I('shareid');
 

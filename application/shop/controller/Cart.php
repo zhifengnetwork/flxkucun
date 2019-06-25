@@ -190,6 +190,11 @@ class Cart extends MobileBase {
             $cartGoodsTotalNum = count($cartList['cartList']);
         }
         $cartPriceInfo = $cartLogic->getCartPriceInfo($cartList['cartList']);  //初始化数据。商品总额/节约金额/商品总共数量
+
+        //$levellist = M('user_level')->field('stock,replenish')->where(['level'=>['gt',$this->user['level']]])->select();
+        $levelinfo = M('user_level')->field('stock,replenish')->where(['level'=>$this->user['level']])->find();
+        if(($cartPriceInfo['total_fee'] < $levelinfo['replenish']) && ($action=="kucun_buy"))$this->error('补货金额必须达到'.$levelinfo['replenish'].'元','/shop/User/superior_store/type/1');
+
         $cartList = array_merge($cartList,$cartPriceInfo);
         $this->assign('cartGoodsTotalNum', $cartGoodsTotalNum);
         $this->assign('cartList', $cartList['cartList']); // 购物车的商品
@@ -283,6 +288,13 @@ class Cart extends MobileBase {
                 $placeOrder->setUserAddress($address)->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
                 $cartLogic->clear();
                 $order = $placeOrder->getOrder();
+
+                if($seller_id){
+                    $msid = M('message_notice')->add(['message_title'=>'下级进货通知','message_content'=>"您有下级提交进货订单!",'send_time'=>time(),'mmt_code'=>'/shop/Order/order_send','type'=>11]);
+                    if($msid)M('user_message')->add(['user_id'=>$seller_id,'message_id'=>$msid]);
+                }
+                
+
                 $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn']]);
             }
 
@@ -572,15 +584,16 @@ class Cart extends MobileBase {
                 $goods_data_number = $data['number'];//数量   
                 $goods_data_checkItem = $data['checkItem'];
                 $pei_parent =$data['pei_parent'];
+                /*
                 if(!$pei_parent){
                     $pei_parent =$this->user['first_leader'];
-                }
+                }*/
                 
                 foreach($goods_data_ids as $k=>$v)
                 {
                     if(!empty($goods_data_checkItem[$k]))
                     {
-                        if($this->user['level']==5)
+                        if(($this->user['level']==5) || !$pei_parent)
                         {
                             $store_count =  $goods = M("goods")->where(['goods_id'=>$goods_data_ids[$k]])->value('store_count');
                             if($store_count<$goods_data_number[$k])

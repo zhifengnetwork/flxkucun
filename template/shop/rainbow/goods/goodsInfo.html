@@ -62,7 +62,7 @@
             </div>
             <div class="keep fr">
                 <a href="javascript:collect_goods({$goods.goods_id});" id="favorite_add">
-                    <i class=" <if condition='$collect gt 0'>red</if>"></i>
+                    <i sc="{$collect}" class=" <if condition='$collect gt 0'>red</if>"></i>
                     <span>收藏</span>
                 </a>
             </div>
@@ -650,7 +650,7 @@
                 }else{
                     alert('将跳转到上级仓库')
                     //form.attr('action', "{:U('shop/User/store_manage',['action'=>'buy_now'])}").submit();
-                    form.attr('action', "{:U('shop/User/superior_store')}").submit();
+                    form.attr('action', "{:U('shop/User/superior_store',['goods_id'=>$v[goods_id]])}").submit();
                 }
             } else {
                 layer.open({icon: 2, content: "购买数量超过此商品购买上限", time: 2});
@@ -828,8 +828,13 @@
             success: function(data){
                 layer.open({content:data.msg, time:2});
                 if(data.status == 1){
-                    //收藏点亮
-                    $('.de_font .keep').find('i').addClass('red');
+                    if($('.de_font .keep').find('i').attr('sc')==1){
+                        $('.de_font .keep').find('i').attr('sc',0);
+                        $('.de_font .keep').find('i').removeClass('red');
+                    }else{
+                        $('.de_font .keep').find('i').attr('sc',1);
+                        $('.de_font .keep').find('i').addClass('red');
+                    }
                 }
             }
         });
@@ -1125,7 +1130,8 @@
         var integral = round(goods_price - (exchange_integral / point_rate),2);
         if(exchange_integral > 0){
             $("#goods_price").html(integral + '+' +exchange_integral + '积分'); //变动价格显示
-            $("#price").html("<em>￥</em>" + integral + '+' +exchange_integral + '积分'); //积分显示
+            // $("#price").html("<em>￥</em>" + integral + '+' +exchange_integral + '积分'); //积分显示
+            $("#price").html("<em></em>" + exchange_integral + '积分'); //积分显示
         }else{
             $("#goods_price").html(goods_price); //变动价格显示
             $("#price").html("<em>￥</em>" + goods_price); //变动价格显示

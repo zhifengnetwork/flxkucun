@@ -431,7 +431,7 @@ class Goods extends Base {
         }
 
         //等级价格
-        if($data['goods_id'] > 0){
+        if($data['goods_id'] > 0){ 
             if(is_array($data['level_price_id']))
                 foreach ($data['level_price_id'] as $k=>$v){
                     $level_goods_data[$k]['id'] = $v;
@@ -440,13 +440,15 @@ class Goods extends Base {
 
         if(is_array($data['shop_price'])){
             foreach ($data['shop_price'] as $k=>$v){
+                if($level_goods_data[$k]['level']['id'] == 0){
+                    unset($level_goods_data[$k]['id']);
+                }
                 $level_goods_data[$k]['level'] = $k;
                 $level_goods_data[$k]['price'] = $v;
                 $level_goods_data[$k]['goods_id'] = $goods['goods_id'];
             }
         } 
         $level_goods_data && model('goodsLevelPrice')->saveAll($level_goods_data);
-
         $GoodsLogic = new GoodsLogic();
         $GoodsLogic->afterSave($goods['goods_id']);
         $GoodsLogic->saveGoodsAttr($goods['goods_id'], $goods['goods_type']); // 处理商品 属性
