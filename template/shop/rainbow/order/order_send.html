@@ -101,7 +101,14 @@
 							<!--按钮-->
 							<div class="btn_wrap">
 								<!--取消-->
-								<a class="call_btn" data-id="{$order[order_id]}" data-url="{:U('order_action')}" onclick="delfunc('invalid',this,'要取消该订单吗，取消订单不会扣除你库存')">取消订单</a>
+								
+								<a class="call_btn" <if condition="$order.shipping_price eq 0">style="margin-left:1.5rem;"</if> data-id="{$order[order_id]}" data-url="{:U('order_action')}" onclick="delfunc('invalid',this,'要取消该订单吗，取消订单不会扣除你库存')">取消订单</a>
+								</if>
+
+								<!--支付运费-->
+								<if condition="$order.shipping_price gt 0">
+								<a class="make_btn" href="/Shop/Cart/PayShipping/oid/{$order.order_id}" style="margin-right:0;">支付运费</a>		
+								</if>		
 								<!--确定-->
 								<a class="make_btn" data-id="{$order[order_id]}" data-url="{:U('order_action')}" onclick="delfunc('confirm',this,'请确认已收到资金  点击确认后您的库存将会减少')">确定发货</a>
 							</div>

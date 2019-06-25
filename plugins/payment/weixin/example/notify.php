@@ -66,7 +66,7 @@ class PayNotifyCallBack extends WxPayNotify
             return false; //验证失败
         }
 
-        update_pay_status($order_sn, array('transaction_id' => $data["transaction_id"])); // 修改订单支付状态
+        update_pay_status($order_sn, array('attach'=>$attach,'transaction_id' => $data["transaction_id"])); // 修改订单支付状态
 		
 		return true;
 	}
