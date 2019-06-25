@@ -32,6 +32,7 @@ class Goods extends Base {
         return $this->fetch();
     }
     
+    
     /**
      * 添加修改商品分类
      * 手动拷贝分类正则 ([\u4e00-\u9fa5/\w]+)  ('393','$1'), 
