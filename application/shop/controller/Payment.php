@@ -73,18 +73,19 @@ class Payment extends MobileBase
 
         // 修改订单的支付方式 苹果支付完成，再次打开本地址，不会带上order_id
         $order_id = I('order_id/d'); // 订单id
+        $type = I('get.type/d',0); // 支付类型，1运费支付
         if(is_ios()  && empty($order_id)){
             $order_id = session('pay_order_id');
             $deeplink_flag = 0;
         }
         $order = Db::name('order')->where("order_id", $order_id)->find();
-        if ($order['pay_status'] == 1) {
+        if ($order['pay_shipping_status'] == 1) {
 //            $this->error('此订单，已完成支付!');
             $this->assign('order', $order);
             return $this->fetch('success');
         }
 
-        if(($order['prom_type'] == 2) && $order['seller_id']){ //支付订单判断上级是否有库存
+        if(!$type && ($order['prom_type'] == 2) && $order['seller_id']){ //支付订单判断上级是否有库存
             $goods_id = M('Order_goods')->where(['order_id'=>$order_id])->value('goods_id');
             if($goods_id){
                 $nums = M('warehouse_goods')->where(['user_id'=>$order['user_id'],'goods_id'=>$goods_id])->value('nums');
@@ -109,13 +110,16 @@ class Payment extends MobileBase
             }
         }
 
-        $payment_arr = Db::name('Plugin')->where('type', 'payment')->getField("code,name");
-        Db::name('order')->where("order_id", $order_id)->save(['pay_code' => $this->pay_code, 'pay_name' => $payment_arr[$this->pay_code]]);
+        if(!$type){
+            $payment_arr = Db::name('Plugin')->where('type', 'payment')->getField("code,name");
+            Db::name('order')->where("order_id", $order_id)->save(['pay_code' => $this->pay_code, 'pay_name' => $payment_arr[$this->pay_code]]);
+        }
 
         // 订单支付提交
         $config = parse_url_param($this->pay_code); // 类似于 pay_code=alipay&bank_code=CCB-DEBIT 参数
         $config['body'] = getPayBody($order_id);
 
+        if($type == 1)$order['attach'] = 'pay_shipping';
         if ($this->pay_code == 'weixin' && session('openid') && strstr($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')) {
             //微信JS支付
             $code_str = $this->payment->getJSAPI($order);

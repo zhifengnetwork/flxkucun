@@ -1164,13 +1164,20 @@ function rechargevip_rebate($order)
 function update_pay_status($order_sn, $ext = array())
 {
     $time = time();
+    if($ext['attach'] === 'pay_shipping'){ //订单支付运费
+        $orderinfo = M('Order')->field('order_id,seller_id,shipping_price')->where(['order_sn'=>$order_sn])->find();
+        M('Order')->where(['order_id'=>$orderinfo['order_id']])->update(['pay_shipping_status'=>1]);
+        if(!M('account_log')->where(['user_id'=>$orderinfo['seller_id'],'order_sn'=>$order_sn,'order_id'=>$orderinfo['order_id'],'status'=>102])->count())
+            M('account_log')->add(['user_id'=>$orderinfo['seller_id'],'user_money'=>'-'.$orderinfo['shipping_price'],'change_time'=>time(),'desc'=>'订单支付运费','order_sn'=>$order_sn,'order_id'=>$orderinfo['order_id'],'status'=>102]);
+        return true;
+    }
     if (stripos($order_sn, 'recharge') !== false) {
         //用户在线充值
         $order = M('recharge')->where(['order_sn' => $order_sn, 'pay_status' => 0])->find();
         if (!$order) {
             return false;
         }
-// 看看有没已经处理过这笔订单  支付宝返回不重复处理操作
+        // 看看有没已经处理过这笔订单  支付宝返回不重复处理操作
         M('recharge')->where("order_sn", $order_sn)->save(array('pay_status' => 1, 'pay_time' => $time));
 
         $msg = '会员在线充值';

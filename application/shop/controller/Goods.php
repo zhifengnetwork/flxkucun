@@ -249,7 +249,6 @@ class Goods extends MobileBase
         }else{
             $user = session('user');
         }
-
         C('TOKEN_ON', true);
         $goodsLogic = new GoodsLogic();
         $goods_id = I("get.id/d");
@@ -272,16 +271,23 @@ class Goods extends MobileBase
         $recommend_goods = M('goods')->where("is_recommend=1 and is_on_sale=1 and cat_id = {$goods['cat_id']}")->cache(7200)->limit(9)->field("goods_id, goods_name, shop_price")->select();
 
         //等级价格
-        if($goods['prom_type'] == 1){
-            $price = M('flash_sale')->where(['id'=>$goods['prom_id']])->value('price');
-        }else if($goods['prom_type'] == 2){
-            $price = M('group_buy')->where(['id'=>$goods['prom_id']])->value('price');
-        }else{ 
-            $price = $this->getLevelPrice($goods_id,$user);
+        // if($goods['prom_type'] == 1){
+        //     $price = M('flash_sale')->where(['id'=>$goods['prom_id']])->value('price');
+        // }else if($goods['prom_type'] == 2){
+        //     $price = M('group_buy')->where(['id'=>$goods['prom_id']])->value('price');
+        // }else{ 
+        //     $price = $this->getLevelPrice($goods_id,$user);
+        // }
+        //2019-06-25
+        if($user['level'] > 0){
+            $price = M('goods_level_price')->where('goods_id',$goods_id)->where('level',$user['level'])->value('price');
+            $price = $price?$price:$goods['market_price'];
+        }else{
+            $price = $goods['market_price'];
         }
-        $this->assign('price', $price);
+        $this->assign('price', $price); 
             
-
+        // dump($goods);exit;
         $this->assign('recommend_goods', $recommend_goods);
         $this->assign('goods', $goods);
         $this->assign('user', $user);

@@ -195,7 +195,7 @@ input:checked:after{
 }
 /*取消/确定按钮*/
 .btn_wrap {
-	margin: .2rem 0 0 4rem;
+	margin: .2rem 0 0 2.4rem;
 }
 .btn_wrap a {
 	display: inline-block;
