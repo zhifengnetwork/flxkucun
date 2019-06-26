@@ -20,8 +20,15 @@ class GroupPurchase extends MobileBase
        
         return $this->fetch();
     }
+
+    // 团购详情
     public function details(){
               
+        return $this->fetch();
+    }
+
+    // 团购规则
+    public function rule(){
         return $this->fetch();
     }
 }

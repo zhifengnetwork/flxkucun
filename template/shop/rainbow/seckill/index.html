@@ -20,7 +20,7 @@
 		<div class="header">
 			<span class="backBtn" onclick="returnFun()"></span>
 			<h1>秒杀专区</h1>
-			<span class="right"><a href="#">秒杀规则</a></span>
+			<span class="right"><a href="{:U(\'shop/Seckill/rule')}">秒杀规则</a></span>
 		</div>
  
 		<div class="content">	
@@ -67,9 +67,9 @@
 			<div class="seckill-list">
 				<volist name='flash_salelist' id='v'>
 				<div class="single-item">
-					<div class="img-wrap"><img style='width:100%;height:100%;' src='{$v.original_img}' /></div>
+					<div class="img-wrap"><a href="{:U(\'shop/seckill/details')}"><img style='width:100%;height:100%;' src='{$v.original_img}' /></a></div>
 					<div class="text">
-						<h3><a href="#">{$v.title}</a></h3>
+						<h3><a href="{:U(\'shop/seckill/details')}">{$v.title}</a></h3>
 						<p class="dec">{$v.goods_name}</p>
 						<div class="progress">
 							<div class="progress-bar">

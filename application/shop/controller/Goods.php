@@ -20,6 +20,11 @@ class Goods extends MobileBase
         return $this->fetch();
     }
 
+    public function details()
+    {
+        return $this->fetch();
+    }
+
        //20190320 直接显示一级分类及其图片名称
     public function categoryList(){
 
