@@ -83,92 +83,88 @@ class FanliLogic extends Model
         }
         else
         {
-        	//不是特产品按照佣金比例反给用户 ，自购返利
+            //不是特产品按照佣金比例反给用户 ，自购返利
 
-            if($user_info['level']>1)
-            {
-               $distribut_level = M('distribut_level')->where('level_id',1)->field('rate1')->find();
-                 //计算返利金额
-		        $goods = $this->goods();
-		        $commission = $goods['shop_price'] * ($distribut_level['rate1'] / 100) * $this->goodNum;
-		           //计算佣金
-							//按上一级等级各自比例分享返利
-							/*
-		        $bool = M('users')->where('user_id',$user_info['user_id'])->setInc('user_money',$commission);
-		         if (($bool !== false) && $commission) {
-			        	$desc = "自购返利";
-			        	$log = $this->writeLog($user_info['user_id'],$commission,$desc,7); 
-			        	//return true;
-			         } else {
-			        	return false;
-			         }
+            if ($user_info['level']>1) {
+                $distribut_level = M('distribut_level')->where('level_id', 1)->field('rate1')->find();
+                //计算返利金额
+                $goods = $this->goods();
+                $commission = $goods['shop_price'] * ($distribut_level['rate1'] / 100) * $this->goodNum;
+                //计算佣金
+                //按上一级等级各自比例分享返利
+                /*
+                $bool = M('users')->where('user_id',$user_info['user_id'])->setInc('user_money',$commission);
+                 if (($bool !== false) && $commission) {
+                        $desc = "自购返利";
+                        $log = $this->writeLog($user_info['user_id'],$commission,$desc,7);
+                        //return true;
+                     } else {
+                        return false;
+                     }
             }*/
-            // 购买商品返利给上一级
-            if(empty($rebase)||$rebase[$parent_info['level']]<=0) //计算返利比列
-		       {
-                   $fanli = M('user_level')->where('level',$parent_info['level'])->field('rate')->find();
-		       }else
-		       {
-		           $fanli['rate'] = $rebase[$parent_info['level']];
-		       }
-	          //查询会员等级返利数据
-		       if($parent_info['level']!=1 && !empty($parent_info)){ //上一级是普通会员则不反钱
-		         //计算返利金额
-		          $goods = $this->goods();
-		          $commission = $goods['shop_price'] * ($fanli['rate'] / 100) * $this->goodNum;
-		           //计算佣金
-		          //按上一级等级各自比例分享返利
-		          $bool = M('users')->where('user_id',$user_info['first_leader'])->setInc('user_money',$commission);
-			      if (($bool !== false) && $commission) {
-			        	$desc = "分享返利";
-			        	$log = $this->writeLog($user_info['first_leader'],$commission,$desc,1); //写入日志
-			            //检查返利管理津贴
-			          //  $this->jintie($user_info['first_leader'],$commission);
-			        	//return true;
-			         } else {
-			        	return false;
-			         }
-			     }else{
-			     	return false;
-			     }
-        	 
+                // 购买商品返利给上一级
+            if (empty($rebase)||$rebase[$parent_info['level']]<=0) { //计算返利比列
+                   $fanli = M('user_level')->where('level', $parent_info['level'])->field('rate')->find();
+            } else {
+                $fanli['rate'] = $rebase[$parent_info['level']];
+            }
+                //查询会员等级返利数据
+               if ($parent_info['level']!=1 && !empty($parent_info)) { //上一级是普通会员则不反钱
+                 //计算返利金额
+                  $goods = $this->goods();
+                   $commission = $goods['shop_price'] * ($fanli['rate'] / 100) * $this->goodNum;
+                   //计算佣金
+                   //按上一级等级各自比例分享返利
+                   $bool = M('users')->where('user_id', $user_info['first_leader'])->setInc('user_money', $commission);
+                   if (($bool !== false) && $commission) {
+                       $desc = "分享返利";
+                       $log = $this->writeLog($user_info['first_leader'], $commission, $desc, 1); //写入日志
+                        //检查返利管理津贴
+                      //  $this->jintie($user_info['first_leader'],$commission);
+                        //return true;
+                   } else {
+                       return false;
+                   }
+               } else {
+                   return false;
+               }
+             
 
-            /*
-		    elseif($user_info['level']>=4) //是复购
-		    {
-	            if(empty($rebase)||$rebase[$user_info['level']]<=0) //
-		         {
-                    $fanli = M('user_level')->where('level',$user_info['level'])->field('rate')->find();
-                    
-		         }else
-		         {
-		          	 $fanli['rate'] = $rebase[$user_info['level']];
-		          	 
-		         }
-	          if(!empty($fanli['rate']))
-	          {
+                /*
+                elseif($user_info['level']>=4) //是复购
+                {
+                    if(empty($rebase)||$rebase[$user_info['level']]<=0) //
+                     {
+                        $fanli = M('user_level')->where('level',$user_info['level'])->field('rate')->find();
+
+                     }else
+                     {
+                           $fanli['rate'] = $rebase[$user_info['level']];
+
+                     }
+                  if(!empty($fanli['rate']))
+                  {
 
 
-	          //计算返利金额
-	          $goods = $this->goods();
-	          $commission = $goods['shop_price'] * ($fanli['rate'] / 100) * $this->goodNum; //计算佣金
-	          //按上一级等级各自比例分享返利
-	          $bool = M('users')->where('user_id',$user_info['user_id'])->setInc('user_money',$commission);
+                  //计算返利金额
+                  $goods = $this->goods();
+                  $commission = $goods['shop_price'] * ($fanli['rate'] / 100) * $this->goodNum; //计算佣金
+                  //按上一级等级各自比例分享返利
+                  $bool = M('users')->where('user_id',$user_info['user_id'])->setInc('user_money',$commission);
 
-	         if ($bool !== false) {
-	        	$desc = "复购返利";
-	        	$log = $this->writeLog($user_info['user_id'],$commission,$desc,1); //写入日志
-	          }
-	      
+                 if ($bool !== false) {
+                    $desc = "复购返利";
+                    $log = $this->writeLog($user_info['user_id'],$commission,$desc,1); //写入日志
+                  }
 
-	        	//return true;
-	         } else {
-	        	return false;
-	         }
-	        }*/
-		
-	    }
 
+                    //return true;
+                 } else {
+                    return false;
+                 }
+                }*/
+            }
+        }
 	}
 	//会员升级
 	public function checkuserlevel($user_id,$order_id)
