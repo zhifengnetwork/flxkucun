@@ -241,7 +241,7 @@ return array(
                  array('name' => '统计记录', 'child' => array(
 
                 // array('name' => '业绩奖励设置', 'act' => 'lists', 'op' => 'Rewardo'),
-                 array('name' => '业绩统计列表', 'act' => 'preform', 'op' => 'PreForm'),
+                //  array('name' => '业绩统计列表', 'act' => 'preform', 'op' => 'PreForm'),
                  array('name' => '会员返利/升级/分红', 'act' => 'checklog', 'op' => 'PreForm'),
 
             )),
