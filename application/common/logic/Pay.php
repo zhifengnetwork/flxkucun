@@ -314,6 +314,7 @@ class Pay
      * @return $this
      */
     public function delivery($district_id){
+        pre($this->payList);
         if (isset($this->payList[0]['goods']['is_virtual']) && $this->payList[0]['goods']['is_virtual'] == 0) {
             echo 1;
             if (empty($this->shop) && empty($district_id)) {
