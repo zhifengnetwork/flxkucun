@@ -103,7 +103,7 @@ class weixin
         $input->SetBody("支付订单：".$order['order_sn']);
 
         if(isset($order['attach']))
-            $input->SetAttach($order['attach'])
+            $input->SetAttach($order['attach']);
         else 
             $input->SetAttach("weixin");
 
