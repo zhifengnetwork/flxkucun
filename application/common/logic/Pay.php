@@ -7,7 +7,7 @@ use app\common\model\CouponList;
 use app\common\model\Shop;
 use app\common\util\TpshopException;
 use app\mobile\controller\Sign;
-use app\common\model\Goods;
+// use app\common\model\Goods;
 use think\Model;
 use think\Db;
 /**
