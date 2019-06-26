@@ -469,6 +469,7 @@ body{
 }
 .hot-list .single-item .text .original-price{
     font-size: .22rem;
+    text-decoration: line-through ;
 }
 .hot-list .single-item .text .spell-num{
     font-size: .22rem;

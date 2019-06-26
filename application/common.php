@@ -2294,7 +2294,7 @@ function changekucun($goods_id, $user_id, $num, $type = 0, $desc = '')
     }
 
     if ($log_bool) {
-        return ture;
+        return true;
     } else {
         return false;
     }
@@ -2320,11 +2320,13 @@ function user_kucun($user_id)
 function user_kucun_goods($user_id, $goods_id)
 {
 
+    $where = ['g.goods_id' => $goods_id];
+    $user_id && $where['wg.user_id'] = $user_id;
     $warehouse_goods_list = M("warehouse_goods")->alias('wg')
         ->field('wg.nums,g.goods_name,g.goods_id,g.shop_price,g.original_img')
     // ->join('users u','wg.user_id=u.user_id','LEFT')
         ->join('goods g', 'wg.goods_id=g.goods_id', 'LEFT')
-        ->where(['wg.user_id' => $user_id, 'g.goods_id' => $goods_id])->find();
+        ->where($where)->find();
 
     return $warehouse_goods_list;
 

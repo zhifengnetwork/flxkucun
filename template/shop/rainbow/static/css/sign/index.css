@@ -232,11 +232,3 @@ body {
 .receive img{
 	width: 100%;
 }
-
-.sign-rule{
-	font-size: .28rem;
-	color: #333333;
-	text-align: center;
-	padding: 1.18rem .3rem 0 .3rem;
-	box-sizing: border-box;
-}
