@@ -155,7 +155,9 @@ class Integral
         if (empty($this->userAddress)) {
             throw new TpshopException('积分兑换', 0,['status' => -3, 'msg' => '请先填写收货人信息', 'result' => '']);
         }
+        echo 1;
         $integralGoods = $this->goods;
+        echo 2;die;
         $total_integral = $this->goods['exchange_integral'] * $this->buyNum;//需要兑换的总积分
         if (empty($this->specGoodsPrice)) {
             //没有规格
