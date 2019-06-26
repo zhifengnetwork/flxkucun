@@ -22,7 +22,7 @@
     .table-bordered{
       width: 100%
     }
-    .table-bordered tr td{
+    .table-bordered tr td{ 
       border: 1px solid #f4f4f4;
     }
     .btn-success {
@@ -194,14 +194,14 @@
                 </dd>
             </dl> 
 
-            <foreach name="level" item="lo" key="k">
+            <foreach name="level" item="lo" key="k"> 
                 <dl class="row">
                     <dt class="tit"><em>*</em>
                         <label>{$lo.level_name}价</label>
                     </dt>
                     <dd class="opt">
                         <input type="hidden" value="{$lo.id}" name="level_price_id[{$lo.level}]" />
-                        <input type="text" value="{$lo.price}" name="shop_price[{$lo.level}]" class="t_mane" 
+                        <input type="text" value="{$lo.price}" name="shop_price[{$lo.level}]" class="t_mane tmp_price" 
                                onKeyUp="this.value=this.value.replace(/[^\d.]/g,'')" onpaste="this.value=this.value.replace(/[^\d.]/g,'')"/>
                         <span class="err" id="err_shop_price_{$lo.level}"></span>
                     </dd>
@@ -729,7 +729,16 @@
                 layer.alert("已选规格必须全部都传图或都不传图" , {icon:2, time:2000});
                 return;
             }
-           
+
+            //判断有没有写价格
+            $('.tmp_price').each(function(){
+                var val = $(this).val();
+                var txt = $(this).parent().prev().children('label').html();//获取价格的名称
+                if(val == 0){
+                    layer.msg('请填写'+txt,{'icon':2});
+                    return false;
+                }
+            })
             $.ajax({
                 type: "POST",
                 url: "{:U('Goods/save')}",

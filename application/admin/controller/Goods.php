@@ -353,13 +353,12 @@ class Goods extends Base {
     /**
      * 添加修改商品
      */
-    public function addEditGoods()
+    public function addEditGoods() 
     {
         $GoodsLogic = new GoodsLogic();
         $Goods = new \app\common\model\Goods();
         $goods_id = input('id');
         $level = Db::name('user_level')->field('level_name,level')->order('level desc')->select();
-
         if($goods_id){
             $goods = $Goods->where('goods_id', $goods_id)->find();
             if($goods['rebate'])
@@ -379,6 +378,7 @@ class Goods extends Base {
                 ->alias('p')
                 ->join('user_level u','p.level =u.level')
                 ->field('p.*,u.level,u.level_name')
+                // ->group('p.level')
                 ->where('p.goods_id',$goods_id)->select();
             $level = $level ? $level : $temp;
         }
