@@ -266,15 +266,15 @@ class PlaceOrder
                 'invoice_title' => ($this->invoiceDesc != '不开发票') ?  $invoice_title : '', //'发票抬头',
                 'invoice_desc' => $this->invoiceDesc, //'发票内容',
                 'goods_price' => 0,//'商品价格',
-                'shipping_price' => 0,//'物流价格',
+                'shipping_price' => $this->pay->getShippingPrice(),//'物流价格',
                 'user_money' => 0,//'使用余额',
                 'order_prom_amount' => 0,//'优惠金额',
                 'coupon_price' => 0,//'使用优惠券',
                 'integral' => $this->pay->getPayPoints(), //'使用积分',
                 'integral_money' => 0,//'使用积分抵多少钱',
                 'sign_price' => $this->pay->getSignPrice(),//'签到抵扣金额',
-                'total_amount' => 0,// 订单总额
-                'order_amount' => 0,//'应付款金额',
+                'total_amount' => $this->pay->getShippingPrice(),// 订单总额
+                'order_amount' => $this->pay->getShippingPrice(),//'应付款金额',
                 'add_time' => time(), // 下单时间
                 'source_uid'    => (($user['user_id'] !== $this->source_uid) ? $this->source_uid : 0)
             ];
