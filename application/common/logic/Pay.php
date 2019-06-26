@@ -108,7 +108,6 @@ class Pay
         }
         $this->payList = $goods_list;
         $this->Calculation();
-        echo 3;
         return $this;
     }
 
@@ -155,7 +154,6 @@ class Pay
         if(empty($this->user)){
             throw new TpshopException("计算订单价格",0,['status' => -9, 'msg' => '未找到用户', 'result' => '']);
         }
-        echo 1;
         return $this;
     }
 
@@ -164,7 +162,6 @@ class Pay
         if($shop_id){
             $this->shop = Shop::get($shop_id);
         }
-        echo 2;
         return $this;
     }
 
@@ -244,7 +241,6 @@ class Pay
             }
 
         }
-        echo 5;
         return $this;
     }
 
@@ -270,7 +266,6 @@ class Pay
                 }
             }
         }
-        echo 6;
         return $this;
     }
 
@@ -353,7 +348,7 @@ class Pay
         }else{
             $this->shippingPrice = 0;
         }
-        echo 4;
+        echo 1;
         return $this;
     }
 
