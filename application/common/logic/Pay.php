@@ -314,6 +314,7 @@ class Pay
      * @return $this
      */
     public function delivery($district_id){
+        echo 11;
         if (isset($this->payList[0]['goods']['is_virtual']) && $this->payList[0]['goods']['is_virtual'] == 0) {
             if (empty($this->shop) && empty($district_id)) {
                 throw new TpshopException("计算订单价格", 0, ['status' => -1, 'msg' => '请填写收货信息', 'result' => ['']]);
