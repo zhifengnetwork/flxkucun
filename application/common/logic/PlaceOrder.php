@@ -365,9 +365,9 @@ class PlaceOrder
             $orderData['prom_id'] = $this->promId;//活动id
         }     
 
-        $orderData['applyid'] = $this->applyid;
-        $orderData['apply_type'] = $this->apply_type;
-        $orderData['kucun_type'] = $this->kucun_type;
+        $orderData['applyid'] = $this->applyid ? $this->applyid : 0;
+        $orderData['apply_type'] = $this->apply_type ? $this->apply_type : 0;
+        $orderData['kucun_type'] = $this->kucun_type ? $this->kucun_type : 0;
 
         if ($orderData['integral'] > 0 || $orderData['user_money'] > 0) {
             $orderData['pay_name'] = $orderData['user_money']>0 ? '余额支付' : '积分兑换';//支付方式，可能是余额支付或积分兑换，后面其他支付方式会替换
