@@ -840,8 +840,8 @@ class Cart extends MobileBase {
         try {
             
             $integral->checkBuy();
-            echo 1;die;
             $pay = $integral->pay();
+            echo 12;die;
             // 提交订单
             if ($_REQUEST['act'] == 'submit_order') {
                 $placeOrder = new PlaceOrder($pay);
