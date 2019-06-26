@@ -174,7 +174,6 @@ class Integral
 
         $pay->setUserId($this->user['user_id'])->setShopById($this->shop['shop_id'])->payGoodsList($goodsList)
             ->delivery($this->userAddress['district'])->usePayPoints($total_integral, true)->useUserMoney($this->userMoney);
-        echo 2;die;
         return $pay;
     }
 
