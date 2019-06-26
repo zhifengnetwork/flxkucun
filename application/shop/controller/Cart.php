@@ -812,60 +812,59 @@ class Cart extends MobileBase {
      */
     public function integral2()
     {
-        echo 1;die;
-        // if ($this->user_id == 0) {
-        //     $this->ajaxReturn(['status' => -100, 'msg' => "登录超时请重新登录!", 'result' => null]);
-        // }
-        // $goods_id = input('goods_id/d');
-        // $item_id = input('item_id/d');
-        // $goods_num = input('goods_num/d');
-        // $address_id = input("address_id/d"); //  收货地址id
-        // $user_note = input('user_note'); // 给卖家留言
-        // $invoice_title = input('invoice_title');  // 发票
-        // $taxpayer = input('taxpayer');       // 纳税人识别号
-        // $invoice_desc = input('invoice_desc');       // 发票内容
-        // $user_money = input("user_money/f", 0); //  使用余额
-        // $pay_pwd = input('pay_pwd');
-        // $shop_id = input('shop_id/d', 0);//自提点id
-        // $take_time = input('take_time/d');//自提时间
-        // $consignee = input('consignee/s');//自提点收货人
-        // $mobile = input('mobile/s');//自提点联系方式
-        // $integral = new Integral();
-        // $integral->setUserById($this->user_id);
-        // $integral->setShopById($shop_id);
-        // $integral->setGoodsById($goods_id);
-        // $integral->setBuyNum($goods_num);
-        // $integral->setSpecGoodsPriceById($item_id);
-        // $integral->setUserAddressById($address_id);
-        // // $integral->useUserMoney($user_money);
+        if ($this->user_id == 0) {
+            $this->ajaxReturn(['status' => -100, 'msg' => "登录超时请重新登录!", 'result' => null]);
+        }
+        $goods_id = input('goods_id/d');
+        $item_id = input('item_id/d');
+        $goods_num = input('goods_num/d');
+        $address_id = input("address_id/d"); //  收货地址id
+        $user_note = input('user_note'); // 给卖家留言
+        $invoice_title = input('invoice_title');  // 发票
+        $taxpayer = input('taxpayer');       // 纳税人识别号
+        $invoice_desc = input('invoice_desc');       // 发票内容
+        $user_money = input("user_money/f", 0); //  使用余额
+        $pay_pwd = input('pay_pwd');
+        $shop_id = input('shop_id/d', 0);//自提点id
+        $take_time = input('take_time/d');//自提时间
+        $consignee = input('consignee/s');//自提点收货人
+        $mobile = input('mobile/s');//自提点联系方式
+        $integral = new Integral();
+        $integral->setUserById($this->user_id);
+        $integral->setShopById($shop_id);
+        $integral->setGoodsById($goods_id);
+        $integral->setBuyNum($goods_num);
+        $integral->setSpecGoodsPriceById($item_id);
+        $integral->setUserAddressById($address_id);
+        // $integral->useUserMoney($user_money);
 
-        // try {
-        //     $integral->checkBuy();
-        //     $pay = $integral->pay();
-        //     // 提交订单
-        //     if ($_REQUEST['act'] == 'submit_order') {
-        //         $placeOrder = new PlaceOrder($pay);
-        //         $placeOrder->setUserAddress($integral->getUserAddress());
-        //         $placeOrder->setConsignee($consignee);
-        //         $placeOrder->setMobile($mobile);
-        //         $placeOrder->setInvoiceTitle($invoice_title);
-        //         $placeOrder->setUserNote($user_note);
-        //         $placeOrder->setTaxpayer($taxpayer);
-        //         $placeOrder->setInvoiceDesc($invoice_desc);
-        //         $placeOrder->setPayPsw($pay_pwd);
-        //         $placeOrder->setTakeTime($take_time);
-        //         $placeOrder->addNormalOrder();
-        //         $order = $placeOrder->getOrder();
-        //         $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_id']]);
-        //         if($_SESSION["invoiceInfo"] != "") {
-        //             unset($_SESSION["invoiceInfo"]);
-        //         }
-        //     }
-        //     $this->ajaxReturn(['status' => 1, 'msg' => '计算成功', 'result' => $pay->toArray()]);
-        // } catch (TpshopException $t) {
-        //     $error = $t->getErrorArr();
-        //     $this->ajaxReturn($error);
-        // }
+        try {
+            $integral->checkBuy();
+            $pay = $integral->pay();
+            // 提交订单
+            if ($_REQUEST['act'] == 'submit_order') {
+                $placeOrder = new PlaceOrder($pay);
+                $placeOrder->setUserAddress($integral->getUserAddress());
+                $placeOrder->setConsignee($consignee);
+                $placeOrder->setMobile($mobile);
+                $placeOrder->setInvoiceTitle($invoice_title);
+                $placeOrder->setUserNote($user_note);
+                $placeOrder->setTaxpayer($taxpayer);
+                $placeOrder->setInvoiceDesc($invoice_desc);
+                $placeOrder->setPayPsw($pay_pwd);
+                $placeOrder->setTakeTime($take_time);
+                $placeOrder->addNormalOrder();
+                $order = $placeOrder->getOrder();
+                $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_id']]);
+                if($_SESSION["invoiceInfo"] != "") {
+                    unset($_SESSION["invoiceInfo"]);
+                }
+            }
+            $this->ajaxReturn(['status' => 1, 'msg' => '计算成功', 'result' => $pay->toArray()]);
+        } catch (TpshopException $t) {
+            $error = $t->getErrorArr();
+            $this->ajaxReturn($error);
+        }
     }
 	
 	 /**
