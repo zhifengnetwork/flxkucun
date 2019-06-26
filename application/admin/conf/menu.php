@@ -180,11 +180,11 @@ return array(
 			array('name'=>'申请代理列表','act'=>'apply_for','op'=>'Apply'),
             array('name'=>'会员升级日志','act'=>'lists','op'=>'Upgrade'),
         )),
-		array('name' => '团队管理','child'=>array(
+		// array('name' => '团队管理','child'=>array(
 			// array('name'=>'团队列表','act'=>'teamRank','op'=>'User'),
-			array('name'=>'分红列表','act'=>'bonusSystem','op'=>'User'),
+			// array('name'=>'分红列表','act'=>'bonusSystem','op'=>'User'),
 			// array('name'=>'会员等级','act'=>'levelList','op'=>'User'),
-		)),
+		// )),
         array('name' => '充值提现', 'child' => array(
             array('name' => '充值记录', 'act' => 'recharge', 'op' => 'User'),
             array('name' => '提现申请', 'act' => 'withdrawals', 'op' => 'User'),
@@ -225,11 +225,11 @@ return array(
 			array('name' => '模式管理', 'child' => array(
 				// array('name' => '分销商品', 'act' => 'goods_list', 'op' => 'Distribut'),
 				// array('name' => '分销商列表', 'act' => 'distributor_list', 'op' => 'Distribut'),
-				array('name' => '分销设置', 'act' => 'grade_list', 'op' => 'Distribut'),
-                array('name' => '代理商设置', 'act' => 'agent_grade_list', 'op' => 'Distribut'),
+				// array('name' => '分销设置', 'act' => 'grade_list', 'op' => 'Distribut'),
+                // array('name' => '代理商设置', 'act' => 'agent_grade_list', 'op' => 'Distribut'),
                 // array('name' => '等级关系', 'act' => 'tree', 'op' => 'Distribut'),
 				// array('name' => '分销设置', 'act' => 'distribut', 'op' => 'System'),
-				array('name' => '分成日志列表', 'act' => 'rebate_log', 'op' => 'Distribut'),
+				// array('name' => '分成日志列表', 'act' => 'rebate_log', 'op' => 'Distribut'),
 				array('name' => '消费日志列表', 'act' => 'consume_log', 'op' => 'Distribut'),
             )),
             
@@ -241,7 +241,7 @@ return array(
                  array('name' => '统计记录', 'child' => array(
 
                 // array('name' => '业绩奖励设置', 'act' => 'lists', 'op' => 'Rewardo'),
-                 array('name' => '业绩统计列表', 'act' => 'preform', 'op' => 'PreForm'),
+                //  array('name' => '业绩统计列表', 'act' => 'preform', 'op' => 'PreForm'),
                  array('name' => '会员返利/升级/分红', 'act' => 'checklog', 'op' => 'PreForm'),
 
             )),
