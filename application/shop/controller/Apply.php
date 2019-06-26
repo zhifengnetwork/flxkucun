@@ -89,10 +89,14 @@ class Apply extends MobileBase
 		$applyinfo = $model->find($id);		
 		if(!$applyinfo)$this->error('无此次邀请');
 		if($applyinfo['uid'] != $this->user_id)$this->error('您无权限查看此邀请');
-		if($applyinfo['status'] == 1){//跳转到上级页面
-			$this->redirect(U("User/superior_store",['leaderid'=>$applyinfo['leaderid'],'level'=>$applyinfo['level']]));
+		if(($applyinfo['status'] == 1) && ($this->user['level'] < $applyinfo['level'])){//跳转到上级页面
+			$this->redirect(U("User/user_store",['applyid'=>$id,'leaderid'=>$applyinfo['leaderid'],'level'=>$applyinfo['level']]));
 			return;
-		}	
+		}
+		if(($applyinfo['status'] == 1) && ($this->user['level'] >= $applyinfo['level'])){//跳转到上级页面
+			$this->redirect(U("User/superior_store",['applyid'=>$id,'leaderid'=>$applyinfo['leaderid'],'level'=>$applyinfo['level']]));
+			return;
+		}		
 		if(in_array($applyinfo['status'],[2,3]))$this->error('此邀请已处理过啦');	
 
 		$level = M('Users')->where(['user_id'=>$applyinfo['uid']])->value('level');
@@ -167,8 +171,8 @@ class Apply extends MobileBase
 			// 提交事务
 			Db::commit(); 
 			//跳转到上级仓库
-			//2019-06-25注释下面两行代码
-			// $this->redirect(U("User/superior_store",['leaderid'=>$applyinfo['leaderid'],'level'=>$applyinfo['level']]));
+			//$this->redirect(U("User/user_store",['applyid'=>$applyid,'leaderid'=>$applyinfo['leaderid'],'level'=>$applyinfo['level']]));
+			$this->ajaxReturn(['status'=>0,'msg'=>'请求成功!','result'=>U("User/user_store",['applyid'=>$applyid,'leaderid'=>$applyinfo['leaderid'],'level'=>$applyinfo['level']])]);
 			// return;
 			/* 2019-06-22 add */
 			///* 2019-06-22 del */M('Users')->where(['user_id'=>$applyinfo['uid']])->update(['level'=>$applyinfo['level']]);

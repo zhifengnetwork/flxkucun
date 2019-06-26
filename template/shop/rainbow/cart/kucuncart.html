@@ -28,6 +28,7 @@
             <input type="hidden" name="shop_id" value="">
             <input type="hidden" name="take_time" value="">
             <input type="hidden" name="type" value="{$type}">
+            <input type="hidden" name="applyid" value="{$applyid}">
         </form>
         <!--地址-s-->
         <div class="edit_gtfix shipping_div" id="addressDefault" <if condition="$type eq 1">style="display: none"</if>>
@@ -94,7 +95,7 @@
             </div>
         </div>
         <!--配送方式-e-->
-        <if condition="$third_leader eq 0">
+        <if condition="$third_leader eq 0 and $applyid eq 0">
         <div class="information_dr">
                 <div class="maleri30">
 
@@ -691,7 +692,7 @@
                 $("#payables").text(data.result.order_amount);// 应付
                 $("#order_prom_amount").text(data.result.order_prom_amount);// 订单 优惠活动
                 showErrorMsg('订单提交成功，跳转支付页面!');
-                location.href = "/index.php?m=Shop&c=Cart&a=cart5&order_sn=" + data.result + '&third_leader=' + data.third_leader;
+                location.href = "/index.php?m=Shop&c=Cart&a=cart5&order_sn=" + data.result + '&third_leader=' + data.third_leader + '&applyid=' + data.applyid;
             }
         });
     }

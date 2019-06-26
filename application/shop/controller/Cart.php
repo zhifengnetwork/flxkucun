@@ -124,6 +124,7 @@ class Cart extends MobileBase {
         $item_id = input("item_id/d"); // 商品规格id
         $action = input("action/s"); // 行为
         $type = input("type/d",1);
+        $applyid = input("applyid/d",0);
         if ($this->user_id == 0){
             $this->error('请先登录', U('Shop/User/login'));
         }
@@ -196,9 +197,17 @@ class Cart extends MobileBase {
         $levelinfo = M('user_level')->field('stock,replenish')->where(['level'=>$this->user['level']])->find();
         if(($type == 1) && ($cartPriceInfo['total_fee'] < $levelinfo['replenish']) && ($action=="kucun_buy"))$this->error('补货金额必须达到'.$levelinfo['replenish'].'元','/shop/User/superior_store/type/1');
 
+        if(!$type && $applyid){
+            $applyinfo = M('Apply')->find($applyid);	
+            if($applyinfo['uid'] != $this->user_id)$this->error('您无权限进入此仓库');
+            $levelinfo = M('user_level')->field('stock')->where(['level'=>$applyinfo['level']])->find();
+            if(($cartPriceInfo['total_fee'] < $levelinfo['stock']) && ($action=="kucun_buy"))$this->error('首次进货金额必须达到'.$levelinfo['stock'].'元','/shop/User/user_store/applyid/'.$applyid);
+        }        
+
         $cartList = array_merge($cartList,$cartPriceInfo);
         $this->assign('type', $type);
         $this->assign('third_leader', $this->user['third_leader']);
+        $this->assign('applyid', $applyid);
         $this->assign('cartGoodsTotalNum', $cartGoodsTotalNum);
         $this->assign('cartList', $cartList['cartList']); // 购物车的商品
         $this->assign('cartPriceInfo', $cartPriceInfo);//商品优惠总价
@@ -239,6 +248,7 @@ class Cart extends MobileBase {
         $data = input('request.');
         $action_type =input('action_type');
         $type = input('type/d',1);
+        $applyid = input('applyid/d',0);
         $seller_id=input('seller_id');
        // echo $seller_id;exit;
         $cart_validate = Loader::validate('Cart');
@@ -277,7 +287,7 @@ class Cart extends MobileBase {
                 $cartLogic->checkStockCartList($userCartList);
                 $pay->payCart($userCartList);
             }
-            if($type == 1)
+            if(($type == 1) || $applyid)
                 $pay->setUserId($this->user_id)->useUserMoney($user_money);
             else
                 $pay->setUserId($this->user_id)->delivery($address['district'])->useUserMoney($user_money);
@@ -293,8 +303,8 @@ class Cart extends MobileBase {
             }
             elseif ($_REQUEST['act'] == 'kucun_submit_order') {
                 $placeOrder = new PlaceOrder($pay);
-                if($type == 1)
-                    $placeOrder->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
+                if(($type == 1) || $applyid)
+                    $placeOrder->setUserNote($user_note)->setApplyid($applyid)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
                 else
                     $placeOrder->setUserAddress($address)->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
                 $cartLogic->clear();
@@ -305,7 +315,7 @@ class Cart extends MobileBase {
                     if($msid)M('user_message')->add(['user_id'=>$seller_id,'message_id'=>$msid]);
                 }
 
-                $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn'],'third_leader'=>$this->user['third_leader']]);
+                $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn'],'third_leader'=>$this->user['third_leader'],'applyid'=>$applyid]);
             }
 
             $pricedata = $pay->toArray(); 
