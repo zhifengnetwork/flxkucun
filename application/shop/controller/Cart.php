@@ -848,10 +848,8 @@ class Cart extends MobileBase {
         $integral->setUserAddressById($address_id);
         // $integral->useUserMoney($user_money);
         try {
-            
             $integral->checkBuy();
             $pay = $integral->pay();
-            echo 12;die;
             // 提交订单
             if ($_REQUEST['act'] == 'submit_order') {
                 $placeOrder = new PlaceOrder($pay);
