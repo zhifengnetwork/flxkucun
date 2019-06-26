@@ -6,7 +6,7 @@ namespace app\common\logic;
 use app\common\model\Combination;
 use app\common\model\CombinationGoods;
 use app\common\model\SpecGoodsPrice;
-use app\common\model\Cart;
+use app\common\model\Cart; 
 use app\common\model\Goods;
 use app\common\model\Users;
 use app\common\util\TpshopException;
@@ -163,7 +163,7 @@ class CartLogic extends Model
                 throw new TpshopException('立即购买',0,['status' => 0, 'msg' => '您已超过该商品的限制购买数', 'result' => '']);
             }
         }
-
+        $this->goods['shop_price'] = $this->goods['shop_price']?$this->goods['shop_price']:$this->goods['market_price'];
         $buyGoods = [
             'user_id' => $this->user_id,
             'session_id' => $this->session_id,
