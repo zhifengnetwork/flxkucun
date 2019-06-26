@@ -265,6 +265,40 @@ class User extends MobileBase
         return $this->fetch();
     }
 
+    // 指定用户仓库
+    public function user_store()
+    {
+        $applyid = I('get.applyid/d',0);
+        $applyinfo = M('Apply')->find($applyid);	
+        if($applyinfo['uid'] != $this->user_id)$this->error('您无权限进入此仓库');
+
+        $logic = new UsersLogic();
+        $data = $logic->get_info($this->user_id);
+        $user = $data['result'];
+        if ($user['mobile'] == '' && $user['email'] == '') {
+            $this->error('请先绑定手机号码', U('Shop/User/setMobile'));
+        }
+
+        // 存找配货上级
+
+        $kucun = user_kucun($applyinfo['leaderid']);
+
+        $GoodsLevelPrice = M('goods_level_price');
+        foreach($kucun as $k=>$v){
+            $price = $GoodsLevelPrice->where(['goods_id'=>$v['goods_id'],'level'=>$applyinfo['level']])->value('price');
+            $price && ($kucun[$k]['shop_price'] = $price);
+        }
+
+        //读取会员仓库信息
+
+        //dump($kucun);exit;
+        $this->assign('pei_parent', $applyinfo['leaderid']);
+        $this->assign('kucun', $kucun);
+        $this->assign('applyid', $applyid);
+        $this->assign('type', I('get.type/d',0));
+        return $this->fetch('superior_store');
+    }
+
     // 我的佣金
     public function mommission()
     {
