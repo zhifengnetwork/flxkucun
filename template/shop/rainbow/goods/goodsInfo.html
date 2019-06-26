@@ -658,7 +658,6 @@
         })
         //加入购物车
         $(document).on('click', '#join_cart', function () {
-
             var goods_id = $("input[name='goods_id']").val();
             var store_count = $("input[name='store_count']").attr('value');// 商品原始库存
             var goods_num = parseInt($("input[name='goods_num']").val());
@@ -677,6 +676,7 @@
             // else{
             //     is_superior(goods_id,goods_num);
             // }
+            
             var goods_id = $("input[name='goods_id']").val();
             AjaxAddCart(goods_id, 1);
 

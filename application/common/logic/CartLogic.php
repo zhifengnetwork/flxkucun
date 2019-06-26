@@ -370,7 +370,6 @@ class CartLogic extends Model
             if(!$cartAddData['goods_price']){
                 $cartAddData['goods_price']=0;
             }
-
             $cartResult = Db::name('Cart')->insertGetId($cartAddData);
             
         }
