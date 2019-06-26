@@ -600,9 +600,11 @@ class Goods extends MobileBase
         }
 
         $level = Db::name('users')->where('user_id',cookie('user_id'))->value('level');
-        foreach($goods_list as $key=>&$value){
-            if($level > 0){
-                $value['shop_price'] = M('goods_level_price')->where('goods_id',$value['goods_id'])->where('level',$level)->value('price');
+        if($goods_list){
+            foreach($goods_list as $key=>&$value){
+                if($level > 0){
+                    $value['shop_price'] = M('goods_level_price')->where('goods_id',$value['goods_id'])->where('level',$level)->value('price');
+                }
             }
         }
 
