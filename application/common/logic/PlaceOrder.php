@@ -258,6 +258,7 @@ class PlaceOrder
         $payList = $this->pay->getPayList();
         $goods_ids = get_arr_column($payList,'goods_id');
         $cat_id = Db::name('goods')->where('goods_id',$goods_ids[0])->value('cat_id');
+        $use_money = 0;
         if($cat_id==8){
             $user_money = Db::name('users')->where('user_id',$this->user_id)->value('user_money');
             $total_amount = $this->pay->getShippingPrice();
@@ -274,7 +275,7 @@ class PlaceOrder
                 'invoice_desc' => $this->invoiceDesc, //'发票内容',
                 'goods_price' => 0,//'商品价格',
                 'shipping_price' => $total_amount,//'物流价格',
-                'user_money' => 0,//'使用余额',
+                'user_money' => $use_money,//'使用余额',
                 'order_prom_amount' => 0,//'优惠金额',
                 'coupon_price' => 0,//'使用优惠券',
                 'integral' => $this->pay->getPayPoints(), //'使用积分',
