@@ -1165,7 +1165,7 @@ function update_pay_status($order_sn, $ext = array())
 {
     $time = time();
     if($ext['attach'] === 'pay_shipping'){ //订单支付运费
-        $orderinfo = M('Order')->field('order_id,seller_id,user_id,shipping_price,total_amount,applyid')->where(['order_sn'=>$order_sn])->find();
+        $orderinfo = M('Order')->field('order_id,seller_id,user_id,shipping_price,total_amount,applyid,apply_type')->where(['order_sn'=>$order_sn])->find();
         $order_id = $orderinfo['order_id'];
         $orderLogic = new \app\common\logic\OrderLogic();
         $action = 'confirm';
@@ -1190,7 +1190,8 @@ function update_pay_status($order_sn, $ext = array())
             
             M('Order')->where(['order_id'=>$order_id])->update(['pay_status'=>1,'pay_shipping_status'=>1]);
 			if($orderinfo['applyid']){
-				$applyinfo = M('Apply')->find($orderinfo['applyid']);
+                $Apply = ($orderinfo['apply_type'] == 1) ? M('Apply') : M('Apply_for');
+				$applyinfo = $Apply->find($orderinfo['applyid']);
 				if($applyinfo['leaderid'] == $orderinfo['seller_id']){
 					M('Users')->where(['user_id'=>$orderinfo['user_id']])->update(['first_leader'=>$orderinfo['seller_id'],'third_leader'=>$orderinfo['seller_id']]);
 				}
@@ -2311,7 +2312,7 @@ function user_kucun($user_id)
         ->join('users u', 'wg.user_id=u.user_id', 'LEFT')
         ->join('goods g', 'wg.goods_id=g.goods_id', 'LEFT')
         ->where(['wg.user_id' => $user_id,'g.prom_type'=>0])->select();
-
+echo M("warehouse_goods")->getLastSql(); exit;
     return $warehouse_goods_list;
 
 }
