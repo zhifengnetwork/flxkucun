@@ -422,6 +422,78 @@ class Cart extends MobileBase {
         return $this->fetch();
     }
 
+    public function PayShipping(){
+        $orderLogic = new \app\common\logic\OrderLogic();
+        $action = 'confirm';
+        $order_id = I('get.oid/d',0);
+
+        $order = new \app\common\model\Order();
+        $goods = $order::get($order_id);
+        if($goods['order_status'] != 0)$this->error('请勿重复操作！');
+
+        foreach($goods['order_goods'] as $value){
+            $num = user_kucun_goods($this->user_id,$value['goods_id']);
+            if ($num['nums'] < $value['goods_num'] && $action != 'invalid'){
+                $this->error('您的库存不足!');
+            }
+        }
+
+        $order = M('Order')->field('order_id,seller_id,order_sn,shipping_price,prom_type,pay_shipping_status')->find($order_id);
+        if(!$order || ($order['seller_id'] != $this->user_id))
+            $this->error('参数错误！');
+        if($order['pay_shipping_status'] !== 0)
+            $this->error('此订单已支付过运费啦！');
+
+        $payment_where['type'] = 'payment';
+        $no_cod_order_prom_type = [4,5];//预售订单，虚拟订单不支持货到付款
+        //预售和抢购暂不支持货到付款
+        $orderGoodsPromType = M('order_goods')->where(['order_id'=>$order['order_id']])->getField('prom_type',true);
+        if(strstr($_SERVER['HTTP_USER_AGENT'],'MicroMessenger')){
+            //微信浏览器
+            if(in_array($order['prom_type'],$no_cod_order_prom_type) || in_array(1,$orderGoodsPromType) || $order['shop_id'] > 0){
+                //预售订单和抢购不支持货到付款
+                $payment_where['code'] = 'weixin';
+            }else{
+                $payment_where['code'] = array('in',array('weixin','cod'));
+            }
+        }else{
+            if(in_array($order['prom_type'],$no_cod_order_prom_type) || in_array(1,$orderGoodsPromType) || $order['shop_id'] > 0){
+                //预售订单和抢购不支持货到付款
+                $payment_where['code'] = array('neq','cod');
+            }
+            $payment_where['scene'] = array('in',array('0','1'));
+        }
+        $payment_where['status'] = 1;  
+        
+        if($order['prom_type'] == 4 || in_array(1,$orderGoodsPromType)){
+            $payment_where['code'] = array('neq','cod');
+        }
+        $paymentList = M('Plugin')->where($payment_where)->select();
+        $paymentList = convert_arr_key($paymentList, 'code');        
+
+        foreach($paymentList as $key => $val)
+        {
+            $val['config_value'] = unserialize($val['config_value']);
+            if($val['config_value']['is_bank'] == 2)
+            {
+                $bankCodeList[$val['code']] = unserialize($val['bank_code']);
+            }
+            if($key != 'cod' && (($key == 'weixin' && !is_weixin()) // 不是微信app,就不能微信付，只能weixinH5付,用于手机浏览器
+                || ($key != 'weixin' && is_weixin()) //微信app上浏览，只能微信
+                || ($key != 'alipayMobile' && is_alipay()))){ //在支付宝APP上浏览，只能用支付宝支付
+                unset($paymentList[$key]);
+            }
+        }
+
+        $bank_img = include APP_PATH.'home/bank.php'; // 银行对应图片
+        $this->assign('paymentList',$paymentList);
+        $this->assign('bank_img',$bank_img);
+        $this->assign('order',$order);
+        $this->assign('bankCodeList',$bankCodeList);
+        $this->assign('pay_date',date('Y-m-d', strtotime("+1 day")));
+        return $this->fetch();        
+    }    
+
     /*
      * 订单支付页面 (上传凭证)
      */
