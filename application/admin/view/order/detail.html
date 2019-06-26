@@ -297,7 +297,7 @@ a.green:hover { color: #FFF; background-color: #1BBC9D; border-color: #16A086; }
                		{$vo}</a>
                		</if>
                    </foreach>
-                   <if condition="$order.kucun_type eq 1 && $order.shipping_status eq 0">
+                   <if condition="$order.kucun_type eq 1 && $order.shipping_status eq 0 && $order.order_status neq 3 && $order.order_status neq 5">
                     <a class="ncap-btn-big ncap-btn-green" onclick="orderaction({$order.order_id},this)">确认并发货</a>
                    </if>
 	        </dd>

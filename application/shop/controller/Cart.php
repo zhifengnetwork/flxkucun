@@ -248,7 +248,7 @@ class Cart extends MobileBase {
         $data = input('request.');
         $action_type =input('action_type');
         $type = input('type/d',1);
-        $applyid = input('applyid/d',0);
+        $applyid = input('applyid/d',0); 
         $seller_id=input('seller_id');
        // echo $seller_id;exit;
         $cart_validate = Loader::validate('Cart');
@@ -303,10 +303,11 @@ class Cart extends MobileBase {
             }
             elseif ($_REQUEST['act'] == 'kucun_submit_order') {
                 $placeOrder = new PlaceOrder($pay);
-                if($type || $applyid)
+                if($type || $applyid){
                     $placeOrder->setUserNote($user_note)->setOrdertype()->setApplyid($applyid,$type)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
-                else
+                }else{
                     $placeOrder->setUserAddress($address)->setOrdertype()->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
+                }
                 $cartLogic->clear();
                 $order = $placeOrder->getOrder();
 

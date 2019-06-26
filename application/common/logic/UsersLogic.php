@@ -998,7 +998,7 @@ class UsersLogic extends Model
             return array('status'=>-1,'msg'=>$UserRegvalidate->getError(),'result'=>'');
         }
         $row = M('users')->where("user_id",$user_id)->update(array('paypwd'=>encrypt($new_password)));
-        if(!$row){
+        if(false === $row){
             return array('status'=>-1,'msg'=>'修改失败','result'=>'');
         }
         $url = session('payPriorUrl') ? session('payPriorUrl'): U('User/userinfo');

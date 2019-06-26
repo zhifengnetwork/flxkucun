@@ -593,7 +593,7 @@ class PlaceOrder
         return $this;
     }  
     
-    public function setApplyid()
+    public function setApplyid($applyid,$type)
     {
         $this->applyid = $applyid;
         $this->apply_type = $type;
