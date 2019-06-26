@@ -84,12 +84,12 @@ class Sign extends MobileBase
             if ($sign_on_off == 1) {
 
                 //赠送积分
-                $agent_free_num = $user_model->where(['user_id' => $user_id])->setInc('pay_points', $user['userLevel']['get_integral']);
+                $agent_free_num = $user_model->where(['user_id' => $user_id])->setInc('pay_points', $user['userLevel']['get_integral'] ? $user['userLevel']['get_integral'] : 0);
 
                 //积分变动日志
                 $accountLogData = [
                     'user_id' => $user_id,
-                    'pay_points' => $user['userLevel']['get_integral'],
+                    'pay_points' => $user['userLevel']['get_integral'] ? $user['userLevel']['get_integral'] : 0,
                     'change_time' => time(),
                     'desc' => '签到赠送',
                     'order_sn'=>'',
