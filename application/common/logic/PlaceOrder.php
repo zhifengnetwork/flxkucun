@@ -264,8 +264,13 @@ class PlaceOrder
             $order_amount = $total_amount;
             $use_money = 0;
             if( $user_money ){
-                $order_amount = abs( sprintf("%.2f",$user_money - $order_amount ) );
-                $use_money = $total_amount - $order_amount;
+                $use_money = sprintf("%.2f",$user_money - $order_amount );
+                if($use_money >= 0){
+                    $order_amount = 0;
+                }else{
+                    $order_amount = abs($use_money);
+                }
+                $use_money = sprintf("%.2f",$total_amount - $order_amount );
             }
             $orderData = [
                 'order_sn' => $OrderLogic->get_order_sn(), // 订单编号
@@ -394,7 +399,7 @@ class PlaceOrder
         
         if($cat_id==8){
             if( $user_money ){
-                Db::name('users')->where('user_id',$this->user_id)->setDec('user_money',$use_money);
+                Db::name('users')->where('user_id',$this->user_id)->setDec('user_money',abs($use_money));
             }
         }
     }
