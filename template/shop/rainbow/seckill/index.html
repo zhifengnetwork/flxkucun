@@ -51,8 +51,8 @@
 			<div class="kill-time">
 				<div class="swiper-container swiper-container-horizontal swiper-container-free-mode" id="timeaxis">
 					<div class="swiper-wrapper">
-					<volist name='flash_salelist' id='v'>
-						<div class="swiper-slide swiper-slide-active" data-num="0">
+					<volist name='time_arr' id='v'>
+						<div class="swiper-slide swiper-slide-active" data-num="0" onclick="ajaxSeckill('{$v.start_time}')">
 							<div class="time-item">
 								<div class="time">{$v.start_time_msg}</div>
 								<div class="info">{$v.time_msg}</div>
@@ -115,6 +115,15 @@
 			centeredSlides: true,/*设定为true时，活动块会居中，而不是默认状态下的居左。*/
 			slideToClickedSlide: true,/*设置为true则swiping时点击slide会过渡到这个slide。*/
 		})
+		//ajax请求
+		function ajaxSeckill(start_time){
+			if(!start_time){
+				return false;
+			}
+			$.post('{:url('ajaxSeckill')}',{'start_time':start_time},function(data){
+				$('.seckill-list').html(data);
+			})
+		}
 
 	</script>
 
