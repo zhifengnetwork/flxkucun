@@ -22,7 +22,7 @@
 			<h1>秒杀专区</h1>
 			<span class="right"><a href="#">秒杀规则</a></span>
 		</div>
-
+ 
 		<div class="content">	
 		
 			<!-- 轮播图 -->
@@ -51,43 +51,14 @@
 			<div class="kill-time">
 				<div class="swiper-container swiper-container-horizontal swiper-container-free-mode" id="timeaxis">
 					<div class="swiper-wrapper">
+					<volist name='flash_salelist' id='v'>
 						<div class="swiper-slide swiper-slide-active" data-num="0">
 							<div class="time-item">
-								<div class="time">17:00</div>
-								<div class="info">抢购中</div>
+								<div class="time">{$v.start_time_msg}</div>
+								<div class="info">{$v.time_msg}</div>
 							</div>
 						</div>
-						<div class="swiper-slide swiper-slide-next" data-num="1">
-							<div class="time-item">
-								<div class="time">19:00</div>
-								<div class="info">即将开抢</div>
-							</div>
-						</div>
-						<div class="swiper-slide" data-num="2">
-							<div class="time-item">
-								<div class="time">21:00</div>
-								<div class="info">即将开抢</div>
-							</div>
-						</div>
-						<div class="swiper-slide" data-num="3">
-							<div class="time-item">
-								<div class="time">22:00</div>
-								<div class="info">即将开抢</div>
-							</div>
-						</div>
-						<div class="swiper-slide" data-num="4">
-							<div class="time-item">
-								<div class="time">23:00</div>
-								<div class="info">即将开抢</div>
-							</div>
-						</div>
-						<div class="swiper-slide" data-num="5">
-							<div class="time-item">
-								<div class="time">00:00</div>
-								<div class="info">即将开抢</div>
-							</div>
-						</div>
-						
+					</volist>
 					</div>
 				</div>
 			</div>

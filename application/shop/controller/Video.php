@@ -137,7 +137,7 @@ class Video extends MobileBase{
         $uploadDir = './public/uploads/video/';
         $path = '';
         $file = request()->file('video');
-        $info = $file->validate(['size' =>1024*1024*5,'ext'=>'avi,mp4,flw'])->move($uploadDir);
+        $info = $file->validate(['size' =>1024*1024*10,'ext'=>'avi,mp4,flw'])->move($uploadDir);
         if($info){
             $path = str_replace("\\","/",$info->getSaveName());
         }else{
