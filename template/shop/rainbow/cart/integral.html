@@ -175,7 +175,7 @@
                     </div>
                 </div>
                 <!--使用余额-s-->
-                <!-- <div class="invoice list7">
+                <div class="invoice list7">
                     <div class="myorder p">
                         <div class="content30">
                             <a class="remain" href="javascript:void(0);">
@@ -199,7 +199,7 @@
                             </a>
                         </div>
                     </div>
-                </div> -->
+                </div>
                 <!--使用余额-e-->
                 <div id="balance-li" class="invoice list7">
                     <div class="myorder p">
@@ -240,28 +240,28 @@
         </div>
         <!--卖家留言-e-->
         <!--订单金额-s-->
-        <!-- <div class="information_dr ma-to-20">
+        <div class="information_dr ma-to-20">
             <div class="maleri30">
                 <div class="xx-list">
-                    <p class="p">
+                    <!-- <p class="p">
                         <span class="fl">商品金额：</span>
                         <span class="fr red"><span>￥</span><span id="goods_price">0</span>元</span>
-                    </p>
+                    </p> -->
                     <p class="p">
                         <span class="fl">配送费用：</span>
                         <span class="fr red"><span>￥</span><span id="postFee">0</span>元</span>
                     </p>
-                    <p class="p">
+                    <!-- <p class="p">
                         <span class="fl">使用积分：</span>
                         <span class="fr red"><span>-￥</span><span id="pointsFee">0</span>元</span>
                     </p>
                     <p class="p">
                         <span class="fl">使用余额：</span>
                         <span class="fr red"><span>-￥</span><span id="balance">0</span>元</span>
-                    </p>
+                    </p> -->
                 </div>
             </div>
-        </div> -->
+        </div>
         <!--订单金额-e-->
         <!--提交订单-s-->
         <div class="mask-filter-div" style="display: none;"></div>
@@ -270,8 +270,8 @@
                 <a href="javascript:void(0)" onclick="submit_order()">提交订单</a>
             </div>
             <div class="fl">
-                <!-- <p><span class="pmo">应付金额：</span>￥<span id="payables"></span><span></span></p> -->
-                <p><span class="pmo">应付积分：</span><span>{:$goods['exchange_integral'] * $goods['goods_num']}</span></p>
+                <p><span class="pmo">应付金额：</span>￥<span id="payables"></span><span>元 + {:$goods['exchange_integral'] * $goods['goods_num']} 积分</span></p>
+                <!-- <p><span class="pmo">应付积分：</span><span>{:$goods['exchange_integral'] * $goods['goods_num']}</span></p> -->
             </div>
         </div>
         <!--提交订单-e-->
@@ -979,7 +979,8 @@
         $("#balance").text(data.result.user_money);// 余额
         $("#pointsFee").text(Math.round(data.result.integral_money,2));// 积分支付
         $("#postFee").text(data.result.shipping_price); // 物流费
-        $("#payables").text(data.result.order_amount);// 应付
+        $("#payables").text(data.result.shipping_price); // 应付(积分兑换商品只付邮费)
+        // $("#payables").text(data.result.order_amount);// 应付
         $("#pay_points").val(data.result.pay_points);// 积分支付
         $("#goods_price").text(data.result.goods_price);// 商品总额
         // $('#goods_p').text((data.result.goods_price-data.result.integral_money) / data.result.total_num+'+'+data.result.pay_points / data.result.total_num); //积分商品价格
