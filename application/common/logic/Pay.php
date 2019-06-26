@@ -314,13 +314,14 @@ class Pay
      * @return $this
      */
     public function delivery($district_id){
-        echo 11;
         if (isset($this->payList[0]['goods']['is_virtual']) && $this->payList[0]['goods']['is_virtual'] == 0) {
+            echo 1;
             if (empty($this->shop) && empty($district_id)) {
+                echo 2;
                 throw new TpshopException("计算订单价格", 0, ['status' => -1, 'msg' => '请填写收货信息', 'result' => ['']]);
             }
         }
-        echo 2;
+        echo 3;die;
         $GoodsLogic = new GoodsLogic();
         $checkGoodsShipping = $GoodsLogic->checkGoodsListShipping($this->payList, $district_id);
         foreach($checkGoodsShipping as $shippingKey => $shippingVal){
@@ -342,7 +343,6 @@ class Pay
 //        if ($this->payList[0]['cart_type'] == 1) {
 //            return $this;
 //        }
-echo 3;
         $freight_free = tpCache('shopping.freight_free'); // 全场满多少免运费
         if($this->goodsPrice < $freight_free || $freight_free == 0){
             $this->shippingPrice = $GoodsLogic->getFreight($this->payList, $district_id);
@@ -351,7 +351,6 @@ echo 3;
         }else{
             $this->shippingPrice = 0;
         }
-        echo 4;
         return $this;
     }
 
