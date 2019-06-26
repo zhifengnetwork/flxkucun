@@ -164,7 +164,7 @@
             </a>
         </div>
         <div class="fbutton">
-          <a href="javascript:;" onclick="publicHandleAll('del')">
+          <a href="javascript:;" class="dianji">
               <div class="add" title="批量删除">
                   <span>批量删除</span>
               </div>
@@ -181,21 +181,51 @@
      </div>
 </div>
 <script>
-    $(document).ready(function(){
-		// 刷选条件 鼠标 移动进去 移出 样式
-		$(".hDivBox > table > thead > tr > th").mousemove(function(){
-			$(this).addClass('thOver');
-		}).mouseout(function(){
-			$(this).removeClass('thOver');
-		});
-
-        // 表格行点击选中切换
-        $(document).on('click','#flexigrid > table>tbody >tr',function(){
-            $(this).toggleClass('trSelected');
-            var checked = $(this).hasClass('trSelected');
-            $(this).find('input[type="checkbox"]').attr('checked',checked);
+    $('.dianji').click(function(){
+        var ids = '';
+        $(".trSelected").each(function(){
+            var id = $(this).attr('data-id');
+            if(id > 0){
+                ids += id+',';
+            }
         });
-	});
+        if(!ids){
+            layer.msg('请选择要删除的视频',{'icon':2});
+            return false;
+        }
+        layer.confirm('确认批量删除吗?', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                layer.closeAll();
+                $.post('{:url('goods/delGoods')}',{'ids':ids},function(data){
+                    if(data.status == 1){
+                        layer.msg(data.msg,{'icon':1},function(){
+                            location.reload();
+                        })
+                    }else{
+                        layer.msg(data.msg,{'icon':2});
+                    }
+                },'json')
+            }, function(index){
+                layer.closeAll();
+            }
+        )
+    })
+    $(document).ready(function(){
+  		// 刷选条件 鼠标 移动进去 移出 样式
+  		$(".hDivBox > table > thead > tr > th").mousemove(function(){
+  			$(this).addClass('thOver');
+  		}).mouseout(function(){
+  			$(this).removeClass('thOver');
+  		});
+
+          // 表格行点击选中切换
+          $(document).on('click','#flexigrid > table>tbody >tr',function(){
+              $(this).toggleClass('trSelected');
+              var checked = $(this).hasClass('trSelected');
+              $(this).find('input[type="checkbox"]').attr('checked',checked);
+          });
+  	});
 
     $(document).ready(function () {
         // ajax 加载商品列表
@@ -217,14 +247,14 @@
         });
     }
 	
-        // 点击排序
-        function sort(field)
-        {
-           $("input[name='orderby1']").val(field);
-           var v = $("input[name='orderby2']").val() == 'desc' ? 'asc' : 'desc';             
-           $("input[name='orderby2']").val(v);
-           ajax_get_table('search-form2',cur_page);
-        }
+    // 点击排序
+    function sort(field)
+    {
+       $("input[name='orderby1']").val(field);
+       var v = $("input[name='orderby2']").val() == 'desc' ? 'asc' : 'desc';             
+       $("input[name='orderby2']").val(v);
+       ajax_get_table('search-form2',cur_page);
+    }
 </script>
 </body>
 </html>

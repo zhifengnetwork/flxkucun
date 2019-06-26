@@ -89,18 +89,19 @@ class Apply extends MobileBase
 		$applyinfo = $model->find($id);		
 		if(!$applyinfo)$this->error('无此次邀请');
 		if($applyinfo['uid'] != $this->user_id)$this->error('您无权限查看此邀请');
-		if(($applyinfo['status'] == 1) && ($this->user['level'] < $applyinfo['level'])){//跳转到上级页面
-			$this->redirect(U("User/user_store",['applyid'=>$id,'leaderid'=>$applyinfo['leaderid'],'level'=>$applyinfo['level']]));
+		if(($type == 1) && ($applyinfo['status'] == 1) && ($this->user['level'] < $applyinfo['level'])){//跳转到上级页面
+			$this->redirect(U("User/user_store",['type'=>$type,'applyid'=>$id,'leaderid'=>$applyinfo['leaderid'],'level'=>$applyinfo['level']]));
 			return;
 		}
-		if(($applyinfo['status'] == 1) && ($this->user['level'] >= $applyinfo['level'])){//跳转到上级页面
+		if(($type == 1) && ($applyinfo['status'] == 1) && ($this->user['level'] >= $applyinfo['level'])){//跳转到上级页面
 			$this->redirect(U("User/superior_store",['applyid'=>$id,'leaderid'=>$applyinfo['leaderid'],'level'=>$applyinfo['level']]));
 			return;
-		}		
-		if(in_array($applyinfo['status'],[2,3]))$this->error('此邀请已处理过啦');	
+		}	
+		$str = ($type == 1) ? '邀请' : '申请';	
+		if(in_array($applyinfo['status'],[2,3]))$this->error('此'.$str.'已处理过啦');	
 
 		$level = M('Users')->where(['user_id'=>$applyinfo['uid']])->value('level');
-		if($level >= $applyinfo['level'])$this->error('您的代理级别已不小于邀请级别！');	
+		if($level >= $applyinfo['level'])$this->error('您的代理级别已不小于'.$str.'级别！');	
 
 		$applyinfo['leaderidinfo'] = M('Users')->field('nickname,mobile,head_pic')->find($applyinfo['leaderid']);
 		$applyinfo['level_name'] = M('User_level')->where(['level'=>$applyinfo['level']])->value('level_name');
@@ -108,6 +109,7 @@ class Apply extends MobileBase
 		//$model->save(['id'=>$id,'status'=>1]);
 
 		$this->assign('applyinfo',$applyinfo);
+		$this->assign('str',$str);
 		$this->assign('type',$type); 
         return $this->fetch();
 	}
@@ -158,7 +160,8 @@ class Apply extends MobileBase
 		$applyinfo = $model->find($applyid);	
 		if(!$applyinfo)$this->ajaxReturn(['status' => -1, 'msg' => "无此次$typemsg"]);
 		if($applyinfo['uid'] != $this->user_id)$this->ajaxReturn(['status' => -1, 'msg' => "您无权限查看此$typemsg"]);
-		if($applyinfo['status'] != 0)$this->ajaxReturn(['status' => -1, 'msg' => '此'.$typemsg.'您已处理过啦']);
+		if(($type == 1) && ($applyinfo['status'] != 0))$this->ajaxReturn(['status' => -1, 'msg' => '此'.$typemsg.'您已处理过啦']);
+		if(($type == 2) && in_array($applyinfo['status'],[2,3]))$this->ajaxReturn(['status' => -1, 'msg' => '此'.$typemsg.'您已处理过啦']);
 
 		$level = M('Users')->where(['user_id'=>$applyinfo['uid']])->value('level');
 		if($level >= $applyinfo['level'])$this->ajaxReturn(['status' => -1, 'msg' => "您的代理级别已不小于$typemsg级别！"]);
@@ -172,7 +175,7 @@ class Apply extends MobileBase
 			Db::commit(); 
 			//跳转到上级仓库
 			//$this->redirect(U("User/user_store",['applyid'=>$applyid,'leaderid'=>$applyinfo['leaderid'],'level'=>$applyinfo['level']]));
-			$this->ajaxReturn(['status'=>0,'msg'=>'请求成功!','result'=>U("User/user_store",['applyid'=>$applyid,'leaderid'=>$applyinfo['leaderid'],'level'=>$applyinfo['level']])]);
+			$this->ajaxReturn(['status'=>0,'msg'=>'请求成功!','result'=>U("User/user_store",['type'=>$type,'applyid'=>$applyid,'leaderid'=>$applyinfo['leaderid'],'level'=>$applyinfo['level']])]);
 			// return;
 			/* 2019-06-22 add */
 			///* 2019-06-22 del */M('Users')->where(['user_id'=>$applyinfo['uid']])->update(['level'=>$applyinfo['level']]);

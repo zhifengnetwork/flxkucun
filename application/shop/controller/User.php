@@ -269,7 +269,9 @@ class User extends MobileBase
     public function user_store()
     {
         $applyid = I('get.applyid/d',0);
-        $applyinfo = M('Apply')->find($applyid);	
+        $type = I('get.type/d',1);
+        $model = ($type == 1) ? M('Apply') :  M('Apply_for');
+        $applyinfo = $model->find($applyid);	
         if($applyinfo['uid'] != $this->user_id)$this->error('您无权限进入此仓库');
 
         $logic = new UsersLogic();
@@ -280,8 +282,15 @@ class User extends MobileBase
         }
 
         // 存找配货上级
-
-        $kucun = user_kucun($applyinfo['leaderid']);
+        if(!$applyinfo['leaderid'])
+        {
+            $kucun = M("goods")->alias('g')
+                ->field('g.store_count as nums,g.goods_name,g.goods_id,g.shop_price,g.original_img')
+            //->join('users u','g.user_id=u.user_id','LEFT')
+                ->where("is_on_sale=1 and g.prom_type=0")->select();
+        } else { 
+            $kucun = user_kucun($applyinfo['leaderid']);
+        }        
 
         $GoodsLevelPrice = M('goods_level_price');
         foreach($kucun as $k=>$v){
@@ -295,7 +304,7 @@ class User extends MobileBase
         $this->assign('pei_parent', $applyinfo['leaderid']);
         $this->assign('kucun', $kucun);
         $this->assign('applyid', $applyid);
-        $this->assign('type', I('get.type/d',0));
+        $this->assign('type', $type);
         return $this->fetch('superior_store');
     }
 

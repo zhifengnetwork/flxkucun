@@ -40,6 +40,7 @@ class PlaceOrder
     private $source_uid = 0;
     private $order_prom_amount = 0;
     private $applyid = 0;
+    private $apply_type = 1;
 
     /**
      * PlaceOrder constructor.
@@ -364,6 +365,7 @@ class PlaceOrder
         }     
 
         $orderData['applyid'] = $this->applyid;
+        $orderData['apply_type'] = $this->apply_type;
 
         if ($orderData['integral'] > 0 || $orderData['user_money'] > 0) {
             $orderData['pay_name'] = $orderData['user_money']>0 ? '余额支付' : '积分兑换';//支付方式，可能是余额支付或积分兑换，后面其他支付方式会替换
@@ -564,9 +566,10 @@ class PlaceOrder
         return $this;
     }
 
-    public function setApplyid($applyid)
+    public function setApplyid($applyid,$type=1)
     {
         $this->applyid = $applyid;
+        $this->apply_type = $type;
         return $this;
     }       
 
