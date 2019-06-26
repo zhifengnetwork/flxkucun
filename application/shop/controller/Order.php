@@ -109,6 +109,52 @@ class Order extends MobileBase
         return $this->fetch();
     }
 
+    // 上传凭证
+    public function getVoucher()
+    {
+        header("Content-type:text/html;charset=utf-8");
+        if (!session('user')) {
+            $this->error('请先登录', U('User/login'));
+        }
+
+        $order_id = I('order_id/d'); // 订单id
+
+        $order = Db::name('order')->where("order_id", $order_id)->find();
+        if ($order['pay_status'] == 1) {
+
+            $this->assign('order', $order);
+            return $this->fetch('payment/success');
+        }
+
+        $payment_arr = Db::name('Plugin')->where('type', 'payment')->getField("code,name");
+
+        if (IS_POST) {
+            if ($_FILES['head_pic']['tmp_name']) {
+                $file = $this->request->file('head_pic');
+                $image_upload_limit_size = config('image_upload_limit_size');
+                $validate = ['size' => $image_upload_limit_size, 'ext' => 'jpg,png,jpeg'];
+                $dir = UPLOAD_PATH . 'pay_voucher/';
+                if (!($_exists = file_exists($dir))) {
+                    $isMk = mkdir($dir);
+                }
+                $parentDir = date('Ymd');
+                $info = $file->validate($validate)->move($dir, true);
+                if ($info) {
+                    $post['pay_voucher'] = '/' . $dir . $parentDir . '/' . $info->getFilename();
+                } else {
+                    $this->error($file->getError());//上传错误提示错误信息
+                }
+            }
+            // 上传凭证后修改支付状态为已支付
+            Db::name('order')->where("order_id", $order_id)
+                ->save(['pay_voucher' => $post['pay_voucher'], 'pay_code' => $this->pay_code, 'pay_name' => $payment_arr[$this->pay_code], 'pay_status' => 1]);
+        }
+
+        $this->assign('order', $order);
+        return $this->fetch('payment/success'); //分跳转 和不 跳转
+
+    }    
+
     /**
      * 订单操作
      * @param $id
@@ -124,14 +170,14 @@ class Order extends MobileBase
         if($goods['order_status'] != 0){
             $this->ajaxReturn(['status' => 0, 'msg' => '请勿重复操作！', 'url' => U('Order/order_send')]);
         }
-
+        
         foreach($goods['order_goods'] as $value){
             $num = user_kucun_goods($this->user_id,$value['goods_id']);
             if ($num['nums'] < $value['goods_num'] && $action != 'invalid'){
                 $this->ajaxReturn(['status' => 0, 'msg' => '您的库存不足', 'url' => U('Order/order_send')]);
             }
         }
-
+        
         if($action && $order_id){
             if($action !=='pay'){
                 $convert_action= C('CONVERT_ACTION')["$action"];

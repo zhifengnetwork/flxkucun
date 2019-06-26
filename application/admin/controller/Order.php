@@ -410,7 +410,7 @@ exit("请联系DC环球直供网络客服购买高级版支持此功能");
                 if($kuaidi_info['msg']=='ok' || isset($kuaidi_info['result']['list'])) $kuaidi_info = $kuaidi_info['result']['list'];
             }
         }
-        
+
         $this->assign('kuaidi_info', $kuaidi_info);
         $this->assign('order', $order);
         return $this->fetch();
@@ -774,9 +774,9 @@ exit("请联系DC环球直供网络客服购买高级版支持此功能");
 			if($data['send_type'] == 2 && !empty($res['printhtml'])){
 				$this->assign('printhtml',$res['printhtml']);
 				return $this->fetch('print_online');
-            }
+            }/*
             $orderinfo = M('Order')->field('user_id,seller_id,total_amount,applyid,apply_type,kucun_type')->find($data['order_id']);
-            if(($orderinfo['kucun_type'] > 0) && ($orderinfo['seller_id'] == 0)){
+            if(($orderinfo['kucun_type'] > 0) && ($orderinfo['seller_id'] == 0)){ 
                 $orderuserlevel = M('Users')->where(['user_id'=>$orderinfo['user_id']])->value('level');
                 $level = M('user_level')->field('level')->where(['level'=>['gt',$orderuserlevel],'stock'=>['elt',$orderinfo['total_amount']]])->order('level desc')->limit(1)->find();
                 $level = $level['level'] ? $level['level'] : 0;
@@ -792,12 +792,56 @@ exit("请联系DC环球直供网络客服购买高级版支持此功能");
                     }
                 }
                 
-            }
+            }*/
 
 			$this->success('操作成功',U('Admin/Order/delivery_info',array('order_id'=>$data['order_id'])));
 		}else{
 			$this->error($res['msg'],U('Admin/Order/delivery_info',array('order_id'=>$data['order_id'])));
 		}
+    }
+
+    public function OrderAction(){
+        $order_id = I('post.order_id/d',0);
+        $orderinfo = M('Order')->field('user_id,seller_id,shipping_status,total_amount,applyid,apply_type,kucun_type')->find($order_id);
+        if($orderinfo['shipping_status'] !== 0)$this->ajaxReturn(['status' => 0, 'msg' => '该订单已发货']);
+
+        $orderLogic = new \app\common\logic\OrderLogic();
+        $order_id = I('post.order_id');
+
+        $order = new \app\common\model\Order();
+        $goods = $order::get($order_id);
+        $Goods = M('Goods');
+        foreach($goods['order_goods'] as $value){
+            $num = $Goods->where(['goods_id'=>$value['goods_id']])->value('store_count');
+            if ($num < $value['goods_num']){
+                $this->ajaxReturn(['status' => 0, 'msg' => '库存不足']);
+            }
+        }
+
+        $goods = M('order_goods')->where('order_id',$order_id)->select();
+        foreach ($goods as $value){
+            $Goods->where(['goods_id'=>$value['goods_id']])->setDec('store_count',$value['goods_num']);
+            changekucun($value['goods_id'],$orderinfo['user_id'],$value['goods_num']);
+        }
+        
+        if(($orderinfo['kucun_type'] > 0) && ($orderinfo['seller_id'] == 0)){ 
+            $orderuserlevel = M('Users')->where(['user_id'=>$orderinfo['user_id']])->value('level');
+            $level = M('user_level')->field('level')->where(['level'=>['gt',$orderuserlevel],'stock'=>['elt',$orderinfo['total_amount']]])->order('level desc')->limit(1)->find();
+            $level = $level['level'] ? $level['level'] : 0;
+            if($level > $orderuserlevel)
+                M('Users')->where(['user_id'=>$orderinfo['user_id']])->update(['level'=>$level]);
+
+            M('Order')->where(['order_id'=>$order_id])->update(['order_status'=>1,'shipping_status'=>1,'pay_status'=>1]);
+            if($orderinfo['applyid']){
+                $Apply = ($orderinfo['apply_type'] == 1) ? M('Apply') : M('Apply_for');
+                $applyinfo = $Apply->find($orderinfo['applyid']);
+                if($applyinfo['leaderid'] == $this->user_id){
+                    M('Users')->where(['user_id'=>$orderinfo['user_id']])->update(['first_leader'=>$this->user_id,'third_leader'=>$this->user_id]);
+                }
+            }
+            
+        }
+        $this->ajaxReturn(['status' => 1, 'msg' => '操作成功！']);        
     }
 
     public function delivery_info($id=''){

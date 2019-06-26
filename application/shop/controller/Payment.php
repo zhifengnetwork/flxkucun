@@ -210,52 +210,6 @@ class Payment extends MobileBase
         return $this->fetch('recharge'); //分跳转 和不 跳转
     }
 
-    // 上传凭证
-    public function getVoucher()
-    {
-        header("Content-type:text/html;charset=utf-8");
-        if (!session('user')) {
-            $this->error('请先登录', U('User/login'));
-        }
-
-        $order_id = I('order_id/d'); // 订单id
-
-        $order = Db::name('order')->where("order_id", $order_id)->find();
-        if ($order['pay_status'] == 1) {
-
-            $this->assign('order', $order);
-            return $this->fetch('success');
-        }
-
-        $payment_arr = Db::name('Plugin')->where('type', 'payment')->getField("code,name");
-
-        if (IS_POST) {
-            if ($_FILES['head_pic']['tmp_name']) {
-                $file = $this->request->file('head_pic');
-                $image_upload_limit_size = config('image_upload_limit_size');
-                $validate = ['size' => $image_upload_limit_size, 'ext' => 'jpg,png,jpeg'];
-                $dir = UPLOAD_PATH . 'pay_voucher/';
-                if (!($_exists = file_exists($dir))) {
-                    $isMk = mkdir($dir);
-                }
-                $parentDir = date('Ymd');
-                $info = $file->validate($validate)->move($dir, true);
-                if ($info) {
-                    $post['pay_voucher'] = '/' . $dir . $parentDir . '/' . $info->getFilename();
-                } else {
-                    $this->error($file->getError());//上传错误提示错误信息
-                }
-            }
-            // 上传凭证后修改支付状态为已支付
-            Db::name('order')->where("order_id", $order_id)
-                ->save(['pay_voucher' => $post['pay_voucher'], 'pay_code' => $this->pay_code, 'pay_name' => $payment_arr[$this->pay_code], 'pay_status' => 1]);
-        }
-
-        $this->assign('order', $order);
-        return $this->fetch('success'); //分跳转 和不 跳转
-
-    }
-
     //竞拍保证金
     public function payBond(){
 
