@@ -65,8 +65,8 @@ class Order extends Base {
         I('order_status') != '' ? $condition['order_status'] = I('order_status') : false;
         I('pay_status') != '' ? $condition['pay_status'] = I('pay_status') : false;
         I('prom_type/d',0) ? $condition['prom_type'] = I('prom_type/d',0) : false;
-        if(I('seller_id/d',0) == 1)$condition['seller_id'] = ['neq',0];
-        if(I('seller_id/d',0) == 2)$condition['seller_id'] = 0;
+        if(I('seller_id/d',0) == 1)$condition['kucun_type'] = ['neq',0];
+        if(I('seller_id/d',0) == 2)$condition['kucun_type'] = 0;
         //I('pay_code') != '' ? $condition['pay_code'] = I('pay_code') : false;
         if(I('pay_code')){
             switch (I('pay_code')){
@@ -773,7 +773,26 @@ exit("请联系DC环球直供网络客服购买高级版支持此功能");
 			if($data['send_type'] == 2 && !empty($res['printhtml'])){
 				$this->assign('printhtml',$res['printhtml']);
 				return $this->fetch('print_online');
-			}
+            }
+            $orderinfo = M('Order')->field('user_id,seller_id,total_amount,applyid,apply_type,kucun_type')->find($data['order_id']);
+            if(($orderinfo['kucun_type'] > 0) && ($orderinfo['seller_id'] == 0)){
+                $orderuserlevel = M('Users')->where(['user_id'=>$orderinfo['user_id']])->value('level');
+                $level = M('user_level')->field('level')->where(['level'=>['gt',$orderuserlevel],'stock'=>['elt',$orderinfo['total_amount']]])->order('level desc')->limit(1)->find();
+                $level = $level['level'] ? $level['level'] : 0;
+                if($level > $orderuserlevel)
+                    M('Users')->where(['user_id'=>$orderinfo['user_id']])->update(['level'=>$level]);
+
+                M('Order')->where(['order_id'=>$order_id])->update(['pay_status'=>1]);
+                if($orderinfo['applyid']){
+                    $Apply = ($orderinfo['apply_type'] == 1) ? M('Apply') : M('Apply_for');
+                    $applyinfo = $Apply->find($orderinfo['applyid']);
+                    if($applyinfo['leaderid'] == $this->user_id){
+                        M('Users')->where(['user_id'=>$orderinfo['user_id']])->update(['first_leader'=>$this->user_id,'third_leader'=>$this->user_id]);
+                    }
+                }
+                
+            }
+
 			$this->success('操作成功',U('Admin/Order/delivery_info',array('order_id'=>$data['order_id'])));
 		}else{
 			$this->error($res['msg'],U('Admin/Order/delivery_info',array('order_id'=>$data['order_id'])));
