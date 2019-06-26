@@ -552,7 +552,15 @@ class Goods extends MobileBase
         }
         if ($q) $where['goods_name'] = array('like', '%' . $q . '%');
 
-        $goodsLogic = new GoodsLogic();
+        //过滤参与秒杀及团购的商品
+        $time = time();
+        $group_buy = Db::name('group_buy')->where("$time > start_time and $time < end_time and is_end = 0")->column('goods_id');
+        $flash_sale = Db::name('flash_sale')->where("$time > start_time and $time < end_time ")->column('goods_id');
+        $goods_id_arr = array_merge($group_buy,$flash_sale);
+        if($goods_id_arr){
+            $where['goods_id'] = array('not in',$goods_id_arr);
+        }
+        $goodsLogic = new GoodsLogic(); 
         $filter_goods_id = M('goods')->where($where)->cache(true)->getField("goods_id", true);
 
         // 过滤帅选的结果集里面找商品
