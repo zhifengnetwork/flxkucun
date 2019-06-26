@@ -225,11 +225,11 @@ return array(
 			array('name' => '模式管理', 'child' => array(
 				// array('name' => '分销商品', 'act' => 'goods_list', 'op' => 'Distribut'),
 				// array('name' => '分销商列表', 'act' => 'distributor_list', 'op' => 'Distribut'),
-				array('name' => '分销设置', 'act' => 'grade_list', 'op' => 'Distribut'),
-                array('name' => '代理商设置', 'act' => 'agent_grade_list', 'op' => 'Distribut'),
+				// array('name' => '分销设置', 'act' => 'grade_list', 'op' => 'Distribut'),
+                // array('name' => '代理商设置', 'act' => 'agent_grade_list', 'op' => 'Distribut'),
                 // array('name' => '等级关系', 'act' => 'tree', 'op' => 'Distribut'),
 				// array('name' => '分销设置', 'act' => 'distribut', 'op' => 'System'),
-				array('name' => '分成日志列表', 'act' => 'rebate_log', 'op' => 'Distribut'),
+				// array('name' => '分成日志列表', 'act' => 'rebate_log', 'op' => 'Distribut'),
 				array('name' => '消费日志列表', 'act' => 'consume_log', 'op' => 'Distribut'),
             )),
             
