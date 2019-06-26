@@ -549,7 +549,10 @@ class Goods extends MobileBase
             $filter_param['qtype'] = $qtype;
             $where[$qtype] = 1;
         }
-        if ($q) $where['goods_name'] = array('like', '%' . $q . '%');
+        if ($q) {
+            $where['goods_name'] = array('like', '%' . $q . '%');
+            $whereor['keywords'] = array('like', '%' . $q . '%');
+        }
 
         //过滤参与秒杀及团购的商品
         $time = time();
@@ -560,7 +563,11 @@ class Goods extends MobileBase
             $where['goods_id'] = array('not in',$goods_id_arr);
         }
         $goodsLogic = new GoodsLogic(); 
-        $filter_goods_id = M('goods')->where($where)->cache(true)->getField("goods_id", true);
+        if($q){
+            $filter_goods_id = M('goods')->where($where)->whereOr($whereor)->cache(true)->getField("goods_id", true);
+        }else{
+            $filter_goods_id = M('goods')->where($where)->cache(true)->getField("goods_id", true);
+        }
 
         // 过滤帅选的结果集里面找商品
         if ($brand_id || $price)// 品牌或者价格
