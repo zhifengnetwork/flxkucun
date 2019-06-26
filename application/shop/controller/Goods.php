@@ -591,6 +591,14 @@ class Goods extends MobileBase
             if ($filter_goods_id2)
                 $goods_images = M('goods_images')->where("goods_id", "in", implode(',', $filter_goods_id2))->cache(true)->select();
         }
+
+        $level = Db::name('users')->where('user_id',cookie('user_id'))->value('level');
+        foreach($goods_list as $key=>&$value){
+            if($level > 0){
+                $value['shop_price'] = M('goods_level_price')->where('goods_id',$value['goods_id'])->where('level',$level)->value('price');
+            }
+        }
+
         $goods_category = M('goods_category')->where('is_show=1')->cache(true)->getField('id,name,parent_id,level'); // 键值分类数组
         $this->assign('goods_list', $goods_list);
         $this->assign('goods_category', $goods_category);
