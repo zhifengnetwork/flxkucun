@@ -189,7 +189,7 @@ class Sign extends MobileBase
     private function deal_time($time)
     {
         //
-        $m=date('m',strtotime($time))-1;
+        $m=date('m',strtotime($time));
         $y=date('Y',strtotime($time));
         $d=date('d',strtotime($time));
         $newtime="$y-$m-$d";

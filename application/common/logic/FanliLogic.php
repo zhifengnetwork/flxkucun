@@ -92,7 +92,8 @@ class FanliLogic extends Model
 		        $goods = $this->goods();
 		        $commission = $goods['shop_price'] * ($distribut_level['rate1'] / 100) * $this->goodNum;
 		           //计算佣金
-		          //按上一级等级各自比例分享返利
+							//按上一级等级各自比例分享返利
+							/*
 		        $bool = M('users')->where('user_id',$user_info['user_id'])->setInc('user_money',$commission);
 		         if (($bool !== false) && $commission) {
 			        	$desc = "自购返利";
@@ -101,7 +102,7 @@ class FanliLogic extends Model
 			         } else {
 			        	return false;
 			         }
-            }
+            }*/
             // 购买商品返利给上一级
             if(empty($rebase)||$rebase[$parent_info['level']]<=0) //计算返利比列
 		       {
