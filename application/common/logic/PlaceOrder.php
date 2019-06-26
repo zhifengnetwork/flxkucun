@@ -259,6 +259,13 @@ class PlaceOrder
         $goods_ids = get_arr_column($payList,'goods_id');
         $cat_id = Db::name('goods')->where('goods_id',$goods_ids[0])->value('cat_id');
         if($cat_id==8){
+            $user_money = Db::name('users')->where('user_id',$this->user_id)->value('user_money');
+            $total_amount = $this->pay->getShippingPrice();
+            $order_amount = $total_amount;
+            if( $user_money ){
+                $order_amount = abs( sprintf("%.2f",$user_money - $order_amount ) );
+                $use_money = $total_amount - $order_amount;
+            }
             $orderData = [
                 'order_sn' => $OrderLogic->get_order_sn(), // 订单编号
                 'user_id' => $user['user_id'], // 用户id
@@ -266,15 +273,15 @@ class PlaceOrder
                 'invoice_title' => ($this->invoiceDesc != '不开发票') ?  $invoice_title : '', //'发票抬头',
                 'invoice_desc' => $this->invoiceDesc, //'发票内容',
                 'goods_price' => 0,//'商品价格',
-                'shipping_price' => $this->pay->getShippingPrice(),//'物流价格',
+                'shipping_price' => $total_amount,//'物流价格',
                 'user_money' => 0,//'使用余额',
                 'order_prom_amount' => 0,//'优惠金额',
                 'coupon_price' => 0,//'使用优惠券',
                 'integral' => $this->pay->getPayPoints(), //'使用积分',
                 'integral_money' => 0,//'使用积分抵多少钱',
                 'sign_price' => $this->pay->getSignPrice(),//'签到抵扣金额',
-                'total_amount' => $this->pay->getShippingPrice(),// 订单总额
-                'order_amount' => $this->pay->getShippingPrice(),//'应付款金额',
+                'total_amount' => $total_amount,// 订单总额
+                'order_amount' => $order_amount,//'应付款金额',
                 'add_time' => time(), // 下单时间
                 'source_uid'    => (($user['user_id'] !== $this->source_uid) ? $this->source_uid : 0)
             ];
@@ -382,6 +389,12 @@ class PlaceOrder
 
         if ($orderSaveResult === false) {
             throw new TpshopException("订单入库", 0, ['status' => -8, 'msg' => '添加订单失败', 'result' => '']);
+        }
+        
+        if($cat_id==8){
+            if( $user_money ){
+                Db::name('users')->where('user_id',$this->user_id)->setDec('user_money',$use_money);
+            }
         }
     }
 
