@@ -60,7 +60,7 @@
                         <div>{$specGoodsPrice[key_name]}</div>
                     </div>
                     <div class="price_or fr">
-                        <p class="red"><span>￥</span><span id="goods_p">{$goods['shop_price']} + {$goods['exchange_integral']}</span>积分</p>
+                        <p class="red"><span id="goods_p"> {$goods['exchange_integral']}</span>积分</p>
                         <p class="ligfill">x{$goods['goods_num']}</p>
                     </div>
                 </div>
@@ -175,7 +175,7 @@
                     </div>
                 </div>
                 <!--使用余额-s-->
-                <div class="invoice list7">
+                <!-- <div class="invoice list7">
                     <div class="myorder p">
                         <div class="content30">
                             <a class="remain" href="javascript:void(0);">
@@ -199,7 +199,7 @@
                             </a>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!--使用余额-e-->
                 <div id="balance-li" class="invoice list7">
                     <div class="myorder p">
@@ -981,7 +981,7 @@
         $("#payables").text(data.result.order_amount);// 应付
         $("#pay_points").val(data.result.pay_points);// 积分支付
         $("#goods_price").text(data.result.goods_price);// 商品总额
-        $('#goods_p').text((data.result.goods_price-data.result.integral_money) / data.result.total_num+'+'+data.result.pay_points / data.result.total_num); //积分商品价格
+        // $('#goods_p').text((data.result.goods_price-data.result.integral_money) / data.result.total_num+'+'+data.result.pay_points / data.result.total_num); //积分商品价格
     }
     //设置自提时间
     function initShopTime() {
