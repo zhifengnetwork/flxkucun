@@ -7,7 +7,7 @@ use app\common\model\CouponList;
 use app\common\model\Shop;
 use app\common\util\TpshopException;
 use app\mobile\controller\Sign;
-// use app\common\model\Goods;
+use app\common\model\Goods;
 use think\Model;
 use think\Db;
 /**
@@ -314,11 +314,16 @@ class Pay
      * @return $this
      */
     public function delivery($district_id){
-        if (isset($this->payList[0]['goods']['is_virtual']) && $this->payList[0]['goods']['is_virtual'] == 0) {
+        if( isset($this->payList[0]->is_virtual) && $this->payList[0]->is_virtual == 0 ){
             if (empty($this->shop) && empty($district_id)) {
                 throw new TpshopException("计算订单价格", 0, ['status' => -1, 'msg' => '请填写收货信息', 'result' => ['']]);
             }
         }
+        // if (isset($this->payList[0]['goods']['is_virtual']) && $this->payList[0]['goods']['is_virtual'] == 0) {
+        //     if (empty($this->shop) && empty($district_id)) {
+        //         throw new TpshopException("计算订单价格", 0, ['status' => -1, 'msg' => '请填写收货信息', 'result' => ['']]);
+        //     }
+        // }
         $GoodsLogic = new GoodsLogic();
         $checkGoodsShipping = $GoodsLogic->checkGoodsListShipping($this->payList, $district_id);
         foreach($checkGoodsShipping as $shippingKey => $shippingVal){
