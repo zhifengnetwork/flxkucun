@@ -833,7 +833,7 @@ class Goods extends Base {
         }
         ajaxReturn($html);
     }
-
+ 
     /**
      * 上传商品视频
      */

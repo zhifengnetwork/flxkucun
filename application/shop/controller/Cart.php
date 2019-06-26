@@ -304,9 +304,9 @@ class Cart extends MobileBase {
             elseif ($_REQUEST['act'] == 'kucun_submit_order') {
                 $placeOrder = new PlaceOrder($pay);
                 if($type || $applyid)
-                    $placeOrder->setUserNote($user_note)->setApplyid($applyid,$type)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
+                    $placeOrder->setUserNote($user_note)->setOrdertype()->setApplyid($applyid,$type)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
                 else
-                    $placeOrder->setUserAddress($address)->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
+                    $placeOrder->setUserAddress($address)->setOrdertype()->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
                 $cartLogic->clear();
                 $order = $placeOrder->getOrder();
 
@@ -846,7 +846,7 @@ class Cart extends MobileBase {
         $integral->setBuyNum($goods_num);
         $integral->setSpecGoodsPriceById($item_id);
         $integral->setUserAddressById($address_id);
-        // $integral->useUserMoney($user_money);
+        $integral->useUserMoney($user_money);
         try {
             $integral->checkBuy();
             $pay = $integral->pay();

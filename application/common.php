@@ -2312,7 +2312,7 @@ function user_kucun($user_id)
         ->join('users u', 'wg.user_id=u.user_id', 'LEFT')
         ->join('goods g', 'wg.goods_id=g.goods_id', 'LEFT')
         ->where(['wg.user_id' => $user_id,'g.prom_type'=>0])->select();
-echo M("warehouse_goods")->getLastSql(); exit;
+
     return $warehouse_goods_list;
 
 }

@@ -41,6 +41,7 @@ class PlaceOrder
     private $order_prom_amount = 0;
     private $applyid = 0;
     private $apply_type = 1;
+    private $kucun_type = 0;
 
     /**
      * PlaceOrder constructor.
@@ -265,15 +266,15 @@ class PlaceOrder
                 'invoice_title' => ($this->invoiceDesc != '不开发票') ?  $invoice_title : '', //'发票抬头',
                 'invoice_desc' => $this->invoiceDesc, //'发票内容',
                 'goods_price' => 0,//'商品价格',
-                'shipping_price' => 0,//'物流价格',
+                'shipping_price' => $this->pay->getShippingPrice(),//'物流价格',
                 'user_money' => 0,//'使用余额',
                 'order_prom_amount' => 0,//'优惠金额',
                 'coupon_price' => 0,//'使用优惠券',
                 'integral' => $this->pay->getPayPoints(), //'使用积分',
                 'integral_money' => 0,//'使用积分抵多少钱',
                 'sign_price' => $this->pay->getSignPrice(),//'签到抵扣金额',
-                'total_amount' => 0,// 订单总额
-                'order_amount' => 0,//'应付款金额',
+                'total_amount' => $this->pay->getShippingPrice(),// 订单总额
+                'order_amount' => $this->pay->getShippingPrice(),//'应付款金额',
                 'add_time' => time(), // 下单时间
                 'source_uid'    => (($user['user_id'] !== $this->source_uid) ? $this->source_uid : 0)
             ];
@@ -364,8 +365,9 @@ class PlaceOrder
             $orderData['prom_id'] = $this->promId;//活动id
         }     
 
-        $orderData['applyid'] = $this->applyid;
-        $orderData['apply_type'] = $this->apply_type;
+        $orderData['applyid'] = $this->applyid ? $this->applyid : 0;
+        $orderData['apply_type'] = $this->apply_type ? $this->apply_type : 0;
+        $orderData['kucun_type'] = $this->kucun_type ? $this->kucun_type : 0;
 
         if ($orderData['integral'] > 0 || $orderData['user_money'] > 0) {
             $orderData['pay_name'] = $orderData['user_money']>0 ? '余额支付' : '积分兑换';//支付方式，可能是余额支付或积分兑换，后面其他支付方式会替换
@@ -411,7 +413,7 @@ class PlaceOrder
             $orderGoodsData['goods_sn'] = $payItem['goods_sn']; // 商品货号
             $orderGoodsData['goods_num'] = $payItem['goods_num']; // 购买数量
             $orderGoodsData['final_price'] = $finalPrice; // 每件商品实际支付价格
-            $orderGoodsData['goods_price'] = $payItem['goods_price']; // 商品价               为照顾新手开发者们能看懂代码，此处每个字段加于详细注释
+            $orderGoodsData['goods_price'] = $payItem['goods_price']?$payItem['goods_price']:0; // 商品价               为照顾新手开发者们能看懂代码，此处每个字段加于详细注释
             if (!empty($payItem['spec_key'])) {
                 $orderGoodsData['spec_key'] = $payItem['spec_key']; // 商品规格
                 $orderGoodsData['spec_key_name'] = $payItem['spec_key_name']; // 商品规格名称
@@ -566,12 +568,18 @@ class PlaceOrder
         return $this;
     }
 
-    public function setApplyid($applyid,$type=1)
+    public function setOrdertype()
+    {
+        $this->kucun_type = 1;
+        return $this;
+    }  
+    
+    public function setApplyid()
     {
         $this->applyid = $applyid;
         $this->apply_type = $type;
         return $this;
-    }       
+    }      
 
     public function setInvoiceTitle($invoiceTitle)
     {
