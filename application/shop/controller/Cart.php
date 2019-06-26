@@ -836,7 +836,7 @@ class Cart extends MobileBase {
         $integral->setBuyNum($goods_num);
         $integral->setSpecGoodsPriceById($item_id);
         $integral->setUserAddressById($address_id);
-        $integral->useUserMoney($user_money);
+        // $integral->useUserMoney($user_money);
 
         try {
             $integral->checkBuy();
