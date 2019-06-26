@@ -2265,29 +2265,15 @@ class User extends MobileBase
         if (!$user_id) {
             return $this->fetch();
         }
-        //判断是否是分销商
+
         $user = M('users')->where('user_id', $user_id)->find();
-//        if (!$user && $user['is_distribut'] != 1) {
-        //            return $this->fetch();
-        //        }
 
-        //判断是否存在海报背景图
-        // if (!DB::name('poster')->where(['enabled' => 1])->find()) {
-        //     echo "<script>alert('请上传海报背景');</script>";
-        //     return $this->fetch();
-        // }
-
-        //分享数据来源
-        $shareLink = urlencode("http://{$_SERVER['HTTP_HOST']}/index.php?m=Shop&c=Index&a=index&first_leader={$user['user_id']}");
-
-        $head_pic = $user['head_pic'] ?: '';
-        if ($head_pic && strpos($head_pic, 'http') !== 0) {
-            $head_pic = '.' . $head_pic;
-        }
-
+        $logic = new ShareLogic();
+        $url = $logic->get_ticket_url($user_id);
+    
         $this->assign('user', $user);
         $this->assign('head_pic', $head_pic);
-        $this->assign('ShareLink', $shareLink);
+        $this->assign('url', $url);
         return $this->fetch();
     }
 
