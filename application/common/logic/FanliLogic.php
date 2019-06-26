@@ -167,7 +167,7 @@ class FanliLogic extends Model
 	         }
 	        }*/
 		
-	    }
+	    // }
 
 	}
 	//会员升级
