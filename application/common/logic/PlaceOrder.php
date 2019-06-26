@@ -41,7 +41,7 @@ class PlaceOrder
     private $order_prom_amount = 0;
     private $applyid = 0;
     private $apply_type = 1;
-    private kucun_type = 0;
+    private $kucun_type = 0;
 
     /**
      * PlaceOrder constructor.
