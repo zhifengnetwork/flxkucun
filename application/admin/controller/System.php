@@ -26,7 +26,7 @@ class System extends Base
             // 'oss'       => '对象存储',
             'express'	=> '物流设置',
             // 'poster'	=> '海报设置'
-			'bonus'		=> '奖金池设置'
+			// 'bonus'		=> '奖金池设置'
         ];		
 		$this->assign('group_list',$group_list);
 		$inc_type =  I('get.inc_type','shop_info');
