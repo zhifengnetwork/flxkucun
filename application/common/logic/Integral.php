@@ -155,25 +155,25 @@ class Integral
         if (empty($this->userAddress)) {
             throw new TpshopException('积分兑换', 0,['status' => -3, 'msg' => '请先填写收货人信息', 'result' => '']);
         }
-        echo 1;
         $integralGoods = $this->goods;
-        echo 2;die;
         $total_integral = $this->goods['exchange_integral'] * $this->buyNum;//需要兑换的总积分
         if (empty($this->specGoodsPrice)) {
             //没有规格
             $integralGoods['goods_price'] = getLevelPrice($this->goods['goods_id'],$this->user['level']);
             $integralGoods['sku'] = $this->goods['sku'];
+            echo 1;
         } else {
             //有规格
             $integralGoods['goods_price'] = $this->specGoodsPrice['price'];
             $integralGoods['spec_key'] = $this->specGoodsPrice['key'];// 商品规格
             $integralGoods['spec_key_name'] = $this->specGoodsPrice['key_name'];// 商品规格名称
             $integralGoods['sku'] = $this->specGoodsPrice['sku'];
+            echo 2;
         }
         $integralGoods['goods_num'] = $this->buyNum;
         $goodsList[0] = $integralGoods;
         $pay = new Pay();
-
+        echo 3;die;
         $pay->setUserId($this->user['user_id'])->setShopById($this->shop['shop_id'])->payGoodsList($goodsList)
             ->delivery($this->userAddress['district'])->usePayPoints($total_integral, true)->useUserMoney($this->userMoney);
         return $pay;
