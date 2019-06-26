@@ -1164,13 +1164,55 @@ function rechargevip_rebate($order)
 function update_pay_status($order_sn, $ext = array())
 {
     $time = time();
+    if($ext['attach'] === 'pay_shipping'){ //订单支付运费
+        $orderinfo = M('Order')->field('order_id,seller_id,user_id,shipping_price,total_amount,applyid,apply_type')->where(['order_sn'=>$order_sn])->find();
+        $order_id = $orderinfo['order_id'];
+        $orderLogic = new \app\common\logic\OrderLogic();
+        $action = 'confirm';
+
+        $order = new \app\common\model\Order();
+        $goods = $order::get($order_id);
+        if($goods['order_status'] != 0)return true;
+
+        $convert_action= C('CONVERT_ACTION')["$action"];
+        $commonOrder = new \app\common\logic\Order();
+        $commonOrder->setOrderById($order_id);
+        $res =  $commonOrder->orderActionLog('上级确认发货',$convert_action,$orderinfo['seller_id']);
+        
+        $orderLogic->setUserId($orderinfo['seller_id']);
+        $Result = $orderLogic->superiorProcessOrder($order_id, $goods['user_id'], $action,array('note'=>I('note'),'admin_id'=>0));
+        if($res !== false && $Result !== false){
+            $orderuserlevel = M('Users')->where(['user_id'=>$orderinfo['user_id']])->value('level');
+            $level = M('user_level')->field('level')->where(['level'=>['gt',$orderuserlevel],'stock'=>['elt',$orderinfo['total_amount']]])->order('level desc')->limit(1)->find();
+            $level = $level['level'] ? $level['level'] : 0;
+            if($level > $orderuserlevel)
+                M('Users')->where(['user_id'=>$orderinfo['user_id']])->update(['level'=>$level]);
+            
+            M('Order')->where(['order_id'=>$order_id])->update(['pay_status'=>1,'pay_shipping_status'=>1]);
+			if($orderinfo['applyid']){
+                $Apply = ($orderinfo['apply_type'] == 1) ? M('Apply') : M('Apply_for');
+				$applyinfo = $Apply->find($orderinfo['applyid']);
+				if($applyinfo['leaderid'] == $orderinfo['seller_id']){
+					M('Users')->where(['user_id'=>$orderinfo['user_id']])->update(['first_leader'=>$orderinfo['seller_id'],'third_leader'=>$orderinfo['seller_id']]);
+				}
+			}
+
+            if(!M('account_log')->where(['user_id'=>$orderinfo['seller_id'],'order_sn'=>$order_sn,'order_id'=>$order_id,'states'=>102])->count())
+                M('account_log')->add(['user_id'=>$orderinfo['seller_id'],'user_money'=>'-'.$orderinfo['shipping_price'],'change_time'=>time(),'desc'=>'订单支付运费','order_sn'=>$order_sn,'order_id'=>$order_id,'states'=>102]);            
+              
+            return true;
+        }else{
+            return false;
+        }
+   
+    }
     if (stripos($order_sn, 'recharge') !== false) {
         //用户在线充值
         $order = M('recharge')->where(['order_sn' => $order_sn, 'pay_status' => 0])->find();
         if (!$order) {
             return false;
         }
-// 看看有没已经处理过这笔订单  支付宝返回不重复处理操作
+        // 看看有没已经处理过这笔订单  支付宝返回不重复处理操作
         M('recharge')->where("order_sn", $order_sn)->save(array('pay_status' => 1, 'pay_time' => $time));
 
         $msg = '会员在线充值';

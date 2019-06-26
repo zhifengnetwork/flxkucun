@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>邀请代理</title>
+    <title>{$str}代理</title>
     <script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
 	<link rel="stylesheet" href="__STATIC__/css/public_lb/public.css" />
 	<link rel="stylesheet" type="text/css" href="__STATIC__/css/user_zp/invitation_agent.css"/>
@@ -16,14 +16,15 @@
             <p class="lb_headWrap_return" data-num="1" onclick="returnFun()">
                 <img class="lb_headWrap_return_img" src="__STATIC__/images/public_lb/returnImg666_lb.png"/>
             </p>
-            <span>邀请代理</span>
+            <span>{$str}代理</span>
         </div>
         <!--内容-->
         <div class="content">
         	<div class="block_wrap">
 				<input type="hidden" id='applyid' name='applyid' value={$applyinfo.id} />
 				<input type="hidden" id='type' name='type' value={$type} />
-        		<!--头像头部区-->
+				<!--头像头部区-->
+				<if condition="$type eq 1">
         		<div class="head">
         			<!--头像-->
         			<div class="photo">
@@ -31,7 +32,8 @@
         			</div>
         			<p class="name">{$applyinfo.leaderidinfo.nickname}-{$applyinfo.leaderidinfo.mobile}</p>
         			<p class="over">邀请您成为凡露希代理</p>
-        		</div>
+				</div>
+				</if>
         		<!--填写内容区-->
         		<div class="write_cont">
         			<!--代理级别-->
@@ -158,6 +160,10 @@
 						layer.open({content: data.msg, time: 2000});
 						return;
 					}else{
+						if(data.result){
+							window.location.href = data.result;
+							return;
+						}
 						layer.open({content: data.msg, time: 2000,end:function(){ window.location.href = '/shop/User/index'; }});
 						
 					}

@@ -170,7 +170,7 @@
         </dd>
       </dl> 
      
-      <if condition="$info.leaderid eq 0">         
+      <if condition="$info.leaderid eq 0 and $info.status eq 0">         
       <div class="bot">
 		<a onclick=refused() class="ncap-btn-big ncap-btn-green" href="JavaScript:void(0);" style='background:#e30045;border:0;' >审核不通过</a>
 		&nbsp;&nbsp;&nbsp;&nbsp;

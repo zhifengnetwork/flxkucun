@@ -47,6 +47,9 @@
                 </video>
                 </li>-->
                 <!--图片-s-->
+                <if condition="$goods.is_video eq 1">
+                    <li><video src="{$goods.video}" controls="controls" controlslist="nodownload" style="width: 100%;height: 100%;"></video></li>
+                </if>
                 <foreach name="goods['goods_images']" item="pic">
                     <li><a href="javascript:void(0)"><img src="{$pic[image_url]}" alt=""></a></li>
                 </foreach>
@@ -658,7 +661,6 @@
         })
         //加入购物车
         $(document).on('click', '#join_cart', function () {
-
             var goods_id = $("input[name='goods_id']").val();
             var store_count = $("input[name='store_count']").attr('value');// 商品原始库存
             var goods_num = parseInt($("input[name='goods_num']").val());
@@ -667,7 +669,6 @@
             if ($(this).hasClass('buy_bt_disable')) {
                 return;
             }
-
             // 免费领取
             if(is_sign != 0 ){
                 if (goods_num <= store_count) {
@@ -675,11 +676,10 @@
                     return;
                 }
             }
-            
             // else{
             //     is_superior(goods_id,goods_num);
             // }
-
+            
             var goods_id = $("input[name='goods_id']").val();
             AjaxAddCart(goods_id, 1);
 
@@ -1129,7 +1129,8 @@
         }
         var integral = round(goods_price - (exchange_integral / point_rate),2);
         if(exchange_integral > 0){
-            $("#goods_price").html(integral + '+' +exchange_integral + '积分'); //变动价格显示
+            // $("#goods_price").html(integral + '+' +exchange_integral + '积分'); //变动价格显示
+            $("#goods_price").html(exchange_integral + '积分'); //变动价格显示
             // $("#price").html("<em>￥</em>" + integral + '+' +exchange_integral + '积分'); //积分显示
             $("#price").html("<em></em>" + exchange_integral + '积分'); //积分显示
         }else{

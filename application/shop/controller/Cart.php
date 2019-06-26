@@ -124,6 +124,7 @@ class Cart extends MobileBase {
         $item_id = input("item_id/d"); // 商品规格id
         $action = input("action/s"); // 行为
         $type = input("type/d",1);
+        $applyid = input("applyid/d",0);
         if ($this->user_id == 0){
             $this->error('请先登录', U('Shop/User/login'));
         }
@@ -196,9 +197,17 @@ class Cart extends MobileBase {
         $levelinfo = M('user_level')->field('stock,replenish')->where(['level'=>$this->user['level']])->find();
         if(($type == 1) && ($cartPriceInfo['total_fee'] < $levelinfo['replenish']) && ($action=="kucun_buy"))$this->error('补货金额必须达到'.$levelinfo['replenish'].'元','/shop/User/superior_store/type/1');
 
+        if(!$type && $applyid){
+            $applyinfo = M('Apply')->find($applyid);	
+            if($applyinfo['uid'] != $this->user_id)$this->error('您无权限进入此仓库');
+            $levelinfo = M('user_level')->field('stock')->where(['level'=>$applyinfo['level']])->find();
+            if(($cartPriceInfo['total_fee'] < $levelinfo['stock']) && ($action=="kucun_buy"))$this->error('首次进货金额必须达到'.$levelinfo['stock'].'元','/shop/User/user_store/applyid/'.$applyid);
+        }        
+
         $cartList = array_merge($cartList,$cartPriceInfo);
         $this->assign('type', $type);
         $this->assign('third_leader', $this->user['third_leader']);
+        $this->assign('applyid', $applyid);
         $this->assign('cartGoodsTotalNum', $cartGoodsTotalNum);
         $this->assign('cartList', $cartList['cartList']); // 购物车的商品
         $this->assign('cartPriceInfo', $cartPriceInfo);//商品优惠总价
@@ -239,6 +248,7 @@ class Cart extends MobileBase {
         $data = input('request.');
         $action_type =input('action_type');
         $type = input('type/d',1);
+        $applyid = input('applyid/d',0);
         $seller_id=input('seller_id');
        // echo $seller_id;exit;
         $cart_validate = Loader::validate('Cart');
@@ -277,7 +287,7 @@ class Cart extends MobileBase {
                 $cartLogic->checkStockCartList($userCartList);
                 $pay->payCart($userCartList);
             }
-            if($type == 1)
+            if($type || $applyid)
                 $pay->setUserId($this->user_id)->useUserMoney($user_money);
             else
                 $pay->setUserId($this->user_id)->delivery($address['district'])->useUserMoney($user_money);
@@ -293,10 +303,10 @@ class Cart extends MobileBase {
             }
             elseif ($_REQUEST['act'] == 'kucun_submit_order') {
                 $placeOrder = new PlaceOrder($pay);
-                if($type == 1)
-                    $placeOrder->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
+                if($type || $applyid)
+                    $placeOrder->setUserNote($user_note)->setOrdertype()->setApplyid($applyid,$type)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
                 else
-                    $placeOrder->setUserAddress($address)->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
+                    $placeOrder->setUserAddress($address)->setOrdertype()->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
                 $cartLogic->clear();
                 $order = $placeOrder->getOrder();
 
@@ -305,7 +315,7 @@ class Cart extends MobileBase {
                     if($msid)M('user_message')->add(['user_id'=>$seller_id,'message_id'=>$msid]);
                 }
 
-                $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn'],'third_leader'=>$this->user['third_leader']]);
+                $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn'],'third_leader'=>$this->user['third_leader'],'applyid'=>$applyid]);
             }
 
             $pricedata = $pay->toArray(); 
@@ -421,6 +431,78 @@ class Cart extends MobileBase {
         $this->assign('pay_date',date('Y-m-d', strtotime("+1 day")));
         return $this->fetch();
     }
+
+    public function PayShipping(){
+        $orderLogic = new \app\common\logic\OrderLogic();
+        $action = 'confirm';
+        $order_id = I('get.oid/d',0);
+
+        $order = new \app\common\model\Order();
+        $goods = $order::get($order_id);
+        if($goods['order_status'] != 0)$this->error('请勿重复操作！');
+
+        foreach($goods['order_goods'] as $value){
+            $num = user_kucun_goods($this->user_id,$value['goods_id']);
+            if ($num['nums'] < $value['goods_num'] && $action != 'invalid'){
+                $this->error('您的库存不足!');
+            }
+        }
+
+        $order = M('Order')->field('order_id,seller_id,order_sn,shipping_price,prom_type,pay_shipping_status')->find($order_id);
+        if(!$order || ($order['seller_id'] != $this->user_id))
+            $this->error('参数错误！');
+        if($order['pay_shipping_status'] !== 0)
+            $this->error('此订单已支付过运费啦！');
+
+        $payment_where['type'] = 'payment';
+        $no_cod_order_prom_type = [4,5];//预售订单，虚拟订单不支持货到付款
+        //预售和抢购暂不支持货到付款
+        $orderGoodsPromType = M('order_goods')->where(['order_id'=>$order['order_id']])->getField('prom_type',true);
+        if(strstr($_SERVER['HTTP_USER_AGENT'],'MicroMessenger')){
+            //微信浏览器
+            if(in_array($order['prom_type'],$no_cod_order_prom_type) || in_array(1,$orderGoodsPromType) || $order['shop_id'] > 0){
+                //预售订单和抢购不支持货到付款
+                $payment_where['code'] = 'weixin';
+            }else{
+                $payment_where['code'] = array('in',array('weixin','cod'));
+            }
+        }else{
+            if(in_array($order['prom_type'],$no_cod_order_prom_type) || in_array(1,$orderGoodsPromType) || $order['shop_id'] > 0){
+                //预售订单和抢购不支持货到付款
+                $payment_where['code'] = array('neq','cod');
+            }
+            $payment_where['scene'] = array('in',array('0','1'));
+        }
+        $payment_where['status'] = 1;  
+        
+        if($order['prom_type'] == 4 || in_array(1,$orderGoodsPromType)){
+            $payment_where['code'] = array('neq','cod');
+        }
+        $paymentList = M('Plugin')->where($payment_where)->select();
+        $paymentList = convert_arr_key($paymentList, 'code');        
+
+        foreach($paymentList as $key => $val)
+        {
+            $val['config_value'] = unserialize($val['config_value']);
+            if($val['config_value']['is_bank'] == 2)
+            {
+                $bankCodeList[$val['code']] = unserialize($val['bank_code']);
+            }
+            if($key != 'cod' && (($key == 'weixin' && !is_weixin()) // 不是微信app,就不能微信付，只能weixinH5付,用于手机浏览器
+                || ($key != 'weixin' && is_weixin()) //微信app上浏览，只能微信
+                || ($key != 'alipayMobile' && is_alipay()))){ //在支付宝APP上浏览，只能用支付宝支付
+                unset($paymentList[$key]);
+            }
+        }
+
+        $bank_img = include APP_PATH.'home/bank.php'; // 银行对应图片
+        $this->assign('paymentList',$paymentList);
+        $this->assign('bank_img',$bank_img);
+        $this->assign('order',$order);
+        $this->assign('bankCodeList',$bankCodeList);
+        $this->assign('pay_date',date('Y-m-d', strtotime("+1 day")));
+        return $this->fetch();        
+    }    
 
     /*
      * 订单支付页面 (上传凭证)
@@ -765,7 +847,6 @@ class Cart extends MobileBase {
         $integral->setSpecGoodsPriceById($item_id);
         $integral->setUserAddressById($address_id);
         $integral->useUserMoney($user_money);
-
         try {
             $integral->checkBuy();
             $pay = $integral->pay();
@@ -893,4 +974,5 @@ class Cart extends MobileBase {
         $this->assign('cartTotalPrice', $cartTotalPrice);
         return $this->fetch();
     }
+    
 }

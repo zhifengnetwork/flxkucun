@@ -349,7 +349,7 @@ class Cart extends MobileBase {
         $item_id = I("item_id/d"); // 商品规格id
         if(empty($goods_id)){
             $this->ajaxReturn(['status'=>-1,'msg'=>'请选择要购买的商品','result'=>'']);
-        }
+        } 
         if(empty($goods_num)){
             $this->ajaxReturn(['status'=>-1,'msg'=>'购买商品数量不能为0','result'=>'']);
         }
@@ -357,7 +357,7 @@ class Cart extends MobileBase {
         $prom_type = M('goods')->where(['goods_id'=>$goods_id])->value('prom_type');
         if($prom_type == 1)$this->ajaxReturn(['status'=>-1,'msg'=>'秒杀商品不能加入购物车','result'=>'']);
         if($prom_type == 2)$this->ajaxReturn(['status'=>-1,'msg'=>'团购商品不能加入购物车','result'=>'']);
-
+ 
         $cartLogic = new CartLogic();
         $cartLogic->setUserId($this->user_id);
         $cartLogic->setGoodsModel($goods_id);

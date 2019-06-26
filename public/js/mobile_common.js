@@ -12,7 +12,8 @@ function AjaxAddCart(goods_id, num) {
 		data = form.serialize();
 	} else {
 		data = {goods_id: goods_id, goods_num: num};
-	}
+	}	
+	
 	$.ajax({
 		type: "POST",
 		url: "/index.php?m=Mobile&c=Cart&a=add",
@@ -20,7 +21,9 @@ function AjaxAddCart(goods_id, num) {
 		dataType: 'json',
 		success: function (data) {
 			// 加入购物车后再跳转到 购物车页面
+		
 			if (form.length > 0) {
+			
 				if (data.status == '-101') {
 					layer.open({
 						content: data.msg,
@@ -38,13 +41,17 @@ function AjaxAddCart(goods_id, num) {
 					layer.open({content: data.msg, time: 2});
 					return false;
 				}
+				
 				var cart_num = parseInt(cart_quantity.html()) + parseInt($('#number').val());
 				cart_quantity.html(cart_num);
-				var addpop ='<div class="addpop-warp"><img src="/public/images/cartAdd.png"style="width: 2rem;margin-bottom: .63rem;" /><div style="color: #fff;font-size: .58rem;text-align: center;width: 100%;height:  .64rem;line-height: .64rem" >加入购物车成功</div></div>';
-				layer.open({
-					content: addpop,
-					shadeClose: true,
-				});
+				
+				// var addpop="'<div class='addpop-warp'>"+"<img src='/public/images/cartAdd.png' style='width: 2rem;margin-bottom: .63rem;' />" +"<div style='color: #fff;font-size: .58rem;text-align: center;width: 100%;height: .64rem;line-height: .64rem' >" +"加入购物车成功" +"</div></div>"
+				// layer.open({
+				// 	content: addpop,
+				// 	shadeClose: true,
+				// });
+			
+				layer.open({content:'加入购物车成功', time: 2});
 
                 $('.xxgro').click();
                 setTimeout(function () {

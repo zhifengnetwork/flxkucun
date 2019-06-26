@@ -24,14 +24,14 @@
 
   // 计算月天数长度
   DateMarker.prototype.getMonthDaysLength = function(date){
-    return new Date( date.year, date.month+1, 0 ).getDate();
+    return new Date( date.year, date.month, 0 ).getDate();
   };
 
   // 获取格式化的日期格式
   DateMarker.prototype.getDate = function(){
     return {
       year: this.INITDATE.getFullYear(),
-      month: this.INITDATE.getMonth()
+      month: this.INITDATE.getMonth() + 1
     }
   };
 
@@ -79,7 +79,7 @@
   DateMarker.prototype.buildMonthSelect = function(){
     var month = '<select class="date-marker-month">';
     $(this.def.months).each(function(i,n){
-      month += '<option value="'+i+'">'+n+'</option>'
+      month += '<option value="'+(i+1)+'">'+n+'</option>'
     });
     month += '</select>';
     return month;
@@ -185,7 +185,7 @@
 					}
 				}
 			}
-			console.log(signData);
+			//console.log(signData);
   	}
   	
   	

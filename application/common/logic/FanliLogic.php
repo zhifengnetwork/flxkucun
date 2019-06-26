@@ -56,118 +56,62 @@ class FanliLogic extends Model
 	{
 		$price = M('goods')->where(['goods_id'=>$this->goodId])->value('shop_price');
 		//判断商品是否是活动商品
-		$good = M('goods')
-				->where('goods_id', $this->goodId)
-				->field('is_distribut,is_agent')
-                ->find();
-           //获取每个产品返利数据
-         $rebase = $this->getconfing();
-        //查询会员当前等级
+		$good = M('goods')->where('goods_id', $this->goodId)->field('is_distribut,is_agent')->find();
+		//获取每个产品返利数据
+		$rebase = $this->getconfing();
+		//查询会员当前等级
 		$user_info = M('users')->where('user_id',$this->userId)->field('first_leader,level,user_id')->find();
 		//查询上一级信息
 		$parent_info = M('users')->where('user_id',$user_info['first_leader'])->field('level')->find();
-        //判断是否特殊产品成为店主，则不走返利流程
-        //用户购买后检查升级
+		//判断是否特殊产品成为店主，则不走返利流程
+		//用户购买后检查升级
 		$this->checkuserlevel($this->userId,$this->orderId);
 		$pro_num = $this->getproductnum();
 		if($this->prom_type == 1)$this->flash_sale_commission(); //秒杀返利
-		//echo $this->goodId.'-'.$this->tgoodsid.'-'.$user_info['level'];exit;
-        if($this->goodId==$this->tgoodsid )//是否特殊产品
-        {
-        	 
-          $this->addhostmoney($user_info['user_id'],$parent_info);//店主推荐店主
-             $this->upzdmoney($user_info['first_leader']);//大区，董事无限代
-             //$this->pingji($user_info['first_leader']);//评级奖
-          //$this->ppInvitation($user_info['first_leader']);//总监下线推荐店主金额
-          //$this->ccInvitation($user_info['first_leader']);//大区下线推荐店主金额
-        }
-        else
-        {
-        	//不是特产品按照佣金比例反给用户 ，自购返利
+		if($this->goodId==$this->tgoodsid )//是否特殊产品
+		{
+			$this->addhostmoney($user_info['user_id'],$parent_info);//店主推荐店主
+			$this->upzdmoney($user_info['first_leader']);//大区，董事无限代
+		}
+		else
+    {
+      //不是特产品按照佣金比例反给用户 ，自购返利
 
-            if($user_info['level']>1)
-            {
-               $distribut_level = M('distribut_level')->where('level_id',1)->field('rate1')->find();
-                 //计算返利金额
-		        $goods = $this->goods();
-		        $commission = $goods['shop_price'] * ($distribut_level['rate1'] / 100) * $this->goodNum;
-		           //计算佣金
-		          //按上一级等级各自比例分享返利
-		        $bool = M('users')->where('user_id',$user_info['user_id'])->setInc('user_money',$commission);
-		         if (($bool !== false) && $commission) {
-			        	$desc = "自购返利";
-			        	$log = $this->writeLog($user_info['user_id'],$commission,$desc,7); 
-			        	//return true;
-			         } else {
-			        	return false;
-			         }
-            }
-            // 购买商品返利给上一级
-            if(empty($rebase)||$rebase[$parent_info['level']]<=0) //计算返利比列
-		       {
-                   $fanli = M('user_level')->where('level',$parent_info['level'])->field('rate')->find();
-		       }else
-		       {
-		           $fanli['rate'] = $rebase[$parent_info['level']];
-		       }
-	          //查询会员等级返利数据
-		       if($parent_info['level']!=1 && !empty($parent_info)){ //上一级是普通会员则不反钱
-		         //计算返利金额
-		          $goods = $this->goods();
-		          $commission = $goods['shop_price'] * ($fanli['rate'] / 100) * $this->goodNum;
-		           //计算佣金
-		          //按上一级等级各自比例分享返利
-		          $bool = M('users')->where('user_id',$user_info['first_leader'])->setInc('user_money',$commission);
-			      if (($bool !== false) && $commission) {
-			        	$desc = "分享返利";
-			        	$log = $this->writeLog($user_info['first_leader'],$commission,$desc,1); //写入日志
-			            //检查返利管理津贴
-			          //  $this->jintie($user_info['first_leader'],$commission);
-			        	//return true;
-			         } else {
-			        	return false;
-			         }
-			     }else{
-			     	return false;
-			     }
-        	 
-
-            /*
-		    elseif($user_info['level']>=4) //是复购
-		    {
-	            if(empty($rebase)||$rebase[$user_info['level']]<=0) //
-		         {
-                    $fanli = M('user_level')->where('level',$user_info['level'])->field('rate')->find();
-                    
-		         }else
-		         {
-		          	 $fanli['rate'] = $rebase[$user_info['level']];
-		          	 
-		         }
-	          if(!empty($fanli['rate']))
-	          {
-
-
-	          //计算返利金额
-	          $goods = $this->goods();
-	          $commission = $goods['shop_price'] * ($fanli['rate'] / 100) * $this->goodNum; //计算佣金
-	          //按上一级等级各自比例分享返利
-	          $bool = M('users')->where('user_id',$user_info['user_id'])->setInc('user_money',$commission);
-
-	         if ($bool !== false) {
-	        	$desc = "复购返利";
-	        	$log = $this->writeLog($user_info['user_id'],$commission,$desc,1); //写入日志
-	          }
-	      
-
-	        	//return true;
-	         } else {
-	        	return false;
-	         }
-	        }*/
-		
-	    }
-
+			if ($user_info['level']>1) {
+					$distribut_level = M('distribut_level')->where('level_id', 1)->field('rate1')->find();
+					//计算返利金额
+					$goods = $this->goods();
+					$commission = $goods['shop_price'] * ($distribut_level['rate1'] / 100) * $this->goodNum;
+					//计算佣金
+					//按上一级等级各自比例分享返利
+			}
+      // 购买商品返利给上一级
+			if (empty($rebase)||$rebase[$parent_info['level']]<=0) { //计算返利比列
+							$fanli = M('user_level')->where('level', $parent_info['level'])->field('rate')->find();
+			} else {
+					$fanli['rate'] = $rebase[$parent_info['level']];
+			}
+			//查询会员等级返利数据
+			if ($parent_info['level']!=1 && !empty($parent_info)) { //上一级是普通会员则不反钱
+				//计算返利金额
+				$goods = $this->goods();
+					$commission = $goods['shop_price'] * ($fanli['rate'] / 100) * $this->goodNum;
+					//计算佣金
+					//按上一级等级各自比例分享返利
+					$bool = M('users')->where('user_id', $user_info['first_leader'])->setInc('user_money', $commission);
+					if (($bool !== false) && $commission) {
+							$desc = "分享返利";
+							$log = $this->writeLog($user_info['first_leader'], $commission, $desc, 1); //写入日志
+							//检查返利管理津贴
+						//  $this->jintie($user_info['first_leader'],$commission);
+							//return true;
+					} else {
+							return false;
+					}
+			} else {
+					return false;
+			}     
+		}
 	}
 	//会员升级
 	public function checkuserlevel($user_id,$order_id)

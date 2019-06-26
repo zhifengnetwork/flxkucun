@@ -6,7 +6,7 @@ namespace app\common\logic;
 use app\common\model\Combination;
 use app\common\model\CombinationGoods;
 use app\common\model\SpecGoodsPrice;
-use app\common\model\Cart;
+use app\common\model\Cart; 
 use app\common\model\Goods;
 use app\common\model\Users;
 use app\common\util\TpshopException;
@@ -163,7 +163,7 @@ class CartLogic extends Model
                 throw new TpshopException('立即购买',0,['status' => 0, 'msg' => '您已超过该商品的限制购买数', 'result' => '']);
             }
         }
-
+        $this->goods['shop_price'] = $this->goods['shop_price']?$this->goods['shop_price']:$this->goods['market_price'];
         $buyGoods = [
             'user_id' => $this->user_id,
             'session_id' => $this->session_id,
@@ -245,7 +245,7 @@ class CartLogic extends Model
         $userCartCount = Db::name('cart')->where(['user_id' => $this->user_id, 'session_id' => $this->session_id])->count();//获取用户购物车的商品有多少种
         if ($userCartCount >= 20) {
             throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '购物车最多只能放20种商品']);
-        }
+        } 
         $specGoodsPriceCount = Db::name('SpecGoodsPrice')->where("goods_id", $this->goods['goods_id'])->count('item_id');
         if (empty($this->specGoodsPrice) && !empty($specGoodsPriceCount)) {
             throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '必须传递商品规格', 'result' => ['url' => U('Goods/goodsInfo', ['id' => $this->goods['goods_id']], '', true)]]);
@@ -298,12 +298,14 @@ class CartLogic extends Model
         if (!$this->user_id) {
             $cart_whereCount['session_id'] = $this->session_id;
         }
+       
         $userCartGoodsSum = db('cart')->where($cart_whereCount)->sum('goods_num');
         //判断库存
         $userWantGoodsNum = $this->goodsBuyNum + $userCartGoodsSum;//本次要购买的数量加上购物车的本身存在的数量
         if ($userWantGoodsNum > 200) {
             $userWantGoodsNum = 200;
         }
+        
         if ($userWantGoodsNum > $store_count) {
             $userCartGoodsNum = empty($userCartGoodsSum) ? 0 : $userCartGoodsSum;///获取用户购物车的抢购商品数量
             throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '商品库存不足，剩余' . $store_count . ',当前购物车已有' . $userCartGoodsNum . '件']);
@@ -313,12 +315,14 @@ class CartLogic extends Model
         if ($userCartGoods) {
             $userCartGoods['goods_num'] = $userCartGoodsSum?$userCartGoodsSum:0;
             $userWantGoodsNum = $this->goodsBuyNum + $userCartGoods['goods_num'];//本次要购买的数量加上购物车的本身存在的数量
-            //如果有阶梯价格,就是用阶梯价格
+            //如果有阶梯价格,就是用阶梯价格 
+          
             if (!empty($this->goods['price_ladder'])) {
                 $goodsLogic = new GoodsLogic();
                 $price_ladder = $this->goods['price_ladder'];
                 $price = $goodsLogic->getGoodsPriceByLadder($userWantGoodsNum, $this->goods['shop_price'], $price_ladder);
             }
+           
             if ($userWantGoodsNum > 200) {
                 $userWantGoodsNum = 200;
             }
@@ -332,13 +336,14 @@ class CartLogic extends Model
             if ($this->goodsBuyNum > $store_count) {
                 throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '商品库存不足，剩余' . $this->goods['store_count']]);
             }
-
+          
             //如果有阶梯价格,就是用阶梯价格
             if (!empty($this->goods['price_ladder'])) {
                 $goodsLogic = new GoodsLogic();
                 $price_ladder = $this->goods['price_ladder'];
                 $price = $goodsLogic->getGoodsPriceByLadder($this->goodsBuyNum, $this->goods['shop_price'], $price_ladder);
             }
+           
             $cartAddData = array(
                 'user_id' => $this->user_id,   // 用户id
                 'session_id' => $this->session_id,   // sessionid
@@ -353,14 +358,22 @@ class CartLogic extends Model
                 'prom_type' => 0,   // 0 普通订单,1 限时抢购, 2 团购 , 3 促销优惠
                 'prom_id' => 0,   // 活动id
             );
+          
             if ($this->specGoodsPrice) {
                 $cartAddData['item_id'] = $this->specGoodsPrice['item_id'];
                 $cartAddData['spec_key'] = $this->specGoodsPrice['key'];
                 $cartAddData['spec_key_name'] = $this->specGoodsPrice['key_name']; // 规格 key_name
                 $cartAddData['sku'] = $this->specGoodsPrice['sku']; //商品条形码
             }
+
+            //如果goods_price没有价格默认为0
+            if(!$cartAddData['goods_price']){
+                $cartAddData['goods_price']=0;
+            }
             $cartResult = Db::name('Cart')->insertGetId($cartAddData);
+            
         }
+       
         if ($cartResult === false) {
             throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '加入购物车失败']);
         }

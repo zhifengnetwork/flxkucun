@@ -60,7 +60,7 @@
                         <div>{$specGoodsPrice[key_name]}</div>
                     </div>
                     <div class="price_or fr">
-                        <p class="red"><span>￥</span><span id="goods_p">{$goods['shop_price']} + {$goods['exchange_integral']}</span>积分</p>
+                        <p class="red"><span id="goods_p"> {$goods['exchange_integral']}</span>积分</p>
                         <p class="ligfill">x{$goods['goods_num']}</p>
                     </div>
                 </div>
@@ -243,22 +243,22 @@
         <div class="information_dr ma-to-20">
             <div class="maleri30">
                 <div class="xx-list">
-                    <p class="p">
+                    <!-- <p class="p">
                         <span class="fl">商品金额：</span>
                         <span class="fr red"><span>￥</span><span id="goods_price">0</span>元</span>
-                    </p>
+                    </p> -->
                     <p class="p">
                         <span class="fl">配送费用：</span>
                         <span class="fr red"><span>￥</span><span id="postFee">0</span>元</span>
                     </p>
-                    <p class="p">
+                    <!-- <p class="p">
                         <span class="fl">使用积分：</span>
                         <span class="fr red"><span>-￥</span><span id="pointsFee">0</span>元</span>
                     </p>
                     <p class="p">
                         <span class="fl">使用余额：</span>
                         <span class="fr red"><span>-￥</span><span id="balance">0</span>元</span>
-                    </p>
+                    </p> -->
                 </div>
             </div>
         </div>
@@ -270,7 +270,8 @@
                 <a href="javascript:void(0)" onclick="submit_order()">提交订单</a>
             </div>
             <div class="fl">
-                <p><span class="pmo">应付金额：</span>￥<span id="payables"></span><span></span></p>
+                <p><span class="pmo">应付金额：</span>￥<span id="payables"></span><span>元 + {:$goods['exchange_integral'] * $goods['goods_num']} 积分</span></p>
+                <!-- <p><span class="pmo">应付积分：</span><span>{:$goods['exchange_integral'] * $goods['goods_num']}</span></p> -->
             </div>
         </div>
         <!--提交订单-e-->
@@ -978,10 +979,11 @@
         $("#balance").text(data.result.user_money);// 余额
         $("#pointsFee").text(Math.round(data.result.integral_money,2));// 积分支付
         $("#postFee").text(data.result.shipping_price); // 物流费
-        $("#payables").text(data.result.order_amount);// 应付
+        $("#payables").text(data.result.shipping_price); // 应付(积分兑换商品只付邮费)
+        // $("#payables").text(data.result.order_amount);// 应付
         $("#pay_points").val(data.result.pay_points);// 积分支付
         $("#goods_price").text(data.result.goods_price);// 商品总额
-        $('#goods_p').text((data.result.goods_price-data.result.integral_money) / data.result.total_num+'+'+data.result.pay_points / data.result.total_num); //积分商品价格
+        // $('#goods_p').text((data.result.goods_price-data.result.integral_money) / data.result.total_num+'+'+data.result.pay_points / data.result.total_num); //积分商品价格
     }
     //设置自提时间
     function initShopTime() {

@@ -101,7 +101,12 @@ class weixin
         //②、统一下单
         $input = new WxPayUnifiedOrder();
         $input->SetBody("支付订单：".$order['order_sn']);
-        $input->SetAttach("weixin");
+
+        if(isset($order['attach']))
+            $input->SetAttach($order['attach']);
+        else 
+            $input->SetAttach("weixin");
+
         $input->SetOut_trade_no($order['order_sn'].time());
         $input->SetTotal_fee($order['order_amount']*100);
         $input->SetTime_start(date("YmdHis"));

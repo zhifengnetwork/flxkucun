@@ -353,13 +353,12 @@ class Goods extends Base {
     /**
      * 添加修改商品
      */
-    public function addEditGoods()
+    public function addEditGoods() 
     {
         $GoodsLogic = new GoodsLogic();
         $Goods = new \app\common\model\Goods();
         $goods_id = input('id');
         $level = Db::name('user_level')->field('level_name,level')->order('level desc')->select();
-
         if($goods_id){
             $goods = $Goods->where('goods_id', $goods_id)->find();
             if($goods['rebate'])
@@ -379,6 +378,7 @@ class Goods extends Base {
                 ->alias('p')
                 ->join('user_level u','p.level =u.level')
                 ->field('p.*,u.level,u.level_name')
+                // ->group('p.level')
                 ->where('p.goods_id',$goods_id)->select();
             $level = $level ? $level : $temp;
         }
@@ -452,15 +452,18 @@ class Goods extends Base {
 
         if(is_array($data['shop_price'])){
             foreach ($data['shop_price'] as $k=>$v){
-                if($level_goods_data[$k]['level']['id'] == 0){
-                    unset($level_goods_data[$k]['id']);
-                }
+                
                 $level_goods_data[$k]['level'] = $k;
                 $level_goods_data[$k]['price'] = $v;
                 $level_goods_data[$k]['goods_id'] = $goods['goods_id'];
+                if(!$level_goods_data[$k]['id']){
+                    Db::name('goods_level_price')->insert($level_goods_data[$k]);
+                }else{
+                    Db::name('goods_level_price')->update($level_goods_data[$k]);
+                }
             }
         } 
-        $level_goods_data && model('goodsLevelPrice')->saveAll($level_goods_data);
+        // $level_goods_data && model('goodsLevelPrice')->saveAll($level_goods_data);
         $GoodsLogic = new GoodsLogic();
         $GoodsLogic->afterSave($goods['goods_id']);
         $GoodsLogic->saveGoodsAttr($goods['goods_id'], $goods['goods_type']); // 处理商品 属性
@@ -830,7 +833,7 @@ class Goods extends Base {
         }
         ajaxReturn($html);
     }
-
+ 
     /**
      * 上传商品视频
      */

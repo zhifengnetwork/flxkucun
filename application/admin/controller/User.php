@@ -25,7 +25,6 @@ class User extends Base
         
         if(IS_POST){
             $post = I('post.');
-
             $cunzai = M('users')->where(['user_id'=>$post['user_id'],'level'=>$post['level']])->find();
             if($cunzai){
                 $this->error('无需修改');
