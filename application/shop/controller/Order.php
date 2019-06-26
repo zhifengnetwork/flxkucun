@@ -117,6 +117,7 @@ class Order extends MobileBase
         $orderLogic = new OrderLogic();
         $action = I('post.act');
         $order_id = I('post.order_id');
+        $type = I('type/s','');
 
         $order = new OrderModel();
         $goods = $order::get($order_id);
@@ -148,6 +149,8 @@ class Order extends MobileBase
                     $level = $level['level'] ? $level['level'] : 0;
                     if($level > $orderuserlevel)
                         M('Users')->where(['user_id'=>$orderinfo['user_id']])->update(['level'=>$level]);
+
+                    if($type == 'kucun')M('Order')->where(['order_id'=>$order_id])->update(['pay_status'=>1]);
                 }
                 if ($action == 'remove') {
                     $this->ajaxReturn(['status' => 1, 'msg' => '操作成功', 'url' => U('Order/index')]);

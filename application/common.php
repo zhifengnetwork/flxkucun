@@ -1188,7 +1188,7 @@ function update_pay_status($order_sn, $ext = array())
             if($level > $orderuserlevel)
                 M('Users')->where(['user_id'=>$orderinfo['user_id']])->update(['level'=>$level]);
             
-                M('Order')->where(['order_id'=>$order_id])->update(['pay_shipping_status'=>1]);
+                M('Order')->where(['order_id'=>$order_id])->update(['pay_status'=>1,'pay_shipping_status'=>1]);
 
             if(!M('account_log')->where(['user_id'=>$orderinfo['seller_id'],'order_sn'=>$order_sn,'order_id'=>$order_id,'states'=>102])->count())
                 M('account_log')->add(['user_id'=>$orderinfo['seller_id'],'user_money'=>'-'.$orderinfo['shipping_price'],'change_time'=>time(),'desc'=>'订单支付运费','order_sn'=>$order_sn,'order_id'=>$order_id,'states'=>102]);            
