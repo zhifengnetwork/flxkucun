@@ -286,7 +286,6 @@ class Goods extends MobileBase
             $price = $goods['market_price'];
         }
         $this->assign('price', $price); 
-            
         // dump($goods);exit;
         $this->assign('recommend_goods', $recommend_goods);
         $this->assign('goods', $goods);
