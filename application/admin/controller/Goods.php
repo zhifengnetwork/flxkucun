@@ -460,7 +460,12 @@ class Goods extends Base {
                 $level_goods_data[$k]['goods_id'] = $goods['goods_id'];
             }
         } 
-        $level_goods_data && model('goodsLevelPrice')->saveAll($level_goods_data);
+        if($level_goods_data[1]['id']){
+            model('goodsLevelPrice')->saveAll($level_goods_data);
+        }else{
+            Db::name('goods_level_price')->insertAll($level_goods_data);
+        }
+        // $level_goods_data && model('goodsLevelPrice')->saveAll($level_goods_data);
         $GoodsLogic = new GoodsLogic();
         $GoodsLogic->afterSave($goods['goods_id']);
         $GoodsLogic->saveGoodsAttr($goods['goods_id'], $goods['goods_type']); // 处理商品 属性
