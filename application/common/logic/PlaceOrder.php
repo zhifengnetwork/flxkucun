@@ -258,11 +258,11 @@ class PlaceOrder
         $payList = $this->pay->getPayList();
         $goods_ids = get_arr_column($payList,'goods_id');
         $cat_id = Db::name('goods')->where('goods_id',$goods_ids[0])->value('cat_id');
-        $use_money = 0;
         if($cat_id==8){
             $user_money = Db::name('users')->where('user_id',$this->user_id)->value('user_money');
             $total_amount = $this->pay->getShippingPrice();
             $order_amount = $total_amount;
+            $use_money = 0;
             if( $user_money ){
                 $order_amount = abs( sprintf("%.2f",$user_money - $order_amount ) );
                 $use_money = $total_amount - $order_amount;
