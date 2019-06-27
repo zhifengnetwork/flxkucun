@@ -82,7 +82,7 @@
 							<span class="original-price">￥{$v.market_price}</span>
 						</div>
 					</div>
-					<a href="/Mobile/Goods/goodsInfo/id/{$v.goods_id}/item_id/{$v.item_id}" class="buyBtn">马上抢购</a>
+					<a <if condition="$v.start eq 1">href="/Mobile/Goods/goodsInfo/id/{$v.goods_id}/item_id/{$v.item_id}"<else />href="javascript:;" style="background:#808080;"</if> class="buyBtn">马上抢购</a>
 				</div>
 				</volist>
 			</div>

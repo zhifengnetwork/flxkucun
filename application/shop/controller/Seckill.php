@@ -31,6 +31,11 @@ class Seckill extends MobileBase
                 $time_arr[$key]['time_msg'] = '抢购结束';
             }
         } 
+
+        foreach($flash_salelist as $k=>$v){
+            $flash_salelist[$k]['start'] = (($v['start_time'] < time()) && ($v['end_time'] > time())) ? 1 : 0;
+        }
+
         $this->assign('time_arr',$time_arr);             
         $this->assign('flash_salelist',$flash_salelist);             
         return $this->fetch();
