@@ -63,7 +63,9 @@ class Index extends MobileBase {
         //活动专区图片
         $activity_img = M('config')->where('inc_type','activity_mg')->cache(true, TPSHOP_CACHE_TIME, 'activity_mg')->column('name,value');
         $this->assign('activity_img',$activity_img);
-
+        //获取首页视频
+        $video = Db::name('config')->where('inc_type','home')->column('name,value');
+        $this->assign('video',$video);
         return $this->fetch();
     }
 

@@ -195,13 +195,14 @@ class Cart extends MobileBase {
 
         //$levellist = M('user_level')->field('stock,replenish')->where(['level'=>['gt',$this->user['level']]])->select();
         $levelinfo = M('user_level')->field('stock,replenish')->where(['level'=>$this->user['level']])->find();
-        if(($type == 1) && ($cartPriceInfo['total_fee'] < $levelinfo['replenish']) && ($action=="kucun_buy"))$this->error('补货金额必须达到'.$levelinfo['replenish'].'元','/shop/User/superior_store/type/1');
+        if(($type == 1) && !$applyid && ($cartPriceInfo['total_fee'] < $levelinfo['replenish']) && ($action=="kucun_buy"))$this->error('补货金额必须达到'.$levelinfo['replenish'].'元','/shop/User/superior_store/type/1');
 
-        if(!$type && $applyid){
-            $applyinfo = M('Apply')->find($applyid);	
-            if($applyinfo['uid'] != $this->user_id)$this->error('您无权限进入此仓库');
+        if($applyid){
+            $model = ($type == 1) ? M('Apply') : M('Apply_for');
+            $applyinfo = $model->find($applyid);	
+            if($applyinfo['uid'] != $this->user_id)$this->error('您无权限进入此仓库',"User/user_store/type/$type/applyid/$applyid");
             $levelinfo = M('user_level')->field('stock')->where(['level'=>$applyinfo['level']])->find();
-            if(($cartPriceInfo['total_fee'] < $levelinfo['stock']) && ($action=="kucun_buy"))$this->error('首次进货金额必须达到'.$levelinfo['stock'].'元','/shop/User/user_store/applyid/'.$applyid);
+            if(($cartPriceInfo['total_fee'] < $levelinfo['stock']) && ($action=="kucun_buy"))$this->error('首次进货金额必须达到'.$levelinfo['stock'].'元',"/shop/User/user_store/type/$type/applyid/".$applyid);
         }        
 
         $cartList = array_merge($cartList,$cartPriceInfo);

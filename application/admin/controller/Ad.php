@@ -273,4 +273,30 @@ class Ad extends Base{
         echo "<script>location.href='".$request_url."';</script>";
         exit;                
     }
+
+    /**
+     * 首页广告视频
+     */
+    public function homeVideo()
+    {
+        $info = Db::name('config')->where('inc_type','home')->column('name,value');
+        $this->assign('info',$info);
+        return $this->fetch();
+    }
+
+    /**
+     * 首页视频提交
+     */
+    public function homePost()
+    {
+        $video_url = input('post.video_url');
+        $video_img = input('post.video_img');
+        if($video_url && $video_img){
+            Db::name('config')->where('inc_type','home')->where('name','video_url')->update(['value'=>$video_url]);
+            Db::name('config')->where('inc_type','home')->where('name','video_img')->update(['value'=>$video_img]);
+        }
+        $result['status'] = 1;
+        $result['msg'] = '操作成功';
+        return json($result);
+    }
 }

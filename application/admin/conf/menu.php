@@ -93,6 +93,7 @@ return array(
         array('name' => '广告', 'child' => array(
             array('name' => '广告列表', 'act' => 'adList', 'op' => 'Ad'),
             array('name' => '广告位置', 'act' => 'positionList', 'op' => 'Ad'),
+            array('name' => '首页视频', 'act' => 'homeVideo', 'op' => 'Ad'),
         )),
 //        array('name' => '新闻', 'child' => array(
 //            array('name' => '新闻列表', 'act' => 'newsList', 'op' => 'News'),
