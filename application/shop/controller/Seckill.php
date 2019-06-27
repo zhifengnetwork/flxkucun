@@ -55,6 +55,48 @@ class Seckill extends MobileBase
     }
     // 秒杀详情
     public function details(){
+        $shareid = I('shareid');
+        if(!empty($shareid) && !session('?user'))
+        {
+          $user = M('users')->where("user_id", $shareid)->find();
+          $shareid =  $user['user_id'];
+          Session::set('shareid',$shareid);
+        }else{
+            $user = session('user');
+        }
+        C('TOKEN_ON', true);
+        $goodsLogic = new \app\common\logic\GoodsLogic();
+        $goods_id = I("get.id/d");
+        $goodsModel = new \app\common\model\Goods();
+        $goods = $goodsModel::get($goods_id);
+        if (empty($goods) || ($goods['is_on_sale'] == 0)) {
+            $this->error('此商品不存在或者已下架');
+        }
+        if(($goods['is_virtual'] == 1 && $goods['virtual_indate'] <= time())){
+            $goods->save(['is_on_sale' => 0]);
+            $this->error('此商品不存在或者已下架');
+        }
+        $user_id = cookie('user_id');
+        if ($user_id) {
+            $goodsLogic->add_visit_log($user_id, $goods);
+            $collect = db('goods_collect')->where(array("goods_id" => $goods_id, "user_id" => $user_id))->count(); //当前用户收藏
+            $this->assign('collect', $collect);
+        }
+
+        $recommend_goods = M('goods')->where("is_recommend=1 and is_on_sale=1 and cat_id = {$goods['cat_id']}")->cache(7200)->limit(9)->field("goods_id, goods_name, shop_price")->select();
+
+        //等级价格
+        if($user['level'] > 0){
+            $price = M('goods_level_price')->where('goods_id',$goods_id)->where('level',$user['level'])->value('price');
+            $price = $price?$price:$goods['market_price'];
+        }else{
+            $price = $goods['market_price'];
+        }
+        $this->assign('price', $price); 
+        // dump($goods);exit;
+        $this->assign('recommend_goods', $recommend_goods);
+        $this->assign('goods', $goods);
+        $this->assign('user', $user);       
         return $this->fetch();
     }
 
