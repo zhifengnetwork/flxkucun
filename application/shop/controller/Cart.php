@@ -13,6 +13,8 @@
  */
 // namespace app\mobile\controller;
 namespace app\shop\controller;
+use app\common\logic\FreightLogic;
+use app\common\logic\GoodsPromFactory;
 use app\common\logic\CartLogic;
 use app\common\logic\CouponLogic;
 use app\common\logic\Integral;
@@ -222,6 +224,7 @@ class Cart extends MobileBase {
         
     }
 
+
     /**
      * ajax 获取订单商品价格 或者提交 订单
      */
@@ -333,13 +336,42 @@ class Cart extends MobileBase {
                     $pricedata['order_amount'] = $pricedata['goods_price'] + $pricedata['shipping_price'];
                 }
             }
-            
+
+            $region=Db::name('user_address')->where('user_id',$this->user_id)->find();
+            $pricedata['shipping_price']=$this->dispatching($goods_id,$region['district']);
             $this->ajaxReturn(['status' => 1, 'msg' => '计算成功', 'result' => $pricedata]);
         } catch (TpshopException $t) {
             $error = $t->getErrorArr();
             $this->ajaxReturn($error);
         }
     }
+
+
+
+           /**
+     * 商品物流配送和运费
+     */
+    public function dispatching($goods_id,$region_id)
+    {
+        $Goods = new \app\common\model\Goods();
+        $goods = $Goods->cache(true)->where('goods_id', $goods_id)->find();
+        $freightLogic = new FreightLogic();
+        $freightLogic->setGoodsModel($goods);
+        $freightLogic->setRegionId($region_id);
+        $freightLogic->setGoodsNum(1);
+        $isShipping = $freightLogic->checkShipping();
+        if ($isShipping) {
+            $freightLogic->doCalculation();
+            $freight = $freightLogic->getFreight();
+            // $dispatching_data = ['status' => 1, 'msg' => '可配送', 'result' => ['freight' => $freight]];
+            return $freight;
+        } else {
+            // $dispatching_data = ['status' => 0, 'msg' => '该地区不支持配送', 'result' => ''];
+            return 0;
+        }
+        // $this->ajaxReturn($dispatching_data);
+    }
+
 
     /*
      * 订单支付页面
