@@ -1565,7 +1565,7 @@ class UsersLogic extends Model
 
 		//获取上级级别
 		if(count($res)){
-			if($res[0]['level'] >= $level)return ['user_id'=>0,'level'=>0];
+			if($res[0]['level'] > $level)return ['user_id'=>0,'level'=>0];
 			$leader = ['user_id'=>$res[0]['first_leader'],'level'=>0];
 			$sql = "select level from tp_users where user_id = {$res[0]['first_leader']}";
 			$res1 = M('users')->query($sql);	
