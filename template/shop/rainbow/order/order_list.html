@@ -102,7 +102,7 @@
                     <div class="maleri30">
                         <span class="price-alln">
                             <!--<span class="red">￥{$list['order_amount']}</span><span class="threel">共{$list.goods_list|count}件</span>-->
-                                <span class="threel" id="goodsnum">共{$order.count_goods_num}件 应付总额</span><span class="red">￥{$order['total_amount']}</span>      
+                                <span class="threel" id="goodsnum">共{$order.count_goods_num}件 <if condition="$order.pay_status eq 1">已付总额<else/>应付总额</if></span><span class="red">￥{$order['total_amount']}</span>      
                             <!--if condition="$list['pay_code'] eq 'cod'"><i class="tits-ions qxatten-ions">货到付款</i></if -->
                         </span>
                         <if condition="$order.pay_btn eq 1">
