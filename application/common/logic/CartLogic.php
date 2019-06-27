@@ -765,9 +765,9 @@ class CartLogic extends Model
     public function getUserCartGoodsNum()
     {
         if ($this->user_id) {
-            $goods_num = Db::name('cart')->where(['user_id' => $this->user_id])->sum('goods_num');
+            $goods_num = Db::name('cart')->where('cart_type',0)->where(['user_id' => $this->user_id])->count();
         } else {
-            $goods_num = Db::name('cart')->where(['session_id' => $this->session_id])->sum('goods_num');
+            $goods_num = Db::name('cart')->where(['session_id' => $this->session_id])->count();
         }
         $goods_num = empty($goods_num) ? 0 : $goods_num;
         setcookie('cn', $goods_num, null, '/');
