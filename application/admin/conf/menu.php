@@ -72,7 +72,7 @@ return array(
             // array('name' => '淘宝导入', 'act'=>'index', 'op'=>'Import'),
             array('name' => '商品分类', 'act' => 'categoryList', 'op' => 'Goods'),
             array('name' => '库存管理', 'act' => 'stockList', 'op' => 'Goods'),
-            array('name' => '商品模型', 'act' => 'type_list', 'op' => 'Goods'),
+            //array('name' => '商品模型', 'act' => 'type_list', 'op' => 'Goods'),
             // array('name' => '品牌列表', 'act' => 'brandList', 'op' => 'Goods'),
             array('name' => '评论列表', 'act' => 'index', 'op' => 'Comment'),
             array('name' => '商品咨询', 'act' => 'ask_list', 'op' => 'Comment'),
