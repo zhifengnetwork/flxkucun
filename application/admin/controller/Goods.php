@@ -374,12 +374,8 @@ class Goods extends Base {
             $this->assign('level_cat2', $level_cat2);
             $thise->assign('brandList', $brandList); */
             $temp = $level;
-            $level = Db::name('goods_level_price')
-                ->alias('p')
-                ->join('user_level u','p.level =u.level')
-                ->field('p.*,u.level,u.level_name')
-                // ->group('p.level')
-                ->where('p.goods_id',$goods_id)->select();
+            //$level = Db::name('goods_level_price')->alias('p')->join('user_level u','p.level =u.level')->field('p.*,u.level,u.level_name')->where('p.goods_id',$goods_id)->select();
+            $level = M('user_level')->alias('UL')->field('GLP.*,UL.level,UL.level_name')->join('goods_level_price GLP','UL.level=GLP.level AND GLP.goods_id='.$goods_id,'left')->order('UL.level desc')->select();
             $level = $level ? $level : $temp;
         }
 

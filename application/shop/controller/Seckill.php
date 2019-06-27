@@ -44,8 +44,8 @@ class Seckill extends MobileBase
     //ajax获取某个时间段的秒杀
     public function ajaxSeckill()
     {
-        $start_time = input('post.start_time','1561554000');
-        $flash_salelist = M('flash_sale')->alias('FS')->join('goods G','FS.goods_id=G.goods_id','left')->field('FS.id,FS.title,FS.goods_id,FS.item_id,FS.price,FS.goods_num,FS.buy_num,FS.order_num,G.market_price,FS.goods_name,G.original_img,FS.start_time,FS.end_time')->where(['FS.start_time'=>$start_time,'FS.is_end'=>0])->order('FS.id desc')->select();
+        $start_time = input('post.start_time','');
+        $flash_salelist = M('flash_sale')->alias('FS')->join('goods G','FS.goods_id=G.goods_id','left')->field('FS.id,FS.title,FS.goods_id,FS.item_id,FS.price,FS.goods_num,FS.buy_num,FS.order_num,G.market_price,FS.goods_name,G.original_img,FS.start_time,FS.end_time')->where(['FS.start_time'=>$start_time,'FS.is_end'=>0])->order('FS.start_time desc')->select();
         foreach($flash_salelist as $k=>$v){
             $flash_salelist[$k]['rate'] = !$v['order_num'] ? 100 : 100-intval(($v['order_num']/$v['goods_num'])*100);
             $flash_salelist[$k]['start'] = (($v['start_time'] < time()) && ($v['end_time'] > time())) ? 1 : 0;
@@ -66,7 +66,8 @@ class Seckill extends MobileBase
         }
         C('TOKEN_ON', true);
         $goodsLogic = new \app\common\logic\GoodsLogic();
-        $goods_id = I("get.id/d");
+        $goods_id = I("get.goods_id/d",0);
+        $id = I("get.id/d",0);
         $goodsModel = new \app\common\model\Goods();
         $goods = $goodsModel::get($goods_id);
         if (empty($goods) || ($goods['is_on_sale'] == 0)) {
@@ -92,11 +93,15 @@ class Seckill extends MobileBase
         }else{
             $price = $goods['market_price'];
         }
+
+        $prominfo = M('flash_sale')->find($id);
+        $prominfo['rate'] = !$prominfo['order_num'] ? 100 : 100-intval(($prominfo['order_num']/$prominfo['goods_num'])*100);
         $this->assign('price', $price); 
-        // dump($goods);exit;
+        //dump($goods);exit;
         $this->assign('recommend_goods', $recommend_goods);
         $this->assign('goods', $goods);
-        $this->assign('user', $user);       
+        $this->assign('user', $user);    
+        $this->assign('prominfo', $prominfo);     
         return $this->fetch();
     }
 
