@@ -52,7 +52,7 @@ class DistributLogic
      */
     public function get_commision_log($user_id,$pay_status=0){
         //$recharge_log_where ="user_id='".$user_id."' and states =101 or states=102";
-        $recharge_log_where ="user_id='".$user_id."' and log_type>=1";
+        $recharge_log_where ="user_id='".$user_id."' and log_type=7";
         if($pay_status){
             $pay_status['status']=$pay_status;
         }
