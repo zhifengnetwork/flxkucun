@@ -48,6 +48,7 @@ class Seckill extends MobileBase
         $flash_salelist = M('flash_sale')->alias('FS')->join('goods G','FS.goods_id=G.goods_id','left')->field('FS.id,FS.title,FS.goods_id,FS.item_id,FS.price,FS.goods_num,FS.buy_num,FS.order_num,G.market_price,FS.goods_name,G.original_img,FS.start_time,FS.end_time')->where(['FS.start_time'=>$start_time,'FS.is_end'=>0])->order('FS.id desc')->select();
         foreach($flash_salelist as $k=>$v){
             $flash_salelist[$k]['rate'] = !$v['order_num'] ? 100 : 100-intval(($v['order_num']/$v['goods_num'])*100);
+            $flash_salelist[$k]['start'] = (($v['start_time'] < time()) && ($v['end_time'] > time())) ? 1 : 0;
         }
         $this->assign('flash_salelist',$flash_salelist);             
         return $this->fetch();
