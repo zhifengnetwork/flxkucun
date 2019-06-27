@@ -6,6 +6,7 @@ $(document).ready(function (){
 		var $inputVal = $(this).prev('input')
 			$count = parseInt($inputVal.val())+1
 			$inputVal.val($count);
+			$("#goods_num").val($count);
 	})
 
 	/**
@@ -16,6 +17,7 @@ $(document).ready(function (){
 			$count = parseInt($inputVal.val())-1
 			if($inputVal.val()>1){
 				$inputVal.val($count);
+				$("#goods_num").val($count);
 			}
 	})
 
@@ -43,6 +45,26 @@ $(document).ready(function (){
 	 */
 	$(".action-bar .fav").click(function(){
 		var that = $(this);
+		var goods_id = $("#goods_id").val();
+
+        $.ajax({
+            type : "GET",
+            dataType: "json",
+            url:"/index.php?m=mobile&c=goods&a=collect_goods",//+tab,
+            data: {goods_id:goods_id},
+            success: function(data){
+                if(data.status == 1){
+                    //收藏点亮
+                    that.addClass("faved");
+					$(".fav-tips").show().html("<em class='fav-animation'>收藏成功</em>");    
+                }else if(data.status == 2){
+                    //已收藏 -> 取消收藏
+                    that.removeClass("faved");  
+					$(".fav-tips").show().html("<em class='fav-animation'>取消收藏</em>");  
+                }
+            }
+        });
+		/*
 		if(that.hasClass("faved")){
 				// 已收藏 -> 取消收藏
 			$(this).removeClass("faved");  
@@ -51,7 +73,7 @@ $(document).ready(function (){
 			// 未收藏 -> 收藏
 			$(this).addClass("faved");
 			$(".fav-tips").show().html("<em class='fav-animation'>收藏成功</em>");    
-		}
+		}*/
 	});
 
 

@@ -117,32 +117,21 @@
                         <span onclick="$(window).scrollTop($('.comment').offset().top-100);">好评率{$goods['comment_statistics']['high_rate']}%</span>
                     </div>
                     <div class="comment-list">
+                        <volist name='list' id='v' offset="0" length='3' >
                         <div class="single-item">
                             <div class="user-info">
-                                <div class="avatar"></div>
-                                <div class="name">芊芊</div>
+                                <div class="avatar"><img src="{$v['head_pic']|default='__STATIC__/images/user68.jpg'}" style="width:100%;height:100%;border-radius:50%;"></div>
+                                <div class="name">{$v['username']}</div>
                             </div>
-                            <div class="comment-con"><p>36*280、300*250、以及160*600 这三种大小的Banner广告在宣传效果上较好。在高度一定的情况下，宽度越大，效果也会越好，因为这样广告会给用户带来了较好的阅读体验。Banner位置在网页的顶。</p></div>
+                            <div class="comment-con"><p>{$v['content']|htmlspecialchars_decode}</p></div>
                             <div class="imgView">
-                                <span></span>
-                                <span></span>
-                                <span></span>
+                            <foreach name="v['img']" key="key" item="v2">
+                                <span><img src="{$v2}" style="width:100%;height:100%;"></span>
+                            </foreach>
                             </div>
-                            <div class="comment-sku">规格:8片</div>
+                            <!--<div class="comment-sku">规格:8片</div>-->
                         </div>
-                        <div class="single-item">
-                            <div class="user-info">
-                                <div class="avatar"></div>
-                                <div class="name">芊芊</div>
-                            </div>
-                            <div class="comment-con"><p>36*280、300*250、以及160*600 这三种大小的Banner广告在宣传效果上较好。在高度一定的情况下，宽度越大，效果也会越好，因为这样广告会给用户带来了较好的阅读体验。Banner位置在网页的顶。</p></div>
-                            <div class="imgView">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                            <div class="comment-sku">规格:8片</div>
-                        </div>
+                        </volist>
                     </div>
                 </div>
 
@@ -216,12 +205,19 @@
 
                 <!-- 按钮 -->
                 <div class="tfoot">
-                    <button class="confirmBtn" onclick="skuHide()">确定</button>
+                    <button class="confirmBtn">确定</button>
                 </div>
 
             </div>
         </div>
-
+        <form method='post' action="/Shop/Cart/cart2/action/buy_now" id='buy_now'>
+        <input id='goods_id' name='goods_id' type='hidden' value='{$goods.goods_id}'>
+        <input id='goods_num' name='goods_num' type='hidden' value='1'>
+        <input id='activity_is_on' name='activity_is_on' type='hidden' value='1'>
+        <input id='goods_prom_type' name='goods_prom_type' type='hidden' value='1'>
+        <input id='shop_price' name='shop_price' type='hidden' value={$prominfo.price}>
+        <input id='prom_id' name='prom_id' type='hidden' value={$prominfo.id}>
+        </form>
         <!-- 操作栏 -->
 		<div class="action-bar">
             <div class="home">
@@ -230,7 +226,7 @@
                     <span>首页</span>
                 </a>
             </div>
-            <div class="fav">
+            <div class="fav <if condition='$collect gt 0'>faved</if>">
                 <i class="fav-icon"></i>
                 <span>收藏</span>
                 <span class="fav-tips">
@@ -267,6 +263,10 @@
                 },
             },
         })
+
+        $('.confirmBtn').click(function(){
+            $("#buy_now").submit();
+        });
 
         /**
          * 视频播放
