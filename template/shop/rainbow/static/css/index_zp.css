@@ -349,9 +349,11 @@ body{
 } */
 
 .picc{
+    width: 6.9rem;
+    height: .5rem;
     margin: .2rem auto;
-    padding: 0 .3rem;
-    box-sizing: border-box;
+    border-radius: .08rem;
+    overflow: hidden;
 }
 
 .picc img{
@@ -360,9 +362,11 @@ body{
 
 /* 活动专区 */
 .activity-zone{
-    padding: 0 .3rem;
-    box-sizing: border-box;
-    margin-bottom: .2rem;
+    width: 6.9rem;
+    height: 1.04rem;
+    border-radius: .08rem;
+    overflow: hidden;
+    margin: 0 auto .2rem;
 }
 .activity-zone img{
     width: 100%;
@@ -378,12 +382,15 @@ body{
     height: 1.64rem;
     margin-right: .2rem;
     float: left;
+    border-radius: .08rem;
+    overflow: hidden;
 }
 .area-category .cate-item:nth-child(2n){
     margin-right: 0;
 }
 .area-category .cate-item img{
     width: 100%;
+    border-radius: .08rem;
 }
 
 /* 公共标题 */

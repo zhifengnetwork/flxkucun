@@ -299,4 +299,30 @@ class Ad extends Base{
         $result['msg'] = '操作成功';
         return json($result);
     }
+
+    /**
+     * 动态广告视频
+     */
+    public function dynamicVideo()
+    {
+        $info = Db::name('config')->where('inc_type','dynamic')->column('name,value');
+        $this->assign('info',$info);
+        return $this->fetch();
+    }
+
+    /**
+     * 动态广告视频提交
+     */
+    public function dynamicPost()
+    {
+        $video_url = input('post.video_url');
+        $video_img = input('post.video_img');
+        if($video_url && $video_img){
+            Db::name('config')->where('inc_type','dynamic')->where('name','video_url')->update(['value'=>$video_url]);
+            Db::name('config')->where('inc_type','dynamic')->where('name','video_img')->update(['value'=>$video_img]);
+        }
+        $result['status'] = 1;
+        $result['msg'] = '操作成功';
+        return json($result);
+    }
 }
