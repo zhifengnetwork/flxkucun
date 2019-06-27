@@ -174,9 +174,7 @@ class Cart extends MobileBase {
                 }
             }
             //print_R($cartLogic->getUserCartOrderkucunCount());
-
             if ($cartLogic->getUserCartOrderkucunCount() == 0){
-
                 $this->error('你的购物车没有选中商品', 'Cart/index');
             }
             $cartList['cartList'] = $cartLogic->getCartkucunList(1); // 获取用户选中的购物车商品
@@ -190,7 +188,7 @@ class Cart extends MobileBase {
             $cartList['cartList'] = $cartLogic->getCartList(1); // 获取用户选中的购物车商品
             $cartList['cartList'] = $cartLogic->getCombination($cartList['cartList']);  //找出搭配购副商品
             $cartGoodsTotalNum = count($cartList['cartList']);
-        }
+        } 
         $cartPriceInfo = $cartLogic->getCartPriceInfo($cartList['cartList']);  //初始化数据。商品总额/节约金额/商品总共数量
 
         //$levellist = M('user_level')->field('stock,replenish')->where(['level'=>['gt',$this->user['level']]])->select();
