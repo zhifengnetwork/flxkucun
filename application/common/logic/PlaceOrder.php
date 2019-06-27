@@ -244,11 +244,12 @@ class PlaceOrder
         }
         $this->user_id = $user['user_id'] ? $user['user_id'] : 0;
         
-        if(($this->promType == 1)){
-            $payList = $this->pay->getPayList();
+        if(($this->promType == 1)){  //promId
+            $payList = $this->pay->getPayList(); 
             if($payList[0]['goods_num'] == 2){
-                $promprice = M('flash_sale')->where(['id'=>$this->promId])->value('price'); 
-                $promprice = round($promprice/2,2);
+                $prominfo1 = M('flash_sale')->field('price,is_tow_half')->find($this->promId); 
+                $promprice = $prominfo1['price']; 
+                $promprice = ($prominfo1['is_tow_half'] == 1) ? round($promprice/2,2) : 0;
                 $use_user_money = ($this->pay->getUserMoney() - $promprice);
                 $total_amount = ($this->pay->getTotalAmount() - $promprice);
                 $order_amount = $total_amount;

@@ -596,11 +596,11 @@ class Pay
             return $this;
         
         if($goodsinfo['prom_type'] == 1){
-            $flash_saleinfo = M('flash_sale')->where(['item_id'=>$goodsinfo['item_id']])->find($goodsinfo['prom_id']);
+            $flash_saleinfo = M('flash_sale')->field('price,is_tow_half')->where(['item_id'=>$goodsinfo['item_id']])->find($goodsinfo['prom_id']);
             if(!$flash_saleinfo)
                 return  $this;
             if($goodsinfo['goods_num'] == 2){
-                $this->orderPromAmount = floor(($flash_saleinfo['price']/2)*100)/100;
+                $this->orderPromAmount = ($flash_saleinfo['is_tow_half'] == 1) ? floor(($flash_saleinfo['price']/2)*100)/100 : 0;
                 $this->orderAmount && $this->orderAmount -= $this->orderPromAmount;
             }
         }
