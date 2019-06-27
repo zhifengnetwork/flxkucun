@@ -200,7 +200,7 @@ class Order extends MobileBase
 						M('Order')->where(['order_id'=>$order_id])->update(['pay_status'=>1]);
 						if($orderinfo['applyid']){
 							$Apply = ($orderinfo['apply_type'] == 1) ? M('Apply') : M('Apply_for');
-							$applyinfo = $Apply->find($orderinfo['applyid']);
+                            $applyinfo = $Apply->find($orderinfo['applyid']);
 							if($applyinfo['leaderid'] == $this->user_id){
 								M('Users')->where(['user_id'=>$orderinfo['user_id']])->update(['first_leader'=>$this->user_id,'third_leader'=>$this->user_id]);
 							}

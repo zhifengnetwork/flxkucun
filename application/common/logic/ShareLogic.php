@@ -17,12 +17,12 @@ class ShareLogic
     /**
      * 获取 ticket
      */
-    public function get_ticket($user_id){
+    public function get_ticket_url($user_id){
        
         $ticket = M('ticket')->where(array('user_id'=>$user_id))->find();
         if(!empty($ticket)){
             
-            return  $ticket['ticket'];
+            return  $ticket['url'];
             
         }else{
             $access_token = access_token();
@@ -50,7 +50,7 @@ class ShareLogic
             $url = $out->{'url'};
             M('ticket')->save(array('user_id'=>$user_id,'ticket'=>$newticket,'scene_id'=>$user_id,'url'=>$url));
             
-            return  $newticket;
+            return  $url;
         }
         
     }
