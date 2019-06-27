@@ -1565,7 +1565,7 @@ class UsersLogic extends Model
 
 		//获取上级级别
 		if(count($res)){
-			if($res[0]['level'] >= $level)return ['user_id'=>0,'level'=>0];
+			if($res[0]['level'] > $level)return ['user_id'=>0,'level'=>0];
 			$leader = ['user_id'=>$res[0]['first_leader'],'level'=>0];
 			$sql = "select level from tp_users where user_id = {$res[0]['first_leader']}";
 			$res1 = M('users')->query($sql);	
@@ -1591,8 +1591,8 @@ class UsersLogic extends Model
 
         if($this->user_id > 0 && $data['uid'] > 0){
             $user = $this->get_info($this->user_id);
-            if($user['fixed_money'] > 0){
-                $user->pay_points = $user->fixed_money - $this->pay->getPayPoints();// 消费积分
+            if($user['frozen_money'] > 0){
+                $user->pay_points = $user->frozen_money - $this->pay->getPayPoints();// 消费积分
             }
             if($this->pay->getUserMoney() > 0){
                 $user->user_money = $user->user_money - $this->pay->getUserMoney();// 抵扣余额

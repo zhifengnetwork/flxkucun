@@ -370,7 +370,7 @@ class User extends MobileBase
 
         }
 
-        if ($this->user['fixed_money'] < $data['money']) {
+        if ($this->user['frozen_money'] < $data['money']) {
 
             $this->ajaxReturn(['status' => 0, 'msg' => "当前余额不足,无法转账"]);
 
@@ -378,8 +378,8 @@ class User extends MobileBase
 
         $Users = M('Users');
 
-        $reduce = $Users->where(['user_id' => $this->user_id])->setDec('fixed_money', $data['money']);
-        $plus = $Users->where(['user_id' => $data['uid']])->setInc('fixed_money', $data['money']);
+        $reduce = $Users->where(['user_id' => $this->user_id])->setDec('frozen_money', $data['money']);
+        $plus = $Users->where(['user_id' => $data['uid']])->setInc('frozen_money', $data['money']);
 
         $accountLogData = [
             [
