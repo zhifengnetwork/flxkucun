@@ -89,7 +89,9 @@ class Apply extends MobileBase
 		$applyinfo = $model->find($id);		
 		if(!$applyinfo)$this->error('无此次邀请');
 		if($applyinfo['uid'] != $this->user_id)$this->error('您无权限查看此邀请');
-		if(($type == 1) && ($applyinfo['status'] == 1) && ($this->user['level'] < $applyinfo['level'])){//跳转到上级页面
+
+		$num = M('Apply_info')->where(['applyid'=>$id,'type'=>$type])->count();
+		if((($type == 1) && ($applyinfo['status'] == 1) && ($this->user['level'] < $applyinfo['level'])) || $num){//跳转到上级页面
 			$this->redirect(U("User/user_store",['type'=>$type,'applyid'=>$id,'leaderid'=>$applyinfo['leaderid'],'level'=>$applyinfo['level']]));
 			return;
 		}
@@ -97,6 +99,7 @@ class Apply extends MobileBase
 			$this->redirect(U("User/superior_store",['applyid'=>$id,'leaderid'=>$applyinfo['leaderid'],'level'=>$applyinfo['level']]));
 			return;
 		}	
+
 		$str = ($type == 1) ? '邀请' : '申请';	
 		if(in_array($applyinfo['status'],[2,3]))$this->error('此'.$str.'已处理过啦');	
 

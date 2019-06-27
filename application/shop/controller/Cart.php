@@ -174,9 +174,7 @@ class Cart extends MobileBase {
                 }
             }
             //print_R($cartLogic->getUserCartOrderkucunCount());
-
             if ($cartLogic->getUserCartOrderkucunCount() == 0){
-
                 $this->error('你的购物车没有选中商品', 'Cart/index');
             }
             $cartList['cartList'] = $cartLogic->getCartkucunList(1); // 获取用户选中的购物车商品
@@ -190,18 +188,19 @@ class Cart extends MobileBase {
             $cartList['cartList'] = $cartLogic->getCartList(1); // 获取用户选中的购物车商品
             $cartList['cartList'] = $cartLogic->getCombination($cartList['cartList']);  //找出搭配购副商品
             $cartGoodsTotalNum = count($cartList['cartList']);
-        }
+        } 
         $cartPriceInfo = $cartLogic->getCartPriceInfo($cartList['cartList']);  //初始化数据。商品总额/节约金额/商品总共数量
 
         //$levellist = M('user_level')->field('stock,replenish')->where(['level'=>['gt',$this->user['level']]])->select();
         $levelinfo = M('user_level')->field('stock,replenish')->where(['level'=>$this->user['level']])->find();
-        if(($type == 1) && ($cartPriceInfo['total_fee'] < $levelinfo['replenish']) && ($action=="kucun_buy"))$this->error('补货金额必须达到'.$levelinfo['replenish'].'元','/shop/User/superior_store/type/1');
+        if(($type == 1) && !$applyid && ($cartPriceInfo['total_fee'] < $levelinfo['replenish']) && ($action=="kucun_buy"))$this->error('补货金额必须达到'.$levelinfo['replenish'].'元','/shop/User/superior_store/type/1');
 
-        if(!$type && $applyid){
-            $applyinfo = M('Apply')->find($applyid);	
-            if($applyinfo['uid'] != $this->user_id)$this->error('您无权限进入此仓库');
+        if($applyid){
+            $model = ($type == 1) ? M('Apply') : M('Apply_for');
+            $applyinfo = $model->find($applyid);	
+            if($applyinfo['uid'] != $this->user_id)$this->error('您无权限进入此仓库',"User/user_store/type/$type/applyid/$applyid");
             $levelinfo = M('user_level')->field('stock')->where(['level'=>$applyinfo['level']])->find();
-            if(($cartPriceInfo['total_fee'] < $levelinfo['stock']) && ($action=="kucun_buy"))$this->error('首次进货金额必须达到'.$levelinfo['stock'].'元','/shop/User/user_store/applyid/'.$applyid);
+            if(($cartPriceInfo['total_fee'] < $levelinfo['stock']) && ($action=="kucun_buy"))$this->error('首次进货金额必须达到'.$levelinfo['stock'].'元',"/shop/User/user_store/type/$type/applyid/".$applyid);
         }        
 
         $cartList = array_merge($cartList,$cartPriceInfo);
@@ -248,7 +247,7 @@ class Cart extends MobileBase {
         $data = input('request.');
         $action_type =input('action_type');
         $type = input('type/d',1);
-        $applyid = input('applyid/d',0);
+        $applyid = input('applyid/d',0); 
         $seller_id=input('seller_id');
        // echo $seller_id;exit;
         $cart_validate = Loader::validate('Cart');
@@ -303,10 +302,11 @@ class Cart extends MobileBase {
             }
             elseif ($_REQUEST['act'] == 'kucun_submit_order') {
                 $placeOrder = new PlaceOrder($pay);
-                if($type || $applyid)
+                if($type || $applyid){
                     $placeOrder->setUserNote($user_note)->setOrdertype()->setApplyid($applyid,$type)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
-                else
+                }else{
                     $placeOrder->setUserAddress($address)->setOrdertype()->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
+                }
                 $cartLogic->clear();
                 $order = $placeOrder->getOrder();
 

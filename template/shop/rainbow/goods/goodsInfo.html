@@ -884,12 +884,14 @@
         if (cart_cn == '') {
             $.ajax({
                 type: "GET",
+                async:false,
                 url: "/index.php?m=home&c=Cart&a=header_cart_list",//+tab,
                 success: function (data) {
                     cart_cn = getCookie('cn');
                 }
             });
         }
+        cart_cn=parseInt(cart_cn);
         $('#tp_cart_info').html(cart_cn);
     }
     //评论

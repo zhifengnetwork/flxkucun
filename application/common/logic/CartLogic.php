@@ -765,9 +765,9 @@ class CartLogic extends Model
     public function getUserCartGoodsNum()
     {
         if ($this->user_id) {
-            $goods_num = Db::name('cart')->where(['user_id' => $this->user_id])->sum('goods_num');
+            $goods_num = Db::name('cart')->where('cart_type',0)->where(['user_id' => $this->user_id])->count();
         } else {
-            $goods_num = Db::name('cart')->where(['session_id' => $this->session_id])->sum('goods_num');
+            $goods_num = Db::name('cart')->where(['session_id' => $this->session_id])->count();
         }
         $goods_num = empty($goods_num) ? 0 : $goods_num;
         setcookie('cn', $goods_num, null, '/');
@@ -829,6 +829,13 @@ class CartLogic extends Model
         $cartWhere['combination_group_id'] = 0;
          $cartWhere['cart_type'] = 1;
         $cartList = $cart->with('goods')->where($cartWhere)->select();  // 获取购物车商品
+
+        foreach($cartList as $k=>$v){
+            $goods_price = M('goods_level_price')->where(['goods_id'=>$v['goods_id'],'level'=>$this->user['level']])->value('price');
+            $goods_price && $cartList[$k]['goods_price'] = $goods_price;
+            $goods_price && $cartList[$k]['member_goods_price'] = $goods_price;
+        }
+
         $cartCheckAfterList = $this->checkCartList($cartList); 
         return $cartCheckAfterList;
     }

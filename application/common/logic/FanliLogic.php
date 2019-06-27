@@ -305,6 +305,7 @@ class FanliLogic extends Model
 	//记录日志
 	public function writeLog($userId,$money,$desc,$states,$frozen_money=0)
 	{
+		if(!$userId)return;
 		$data = array(
 			'user_id'=>$userId,
 			'user_money'=>$money,
@@ -684,7 +685,7 @@ class FanliLogic extends Model
 		}
 		if(!$commission)return;
 		$Users = M('Users');
-		$log = $this->writeLog($user_id,($commission-$not_money),$desc,status,$not_money); 
+		$log = $this->writeLog($user_id,($commission-$not_money),$desc,$status,$not_money); 
 		$Users->where(['user_id'=>$user_id])->setInc('user_money',$commission-$not_money);
 		$Users->where(['user_id'=>$user_id])->setInc('frozen_money',$not_money);		
 	}
@@ -710,9 +711,12 @@ class FanliLogic extends Model
 			if(!$leader['user_id']){
 				$leader = $UsersLogic->getUserLevTop($this->userId,5);	
 				if(!$leader['user_id']){
-					$first_leader = M('Users')->where(['user_id'=>$this->userId])->value('first_leader');	
-					$level = $first_leader ? M('Users')->where(['user_id'=>$first_leader])->value('level') : 0;	
-					$leader = ['user_id'=>(first_leader ? first_leader : 0),'level'=>level];
+					$leader = $UsersLogic->getUserLevTop($this->userId,6);	
+					if(!$leader['user_id']){
+						$first_leader = M('Users')->where(['user_id'=>$this->userId])->value('first_leader');	
+						$level = $first_leader ? M('Users')->where(['user_id'=>$first_leader])->value('level') : 0;	
+						$leader = ['user_id'=>($first_leader ? $first_leader : 0),'level'=>$level];
+					}
 				}
 			}
 		}
@@ -729,6 +733,10 @@ class FanliLogic extends Model
 			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>5])->find();
 			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,95);
 
+			$leader = $UsersLogic->getUserLevTop($this->userId,6); 
+			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>6])->find();
+			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,95);
+
 			//多返一级
 			$this->next_lev_commission($commissioninfo,$leader,96);			
 		}elseif($leader['level'] == 4){
@@ -740,13 +748,33 @@ class FanliLogic extends Model
 			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>5])->find();
 			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,95);
 
+			$leader = $UsersLogic->getUserLevTop($this->userId,6); 
+			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>6])->find();
+			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,95);
+
 			//多返一级
 			$this->next_lev_commission($commissioninfo,$leader,96);		
 		}elseif($leader['level'] == 5){
 			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,90);
+
+			$leader = $UsersLogic->getUserLevTop($this->userId,6); 
+			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>6])->find();
+			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,95);			
 			//多返一级
 			$this->next_lev_commission($commissioninfo,$leader,93);	
 
+			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>4])->find();
+			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,92);
+			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>3])->find();
+			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,91);	
+		}elseif($leader['level'] == 6){
+			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,90);
+	
+			//多返一级
+			$this->next_lev_commission($commissioninfo,$leader,93);	
+
+			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>5])->find();
+			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,93);
 			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>4])->find();
 			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,92);
 			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>3])->find();

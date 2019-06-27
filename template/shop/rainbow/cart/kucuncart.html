@@ -375,6 +375,8 @@
     });
     //各种弹窗返回上一步
     $(function () {
+        //加载完就刷新,应付金额为0
+        ajax_order_price();
         //主页面返回上一步
         $(document).on('click', '#back', function () {
             var action = cart2_form.find("input[name='action']");
