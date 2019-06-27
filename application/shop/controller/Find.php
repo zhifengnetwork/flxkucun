@@ -33,7 +33,10 @@ class Find extends MobileBase{
             }
             $userVideoList[$key]['head_pic']=$userImg['head_pic'];
         }
-    	$this->assign('userVideo',$userVideoList);
+        $this->assign('userVideo',$userVideoList);
+        //视频封面
+        $dynamic = Db::name('config')->where('inc_type','dynamic')->column('name,value');
+        $this->assign('dynamic',$dynamic);
         return $this -> fetch();
     }
 
