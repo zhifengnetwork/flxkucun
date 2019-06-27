@@ -18,7 +18,10 @@
                 <td align="left" class="">
                     <div style="text-align: center; width: 70px;">{$list.realname}</div>
                 </td>
-                <if condition="$level[$list.agent_user]">
+                <td align="left" class="">
+                    <div style="text-align: center; width: 80px;">{$level[$list.agent_user]|default='普通会员'}</div>
+                </td>
+                <!-- <if condition="$level[$list.agent_user]">
                         <td align="left" class="">
                             <div style="text-align: center; width: 80px;">{$level[$list.agent_user]}</div>
                         </td>
@@ -27,7 +30,7 @@
                                 <div style="text-align: center; width: 80px; color: brown">否</div>
                             </td>
                     </else>
-                </if>
+                </if> -->
                 
                 <if condition="$list.is_distribut == 1">
                     <td align="left" class="">
