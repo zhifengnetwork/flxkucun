@@ -445,6 +445,7 @@ body{
     display: -ms-flexbox;
     display: flex;
     position: relative;
+    overflow: hidden;
 }
 .hot-list .single-item .img-wrap{
     width: 2rem;
