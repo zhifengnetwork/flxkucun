@@ -243,7 +243,7 @@ class User extends MobileBase
        if(!$pei_parent)
         {
             $kucun = M("goods")->alias('g')
-                ->field('g.store_count as nums,g.goods_name,g.goods_id,g.shop_price,g.original_img')
+                ->field('g.store_count as nums,g.goods_name,g.goods_id,g.market_price as shop_price,g.original_img')
             //->join('users u','g.user_id=u.user_id','LEFT')
                 ->where("is_on_sale=1 and g.prom_type=0")->select();
         } else { 

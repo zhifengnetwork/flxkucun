@@ -131,7 +131,7 @@ class User extends MobileBase
 
     public function index()
     {
-
+        $this->redirect(U("Shop/User/index"));
         
         $MenuCfg = new MenuCfg();
         $menu_list = $MenuCfg->where('is_show', 1)->order('menu_id asc')->select();
