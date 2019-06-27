@@ -322,8 +322,9 @@ class Cart extends MobileBase {
             if (($action == 'buy_now') && ($goods_num==2)) {
                 $prominfo = M('goods')->field('prom_type,prom_id')->find($goods_id);
                 if($prominfo['prom_type'] == 1){
-                    $promprice = M('flash_sale')->where(['id'=>$prominfo['prom_id']])->value('price');  
-                    $pricedata['order_prom_amount'] =  round($promprice/2,2);
+                    $prominfo1 = M('flash_sale')->field('price,is_tow_half')->find($prominfo['prom_id']); 
+                    $promprice = $prominfo1['price']; 
+                    $pricedata['order_prom_amount'] =  ($prominfo1['is_tow_half'] == 1) ? round($promprice/2,2) : 0;
                     $pricedata['total_amount'] -= $pricedata['order_prom_amount'];
                     $pricedata['goods_price'] -= $pricedata['order_prom_amount'];
                     if(!$user_money)
