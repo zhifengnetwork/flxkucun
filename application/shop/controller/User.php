@@ -695,6 +695,15 @@ class User extends MobileBase
         return $this->fetch();
     }
 
+    //余额消费明细
+    public function account_detail2()
+    {
+        $log_id = I('log_id/d', 0);
+        $detail = Db::name('account_log')->where(['log_id' => $log_id])->find();
+        $this->assign('detail', $detail);
+        return $this->fetch();
+    }
+
     public function frozen_list()
     {
         $type = I('type', 'all');
@@ -2666,6 +2675,28 @@ class User extends MobileBase
         }
 
         $this->ajaxReturn(['status' => 0, 'msg' => '请求成功!', 'data' => $info]);
+    }
+
+    //购物余额明细
+    public function money_details()
+    {
+        $user = $this->user;
+        $user_id = $user['user_id'];
+        $p = input('p',1);
+        $list = Db::name('account_log')->alias('a')->field('a.order_sn,a.user_money,a.change_time,a.log_id')->join('tp_order o','o.order_sn=a.order_sn','LEFT')->where('o.pay_name','余额支付')->where('a.user_id',$user_id)->where('a.user_money','<',0)->order('a.change_time desc')->page($p,20)->select();
+        $this->assign('list',$list);
+        return $this->fetch();
+    }
+
+    //ajax获取余额明细
+    public function ajax_money_details()
+    {
+        $user = $this->user;
+        $user_id = $user['user_id'];
+        $p = input('p',1);
+        $list = Db::name('account_log')->alias('a')->field('a.order_sn,a.user_money,a.change_time,a.log_id')->join('tp_order o','o.order_sn=a.order_sn','LEFT')->where('o.pay_name','余额支付')->where('a.user_id',$user_id)->where('a.user_money','<',0)->order('a.change_time desc')->page($p,20)->select();
+        $this->assign('list',$list);
+        return $this->fetch();
     }
 
 }

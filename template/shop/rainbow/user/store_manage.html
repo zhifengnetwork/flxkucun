@@ -8,7 +8,49 @@
 		<link rel="stylesheet" href="__STATIC__/css/public_lb/public.css" />
 		<link rel="stylesheet" href="__STATIC__/css/public/base.css">
 		<link rel="stylesheet" type="text/css" href="__STATIC__/css/user_zp/store_manage.css"/>
+		<link rel="stylesheet" type="text/css" href="__STATIC__/css/iconfont.css"/>
+
 	</head>
+	<style>
+		.tpnavf .footer{
+			-webkit-box-shadow: 0 0 0 0 rgba(255,255,255,0);
+			box-shadow: 0 0 0 0 rgba(255,255,255,0);
+			border-bottom: 1px solid #f0f2f5;
+			background-color: #000;
+			opacity: 0.9;
+			border-bottom: 1px solid #f0f2f5;
+			position: fixed !important;
+			left: 4.95466rem;
+			top: 1rem !important;
+			width: 2.4rem;
+			/* min-height: 6.8266rem; */
+			border-radius: .1rem;
+		}
+	.tpnavf .footer ul li {
+		float: none;
+		width: 100%;
+	}
+	.tpnavf .footer ul li a {
+		color: #fff;
+		display: block;
+		overflow: hidden;
+		/* height: 1.7066rem; */
+	}
+	.tpnavf .footer ul li a .icon .iconfont {
+		float: left;
+		font-size: .3rem;
+		margin: 0.2rem 0 0 .2rem;
+	}
+	.tpnavf .footer ul li a .icon p {
+		float: right;
+		margin-top: 0px;
+		height: 0.7rem;
+		line-height: 0.7rem;
+		border-bottom: 1px solid #fff;
+		width: 65%;
+		text-align: left;
+	}
+	</style>
 	<body>
 		<div class="wrapper">
     		<!-- 公共头部 -->
@@ -16,7 +58,11 @@
 				<span class="backBtn" onclick="returnFun()"></span>
 				<h1>仓库管理</h1>
 				<!-- <span class="right"></span> -->
+				<div class="ds-in-bl menu" style=" position: absolute;right: .42667rem;">
+					<a href="javascript:void(0);"><img src="__STATIC__/images/class2.png" alt="菜单" style="width: .5333rem;border-radius:0px;"></a>
+				</div>
 			</div>
+			
 	        <!--内容-->
 	        <div class="content">
 	        	<div class="item_wrap">
@@ -77,9 +123,71 @@
 					</if>
         		</div>
 	        </div>
-	    </div>
+		</div>
+		<div class="flool up-tpnavf-wrap tpnavf [top-header]">
+			<div class="footer up-tpnavf-head">
+				<div class="up-tpnavf-i"> </div>
+				<ul>
+					<li>
+						<a class="yello" href="{:U('Index/index')}">
+							<div class="icon">
+								<i class="icon-shouye iconfont"></i>
+								<p>首页</p>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Goods/categoryList')}">
+							<div class="icon">
+								<i class="icon-fenlei iconfont"></i>
+								<p>分类</p>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="{:U('Cart/index')}">
+							<div class="icon">
+								<i class="icon-gouwuche iconfont"></i>
+								<p>购物车</p>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="{:U('User/index')}">
+							<div class="icon">
+								<i class="icon-wode iconfont"></i>
+								<p>我的</p>
+							</div>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
 	    
 	    <script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
 		<script src="__STATIC__/js/public/public.js"></script>
 	</body>
+	<script type="text/javascript">
+		//菜单
+		$(function(){	
+			$(window).scroll(function() {		
+				if($(window).scrollTop() >= 1){ 
+					$('.tpnavf').hide()
+				}
+			})
+		})
+		$('.tpnavf').hide();
+		$('.menu').click(function(){
+			$(".tpnavf").toggle();
+		})
+		$(document).click(function(){
+			$('.tpnavf').hide();
+		})
+		$(".menu").click(function(e){ 
+			e.stopPropagation(); 
+		})
+		$(".tpnavf").click(function(e){ 
+			e.stopPropagation(); 
+		})
+		</script>
 </html>

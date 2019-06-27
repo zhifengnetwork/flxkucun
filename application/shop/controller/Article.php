@@ -37,6 +37,15 @@ class Article extends MobileBase
         return $this->fetch();
     }
 
+    //商场说明
+    public function shop_explain()
+    {
+        $article_id = input('article_id/d', 40);
+        $article = Db::name('article')->where("article_id", $article_id)->find();
+        $this->assign('article', $article);
+        return $this->fetch();
+    }
+
     public function news()
     {
         $id = input('id');

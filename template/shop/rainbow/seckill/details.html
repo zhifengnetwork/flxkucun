@@ -37,30 +37,29 @@
                     <div class="slider-wrap">
                         <div class="swiper-container" style="height:100%">
                             <div class="swiper-wrapper">
+                                <if condition="$goods.video neq ''">
                                 <div class="swiper-slide">
-                                    <video  id="video1" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
-                                        loop="loop" poster="__STATIC__/images/details/details-img01.png" x5-playsinline="" x-webkit-airplay="" playsinline="" webkit-playsinline="">
+                                    <video  id="video1" src="{$goods.video}" width="100%" height="100%"
+                                        loop="loop" x5-playsinline="" x-webkit-airplay="" playsinline="" webkit-playsinline="">
                                     </video>
                                     <span class="playBtn"></span>
                                     <span class="voiceBtn"></span>
                                 </div>
-                                <div class="swiper-slide">
-                                    <img src="__STATIC__/images/details/details-img02.png" >
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="__STATIC__/images/details/details-img03.png" >
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="__STATIC__/images/details/details-img04.png" >
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="__STATIC__/images/details/details-img05.png">
-                                </div>
+                                </if>
+                                <foreach name="goods['goods_images']" item="pic">
+                                    <div class="swiper-slide">
+                                        <img src="{$pic[image_url]}" >
+                                    </div>
+                                </foreach>
                             </div>
                             <div class="swiper-pagination"></div>
                             <div class="nav-tag">
+                                <if condition="$goods.video neq ''">
                                 <span class="tag-item active"><i class="paly-icon"></i> 视频</span>
+                                </if>
+                                <if condition="$goods.goods_images neq ''">
                                 <span class="tag-item">图片</span>
+                                </if>
                             </div>
                         </div>
                     </div>
@@ -68,17 +67,17 @@
                     <!-- 秒杀信息 -->
                     <div class="sale-info">
                         <div class="price">
-                            <span class="discount-price">￥3665.00</span>
-                            <span class="tag-price">￥8852.00</span>
+                            <span class="discount-price">￥{$prominfo.price}</span>
+                            <span class="tag-price">￥{$goods.market_price}</span>
                         </div>
                         <div class="center">
-                            <div class="title">限时秒杀<span>包邮</span></div>
+                            <div class="title">限时秒杀<span><if condition="$goods.is_free_shipping eq 1">包邮<else />不包邮</if></span></div>
                             <!-- 进度条 -->
                             <div class="progress">
                                 <div class="progress-bar">
-                                    <span></span>
+                                    <span style="width:{$prominfo.rate}%;"></span>
                                 </div>
-                                <div class="percentage">87%</div>
+                                <div class="percentage">{$prominfo.rate}%</div>
                             </div>
                         </div>
                         <!-- 倒计时 -->
@@ -95,16 +94,16 @@
                     <div class="goodsInfo">
                         <!-- 商品名称 -->
                         <div class="goodsName group-line">
-                            <h1>可爱多洗衣液500ml*6袋</h1>
+                            <h1>{$prominfo.title}</h1>
                         </div>
                         <div class="group-line">
                             <div class="label">活动</div>
-                            <div class="center">限时秒杀（总限购3000</div>
+                            <div class="center">限时秒杀（总限购{$prominfo.goods_num}</div>
                             <div class="right-arrow"></div>
                         </div>
                         <div class="group-line border-none" onclick="skuShow()">
                             <div class="label">已选</div>
-                            <div class="center">8片装 8件</div>
+                            <div class="center">{$goods.goods_name}</div>
                             <div class="right-arrow"></div>
                         </div>
                     </div>
@@ -115,7 +114,7 @@
                 <div class="floor-con comment">
                     <div class="headline">
                         <h3>评价</h3>
-                        <span>好评率99%</span>
+                        <span onclick="$(window).scrollTop($('.comment').offset().top-100);">好评率{$goods['comment_statistics']['high_rate']}%</span>
                     </div>
                     <div class="comment-list">
                         <div class="single-item">
@@ -155,6 +154,7 @@
 
                 <!-- 商品详情 -->
                 <div class="floor-con goods-details">
+                    <!--
                     <div class="goods-information">
                         <div class="heading">产品信息</div>
                         <table>
@@ -172,7 +172,8 @@
                             </tr>
                         </table>
                     </div>
-                    <img src="__STATIC__/images/details/detailsImg01.jpg" />
+                    -->
+                    {$goods.goods_content|htmlspecialchars_decode}
                 </div>
 
             </div>
@@ -185,18 +186,19 @@
                 <div class="thead">
                     <div class="img-wrap">
                         <a href="#">
-                            <img src="__STATIC__/images/home_zp/00recommend-img02.png" >
+                            <img src="{$goods.original_img}" >
                         </a>
                     </div>
                     <div class="main">
-                        <div class="goods-name">可爱多洗衣液500ml*6袋</div>
-                        <div class="goods-price">$2900.00</div>
-                        <div class="sku-choose"><span>已选:</span>洗衣液300ml*2</div>
+                        <div class="goods-name">{$goods.goods_name}</div>
+                        <div class="goods-price">￥{$prominfo.price}</div>
+                        <!--<div class="sku-choose"><span>已选:</span>洗衣液300ml*2</div>-->
                     </div>
                     <div class="close-btn" onclick="skuHide()"></div>
                 </div>
 
                 <div class="tbody">
+                    <!--
                     <div class="sku-row">
                         <div class="sku-row-title">套餐</div>
                         <div class="sku-row-con">
@@ -205,8 +207,8 @@
                             <span class="sku-row-item">洗衣液500ml*6</span>
                             <span class="sku-row-item">可爱多洗衣液100ml*6袋</span>
                         </div>
-                    </div> 
-
+                    </div> -->
+                    <br />
                     <div class="sku-row">
                         <div class="sku-row-title">数量</div>
                         <div class="stepper">
@@ -241,7 +243,7 @@
                     <em class="fav-animation">收藏成功</em>
                 </span>
             </div>
-            <div class="price">原价:<span>￥</span>69</div>
+            <div class="price">原价:<span>￥</span>{$goods.market_price}</div>
             <div class="btn" onclick="skuShow()">立即抢购</div>
 		</div>
 
@@ -325,7 +327,7 @@
         *倒计时效果
         **/
         //1.自定义将来时间
-        var nextDate = new Date('2019/06/26 22:00:00');
+        var nextDate = new Date("{:date('Y-m-d H:i:s',$prominfo['end_time'])}");
         //2.开启定时器
         setInterval(function(){
             //2.1获取现在的时间
