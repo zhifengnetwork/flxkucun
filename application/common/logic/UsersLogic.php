@@ -1591,8 +1591,8 @@ class UsersLogic extends Model
 
         if($this->user_id > 0 && $data['uid'] > 0){
             $user = $this->get_info($this->user_id);
-            if($user['fixed_money'] > 0){
-                $user->pay_points = $user->fixed_money - $this->pay->getPayPoints();// 消费积分
+            if($user['frozen_money'] > 0){
+                $user->pay_points = $user->frozen_money - $this->pay->getPayPoints();// 消费积分
             }
             if($this->pay->getUserMoney() > 0){
                 $user->user_money = $user->user_money - $this->pay->getUserMoney();// 抵扣余额
