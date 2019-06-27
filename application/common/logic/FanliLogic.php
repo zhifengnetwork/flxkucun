@@ -305,6 +305,7 @@ class FanliLogic extends Model
 	//记录日志
 	public function writeLog($userId,$money,$desc,$states,$frozen_money=0)
 	{
+		if(!$userId)return;
 		$data = array(
 			'user_id'=>$userId,
 			'user_money'=>$money,
