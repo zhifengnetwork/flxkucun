@@ -145,6 +145,12 @@
                             <div class="comment-sku">规格:8片</div>
                         </div>
                     </div>
+                    
+                    <div class="loading-wrap">
+                        <p class="loading"><img src="__STATIC__/images/public/loading.gif" /></p>
+                        <p class="end">加载完毕</p>
+                    </div>
+
                 </div>
 
                 <!-- 商品详情 -->
@@ -401,6 +407,45 @@
                 }
             });
         });
+
+        /**
+		* 继续加载评论
+		**/
+		var before_request = 1; // 上一次请求是否已经有返回来, 有才可以进行下一次请求
+		var page = 1;
+		ajax_sourch_submit(1);
+		function ajax_sourch_submit(p) {
+			if(before_request == 0) // 上一次请求没回来 不进行下一次请求
+				return false;
+			before_request = 0;
+			!p && page ++;
+			$.ajax({
+				type: "get",
+				url: "/index.php?m=Shop&c=Index&a=ajaxGetgoodslist&p=" + page,
+				success: function(data) {
+					if(data) {
+						$(".comment-list").append(data);
+						before_request = 1;
+					}else {
+						$('.loading-wrap .loading').hide();
+
+						$('.loading-wrap .end').show();
+					}
+				}
+			});
+		}
+		//滚动加载更多
+		$(window).scroll(
+			function() {
+				var scrollTop = parseInt($(this).scrollTop());
+				var scrollHeight = parseInt($(document).height());
+				var windowHeight = parseInt($(this).height());
+				var chazhi = (scrollTop + windowHeight ) - (scrollHeight-60);
+				if ( chazhi >= -800 ){
+					ajax_sourch_submit();//调用加载更多
+				}
+			}
+		);	
 
      
     </script>
