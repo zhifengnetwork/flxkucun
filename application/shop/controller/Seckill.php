@@ -77,6 +77,11 @@ class Seckill extends MobileBase
             $goods->save(['is_on_sale' => 0]);
             $this->error('此商品不存在或者已下架');
         }
+
+        $prominfo = M('flash_sale')->find($id);
+        if($prominfo['start_time'] > time())$this->error('此活动还未开始');
+        if($prominfo['end_time'] < time())$this->error('此活动已结束');
+
         $user_id = cookie('user_id');
         if ($user_id) {
             $goodsLogic->add_visit_log($user_id, $goods);
@@ -94,7 +99,30 @@ class Seckill extends MobileBase
             $price = $goods['market_price'];
         }
 
-        $prominfo = M('flash_sale')->find($id);
+        $commentType = I('commentType', '1'); // 1 全部 2好评 3 中评 4差评
+        if ($commentType == 5) {
+            $where = array(
+                'goods_id' => $goods_id, 'parent_id' => 0, 'img' => ['<>', ''], 'is_show' => 1
+            );
+        } else {
+            $typeArr = array('1' => '0,1,2,3,4,5', '2' => '4,5', '3' => '3', '4' => '0,1,2');
+            $where = array('is_show' => 1, 'goods_id' => $goods_id, 'parent_id' => 0, 'ceil((deliver_rank + goods_rank + service_rank) / 3)' => ['in', $typeArr[$commentType]]);
+        }        
+
+        $list = M('Comment')
+            ->alias('c')
+            ->join('__USERS__ u', 'u.user_id = c.user_id', 'LEFT')
+            ->where($where)->field('c.*,ceil((deliver_rank + goods_rank + service_rank) / 3) as goods_rank ,u.head_pic')
+            ->order("add_time desc")
+            ->select();
+        $replyList = M('Comment')->where(['goods_id' => $goods_id, 'parent_id' => ['>', 0]])->order("add_time desc")->select();
+        foreach ($list as $k => $v) {
+            $list[$k]['img'] = unserialize($v['img']); // 晒单图片
+            $replyList[$v['comment_id']] = M('Comment')->where(['is_show' => 1, 'goods_id' => $goods_id, 'parent_id' => $v['comment_id']])->order("add_time desc")->select();
+            $list[$k]['reply_num'] = Db::name('reply')->where(['comment_id' => $v['comment_id'], 'parent_id' => 0])->count();
+        }
+        $this->assign('list', $list);    
+
         $prominfo['rate'] = !$prominfo['order_num'] ? 100 : 100-intval(($prominfo['order_num']/$prominfo['goods_num'])*100);
         $this->assign('price', $price); 
         //dump($goods);exit;

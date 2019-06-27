@@ -155,12 +155,12 @@ class GoodsLogic extends Model
         if($res){
             $res = Db::name('goods_collect')->where($where)->delete();
             Db::name('goods')->where('goods_id', $goods_id)->setDec('collect_sum');
-            return ['status' => 1 , 'msg'=>'已取消收藏！','data'=>''];
+            return ['status' => 2 , 'msg'=>'已取消收藏！','data'=>''];
         }else{
             $where['add_time'] = time();
             $res = Db::name('goods_collect')->insert($where);
             Db::name('goods')->where('goods_id', $goods_id)->setInc('collect_sum');
-            return ['status' => 1 , 'msg'=>'收藏成功!请到个人中心查看','data'=>''];
+            return ['status' => 1 , 'msg'=>'收藏成功!','data'=>''];
         }
         
     }
