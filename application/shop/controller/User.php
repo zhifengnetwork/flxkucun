@@ -239,7 +239,15 @@ class User extends MobileBase
             $pei_parent = getThird_leader($this->user_id, $goods_id);
         }else 
             $pei_parent = getThird_leader1($this->user_id, $this->user['level']);
-
+        
+        ($this->user['level'] > 2) && $pei_parent = $this->user_id;
+        if($pei_parent == $this->user_id){
+            $title = '我的仓库';
+        }elseif($pei_parent > 0){
+            $title = '上级仓库';
+        }else{
+            $title = '系统仓库';
+        }
        if(!$pei_parent)
         {
             $kucun = M("goods")->alias('g')
@@ -262,6 +270,7 @@ class User extends MobileBase
         $this->assign('pei_parent', $pei_parent);
         $this->assign('kucun', $kucun);
         $this->assign('type', $type);
+        $this->assign('title', $title);
         return $this->fetch();
     }
 

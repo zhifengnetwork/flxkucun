@@ -127,6 +127,7 @@ class Cart extends MobileBase {
         $action = input("action/s"); // 行为
         $type = input("type/d",1);
         $applyid = input("applyid/d",0);
+        $pei_parent = input("pei_parent/d",0);
         if ($this->user_id == 0){
             $this->error('请先登录', U('Shop/User/login'));
         }
@@ -217,6 +218,7 @@ class Cart extends MobileBase {
         $cartList = array_merge($cartList,$cartPriceInfo);
         
         $this->assign('type', $type);
+        $this->assign('pei_parent', $pei_parent);
         $this->assign('third_leader', $this->user['third_leader']);
         $this->assign('applyid', $applyid);
         $this->assign('cartGoodsTotalNum', $cartGoodsTotalNum);
@@ -261,7 +263,8 @@ class Cart extends MobileBase {
         $action_type =input('action_type');
         $type = input('type/d',1);
         $applyid = input('applyid/d',0); 
-        $seller_id=input('seller_id');
+        $seller_id = input('seller_id');
+        $pei_parent = input('pei_parent/d',0);
        // echo $seller_id;exit;
         $cart_validate = Loader::validate('Cart');
         if($action_type=='kucun_buy')
@@ -299,7 +302,7 @@ class Cart extends MobileBase {
                 $cartLogic->checkStockCartList($userCartList);
                 $pay->payCart($userCartList);
             }
-            if($type || $applyid)
+            if(($type == 1) || $applyid)
                 $pay->setUserId($this->user_id)->useUserMoney($user_money);
             else
                 $pay->setUserId($this->user_id)->delivery($address['district'])->useUserMoney($user_money);
@@ -314,8 +317,8 @@ class Cart extends MobileBase {
                 $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn']]);
             }
             elseif ($_REQUEST['act'] == 'kucun_submit_order') {
-                $placeOrder = new PlaceOrder($pay);
-                if($type || $applyid){
+                $placeOrder = new PlaceOrder($pay); 
+                if(($type == 1) || $applyid){
                     $placeOrder->setUserNote($user_note)->setOrdertype()->setApplyid($applyid,$type)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
                 }else{
                     $placeOrder->setUserAddress($address)->setOrdertype()->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
@@ -347,8 +350,8 @@ class Cart extends MobileBase {
                 }
             }
 
-            $region=Db::name('user_address')->where('user_id',$this->user_id)->find();
-            $pricedata['shipping_price']=$this->dispatching($goods_id,$region['district']);
+            //$region=Db::name('user_address')->where('user_id',$this->user_id)->find();
+            //$pricedata['shipping_price']=$this->dispatching($goods_id,$region['district']);
             $this->ajaxReturn(['status' => 1, 'msg' => '计算成功', 'result' => $pricedata]);
         } catch (TpshopException $t) {
             $error = $t->getErrorArr();

@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<title><if condition="$pei_parent gt 0">上级仓库<else />系统仓库</if></title>
+		<title>{$title}</title>
         <script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
         <link rel="stylesheet" href="__STATIC__/css/public_lb/picker.css" />
 		<link rel="stylesheet" href="__STATIC__/css/public_lb/public.css" />
@@ -20,7 +20,7 @@
 			<!-- 公共头部 -->
 			<div class="header">
 				<span class="backBtn" onclick="returnFun()"></span>
-				<h1><if condition="$pei_parent gt 0">上级仓库<else />系统仓库</if></h1>
+				<h1>{$title}</h1>
 				<!-- <span class="right"></span> -->
 			</div>
 	
