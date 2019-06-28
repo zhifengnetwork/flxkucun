@@ -340,7 +340,7 @@ class User extends MobileBase
     }
 
     //余额转账明细
-    public function shopping_exchange()
+    public function money_exchange()
     {
         return $this->fetch();
     }
