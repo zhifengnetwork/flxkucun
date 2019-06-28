@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>护肤</title>
+
+    <script src="__STATIC__/js/public/rem.js" type="text/javascript" charset="utf-8"></script>
+
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/reset.css?v=111" />
+    <link rel="stylesheet" href="__STATIC__/css/public/base.css">
+    <style>
+        .content {
+            padding: .98rem .24rem 0;
+            box-sizing: border-box;
+        }
+        .adv-container{
+            margin-bottom: .2rem;
+        }
+        .adv-container img {
+            width: 100%;
+        }
+        .hot-wrap{
+            padding: 0 .3rem;
+            box-sizing: border-box;
+        }
+        .hot-list .single-item{
+            width: 100%;
+            height: 2.3rem;
+            background-color: #f7f7f7;
+            padding: .15rem;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            margin-bottom: .2rem;
+            border-radius: .12rem;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            position: relative;
+            overflow: hidden;
+        }
+        .hot-list .single-item .img-wrap{
+            width: 2rem;
+            height: 2rem;
+            margin-right: .2rem;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+        }
+        .hot-list .single-item .img-wrap img{
+            width: 100%;
+        }
+        .hot-list .single-item .text{
+            color: #333333;
+        }
+        .hot-list .single-item .text h3{
+            font-size: .28rem;
+            line-height: .5rem;
+            font-weight: normal;
+            margin-bottom: .1rem;
+        }
+        .hot-list .single-item .text .dec{
+            font-size: .26rem;
+            margin-bottom: .4rem;
+        }
+        .hot-list .single-item .text .price{
+            font-size: .32rem;
+            margin-bottom: .1rem;
+        }
+        .hot-list .single-item .text .original-price{
+            font-size: .22rem;
+            text-decoration: line-through ;
+        }
+        .hot-list .single-item .text .spell-num{
+            font-size: .22rem;
+            line-height: .32rem;
+        }
+        .hot-list .single-item .text .buy-btn{
+            width: 1.38rem;
+            height: .6rem;
+            line-height: .6rem;
+            display: block;
+            text-align: center;
+            font-size: .28rem;
+            color: #ffffff;
+            border-radius: .12rem;
+            background-color: #e93380;
+            position: absolute;
+            right: .15rem;
+            bottom: .3rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- 公共头部 -->
+        <div class="header">
+            <span class="backBtn" onclick="returnFun()"></span>
+            <h1>护肤</h1>
+        </div>
+
+        <div class="content">
+            <div class="adv-container">
+                <img src="__STATIC__/images/public/banner01.png" />
+            </div>
+
+            <div class="hot-wrap">
+                <div class="hot-list">
+                    <div class="single-item">
+                        <div class="img-wrap">
+                            <a href="/shop/goods/goodsInfo/id/89"><img
+                                    src="/public/upload/goods/2019/06-25/0302c109731edc5f609a9eb909896e69.jpg"></a>
+                        </div>
+                        <div class="text">
+                            <a href="/shop/goods/goodsInfo/id/89">
+                                <h3>多肽滋润水凝霜</h3>
+                            </a>
+                            <p class="dec"></p>
+                            <div class="price">
+                                <span class="discount-price">¥500.00</span>
+                                <span class="original-price">¥500.00</span>
+                            </div>
+                            <p class="spell-num">已售22件</p>
+                            <a href="/shop/goods/goodsInfo/id/89" class="buy-btn">立即购买</a>
+                        </div>
+                    </div>
+
+                    <div class="single-item">
+                        <div class="img-wrap">
+                            <a href="/shop/goods/goodsInfo/id/95"><img
+                                    src="/public/upload/goods/2019/06-25/788e230f0d1a9b2d793ee21049344b0f.jpg"></a>
+                        </div>
+                        <div class="text">
+                            <a href="/shop/goods/goodsInfo/id/95">
+                                <h3>植萃修护护发乳</h3>
+                            </a>
+                            <p class="dec"></p>
+                            <div class="price">
+                                <span class="discount-price">¥11111.00</span>
+                                <span class="original-price">¥11111.00</span>
+                            </div>
+                            <p class="spell-num">已售1件</p>
+                            <a href="/shop/goods/goodsInfo/id/95" class="buy-btn">立即购买</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
+    <script src="__STATIC__/js/public/public.js"></script>
+
+
+</body>
+
+</html>
