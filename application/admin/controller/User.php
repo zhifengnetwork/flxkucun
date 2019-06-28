@@ -133,6 +133,7 @@ class User extends Base
          if (!$user)
              exit($this->error('会员不存在'));
          if (IS_POST) {
+            $_POST['third_leader'] = $_POST['first_leader'];
              //  会员信息编辑
              $password = I('post.password');
              $password2 = I('post.password2');
