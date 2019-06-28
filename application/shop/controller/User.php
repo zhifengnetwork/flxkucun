@@ -240,7 +240,7 @@ class User extends MobileBase
         }else 
             $pei_parent = getThird_leader1($this->user_id, $this->user['level']);
         
-        ($this->user['level'] > 2) && $pei_parent = $this->user_id;
+        (($this->user['level'] > 2) && ($type == 2)) && $pei_parent = $this->user_id;
         if($pei_parent == $this->user_id){
             $title = '我的仓库';
         }elseif($pei_parent > 0){
