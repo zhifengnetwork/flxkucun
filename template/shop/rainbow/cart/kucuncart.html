@@ -99,82 +99,80 @@
         <!-- <if condition="$third_leader eq 0 and $applyid eq 0"> -->
         <if condition="$third_leader eq 0">
         <div class="information_dr">
-                <div class="maleri30">
+            <div class="maleri30">
 
-                    <!--使用余额-s-->
-                    <div class="invoice list7">
-                        <div class="myorder p">
-                            <div class="content30">
-                                <a class="remain" href="javascript:void(0);">
-                                    <div class="order">
-                                        <div class="fl">
-                                            <span>使用余额</span>
-    
-                                            <p>余额：￥{$user['user_money']}</p>
-                                        </div>
-                                        <div class="fr z-toggle-btn">
-                                            <label class="z-toggle z-toggle-royal">
-                                                <input type="checkbox" id="user_money" value="{$user['user_money']}"/>
-    
-                                                <div class="z-tarck">
-                                                    <div class="z-handle">
-                                                    </div>
-                                                </div>
-                                            </label>
-                                        </div>
+                <!--使用余额-s-->
+                <div class="invoice list7">
+                    <div class="myorder p">
+                        <div class="content30">
+                            <a class="remain" href="javascript:void(0);">
+                                <div class="order">
+                                    <div class="fl">
+                                        <span>使用余额</span>
+
+                                        <p>余额：￥{$user['user_money']}</p>
                                     </div>
-                                </a>
-                            </div>
+                                    <div class="fr z-toggle-btn">
+                                        <label class="z-toggle z-toggle-royal">
+                                            <input type="checkbox" id="user_money" value="{$user['user_money']}"/>
+
+                                            <div class="z-tarck">
+                                                <div class="z-handle">
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
                     </div>
-                    <!--使用余额-e-->
-                    <!-- <div class="invoice list7">
-                        <div class="myorder p">
-                            <div class="content30">
-                                <a class="remain" href="javascript:void(0);">
-                                    <div class="order">
-                                        <div class="fl">
-                                            <span>使用积分</span>
-    
-                                            <p>积分：{$user['pay_points']}<i>可抵扣:{$user['pay_points']|pay_point_money|round=2}元</i></p>
-                                        </div>
-                                        <div class="fr z-toggle-btn">
-                                            <label class="z-toggle z-toggle-royal">
-                                                <input type="checkbox" id="pay_points" value="{$user['pay_points']}"/>
-    
-                                                <div class="z-tarck">
-                                                    <div class="z-handle">
-                                                    </div>
-                                                </div>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div> -->
-    
-                    <!--使用余额、积分-s-->
-                    <div id="balance-li" class="invoice list7">
-    
-                        <div class="myorder myorder-2 p" id="paypwd_view" style="display: none">
-                            <div class="content30">
-                                <label>
-                                    <div class="incorise">
-                                        <span>支付密码：</span>
-                                        <input type="password" id="pay_pwd" placeholder="请输入支付密码" autocomplete="off"/>
-                                        <if condition="empty($user['paypwd'])">
-                                            <a class="go-set-password" href="{:U('Mobile/User/paypwd')}?redirect_url={$redirect_url}">去设置支付密码?</a>
-                                        </if>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <!--使用余额、积分-e-->
-    
-       
                 </div>
+                <!--使用余额-e-->
+                <!-- <div class="invoice list7">
+                    <div class="myorder p">
+                        <div class="content30">
+                            <a class="remain" href="javascript:void(0);">
+                                <div class="order">
+                                    <div class="fl">
+                                        <span>使用积分</span>
+
+                                        <p>积分：{$user['pay_points']}<i>可抵扣:{$user['pay_points']|pay_point_money|round=2}元</i></p>
+                                    </div>
+                                    <div class="fr z-toggle-btn">
+                                        <label class="z-toggle z-toggle-royal">
+                                            <input type="checkbox" id="pay_points" value="{$user['pay_points']}"/>
+
+                                            <div class="z-tarck">
+                                                <div class="z-handle">
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div> -->
+
+                <!--使用余额、积分-s-->
+                <div id="balance-li" class="invoice list7">
+
+                    <div class="myorder myorder-2 p" id="paypwd_view" style="display: none">
+                        <div class="content30">
+                            <label>
+                                <div class="incorise">
+                                    <span>支付密码：</span>
+                                    <input type="password" id="pay_pwd" placeholder="请输入支付密码" autocomplete="off"/>
+                                    <if condition="empty($user['paypwd'])">
+                                        <a class="go-set-password" href="{:U('Mobile/User/paypwd')}?redirect_url={$redirect_url}">去设置支付密码</a>
+                                    </if>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <!--使用余额、积分-e-->
+            </div>
         </div>
         </if>
         <!--卖家留言-s-->
@@ -374,11 +372,12 @@
     });
     $(document).ready(function () {
         get_address_list();
+        //<if condition="$type eq 2 and $applyid eq 0">ajax_order_price();</if>
+        
     });
     //各种弹窗返回上一步
     $(function () {
         //加载完就刷新,应付金额为0
-        <if condition="$type eq 2 and $applyid eq 0">ajax_order_price();</if>
         //主页面返回上一步
         $(document).on('click', '#back', function () {
             var action = cart2_form.find("input[name='action']");
@@ -417,9 +416,9 @@
             $("#default_address_text").empty().html(address_area + ' '+ address);
             window.location.hash = "#";
             panel();
-            ajax_order_price();
+            //ajax_order_price();
         });
-        /*
+        
         //点击新建地址
         $(document).on('click', '#add_address', function () {
             address_form.find("input[name='address_id']").val('');
@@ -432,7 +431,7 @@
             $('#area').html('');
             window.location.hash = "#addressAdd";
             panel();
-        });*/
+        });
         //添加地址
         $(document).on('click', '#address_form_confirm', function () {
             $.ajax({
@@ -503,6 +502,7 @@
                     $("#add_address").trigger('click');
                 }
                 if(data.length > 0 && address_id.val() == ''){
+                    cart2_form.find("input[name='address_id']").val(data[0].address_id);
                     $("#address_list_html").find('.select_address').eq(0).trigger('click');
                 }
                 if(select_address_id > 0){
@@ -560,7 +560,7 @@
             ajax_order_price();
         });
 
-    })
+    });
 
     //积分余额密码
     $(function () {
@@ -574,7 +574,7 @@
             var pay_pwd = md5($("input[name='auth_code']").val() + $.trim($('#pay_pwd').val()));
             $('input[name="pay_pwd"]').val(pay_pwd);
         })
-    })    
+    });    
 
     //备注
     $(function () {
@@ -593,7 +593,7 @@
                 $("#zero").text(num);
             }
         });
-    })
+    });
 
     //支付密码是否显示
     function pay_pwd_view() {  
@@ -618,11 +618,12 @@
 
     // 获取订单价格
     function ajax_order_price() {
-        couponListHide();
+        couponListHide(); 
         var address_id = cart2_form.find("input[name='address_id']").val();
         if(address_id == ''){
             get_address_list();
         }
+        //cart2_form.find("input[name='address_id']").val(address_id);
         $.ajax({
             type: "POST",
             url: '/index.php?m=Shop&c=Cart&a=cart3',
