@@ -57,11 +57,15 @@ class CartLogic extends Model
         }
     }
 
+    //获取商品阶梯价格
     public function getGoodsPrices ($goodsId)
     {
-        $level_price = M('goods_level_price')->where(['goods_id'=>$goodsId,'level'=>$this->user['level']])->order('level asc')->find();
-
-        return $level_price['price'];
+        $level_price = M('goods_level_price')->where(['goods_id'=>$goodsId,'level'=>$this->user['level']])->order('level asc')->value('price');
+        //2019-06-28 修改默认价格，默认为市场价格
+        if($level_price === null){
+            $level_price = Db::name('goods')->where('goods_id',$goodsId)->value('market_price');
+        }
+        return $level_price;
     }
 
     /**
@@ -199,15 +203,19 @@ class CartLogic extends Model
             $prom_type = $this->specGoodsPrice['prom_type'];
             $store_count = $this->specGoodsPrice['store_count'];
         }
+     
         if ($this->goodsBuyNum > $store_count) {
             throw new TpshopException('立即购买', 0, ['status' => 0, 'msg' => '商品库存不足，剩余' . $this->goods['store_count'], 'result' => '']);
         }
+       
         $goodsPromFactory = new GoodsPromFactory();
         if ($goodsPromFactory->checkPromType($prom_type)) {
-            $goodsPromLogic = $goodsPromFactory->makeModule($this->goods, $this->specGoodsPrice);
-            if ($goodsPromLogic->checkActivityIsAble()) {
-                $buyGoods = $goodsPromLogic->buyNow($buyGoods);
-            }
+            // $goodsPromLogic = $goodsPromFactory->makeModule($this->goods, $this->specGoodsPrice);
+            // if ($goodsPromLogic->checkActivityIsAble()) {
+            //     $buyGoods = $goodsPromLogic->buyNow($buyGoods);
+            // }
+
+            $buyGoods=$buyGoods;
         } else {
             if ($this->goods['prom_type'] == 0) {
                 if (!empty($this->goods['price_ladder'])) {
@@ -223,6 +231,7 @@ class CartLogic extends Model
                 }
             }
         }
+        
         $cart = new Cart();
         $buyGoods['member_goods_price']?$buyGoods['member_goods_price']=round($buyGoods['member_goods_price'],2):'';
         $buyGoods['cut_fee'] = $cart->getCutFeeAttr(0, $buyGoods);

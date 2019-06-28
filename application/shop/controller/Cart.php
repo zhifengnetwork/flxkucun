@@ -66,8 +66,13 @@ class Cart extends MobileBase {
         $cartLogic = new CartLogic();
         $cartLogic->setUserId($this->user_id);
         $cartList = $cartLogic->getCartList();//用户购物车
-        $hot_goods = db('Goods')->where('is_hot=1 and is_on_sale=1')->limit(20)->cache(true, TPSHOP_CACHE_TIME)->select();
-        $this->assign('hot_goods', $hot_goods);
+        // $user = session('user');
+        // $level = $user['level'];
+        $hot_goods = db('Goods')->field('goods_id,goods_name,shop_price,market_price')->where('is_hot=1 and is_on_sale=1')->limit(20)->cache(true, TPSHOP_CACHE_TIME)->select();
+        foreach($hot_goods as $key=>$val){
+            $hot_goods[$key]['shop_price'] = $val['market_price'];
+        }
+        $this->assign('hot_goods', $hot_goods); 
         $this->assign('cartList', $cartList);//购物车列表
         return $this->fetch();
     }
@@ -127,6 +132,7 @@ class Cart extends MobileBase {
         $action = input("action/s"); // 行为
         $type = input("type/d",1);
         $applyid = input("applyid/d",0);
+        $pei_parent = input("pei_parent/d",0);
         if ($this->user_id == 0){
             $this->error('请先登录', U('Shop/User/login'));
         }
@@ -150,6 +156,15 @@ class Cart extends MobileBase {
                 $error = $t->getErrorArr();
                 $this->error($error['msg']);
             }
+      
+            if($user['level'] > 0){
+                $price = M('goods_level_price')->where('goods_id',$goods_id)->where('level',$user['level'])->value('price');
+                $buyGoods['member_goods_price']= $price?$price:$goods['market_price'];
+            }else{
+                $buyGoods['member_goods_price']= $buyGoods['market_price'];
+            }
+
+            
             $cartList['cartList'][0] = $buyGoods;
             $cartGoodsTotalNum = $goods_num;
             $setRedirectUrl = new UsersLogic();
@@ -192,7 +207,7 @@ class Cart extends MobileBase {
             $cartGoodsTotalNum = count($cartList['cartList']);
         } 
         $cartPriceInfo = $cartLogic->getCartPriceInfo($cartList['cartList']);  //初始化数据。商品总额/节约金额/商品总共数量
-
+        
         //$levellist = M('user_level')->field('stock,replenish')->where(['level'=>['gt',$this->user['level']]])->select();
         $levelinfo = M('user_level')->field('stock,replenish')->where(['level'=>$this->user['level']])->find();
         if(($type == 1) && !$applyid && ($cartPriceInfo['total_fee'] < $levelinfo['replenish']) && ($action=="kucun_buy"))$this->error('补货金额必须达到'.$levelinfo['replenish'].'元','/shop/User/superior_store/type/1');
@@ -203,10 +218,12 @@ class Cart extends MobileBase {
             if($applyinfo['uid'] != $this->user_id)$this->error('您无权限进入此仓库',"User/user_store/type/$type/applyid/$applyid");
             $levelinfo = M('user_level')->field('stock')->where(['level'=>$applyinfo['level']])->find();
             if(($cartPriceInfo['total_fee'] < $levelinfo['stock']) && ($action=="kucun_buy"))$this->error('首次进货金额必须达到'.$levelinfo['stock'].'元',"/shop/User/user_store/type/$type/applyid/".$applyid);
-        }        
+        }   
 
         $cartList = array_merge($cartList,$cartPriceInfo);
+
         $this->assign('type', $type);
+        $this->assign('pei_parent', $pei_parent);
         $this->assign('third_leader', $this->user['third_leader']);
         $this->assign('applyid', $applyid);
         $this->assign('cartGoodsTotalNum', $cartGoodsTotalNum);
@@ -251,7 +268,8 @@ class Cart extends MobileBase {
         $action_type =input('action_type');
         $type = input('type/d',1);
         $applyid = input('applyid/d',0); 
-        $seller_id=input('seller_id');
+        $seller_id = input('seller_id');
+        $pei_parent = input('pei_parent/d',0);
        // echo $seller_id;exit;
         $cart_validate = Loader::validate('Cart');
         if($action_type=='kucun_buy')
@@ -289,7 +307,7 @@ class Cart extends MobileBase {
                 $cartLogic->checkStockCartList($userCartList);
                 $pay->payCart($userCartList);
             }
-            if($type || $applyid)
+            if(($type == 1) || $applyid)
                 $pay->setUserId($this->user_id)->useUserMoney($user_money);
             else
                 $pay->setUserId($this->user_id)->delivery($address['district'])->useUserMoney($user_money);
@@ -304,11 +322,11 @@ class Cart extends MobileBase {
                 $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn']]);
             }
             elseif ($_REQUEST['act'] == 'kucun_submit_order') {
-                $placeOrder = new PlaceOrder($pay);
-                if($type || $applyid){
+                $placeOrder = new PlaceOrder($pay); 
+                if(($type == 1) || $applyid){
                     $placeOrder->setUserNote($user_note)->setOrdertype()->setApplyid($applyid,$type)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
                 }else{
-                    $placeOrder->setUserAddress($address)->setOrdertype()->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
+                    $placeOrder->setUserAddress($address)->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
                 }
                 $cartLogic->clear();
                 $order = $placeOrder->getOrder();
@@ -318,7 +336,7 @@ class Cart extends MobileBase {
                     if($msid)M('user_message')->add(['user_id'=>$seller_id,'message_id'=>$msid]);
                 }
 
-                $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn'],'third_leader'=>$this->user['third_leader'],'applyid'=>$applyid]);
+                $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn'],'third_leader'=>$this->user['third_leader'],'applyid'=>$applyid,'type'=>$type]);
             }
 
             $pricedata = $pay->toArray(); 
@@ -337,8 +355,8 @@ class Cart extends MobileBase {
                 }
             }
 
-            $region=Db::name('user_address')->where('user_id',$this->user_id)->find();
-            $pricedata['shipping_price']=$this->dispatching($goods_id,$region['district']);
+            //$region=Db::name('user_address')->where('user_id',$this->user_id)->find();
+            //$pricedata['shipping_price']=$this->dispatching($goods_id,$region['district']);
             $this->ajaxReturn(['status' => 1, 'msg' => '计算成功', 'result' => $pricedata]);
         } catch (TpshopException $t) {
             $error = $t->getErrorArr();
@@ -391,6 +409,7 @@ class Cart extends MobileBase {
         }
         $Order = new Order();
         $order = $Order->where($order_where)->find();
+
         empty($order) && $this->error('订单不存在！');
         if($order['order_status'] == 3){
             $this->error('该订单已取消',U("Shop/Order/order_detail",array('id'=>$order['order_id'])));
@@ -469,20 +488,22 @@ class Cart extends MobileBase {
         $orderLogic = new \app\common\logic\OrderLogic();
         $action = 'confirm';
         $order_id = I('get.oid/d',0);
+        $type = I('get.type/d',1);
 
         $order = new \app\common\model\Order();
         $goods = $order::get($order_id);
         if($goods['order_status'] != 0)$this->error('请勿重复操作！');
 
-        foreach($goods['order_goods'] as $value){
-            $num = user_kucun_goods($this->user_id,$value['goods_id']);
-            if ($num['nums'] < $value['goods_num'] && $action != 'invalid'){
-                $this->error('您的库存不足!');
+        if(($type == 1) || (($type == 2) && $this->user['level'] > 2))
+            foreach($goods['order_goods'] as $value){
+                $num = user_kucun_goods($this->user_id,$value['goods_id']);
+                if ($num['nums'] < $value['goods_num'] && $action != 'invalid'){
+                    $this->error('您的库存不足!');
+                }
             }
-        }
 
         $order = M('Order')->field('order_id,seller_id,order_sn,shipping_price,prom_type,pay_shipping_status')->find($order_id);
-        if(!$order || ($order['seller_id'] != $this->user_id))
+        if(!$order || (($type == 1) && ($order['seller_id'] != $this->user_id)))
             $this->error('参数错误！');
         if($order['pay_shipping_status'] !== 0)
             $this->error('此订单已支付过运费啦！');
@@ -546,6 +567,8 @@ class Cart extends MobileBase {
         }
         $order_id = I('order_id/d');
         $order_sn= I('order_sn/s','');
+        $type= I('type/d',0);
+        $applyid= I('applyid/d',0);
         $order_where = ['user_id'=>$this->user_id];
         if($order_sn)
         {
@@ -624,6 +647,10 @@ class Cart extends MobileBase {
         $this->assign('paymentList',$paymentList);
         $this->assign('bank_img',$bank_img);
         $this->assign('order',$order);
+        $this->assign('level',$this->user['level']);
+        $this->assign('first_leader',$this->user['first_leader']);
+        $this->assign('type',$type);
+        $this->assign('applyid',$applyid);
         $this->assign('bankCodeList',$bankCodeList);
         $this->assign('third_leader',I('get.third_leader/d',0));
         $this->assign('pay_date',date('Y-m-d', strtotime("+1 day")));

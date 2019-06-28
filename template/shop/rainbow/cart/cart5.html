@@ -21,8 +21,8 @@
         </div>
         <div class="ddmoney">
             <div class="maleri30">
-                <span class="fl">订单金额</span>
-                <span class="fr">{$order[order_amount]}元</span>
+                <span class="fl"><if condition="$applyid eq 0 and $type eq 2 and $level gt 2 and $first_leader gt 0">运费<else />订单</if>金额</span>
+                <span class="fr"><if condition="$applyid eq 0 and $type eq 2 and $first_leader gt 0">{$order[shipping_price]}<else />{$order[order_amount]}</if>元</span>
             </div>
         </div>
         <if condition="$third_leader eq 0 and $applyid eq 0">
@@ -72,6 +72,7 @@
         </if>
         <!--其他支付方式-s-->
         <!--上传凭证-s-->
+        <if condition="$applyid gt 0">
         <div class="paylist">
             <span></span>
                 <label class="file" style="cursor:pointer;">
@@ -89,6 +90,14 @@
             </div>
         </div>
         <!--上传凭证-e-->
+        </if>
+        <if condition="$type eq 2 and $applyid eq 0 and $order.shipping_price gt 0 and $level gt 2 and $order.pay_shipping_status eq 0">
+            <div class="paiton">
+                <div class="maleri30">
+                    <a class="soon" id="asubmit" href="/Shop/Cart/PayShipping/oid/{$order.order_id}/type/2"><span>支付运费</span></a>
+                </div>
+            </div>
+        </if>
     </form>
 
 <div class="mask-filter-div" style="display: none;"></div>

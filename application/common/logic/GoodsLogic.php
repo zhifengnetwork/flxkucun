@@ -155,12 +155,12 @@ class GoodsLogic extends Model
         if($res){
             $res = Db::name('goods_collect')->where($where)->delete();
             Db::name('goods')->where('goods_id', $goods_id)->setDec('collect_sum');
-            return ['status' => 1 , 'msg'=>'已取消收藏！','data'=>''];
+            return ['status' => 2 , 'msg'=>'已取消收藏！','data'=>''];
         }else{
             $where['add_time'] = time();
             $res = Db::name('goods_collect')->insert($where);
             Db::name('goods')->where('goods_id', $goods_id)->setInc('collect_sum');
-            return ['status' => 1 , 'msg'=>'收藏成功!请到个人中心查看','data'=>''];
+            return ['status' => 1 , 'msg'=>'收藏成功!','data'=>''];
         }
         
     }
@@ -546,10 +546,13 @@ class GoodsLogic extends Model
         foreach ($template_list as $templateVal => $goodsArr) {
             $temp['template_id'] = $templateVal;
             foreach ($goodsArr as $goodsKey => $goodsVal) {
-                $temp['total_volume'] += $goodsVal['volume'] * $goodsVal['goods_num'];
-                $temp['total_weight'] += $goodsVal['weight'] * $goodsVal['goods_num'];
-                $temp['goods_num'] += $goodsVal['goods_num'];
-                $temp['is_free_shipping'] = $goodsVal['is_free_shipping'];
+                //2019-06-28加了个判断,针对多商品的订单
+                if($goodsVal['is_free_shipping'] != 1){
+                    $temp['total_volume'] += $goodsVal['volume'] * $goodsVal['goods_num'];
+                    $temp['total_weight'] += $goodsVal['weight'] * $goodsVal['goods_num'];
+                    $temp['goods_num'] += $goodsVal['goods_num'];
+                    $temp['is_free_shipping'] = 0;
+                }
             }
             $freightLogic->setGoodsModel($temp);
             $freightLogic->setGoodsNum($temp['goods_num']);

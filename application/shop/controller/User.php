@@ -229,7 +229,7 @@ class User extends MobileBase
         $type = I('get.type/d',0);
         //if(!$goods_id)$this->error('参数错误');
 
-        // 存找配货上级
+        // 找配货上级
         $new_kucun = array();
         //$pei_parent = find_prepareuserinfo($this->user_id);
         if(($this->user['level'] <= 2) && !$goods_id && !$type){
@@ -239,7 +239,15 @@ class User extends MobileBase
             $pei_parent = getThird_leader($this->user_id, $goods_id);
         }else 
             $pei_parent = getThird_leader1($this->user_id, $this->user['level']);
-
+        
+        (($this->user['level'] > 2) && ($type == 2)) && $pei_parent = $this->user_id;
+        if($pei_parent == $this->user_id){
+            $title = '我的仓库';
+        }elseif($pei_parent > 0){
+            $title = '上级仓库';
+        }else{
+            $title = '系统仓库';
+        }
        if(!$pei_parent)
         {
             $kucun = M("goods")->alias('g')
@@ -262,6 +270,7 @@ class User extends MobileBase
         $this->assign('pei_parent', $pei_parent);
         $this->assign('kucun', $kucun);
         $this->assign('type', $type);
+        $this->assign('title', $title);
         return $this->fetch();
     }
 
@@ -334,9 +343,37 @@ class User extends MobileBase
     // 购物余额
     public function shopping_balance()
     {
-
         $this->assign('user', $this->user);
         return $this->fetch();
+    }
+
+    //余额转账明细
+    public function money_exchange()
+    {
+        if($_GET['change_time']){
+            $userid=$this->user_id;
+            $account_log = M('account_log')->where(['log_type'=>6,'user_id'=>$userid,'change_time'=>$_GET['change_time']])
+                ->limit(1)
+                ->select();
+                $this->assign('countList',$account_log);   
+            return $this->fetch();
+        }else{
+            $userid=$this->user_id;
+            $count = M('account_log')->where(['log_type'=>6,'user_id'=>$userid])->count();
+            $Page = new Page($count,15);
+            $account_log = M('account_log')->where(['log_type'=>6,'user_id'=>$userid])
+                ->order('change_time desc')
+                ->limit($Page->firstRow.','.$Page->listRows)
+                ->select();
+                $this->assign('countList',$account_log);   
+            if ($_GET['is_ajax']) {
+                return $this->fetch('ajax_money_exchange');
+            }
+            return $this->fetch();
+        }
+
+
+        
     }
 
     // 购物余额转账
@@ -388,6 +425,7 @@ class User extends MobileBase
                 'frozen_money' => -$data['money'],
                 'change_time' => time(),
                 'desc' => '转账给ID:' . $data['uid'],
+                'log_type'=>6,
             ],
             [
                 'user_id' => $data['uid'],
@@ -395,6 +433,7 @@ class User extends MobileBase
                 'frozen_money' => $data['money'],
                 'change_time' => time(),
                 'desc' => '收到ID:' . $this->user_id . '转账',
+                'log_type'=>6,
             ],
         ];
 
