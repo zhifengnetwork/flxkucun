@@ -158,6 +158,7 @@ class Cart extends MobileBase {
                 $buyGoods['member_goods_price']= $buyGoods['market_price'];
             }
 
+            
             $cartList['cartList'][0] = $buyGoods;
             $cartGoodsTotalNum = $goods_num;
             $setRedirectUrl = new UsersLogic();
