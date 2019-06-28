@@ -27,8 +27,30 @@
     </div>
 </div>
 <!--详情-e-->
-<script src="__STATIC__/js/style.js" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript"></script>
+<!-- <script src="__STATIC__/js/style.js" type="text/javascript" charset="utf-8"></script> -->
+<script type="text/javascript">
+    //菜单
+    $(function(){	
+        $(window).scroll(function() {		
+            if($(window).scrollTop() >= 1){ 
+                $('.tpnavf').hide()
+            }
+        })
+    })
+    $('.tpnavf').hide();
+    $('.menu').click(function(){
+        $(".tpnavf").toggle();
+    })
+    $(document).click(function(){
+        $('.tpnavf').hide();
+    })
+    $(".menu").click(function(e){ 
+        e.stopPropagation(); 
+    })
+    $(".tpnavf").click(function(e){ 
+        e.stopPropagation(); 
+    })
+</script>
 <include file="public/wx_share"/>
 </body>
 </html>
