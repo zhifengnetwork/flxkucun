@@ -301,10 +301,10 @@ class Cart extends MobileBase {
                 }
                 $cartLogic->checkStockCartList($userCartList);
                 $pay->payCart($userCartList);
-            }
+            }/*
             if(($type || $applyid) && ($pei_parent != $this->user_id))
                 $pay->setUserId($this->user_id)->useUserMoney($user_money);
-            else
+            else*/
                 $pay->setUserId($this->user_id)->delivery($address['district'])->useUserMoney($user_money);
 
             // 提交订单
@@ -317,12 +317,12 @@ class Cart extends MobileBase {
                 $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn']]);
             }
             elseif ($_REQUEST['act'] == 'kucun_submit_order') {
-                $placeOrder = new PlaceOrder($pay);
+                $placeOrder = new PlaceOrder($pay); /*
                 if($type || $applyid){
                     $placeOrder->setUserNote($user_note)->setOrdertype()->setApplyid($applyid,$type)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
-                }else{
+                }else{*/
                     $placeOrder->setUserAddress($address)->setOrdertype()->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
-                }
+                //}
                 $cartLogic->clear();
                 $order = $placeOrder->getOrder();
 
