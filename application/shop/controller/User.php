@@ -339,6 +339,12 @@ class User extends MobileBase
         return $this->fetch();
     }
 
+    //余额转账明细
+    public function shopping_exchange()
+    {
+        return $this->fetch();
+    }
+
     // 购物余额转账
     public function transferAccounts()
     {
