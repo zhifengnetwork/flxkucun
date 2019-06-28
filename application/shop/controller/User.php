@@ -350,18 +350,30 @@ class User extends MobileBase
     //余额转账明细
     public function money_exchange()
     {
-        $userid=$this->user_id;
-        $count = M('account_log')->where(['log_type'=>6,'user_id'=>$userid])->count();
-        $Page = new Page($count,15);
-        $account_log = M('account_log')->where(['log_type'=>6,'user_id'=>$userid])
-            ->order('change_time desc')
-            ->limit($Page->firstRow.','.$Page->listRows)
-            ->select();
-            $this->assign('countList',$account_log);   
-        if ($_GET['is_ajax']) {
-            return $this->fetch('ajax_money_exchange');
+        if($_GET['change_time']){
+            $userid=$this->user_id;
+            $account_log = M('account_log')->where(['log_type'=>6,'user_id'=>$userid,'change_time'=>$_GET['change_time']])
+                ->limit(1)
+                ->select();
+                $this->assign('countList',$account_log);   
+            return $this->fetch();
+        }else{
+            $userid=$this->user_id;
+            $count = M('account_log')->where(['log_type'=>6,'user_id'=>$userid])->count();
+            $Page = new Page($count,15);
+            $account_log = M('account_log')->where(['log_type'=>6,'user_id'=>$userid])
+                ->order('change_time desc')
+                ->limit($Page->firstRow.','.$Page->listRows)
+                ->select();
+                $this->assign('countList',$account_log);   
+            if ($_GET['is_ajax']) {
+                return $this->fetch('ajax_money_exchange');
+            }
+            return $this->fetch();
         }
-        return $this->fetch();
+
+
+        
     }
 
     // 购物余额转账
