@@ -110,7 +110,7 @@
                             
                             <a class="shop-rebuy paysoon" href="{:U('Shop/Cart/cart4',array('order_id'=>$order['order_id']))}">立即付款</a>
                         </if>-->
-                        <if condition="$order.applyid eq 0 and $order.shipping_price gt 0 and $level gt 2 and $order.pay_shipping_status eq 0">
+                        <if condition="$order.pay_status eq 0 and $order.applyid eq 0 and $order.shipping_price gt 0 and $level gt 2 and $order.pay_shipping_status eq 0">
                                 <a class="shop-rebuy paysoon" href="/Shop/Cart/PayShipping/oid/{$order.order_id}/type/2">支付运费</a>
                             </if>
                         <if condition="$order.cancel_btn eq 1">
