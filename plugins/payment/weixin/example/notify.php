@@ -59,7 +59,10 @@ class PayNotifyCallBack extends WxPayNotify
         } elseif (stripos($order_sn, 'B') !== false) {
             $order_amount = M('AuctionDeposit')->where(['order_sn' => $order_sn])->value('deposit');
         } else {
-            $order_amount = M('order')->where(['order_sn' => "$order_sn"])->value('order_amount');
+			if($attach == 'pay_shipping')
+				$order_amount = M('order')->where(['order_sn' => "$order_sn"])->value('shipping_price');
+			else
+				$order_amount = M('order')->where(['order_sn' => "$order_sn"])->value('order_amount');
         }
 
         if ((string)($order_amount * 100) != (string)$data['total_fee']) {
