@@ -46,7 +46,8 @@
                 <elseif condition="($v.message_notice.type eq '4')"/>
                 <div class="mesgdeta_thi notice_mesgde_thi"><a href="javascript:messageNoticeInfo2('{:U('shop/User/coupon')}',{$v.rec_id});">查看详情</a></div>
                 <elseif condition="($v.message_notice.type eq '6')"/>
-                <div class="mesgdeta_thi notice_mesgde_thi"><a href="javascript:messageNoticeInfo2('{:U('shop/User/withdrawals_list')}',{$v.rec_id});">查看详情</a></div>
+                <!-- <div class="mesgdeta_thi notice_mesgde_thi"><a href="javascript:messageNoticeInfo2('{:U('shop/User/withdrawals_list')}',{$v.rec_id});">查看详情</a></div> -->
+                <div class="mesgdeta_thi notice_mesgde_thi"><a href="{:U('Shop/user/money_exchange',array('change_time'=>$v['send_time']))}">查看详情</a></div>
                 <elseif condition="$v.message_notice.mmt_code eq 'message_notice'"/>
                 <div class="mesgdeta_thi notice_mesgde_thi"><a href="javascript:messageNoticeInfo({$v.rec_id});">查看详情</a></div>
                 <else/>
