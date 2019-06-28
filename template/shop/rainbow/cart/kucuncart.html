@@ -370,11 +370,11 @@
     window.addEventListener('popstate', function () {
         panel();
     });
-    $(document).ready(function () {
-        get_address_list();
+    window.onload = function () {
+        <if condition="$type eq 2 and $applyid eq 0">get_address_list();</if>
         //<if condition="$type eq 2 and $applyid eq 0">ajax_order_price();</if>
-        
-    });
+
+    };
     //各种弹窗返回上一步
     $(function () {
         //加载完就刷新,应付金额为0
@@ -508,6 +508,7 @@
                 if(select_address_id > 0){
                     $("#address_list_html").find('.address_id_'+select_address_id).trigger('click');
                 }
+                ajax_order_price();
             }
         });
     }
@@ -697,7 +698,7 @@
                 $("#payables").text(data.result.order_amount);// 应付
                 $("#order_prom_amount").text(data.result.order_prom_amount);// 订单 优惠活动
                 showErrorMsg('订单提交成功，跳转支付页面!');
-                location.href = "/index.php?m=Shop&c=Cart&a=cart5&order_sn=" + data.result + '&third_leader=' + data.third_leader + '&applyid=' + data.applyid;
+                location.href = "/index.php?m=Shop&c=Cart&a=cart5&order_sn=" + data.result + '&third_leader=' + data.third_leader + '&applyid=' + data.applyid + '&type=' + data.type;
             }
         });
     }
