@@ -603,6 +603,7 @@ class Goods extends MobileBase
             if ($filter_goods_id2)
                 $goods_images = M('goods_images')->where("goods_id", "in", implode(',', $filter_goods_id2))->cache(true)->select();
         }
+        
 
         $level = Db::name('users')->where('user_id',cookie('user_id'))->value('level');
         if($goods_list){
