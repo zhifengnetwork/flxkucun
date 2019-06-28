@@ -203,16 +203,15 @@ class CartLogic extends Model
         if ($this->goodsBuyNum > $store_count) {
             throw new TpshopException('立即购买', 0, ['status' => 0, 'msg' => '商品库存不足，剩余' . $this->goods['store_count'], 'result' => '']);
         }
-        // var_dump($buyGoods);die; 这里是正确，下面是错误
+       
         $goodsPromFactory = new GoodsPromFactory();
         if ($goodsPromFactory->checkPromType($prom_type)) {
             // $goodsPromLogic = $goodsPromFactory->makeModule($this->goods, $this->specGoodsPrice);
             // if ($goodsPromLogic->checkActivityIsAble()) {
             //     $buyGoods = $goodsPromLogic->buyNow($buyGoods);
             // }
+
             $buyGoods=$buyGoods;
-            
-           
         } else {
             if ($this->goods['prom_type'] == 0) {
                 if (!empty($this->goods['price_ladder'])) {
