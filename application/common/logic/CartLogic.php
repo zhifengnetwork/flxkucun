@@ -211,6 +211,7 @@ class CartLogic extends Model
             //     $buyGoods = $goodsPromLogic->buyNow($buyGoods);
             // }
             $buyGoods=$buyGoods;
+            
            
         } else {
             if ($this->goods['prom_type'] == 0) {
