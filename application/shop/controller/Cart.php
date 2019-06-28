@@ -482,20 +482,22 @@ class Cart extends MobileBase {
         $orderLogic = new \app\common\logic\OrderLogic();
         $action = 'confirm';
         $order_id = I('get.oid/d',0);
+        $type = I('get.type/d',1);
 
         $order = new \app\common\model\Order();
         $goods = $order::get($order_id);
         if($goods['order_status'] != 0)$this->error('请勿重复操作！');
 
-        foreach($goods['order_goods'] as $value){
-            $num = user_kucun_goods($this->user_id,$value['goods_id']);
-            if ($num['nums'] < $value['goods_num'] && $action != 'invalid'){
-                $this->error('您的库存不足!');
+        if(($type == 1) || (($type == 2) && $this->user['level'] > 2))
+            foreach($goods['order_goods'] as $value){
+                $num = user_kucun_goods($this->user_id,$value['goods_id']);
+                if ($num['nums'] < $value['goods_num'] && $action != 'invalid'){
+                    $this->error('您的库存不足!');
+                }
             }
-        }
 
         $order = M('Order')->field('order_id,seller_id,order_sn,shipping_price,prom_type,pay_shipping_status')->find($order_id);
-        if(!$order || ($order['seller_id'] != $this->user_id))
+        if(!$order || (($type == 1) && ($order['seller_id'] != $this->user_id)))
             $this->error('参数错误！');
         if($order['pay_shipping_status'] !== 0)
             $this->error('此订单已支付过运费啦！');
@@ -559,6 +561,8 @@ class Cart extends MobileBase {
         }
         $order_id = I('order_id/d');
         $order_sn= I('order_sn/s','');
+        $type= I('type/d',0);
+        $applyid= I('applyid/d',0);
         $order_where = ['user_id'=>$this->user_id];
         if($order_sn)
         {
@@ -637,6 +641,9 @@ class Cart extends MobileBase {
         $this->assign('paymentList',$paymentList);
         $this->assign('bank_img',$bank_img);
         $this->assign('order',$order);
+        $this->assign('level',$this->user['level']);
+        $this->assign('type',$type);
+        $this->assign('applyid',$applyid);
         $this->assign('bankCodeList',$bankCodeList);
         $this->assign('third_leader',I('get.third_leader/d',0));
         $this->assign('pay_date',date('Y-m-d', strtotime("+1 day")));

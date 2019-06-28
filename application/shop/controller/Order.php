@@ -252,6 +252,7 @@ class Order extends MobileBase
                 }
             })
             ->limit($Page->firstRow . ',' . $Page->listRows)->order("order_id DESC")->select();
+        $this->assign('level', $this->user['level']);
         $this->assign('order_list', $order_list);
         if ($_GET['is_ajax']) {
             return $this->fetch('ajax_order_list');

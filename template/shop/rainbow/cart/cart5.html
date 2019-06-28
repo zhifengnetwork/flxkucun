@@ -72,7 +72,7 @@
         </if>
         <!--其他支付方式-s-->
         <!--上传凭证-s-->
-        <if condition="$type eq 2 and $applyid eq 0">
+        <if condition="$applyid gt 0">
         <div class="paylist">
             <span></span>
                 <label class="file" style="cursor:pointer;">
@@ -90,6 +90,13 @@
             </div>
         </div>
         <!--上传凭证-e-->
+        </if>
+        <if condition="$type eq 2 and $applyid eq 0 and $order.shipping_price gt 0 and $level gt 2 and $order.pay_shipping_status eq 0">
+            <div class="paiton">
+                <div class="maleri30">
+                    <a class="soon" id="asubmit" href="/Shop/Cart/PayShipping/oid/{$order.order_id}/type/2"><span>支付运费</span></a>
+                </div>
+            </div>
         </if>
     </form>
 

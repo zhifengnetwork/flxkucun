@@ -105,10 +105,14 @@
                                 <span class="threel" id="goodsnum">共{$order.count_goods_num}件 <if condition="$order.pay_status eq 1">已付总额<else/>应付总额</if></span><span class="red">￥{$order['total_amount']}</span>      
                             <!--if condition="$list['pay_code'] eq 'cod'"><i class="tits-ions qxatten-ions">货到付款</i></if -->
                         </span>
+                        <!--
                         <if condition="$order.pay_btn eq 1">
-                            <!--
-                            <a class="shop-rebuy paysoon" href="{:U('Shop/Cart/cart4',array('order_id'=>$order['order_id']))}">立即付款</a>-->
-                        </if>
+                            
+                            <a class="shop-rebuy paysoon" href="{:U('Shop/Cart/cart4',array('order_id'=>$order['order_id']))}">立即付款</a>
+                        </if>-->
+                        <if condition="$order.applyid eq 0 and $order.shipping_price gt 0 and $level gt 2 and $order.pay_shipping_status eq 0">
+                                <a class="shop-rebuy paysoon" href="/Shop/Cart/PayShipping/oid/{$order.order_id}/type/2">支付运费</a>
+                            </if>
                         <if condition="$order.cancel_btn eq 1">
                             <if condition="$order.pay_status eq 0">
                                 <a class="shop-rebuy " onClick="cancel_order({$order.order_id})">取消订单</a>
