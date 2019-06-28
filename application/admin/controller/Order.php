@@ -67,7 +67,7 @@ class Order extends Base {
         I('prom_type/d',0) ? $condition['prom_type'] = I('prom_type/d',0) : false;
         if(I('seller_id/d',0) == 1)$condition['kucun_type'] = ['neq',0];
         if(I('seller_id/d',0) == 2)$condition['kucun_type'] = 0;
-		$condition['seller_id'] = 0;
+		//$condition['seller_id'] = 0;
         //I('pay_code') != '' ? $condition['pay_code'] = I('pay_code') : false;
         if(I('pay_code')){
             switch (I('pay_code')){
