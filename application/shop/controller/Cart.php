@@ -302,7 +302,7 @@ class Cart extends MobileBase {
                 $cartLogic->checkStockCartList($userCartList);
                 $pay->payCart($userCartList);
             }
-            if($type || $applyid)
+            if(($type == 1) || $applyid)
                 $pay->setUserId($this->user_id)->useUserMoney($user_money);
             else
                 $pay->setUserId($this->user_id)->delivery($address['district'])->useUserMoney($user_money);
@@ -318,7 +318,7 @@ class Cart extends MobileBase {
             }
             elseif ($_REQUEST['act'] == 'kucun_submit_order') {
                 $placeOrder = new PlaceOrder($pay); 
-                if($type || $applyid){
+                if(($type == 1) || $applyid){
                     $placeOrder->setUserNote($user_note)->setOrdertype()->setApplyid($applyid,$type)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
                 }else{
                     $placeOrder->setUserAddress($address)->setOrdertype()->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();

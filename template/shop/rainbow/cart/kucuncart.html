@@ -32,7 +32,7 @@
             <input type="hidden" name="pei_parent" value="{$pei_parent}">
         </form>
         <!--地址-s-->
-        <div class="edit_gtfix shipping_div" id="addressDefault" <if condition="$type eq 1">style="display: none"</if>>
+        <div class="edit_gtfix shipping_div" id="addressDefault" <if condition="$type eq 1 or $applyid gt 0">style="display: none"</if>>
             <div class="namephone fl">
                 <div class="top">
                     <div class="le fl" id="default_address_consignee"></div>
@@ -378,7 +378,7 @@
     //各种弹窗返回上一步
     $(function () {
         //加载完就刷新,应付金额为0
-        //ajax_order_price();
+        <if condition="$type eq 2 and $applyid eq 0">ajax_order_price();</if>
         //主页面返回上一步
         $(document).on('click', '#back', function () {
             var action = cart2_form.find("input[name='action']");
