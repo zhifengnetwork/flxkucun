@@ -334,7 +334,6 @@ class User extends MobileBase
     // 购物余额
     public function shopping_balance()
     {
-
         $this->assign('user', $this->user);
         return $this->fetch();
     }
@@ -342,6 +341,17 @@ class User extends MobileBase
     //余额转账明细
     public function money_exchange()
     {
+        $userid=$this->user_id;
+        $count = M('account_log')->where(['log_type'=>6,'user_id'=>$userid])->count();
+        $Page = new Page($count,15);
+        $account_log = M('account_log')->where(['log_type'=>6,'user_id'=>$userid])
+            ->order('change_time desc')
+            ->limit($Page->firstRow.','.$Page->listRows)
+            ->select();
+            $this->assign('countList',$account_log);   
+        if ($_GET['is_ajax']) {
+            return $this->fetch('ajax_money_exchange');
+        }
         return $this->fetch();
     }
 
@@ -394,6 +404,7 @@ class User extends MobileBase
                 'frozen_money' => -$data['money'],
                 'change_time' => time(),
                 'desc' => '转账给ID:' . $data['uid'],
+                'log_type'=>6,
             ],
             [
                 'user_id' => $data['uid'],
@@ -401,6 +412,7 @@ class User extends MobileBase
                 'frozen_money' => $data['money'],
                 'change_time' => time(),
                 'desc' => '收到ID:' . $this->user_id . '转账',
+                'log_type'=>6,
             ],
         ];
 
