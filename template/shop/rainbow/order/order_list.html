@@ -106,7 +106,8 @@
                             <!--if condition="$list['pay_code'] eq 'cod'"><i class="tits-ions qxatten-ions">货到付款</i></if -->
                         </span>
                         <if condition="$order.pay_btn eq 1">
-                            <a class="shop-rebuy paysoon" href="{:U('Shop/Cart/cart4',array('order_id'=>$order['order_id']))}">立即付款</a>
+                            <!--
+                            <a class="shop-rebuy paysoon" href="{:U('Shop/Cart/cart4',array('order_id'=>$order['order_id']))}">立即付款</a>-->
                         </if>
                         <if condition="$order.cancel_btn eq 1">
                             <if condition="$order.pay_status eq 0">

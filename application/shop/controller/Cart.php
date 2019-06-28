@@ -213,10 +213,10 @@ class Cart extends MobileBase {
             if($applyinfo['uid'] != $this->user_id)$this->error('您无权限进入此仓库',"User/user_store/type/$type/applyid/$applyid");
             $levelinfo = M('user_level')->field('stock')->where(['level'=>$applyinfo['level']])->find();
             if(($cartPriceInfo['total_fee'] < $levelinfo['stock']) && ($action=="kucun_buy"))$this->error('首次进货金额必须达到'.$levelinfo['stock'].'元',"/shop/User/user_store/type/$type/applyid/".$applyid);
-        }        
+        }   
 
         $cartList = array_merge($cartList,$cartPriceInfo);
-        
+
         $this->assign('type', $type);
         $this->assign('pei_parent', $pei_parent);
         $this->assign('third_leader', $this->user['third_leader']);
@@ -331,7 +331,7 @@ class Cart extends MobileBase {
                     if($msid)M('user_message')->add(['user_id'=>$seller_id,'message_id'=>$msid]);
                 }
 
-                $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn'],'third_leader'=>$this->user['third_leader'],'applyid'=>$applyid]);
+                $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn'],'third_leader'=>$this->user['third_leader'],'applyid'=>$applyid,'type'=>$type]);
             }
 
             $pricedata = $pay->toArray(); 

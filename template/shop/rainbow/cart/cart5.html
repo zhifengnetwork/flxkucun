@@ -72,6 +72,7 @@
         </if>
         <!--其他支付方式-s-->
         <!--上传凭证-s-->
+        <if condition="$type eq 2 and $applyid eq 0">
         <div class="paylist">
             <span></span>
                 <label class="file" style="cursor:pointer;">
@@ -89,6 +90,7 @@
             </div>
         </div>
         <!--上传凭证-e-->
+        </if>
     </form>
 
 <div class="mask-filter-div" style="display: none;"></div>
