@@ -229,7 +229,7 @@ class User extends MobileBase
         $type = I('get.type/d',0);
         //if(!$goods_id)$this->error('参数错误');
 
-        // 存找配货上级
+        // 找配货上级
         $new_kucun = array();
         //$pei_parent = find_prepareuserinfo($this->user_id);
         if(($this->user['level'] <= 2) && !$goods_id && !$type){
