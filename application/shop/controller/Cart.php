@@ -321,7 +321,7 @@ class Cart extends MobileBase {
                 if(($type == 1) || $applyid){
                     $placeOrder->setUserNote($user_note)->setOrdertype()->setApplyid($applyid,$type)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
                 }else{
-                    $placeOrder->setUserAddress($address)->setOrdertype()->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
+                    $placeOrder->setUserAddress($address)->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
                 }
                 $cartLogic->clear();
                 $order = $placeOrder->getOrder();
