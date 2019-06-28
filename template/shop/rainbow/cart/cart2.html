@@ -667,6 +667,7 @@
     }
    //刷新价格
    function refresh_price(data) {
+        
         if(typeof(data.result.order_prom_amount) != 'undefined'){
             $("#order_prom_amount").text(data.result.order_prom_amount.toFixed(2));// 订单 优惠活动
         }
@@ -677,7 +678,9 @@
             $("#total_fee").text(data.result.goods_price.toFixed(2)); // 商品总金额
         }
         if(typeof(data.result.order_amount) != 'undefined'){
-            $("#payables").text(parseFloat(data.result.order_amount.toFixed(2))+parseInt(data.result.shipping_price));// 应付
+            // $("#payables").text(parseFloat(data.result.order_amount.toFixed(2))+parseInt(data.result.shipping_price));// 应付
+            var goodprice="{$cartPriceInfo['total_fee']}";
+            $("#payables").text(parseInt(goodprice)+parseInt(data.result.shipping_price));
         }
     }
 

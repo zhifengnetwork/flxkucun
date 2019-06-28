@@ -150,6 +150,15 @@ class Cart extends MobileBase {
                 $error = $t->getErrorArr();
                 $this->error($error['msg']);
             }
+      
+            if($user['level'] > 0){
+                $price = M('goods_level_price')->where('goods_id',$goods_id)->where('level',$user['level'])->value('price');
+                $buyGoods['member_goods_price']= $price?$price:$goods['market_price'];
+            }else{
+                $buyGoods['member_goods_price']= $buyGoods['market_price'];
+            }
+
+            
             $cartList['cartList'][0] = $buyGoods;
             $cartGoodsTotalNum = $goods_num;
             $setRedirectUrl = new UsersLogic();
@@ -192,7 +201,7 @@ class Cart extends MobileBase {
             $cartGoodsTotalNum = count($cartList['cartList']);
         } 
         $cartPriceInfo = $cartLogic->getCartPriceInfo($cartList['cartList']);  //初始化数据。商品总额/节约金额/商品总共数量
-
+        
         //$levellist = M('user_level')->field('stock,replenish')->where(['level'=>['gt',$this->user['level']]])->select();
         $levelinfo = M('user_level')->field('stock,replenish')->where(['level'=>$this->user['level']])->find();
         if(($type == 1) && !$applyid && ($cartPriceInfo['total_fee'] < $levelinfo['replenish']) && ($action=="kucun_buy"))$this->error('补货金额必须达到'.$levelinfo['replenish'].'元','/shop/User/superior_store/type/1');
@@ -206,6 +215,7 @@ class Cart extends MobileBase {
         }        
 
         $cartList = array_merge($cartList,$cartPriceInfo);
+        
         $this->assign('type', $type);
         $this->assign('third_leader', $this->user['third_leader']);
         $this->assign('applyid', $applyid);

@@ -80,8 +80,9 @@
                             <if condition="$vo.cat_id eq 8">
                                 <p class="sc_pri fl"><b>{$vo.exchange_integral}积分</b></p>
                             <else />
-                                <p class="sc_pri fl"><span>￥</span><b>{$vo[shop_price]}元</b></p>
+                                <p class="sc_pri fl"><span>￥</span><b>{$vo[market_price]}元</b></p>
                             </if>
+                            
                            
                           </div>
                                 <a href="{:U('Shop/Goods/goodsInfo',array('id'=>$vo[goods_id]))}" class="moda">
