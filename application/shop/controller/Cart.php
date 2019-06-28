@@ -404,6 +404,7 @@ class Cart extends MobileBase {
         }
         $Order = new Order();
         $order = $Order->where($order_where)->find();
+
         empty($order) && $this->error('订单不存在！');
         if($order['order_status'] == 3){
             $this->error('该订单已取消',U("Shop/Order/order_detail",array('id'=>$order['order_id'])));
@@ -642,6 +643,7 @@ class Cart extends MobileBase {
         $this->assign('bank_img',$bank_img);
         $this->assign('order',$order);
         $this->assign('level',$this->user['level']);
+        $this->assign('first_leader',$this->user['first_leader']);
         $this->assign('type',$type);
         $this->assign('applyid',$applyid);
         $this->assign('bankCodeList',$bankCodeList);
