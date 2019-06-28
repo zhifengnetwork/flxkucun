@@ -358,26 +358,26 @@
 
 
 <!--底部按钮-s-->
-<div class="podee">
+<!-- <div class="podee">
     <div class="cart-concert-btm p">
         <div class="fl">
             <ul>
                 <li>
                     <if condition="(!empty($kf_config['im_choose'])) && ($kf_config['im_choose'] eq 1)">
-                        <!--im客服-->
+                        im客服
                         <a class="kf" href="{:U('supplier/index')}">
                             <i></i>
                             <p>客服</p>
                         </a>
                         <elseif condition="(!empty($kf_config['im_choose'])) && ($kf_config['im_choose'] eq 2)" />
-                        <!--小能客服-->
+                        小能客服
                         <a href="javascript:;">
                             <i></i>
                             <p>客服</p>
                         </a>
                         <else />
-                        <!--早先客服-->
-                        <!--<a href="tel:{$tpshop_config['shop_info_phone']}">-->
+                        早先客服
+                        <a href="tel:{$tpshop_config['shop_info_phone']}">
                         <a href="tencent://message/?uin={$tpshop_config['shop_info_qq']}&Site=凡露希网络&Menu=yes">
                             <i></i>
                             <p>客服</p>
@@ -392,11 +392,11 @@
                     </a>
                 </li>
             </ul>
-            <!--优惠券适用列表底部-->
-            <!--<div class="couapplist-bot">
+            优惠券适用列表底部
+            <div class="couapplist-bot">
             	<span>共计：<i>￥162.00</i></span>
                	<em>在购买￥50即可享受优惠</em>
-            </div>-->
+            </div>
         </div>
         <div class="fr">
             <ul>
@@ -406,7 +406,7 @@
             </ul>
         </div>
     </div>
-</div>
+</div> -->
 <!--底部按钮-e--> 
 <a href="" id="ios_a" style="position: absolute;top: -33px;left: -33px;">ios_click</a>
 <input type="hidden" value="{$page->totalPages}" id="totalPages" name="totalPages">
