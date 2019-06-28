@@ -57,11 +57,15 @@ class CartLogic extends Model
         }
     }
 
+    //获取商品阶梯价格
     public function getGoodsPrices ($goodsId)
     {
-        $level_price = M('goods_level_price')->where(['goods_id'=>$goodsId,'level'=>$this->user['level']])->order('level asc')->find();
-
-        return $level_price['price'];
+        $level_price = M('goods_level_price')->where(['goods_id'=>$goodsId,'level'=>$this->user['level']])->order('level asc')->value('price');
+        //2019-06-28 修改默认价格，默认为市场价格
+        if($level_price === null){
+            $level_price = Db::name('goods')->where('goods_id',$goodsId)->value('market_price');
+        }
+        return $level_price;
     }
 
     /**
