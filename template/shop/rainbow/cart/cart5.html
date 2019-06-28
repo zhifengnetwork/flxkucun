@@ -21,8 +21,8 @@
         </div>
         <div class="ddmoney">
             <div class="maleri30">
-                <span class="fl">订单金额</span>
-                <span class="fr">{$order[order_amount]}元</span>
+                <span class="fl"><if condition="$applyid eq 0 and $type eq 2 and $level gt 2">运费<else />订单</if>金额</span>
+                <span class="fr"><if condition="$applyid eq 0 and $type eq 2">{$order[shipping_price]}<else />{$order[order_amount]}</if>元</span>
             </div>
         </div>
         <if condition="$third_leader eq 0 and $applyid eq 0">
