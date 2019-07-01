@@ -46,7 +46,7 @@ class Apply extends MobileBase
 		//非下级且不是普通会员/VIP
 		//2019-07-01修改的
         // if(($info['first_leader'] != $this->user_id) && !in_array($info['level'],[1,2]))$this->ajaxReturn(['status'=>-1,'msg'=>'不能邀请该用户!','data'=>null]);  
-		//if(!$info)$this->ajaxReturn(['status'=>-1,'msg'=>'未查询到该下级用户!','data'=>null]);
+		if(!$info)$this->ajaxReturn(['status'=>-1,'msg'=>'未查询到该用户!','data'=>null]);
 		if($info['level'] >= $level)$this->ajaxReturn(['status'=>-1,'msg'=>'该下级用户的代理级别已不小于邀请级别!','data'=>null]);
 		$user_level = M('user_level')->field('level')->where(['level'=>$level])->find();
 		if(!$user_level)$this->ajaxReturn(['status'=>-1,'msg'=>'级别错误!','data'=>null]);
