@@ -1174,7 +1174,7 @@ function update_pay_status($order_sn, $ext = array())
     }
     $time = time();
     if($ext['attach'] === 'pay_shipping'){ //订单支付运费
-        $orderinfo = ('Order')->field('order_id,seller_id,user_id,shipping_price,total_amount,applyid,apply_type')->where(['order_sn'=>$order_sn])->find();
+        $orderinfo = $orderinfo ? $orderinfo : (M('Order')->field('order_id,seller_id,user_id,shipping_price,total_amount,applyid,apply_type')->where(['order_sn'=>$order_sn])->find());
         $order_id = $orderinfo['order_id'];
         $orderLogic = new \app\common\logic\OrderLogic();
         $action = 'confirm';
