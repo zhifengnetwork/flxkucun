@@ -328,7 +328,7 @@ class Cart extends MobileBase {
                 if(($type == 1) || $applyid){
                     $placeOrder->setUserNote($user_note)->setOrdertype()->setApplyid($applyid,$type)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
                 }else{
-                    $placeOrder->setUserAddress($address)->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->setKuaiditype($kuaidi_type)->addNormalOrder();
+                    $placeOrder->setUserAddress($address)->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->setApplyid($applyid,$type)->setKuaiditype($kuaidi_type)->addNormalOrder();
                 }
                 $cartLogic->clear();
                 $order = $placeOrder->getOrder();
@@ -364,6 +364,10 @@ class Cart extends MobileBase {
                 $pricedata['order_amount'] -= $pricedata['shipping_price'];
                 $pricedata['total_amount'] -= $pricedata['shipping_price'];
                 $pricedata['shipping_price'] = 0;
+            }
+            if(($type == 2) && !$applyid && ($this->user_id == $pei_parent)){
+                $pricedata['order_amount'] = $pricedata['shipping_price'];
+                $pricedata['total_amount'] = $pricedata['shipping_price'];    
             }
             $this->ajaxReturn(['status' => 1, 'msg' => '计算成功', 'result' => $pricedata]);
         } catch (TpshopException $t) {

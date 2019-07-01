@@ -389,6 +389,11 @@ class PlaceOrder
             $orderData['pay_name'] = $orderData['user_money']>0 ? '余额支付' : '积分兑换';//支付方式，可能是余额支付或积分兑换，后面其他支付方式会替换
         }
 
+        if(($this->apply_type == 2) && !$this->applyid && ($this->user_id == $this->sellerid)){
+            $orderData['order_amount'] = $orderData['shipping_price'];
+            $orderData['total_amount'] = $orderData['shipping_price'];    
+        }        
+
         $this->order->data($orderData, true);
         $orderSaveResult = $this->order->save();
 

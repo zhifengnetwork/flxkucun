@@ -1165,8 +1165,11 @@ function update_pay_status($order_sn, $ext = array())
 {
     $orderinfo = M('Order')->field('order_id,seller_id,user_id,shipping_price,total_amount,applyid,apply_type,kucun_type')->where(['order_sn'=>$order_sn])->find();
     if(($orderinfo['seller_id'] == $orderinfo['user_id']) && !$orderinfo['kucun_type']){
-        //自己向自己取货
-        M('Order')->where(['order_id'=>$orderinfo['order_id']])->update(['pay_status'=>1]);
+        //自己向自己取货 减库存
+        $goods = M('order_goods')->field('goods_id')->where(['order_id'=>$orderinfo['order_id']])->select();
+        foreach ($goods as $value){
+            changekucun($value['goods_id'],$this->user_id,-$value['goods_num']);
+        }
 
     }
     $time = time();
