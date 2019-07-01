@@ -24,8 +24,8 @@ class Team extends Controller{
 
     public function change_flash_sale_is_end(){
         //取结束时间十分钟内大于等于当前时间的秒杀
-        $GroupBuy = M('group_buy');
-        $list = $GroupBuy->field('id,goods_id')->where(['end_time'=>['between',[time()-600,time()]]])->select();
+        $flashSale = M('flash_sale');
+        $list = $flashSale->field('id,goods_id')->where(['end_time'=>['between',[time()-600,time()]]])->select();
         $Goods = M('Goods');
         foreach($list as $v){
             $goods_info = $Goods->field('prom_type,prom_id')->find($v['goods_id']);
