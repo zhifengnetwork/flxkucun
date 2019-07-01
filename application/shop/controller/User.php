@@ -185,7 +185,7 @@ class User extends MobileBase
             \think\Image::open("public/upload/zhengshu/users/{$this->user_id}.jpg")->text($this->user['mobile'],'hgzb.ttf',30,'#000000',[530,1250])->save("public/upload/zhengshu/users/{$this->user_id}.jpg");    
         //}
 
-        $levlist = M('user_level')->field('id,level,level_name')->where([ 'level' => ['gt', 2] ])->where([ 'level' => ['elt', $this->user['level']] ])->select();
+        $levlist = M('user_level')->field('id,level,level_name')->where([ 'level' => ['gt', 0] ])->where([ 'level' => ['elt', $this->user['level']] ])->select();
         $this->assign('levlist', $levlist);
         $this->assign('pic', "/public/upload/zhengshu/users/{$this->user_id}.jpg");
         return $this->fetch();
@@ -2706,12 +2706,12 @@ class User extends MobileBase
         $type = I('get.type/d', 0);
         $info = M('users')->field('mobile,level,first_leader,head_pic,nickname')->where(['user_id' => $uid])->find();
 
-        if ($type != 1) {
-            //非下级且不是普通会员/VIP
-            if (($info['first_leader'] != $this->user_id) && !in_array($info['level'], [1, 2])) {
-                $this->ajaxReturn(['status' => -1, 'msg' => '非下级且不是普通会员/VIP!', 'data' => null]);
-            }
-        }
+        // if ($type != 1) {
+        //     //非下级且不是普通会员/VIP
+        //     if (($info['first_leader'] != $this->user_id) && !in_array($info['level'], [1, 2])) {
+        //         $this->ajaxReturn(['status' => -1, 'msg' => '非下级且不是普通会员/VIP!', 'data' => null]);
+        //     }
+        // }
 
         $this->ajaxReturn(['status' => 0, 'msg' => '请求成功!', 'data' => $info]);
     }
