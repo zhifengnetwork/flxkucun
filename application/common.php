@@ -1163,9 +1163,15 @@ function rechargevip_rebate($order)
  */
 function update_pay_status($order_sn, $ext = array())
 {
+    $orderinfo = M('Order')->field('order_id,seller_id,user_id,shipping_price,total_amount,applyid,apply_type,kucun_type')->where(['order_sn'=>$order_sn])->find();
+    if(($orderinfo['seller_id'] == $orderinfo['user_id']) && !$orderinfo['kucun_type']){
+        //自己向自己取货
+        M('Order')->where(['order_id'=>$orderinfo['order_id']])->update(['pay_status'=>1]);
+
+    }
     $time = time();
     if($ext['attach'] === 'pay_shipping'){ //订单支付运费
-        $orderinfo = M('Order')->field('order_id,seller_id,user_id,shipping_price,total_amount,applyid,apply_type')->where(['order_sn'=>$order_sn])->find();
+        $orderinfo = $orderinfo ? $orderinfo : ('Order')->field('order_id,seller_id,user_id,shipping_price,total_amount,applyid,apply_type')->where(['order_sn'=>$order_sn])->find();
         $order_id = $orderinfo['order_id'];
         $orderLogic = new \app\common\logic\OrderLogic();
         $action = 'confirm';
@@ -1182,12 +1188,13 @@ function update_pay_status($order_sn, $ext = array())
         $orderLogic->setUserId($orderinfo['seller_id']);
         $Result = $orderLogic->superiorProcessOrder($order_id, $goods['user_id'], $action,array('note'=>I('note'),'admin_id'=>0));
         if($res !== false && $Result !== false){
-            $orderuserlevel = M('Users')->where(['user_id'=>$orderinfo['user_id']])->value('level');
-            $level = M('user_level')->field('level')->where(['level'=>['gt',$orderuserlevel],'stock'=>['elt',$orderinfo['total_amount']]])->order('level desc')->limit(1)->find();
-            $level = $level['level'] ? $level['level'] : 0;
-            if($level > $orderuserlevel)
-                M('Users')->where(['user_id'=>$orderinfo['user_id']])->update(['level'=>$level]);
-            
+            if($orderinfo['kucun_type'] == 1){
+                $orderuserlevel = M('Users')->where(['user_id'=>$orderinfo['user_id']])->value('level');
+                $level = M('user_level')->field('level')->where(['level'=>['gt',$orderuserlevel],'stock'=>['elt',$orderinfo['total_amount']]])->order('level desc')->limit(1)->find();
+                $level = $level['level'] ? $level['level'] : 0;
+                if($level > $orderuserlevel)
+                    M('Users')->where(['user_id'=>$orderinfo['user_id']])->update(['level'=>$level]);
+            }
             M('Order')->where(['order_id'=>$order_id])->update(['pay_status'=>1,'pay_shipping_status'=>1]);
 			if($orderinfo['applyid']){
                 $Apply = ($orderinfo['apply_type'] == 1) ? M('Apply') : M('Apply_for');

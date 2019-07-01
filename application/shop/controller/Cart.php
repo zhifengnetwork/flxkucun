@@ -333,8 +333,9 @@ class Cart extends MobileBase {
                 $cartLogic->clear();
                 $order = $placeOrder->getOrder();
 
-                if($seller_id){
-                    $msid = M('message_notice')->add(['message_title'=>'下级进货通知','message_content'=>"您有下级提交进货订单!",'send_time'=>time(),'mmt_code'=>'/shop/Order/order_send','type'=>11]);
+                if($seller_id != $this->user_id){
+                    $str = (($type == 2) && !$applyid) ? '取货' : '进货';
+                    $msid = M('message_notice')->add(['message_title'=>'下级'.$str.'通知','message_content'=>"您有下级提交".$str."订单!",'send_time'=>time(),'mmt_code'=>'/shop/Order/order_send','type'=>11]);
                     if($msid)M('user_message')->add(['user_id'=>$seller_id,'message_id'=>$msid]);
                 }
 

@@ -53,9 +53,9 @@
 			<div class="seckill-list">
 				<volist name='grouplist' id='v'>
 				<div class="single-item">
-					<div class="img-wrap"><a href="{:U('Shop/GroupPurchase/details')}"><img style='width:100%;height:100%;' src='{$v.original_img}' /></a></div>
+					<div class="img-wrap"><a href="/Shop/GroupPurchase/details/goods_id/{$v.goods_id}/id/{$v.id}"><img style='width:100%;height:100%;' src='{$v.original_img}' /></a></div>
 					<div class="text">
-						<h3><a href="{:U('Shop/GroupPurchase/details')}">{$v.title}</a></h3>
+						<h3><a href="/Shop/GroupPurchase/details/goods_id/{$v.goods_id}/id/{$v.id}">{$v.title}</a></h3>
 						<!-- <h3><a href="/Mobile/Goods/goodsInfo/id/{$v.goods_id}/item_id/{$v.item_id}">{$v.title}</a></h3> -->
 						<p class="dec">{$v.goods_name}</p>
 						<div class="progress">
@@ -70,7 +70,7 @@
 						</div>
 						<div class="quota">剩余名额{$v.goods_num - $v.buy_num}人</div>
 					</div>
-					<a href="/Mobile/Goods/goodsInfo/id/{$v.goods_id}/item_id/{$v.item_id}" class="buyBtn">去参团</a>
+					<a href="/Shop/GroupPurchase/details/goods_id/{$v.goods_id}/id/{$v.id}" class="buyBtn">去参团</a>
 				</div>
 				</volist>
 			</div>

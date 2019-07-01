@@ -37,52 +37,51 @@
                     <div class="slider-wrap">
                         <div class="swiper-container" style="height:100%">
                             <div class="swiper-wrapper">
+                                <if condition="$goods.video neq ''">
                                 <div class="swiper-slide">
-                                    <video  id="video1" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
-                                        loop="loop" poster="__STATIC__/images/details/details-img01.png" x5-playsinline="" x-webkit-airplay="" playsinline="" webkit-playsinline="">
+                                    <video  id="video1" src="{$goods.video}" width="100%" height="100%"
+                                        loop="loop" x5-playsinline="" x-webkit-airplay="" playsinline="" webkit-playsinline="">
                                     </video>
                                     <span class="playBtn"></span>
                                     <span class="voiceBtn"></span>
                                 </div>
-                                <div class="swiper-slide">
-                                    <img src="__STATIC__/images/details/details-img02.png" >
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="__STATIC__/images/details/details-img03.png" >
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="__STATIC__/images/details/details-img04.png" >
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="__STATIC__/images/details/details-img05.png">
-                                </div>
+                                </if>
+                                <foreach name="goods['goods_images']" item="pic">
+                                    <div class="swiper-slide">
+                                        <img src="{$pic[image_url]}" >
+                                    </div>
+                                </foreach>
                             </div>
                             <div class="swiper-pagination"></div>
                             <div class="nav-tag">
+                                <if condition="$goods.video neq ''">
                                 <span class="tag-item active"><i class="paly-icon"></i> 视频</span>
+                                </if>
+                                <if condition="$goods.goods_images neq ''">
                                 <span class="tag-item">图片</span>
+                                </if>
                             </div>
                         </div>
                     </div>
                         
                     <!--销售信息 -->
                     <div class="sale-info">
-                        <div class="title">免单团<span>包邮</span></div>
+                            <div class="title">免单团<span><if condition="$goods.is_free_shipping eq 1">包邮<else />不包邮</if></span></div>
                         <div class="price">
-                            <span class="discount-price">￥168.00</span>
-                            <span class="tag-price">￥188.00</span>
+                            <span class="discount-price">￥{$prominfo.price}</span>
+                            <span class="tag-price">￥{$goods.market_price}</span>
                         </div>
-                        <div class="number">已团9741件</div>
+                        <div class="number">已团{$prominfo.virtual_num + $prominfo.buy_num}件</div>
                     </div>
 
                     <div class="goodsInfo">
                         <!-- 商品名称 -->
                         <div class="goodsName group-line border-none">
-                            <h1>可爱多洗衣液500ml*6袋</h1>
+                            <h1>{$prominfo.title}</h1>
                         </div>
                         <div class="tuanRule">
                             <span class="tag">免单团</span>
-                            <span>团满5人,</span>
+                            <span>团满{$prominfo.virtual_num}人,</span>
                             <span>团长免单</span>
                         </div>
                     </div>
