@@ -206,6 +206,72 @@ class User extends MobileBase
     // 下级订单
     public function sub_order()
     {
+        $user_id = input('user_id',10);
+        $p = 1;
+        $num = 50;
+        if(!$user_id){
+            $this->error('用户不存在');
+        }
+        $start_time = input('start_time');
+        $end_time = input('end_time');
+        if($start_time){
+            $where['o.add_time'] = array('gt',strtotime($start_time));
+        }
+        if($end_time){
+            $where['o.add_time'] = array('lt',strtotime($end_time));
+        }
+        $where['o.kucun_type'] = 1;
+        $where['o.pay_status'] = 1;
+        $where['o.user_id'] = $user_id;
+        // {$good[goods_id]|goods_thum_images=100,100}
+        $order_list = Db::name('order')->alias('o')->join('tp_order_goods og','og.order_id=o.order_id')->where($where)->field('o.order_id,o.order_sn,o.total_amount,o.add_time,og.goods_id,og.goods_price,og.goods_num,og.goods_name')->order('add_time desc')->page($p,$num)->select();
+        //组建数组
+        $new_order = array();
+        foreach($order_list as $key=>$val){
+            $new_order[$val['order_id']]['list'][] = $val;
+            $new_order[$val['order_id']]['order_sn'] = $val['order_sn'];
+            $new_order[$val['order_id']]['add_time'] = $val['add_time'];
+            $new_order[$val['order_id']]['total_amount'] = $val['total_amount'];
+            $new_order[$val['order_id']]['goods_num'] += $val['goods_num'];
+            $new_order[$val['order_id']]['order_sn'] = $val['order_sn'];
+        }
+        $this->assign('new_order',$new_order);
+        return $this->fetch();
+    }
+
+    //ajax获取下级订单的分页数据
+    public function ajax_sub_order()
+    {
+        $user_id = input('user_id',0);
+        $p = 1;
+        $num = 50;
+        if(!$user_id){
+            $this->error('用户不存在');
+        }
+        $start_time = input('start_time');
+        $end_time = input('end_time');
+        if($start_time){
+            $where['o.add_time'] = array('gt',strtotime($start_time));
+        }
+        if($end_time){
+            $where['o.add_time'] = array('lt',strtotime($end_time));
+        }
+        $where['o.kucun_type'] = 1;
+        $where['o.pay_status'] = 1;
+        $where['o.user_id'] = $user_id;
+        // {$good[goods_id]|goods_thum_images=100,100}
+        $order_list = Db::name('order')->alias('o')->join('tp_order_goods og','og.order_id=o.order_id')->where($where)->field('o.order_id,o.order_sn,o.total_amount,o.add_time,og.goods_id,og.goods_price,og.goods_num,og.goods_name')->order('add_time desc')->page($p,$num)->select();
+        //组建数组
+        $new_order = array();
+        foreach($order_list as $key=>$val){
+            $new_order[$val['order_id']]['list'][] = $val;
+            $new_order[$val['order_id']]['order_sn'] = $val['order_sn'];
+            $new_order[$val['order_id']]['add_time'] = $val['add_time'];
+            $new_order[$val['order_id']]['total_amount'] = $val['total_amount'];
+            $new_order[$val['order_id']]['goods_num'] += $val['goods_num'];
+            $new_order[$val['order_id']]['order_sn'] = $val['order_sn'];
+        }
+        $this->assign('new_order',$new_order);
         return $this->fetch();
     }
 
