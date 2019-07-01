@@ -270,6 +270,7 @@ class Cart extends MobileBase {
         $applyid = input('applyid/d',0); 
         $seller_id = input('seller_id');
         $pei_parent = input('pei_parent/d',0);
+        $kuaidi_type = input('kuaidi_type/d',0);
        // echo $seller_id;exit;
         $cart_validate = Loader::validate('Cart');
         if($action_type=='kucun_buy')
@@ -322,11 +323,12 @@ class Cart extends MobileBase {
                 $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn']]);
             }
             elseif ($_REQUEST['act'] == 'kucun_submit_order') {
+                if($kuaidi_type == 2)$pay->setShippingPrice(0);
                 $placeOrder = new PlaceOrder($pay); 
                 if(($type == 1) || $applyid){
                     $placeOrder->setUserNote($user_note)->setOrdertype()->setApplyid($applyid,$type)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
                 }else{
-                    $placeOrder->setUserAddress($address)->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
+                    $placeOrder->setUserAddress($address)->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->setKuaiditype($kuaidi_type)->addNormalOrder();
                 }
                 $cartLogic->clear();
                 $order = $placeOrder->getOrder();
@@ -357,6 +359,11 @@ class Cart extends MobileBase {
 
             //$region=Db::name('user_address')->where('user_id',$this->user_id)->find();
             //$pricedata['shipping_price']=$this->dispatching($goods_id,$region['district']);
+            if($kuaidi_type == 2){
+                $pricedata['order_amount'] -= $pricedata['shipping_price'];
+                $pricedata['total_amount'] -= $pricedata['shipping_price'];
+                $pricedata['shipping_price'] = 0;
+            }
             $this->ajaxReturn(['status' => 1, 'msg' => '计算成功', 'result' => $pricedata]);
         } catch (TpshopException $t) {
             $error = $t->getErrorArr();

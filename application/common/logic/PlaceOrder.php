@@ -42,6 +42,7 @@ class PlaceOrder
     private $applyid = 0;
     private $apply_type = 1;
     private $kucun_type = 0;
+    private $kuaidi_type = 0;
 
     /**
      * PlaceOrder constructor.
@@ -377,7 +378,8 @@ class PlaceOrder
         }
         if ($this->promId > 0) {
             $orderData['prom_id'] = $this->promId;//活动id
-        }     
+        }  
+        $orderData['kuaidi_type'] = $this->kuaidi_type;   
 
         $orderData['applyid'] = $this->applyid ? $this->applyid : 0;
         $orderData['apply_type'] = $this->apply_type ? $this->apply_type : 0;
@@ -626,6 +628,12 @@ class PlaceOrder
         $this->invoiceDesc = $invoice_desc;
         return $this;
     }
+
+    public function setKuaiditype($kuaidi_type)
+    {
+        $this->kuaidi_type = $kuaidi_type;
+        return $this;
+    }    
 
     public function setUserAddress($userAddress)
     {

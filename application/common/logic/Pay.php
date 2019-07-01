@@ -518,6 +518,12 @@ class Pay
         return $this->shippingPrice;
     }
 
+    public function setShippingPrice($shippingPrice)
+    {
+        $this->shippingPrice = 0;
+    }
+
+
     /**
      *  获取优惠券费
      * @return int
