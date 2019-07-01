@@ -10,7 +10,7 @@
 
     <link rel="stylesheet" type="text/css" href="__STATIC__/css/reset.css?v=111" />
     <link rel="stylesheet" href="__STATIC__/css/public/base.css">
-    <style>
+    <style> 
         .content {
             padding: .98rem .24rem 0;
             box-sizing: border-box;
@@ -108,44 +108,29 @@
 
             <div class="hot-wrap">
                 <div class="hot-list">
-                    <div class="single-item">
-                        <div class="img-wrap">
-                            <a href="/shop/goods/goodsInfo/id/89"><img
-                                    src="/public/upload/goods/2019/06-25/0302c109731edc5f609a9eb909896e69.jpg"></a>
-                        </div>
-                        <div class="text">
-                            <a href="/shop/goods/goodsInfo/id/89">
-                                <h3>多肽滋润水凝霜</h3>
-                            </a>
-                            <p class="dec"></p>
-                            <div class="price">
-                                <span class="discount-price">¥500.00</span>
-                                <span class="original-price">¥500.00</span>
+                    <volist name="list" id="vo">
+                        <div class="single-item">
+                            <div class="img-wrap">
+                                <a href="/shop/goods/goodsInfo/id/{$vo.goods_id}"><img
+                                        src="{$vo.original_img}"></a>
                             </div>
-                            <p class="spell-num">已售22件</p>
-                            <a href="/shop/goods/goodsInfo/id/89" class="buy-btn">立即购买</a>
-                        </div>
-                    </div>
-
-                    <div class="single-item">
-                        <div class="img-wrap">
-                            <a href="/shop/goods/goodsInfo/id/95"><img
-                                    src="/public/upload/goods/2019/06-25/788e230f0d1a9b2d793ee21049344b0f.jpg"></a>
-                        </div>
-                        <div class="text">
-                            <a href="/shop/goods/goodsInfo/id/95">
-                                <h3>植萃修护护发乳</h3>
-                            </a>
-                            <p class="dec"></p>
-                            <div class="price">
-                                <span class="discount-price">¥11111.00</span>
-                                <span class="original-price">¥11111.00</span>
+                            <div class="text">
+                                <a href="/shop/goods/goodsInfo/id/{$vo.goods_id}">
+                                    <h3>植萃修护护发乳</h3>
+                                </a>
+                                <p class="dec"></p>
+                                <div class="price">
+                                    <span class="discount-price">{$vo.shop_price}</span>
+                                    <span class="original-price">{$vo.market_price}</span>
+                                </div>
+                                <p class="spell-num">已售{$vo.virtual_sales_sum+$vo.sales_sum}件</p>
+                                <a href="/shop/goods/goodsInfo/id/{$vo.goods_id}" class="buy-btn">立即购买</a>
                             </div>
-                            <p class="spell-num">已售1件</p>
-                            <a href="/shop/goods/goodsInfo/id/95" class="buy-btn">立即购买</a>
                         </div>
-                    </div>
-
+                    </volist>
+                </div>
+                <div id="getmore"  style="font-size:.32rem;text-align: center;color:#888;padding:.25rem .24rem .4rem; clear:both;display: none">
+                    <a >已显示完所有记录</a>
                 </div>
             </div>
         </div>
@@ -153,8 +138,34 @@
     </div>
     <script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
     <script src="__STATIC__/js/public/public.js"></script>
-
+    <script type="text/javascript" src="__STATIC__/js/sourch_submit.js"></script>
 
 </body>
-
+<script type="text/javascript">
+    //加载更多记录
+    var page = 1;
+    var submit = 1;
+    function ajax_sourch_submit()
+    {
+        if(submit == 0){
+            return false;
+        }
+        submit = 0;
+        ++page;
+        $.ajax({
+            type : "GET",
+            url:"/index.php?m=Shop&c=SkinCare&a=ajaxGoodsList&p="+page,//+tab,
+            success: function(data)
+            {
+                submit = 1;
+                if($.trim(data) == '') {
+                    $('#getmore').show();
+                    return false;
+                }else{
+                    $(".hot-list").append(data);
+                }
+            }
+        });
+    }
+</script>
 </html>

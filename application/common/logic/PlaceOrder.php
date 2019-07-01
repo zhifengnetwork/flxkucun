@@ -42,6 +42,7 @@ class PlaceOrder
     private $applyid = 0;
     private $apply_type = 1;
     private $kucun_type = 0;
+    private $kuaidi_type = 0;
 
     /**
      * PlaceOrder constructor.
@@ -377,7 +378,8 @@ class PlaceOrder
         }
         if ($this->promId > 0) {
             $orderData['prom_id'] = $this->promId;//活动id
-        }     
+        }  
+        $orderData['kuaidi_type'] = $this->kuaidi_type;   
 
         $orderData['applyid'] = $this->applyid ? $this->applyid : 0;
         $orderData['apply_type'] = $this->apply_type ? $this->apply_type : 0;
@@ -386,6 +388,11 @@ class PlaceOrder
         if ($orderData['integral'] > 0 || $orderData['user_money'] > 0) {
             $orderData['pay_name'] = $orderData['user_money']>0 ? '余额支付' : '积分兑换';//支付方式，可能是余额支付或积分兑换，后面其他支付方式会替换
         }
+
+        if(($this->apply_type == 2) && !$this->applyid && ($this->user_id == $this->sellerid)){
+            $orderData['order_amount'] = $orderData['shipping_price'];
+            $orderData['total_amount'] = $orderData['shipping_price'];    
+        }        
 
         $this->order->data($orderData, true);
         $orderSaveResult = $this->order->save();
@@ -626,6 +633,12 @@ class PlaceOrder
         $this->invoiceDesc = $invoice_desc;
         return $this;
     }
+
+    public function setKuaiditype($kuaidi_type)
+    {
+        $this->kuaidi_type = $kuaidi_type;
+        return $this;
+    }    
 
     public function setUserAddress($userAddress)
     {

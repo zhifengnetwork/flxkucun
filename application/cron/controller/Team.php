@@ -18,7 +18,20 @@ class Team extends Controller{
      */
     public function run()
     {
+        $this->$this->change_group_buy_is_end();  
         $this->change_group_buy_is_end();         
+    }
+
+    public function change_flash_sale_is_end(){
+        //取结束时间十分钟内大于等于当前时间的秒杀
+        $flashSale = M('flash_sale');
+        $list = $flashSale->field('id,goods_id')->where(['end_time'=>['between',[time()-600,time()]]])->select();
+        $Goods = M('Goods');
+        foreach($list as $v){
+            $goods_info = $Goods->field('prom_type,prom_id')->find($v['goods_id']);
+            if(($goods_info['prom_type'] == 1) && ($goods_info['prom_id'] == $v['id']))
+                $Goods->where(['goods_id'=>$v['goods_id']])->update(['prom_type'=>0,'prom_id'=>0]);
+        }
     }
 
     public function change_group_buy_is_end(){
@@ -31,7 +44,9 @@ class Team extends Controller{
 
         $Goods = M('Goods');
         foreach($list1 as $v){
-            $Goods->where(['goods_id'=>$v['goods_id']])->update(['prom_type'=>0,'prom_id'=>0]);
+            $goods_info = $Goods->field('prom_type,prom_id')->find($v['goods_id']);
+            if(($goods_info['prom_type'] == 2) && ($goods_info['prom_id'] == $v['id']))
+                $Goods->where(['goods_id'=>$v['goods_id']])->update(['prom_type'=>0,'prom_id'=>0]);
         }
 
         $Order = M('Order');

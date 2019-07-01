@@ -86,6 +86,7 @@ class Order extends MobileBase
         if($is_shop){
             $where_arr['shop_id'] = ['gt', 0];
         }
+        $where_arr['user_id'] = ['neq', $this->user_id];
         $count = $order->where($where_arr)
             ->where(function ($query) use ($type) {
                 if ($type) {
@@ -189,13 +190,14 @@ class Order extends MobileBase
             $Result = $orderLogic->superiorProcessOrder($order_id, $goods['user_id'], $action,array('note'=>I('note'),'admin_id'=>0));
             if($res !== false && $Result !== false){
                 if($action == 'confirm'){
-                    $orderinfo = M('Order')->field('user_id,total_amount,applyid,apply_type')->find($order_id);
-                    $orderuserlevel = M('Users')->where(['user_id'=>$orderinfo['user_id']])->value('level');
-                    $level = M('user_level')->field('level')->where(['level'=>['gt',$orderuserlevel],'stock'=>['elt',$orderinfo['total_amount']]])->order('level desc')->limit(1)->find();
-                    $level = $level['level'] ? $level['level'] : 0;
-                    if($level > $orderuserlevel)
-                        M('Users')->where(['user_id'=>$orderinfo['user_id']])->update(['level'=>$level]);
-
+                    $orderinfo = M('Order')->field('user_id,total_amount,applyid,apply_type,kucun_type')->find($order_id);
+                    if($orderinfo['kucun_type'] == 1){
+                        $orderuserlevel = M('Users')->where(['user_id'=>$orderinfo['user_id']])->value('level');
+                        $level = M('user_level')->field('level')->where(['level'=>['gt',$orderuserlevel],'stock'=>['elt',$orderinfo['total_amount']]])->order('level desc')->limit(1)->find();
+                        $level = $level['level'] ? $level['level'] : 0;
+                        if($level > $orderuserlevel)
+                            M('Users')->where(['user_id'=>$orderinfo['user_id']])->update(['level'=>$level]);
+                    }        
                     if($type == 'kucun'){
 						M('Order')->where(['order_id'=>$order_id])->update(['pay_status'=>1]);
 						if($orderinfo['applyid']){

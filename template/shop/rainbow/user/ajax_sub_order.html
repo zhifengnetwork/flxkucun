@@ -1,0 +1,41 @@
+<volist name="new_order" id="val">
+    <li>
+        <div class="box_wrap">
+            <div class="date">{$val.add_time|date='Y-m-d',###}</div>
+            <div class="order-num">{$val.order_sn}</div>
+            <div class="number">{$val.goods_num}</div>
+            <div class="amount-money">{$val.total_amount}</div>
+            <!--查看详情按钮-->
+            <div class="view">
+                <div class="det">查看详情</div>
+                <div class="icon"></div>
+            </div>
+        </div>
+        <!--下拉列表-->
+        <div class="down_list">
+            <div class="item_cont">
+                <volist name="val.list" id="v">
+                <div class="item">
+                    <div class="imgs">
+                        <img src="{$v[goods_id]|goods_thum_images=200,200}?v={:date('Ymd')}" />
+                    </div>
+                    <div class="right">
+                        <p class="explain">{$v.goods_name|getSubstr=0,33}</p>
+                        <div class="cost">单价：{$v[goods_price]}</div>
+                        <div class="money">
+                            <span class="ey">应收金额：<span style="color: #e93380;">{$v.goods_price*$v.goods_num}</span></span>
+                            <span>数量：{$v.goods_num}</span>
+                        </div>
+                    </div>
+                </div>
+                </volist>
+                
+                <!--总数-->
+                <div class="amount">
+                    <div>总件数：{$val.goods_num}</div>
+                    <div>总金额：{$val.total_amount}</div>
+                </div>
+            </div>
+        </div>	
+    </li>
+</volist>

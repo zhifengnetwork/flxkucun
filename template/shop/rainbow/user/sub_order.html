@@ -11,6 +11,9 @@
 		<link rel="stylesheet" href="__STATIC__/css/user_zp/sub_order.css?v=20190619" />
 		
 	</head>
+	<style>
+		 .order-num{overflow: hidden;}
+	</style>
 	<body>
 		<div class="wrapper">
 			<!-- 公共头部 -->
@@ -22,17 +25,16 @@
             <!-- 主内容 -->
             <div class="content">
                 <!-- 查询 -->
-                <div class="id">ID:81345</div>
+                <div class="id">ID:{$_GET['user_id']}</div>
                 <div class="query-wrap">
-                    
                     <span class="date-start">
-                        <input type="text" placeholder="请选择开始日期" readonly="readonly" id="nowValue-start" onclick="dateStart()">
+                        <input type="text" name="start_time" placeholder="请选择开始日期" readonly="readonly" id="nowValue-start" onclick="dateStart()" value="{$_GET['start_time']}">
                     </span>
                     <i class="line"></i>
                     <span class="date-end">
-                        <input type="text" placeholder="请选择结束日期" readonly="readonly" id="nowValue-end" onclick="dateEnd()">
+                        <input type="text" name="end_time" placeholder="请选择结束日期" readonly="readonly" id="nowValue-end" onclick="dateEnd()" value="{$_GET['end_time']}">
                     </span>
-                    <button class="queryBtn">查询</button>
+                    <button class="queryBtn" onclick="search()">查询</button>
                 </div>
 
                 <!-- 订单列表 -->
@@ -45,13 +47,14 @@
                         <span>操作</span>
                     </div>
                     <div class="tbody">
-                        <ul>
+                        <ul class="ajax_sub_order">
+							<volist name="new_order" id="val">
                             <li>
                                 <div class="box_wrap">
-                            		<div class="date">2019/04/05</div>
-	                                <div class="order-num">6489389869</div>
-	                                <div class="number">50</div>
-	                                <div class="amount-money">9521.00</div>
+                            		<div class="date">{$val.add_time|date='Y-m-d',###}</div>
+	                                <div class="order-num">{$val.order_sn}</div>
+	                                <div class="number">{$val.goods_num}</div>
+	                                <div class="amount-money">{$val.total_amount}</div>
 	                                <!--查看详情按钮-->
 									<div class="view">
 										<div class="det">查看详情</div>
@@ -61,207 +64,44 @@
 								<!--下拉列表-->
 					        	<div class="down_list">
 					        		<div class="item_cont">
+					        			<volist name="val.list" id="v">
+					        			<div class="item">
+						        			<div class="imgs">
+							        			<img src="{$v[goods_id]|goods_thum_images=200,200}?v={:date('Ymd')}" />
+							        		</div>
+							        		<div class="right">
+							        			<p class="explain">{$v.goods_name|getSubstr=0,33}</p>
+							        			<div class="cost">单价：{$v[goods_price]}</div>
+							        			<div class="money">
+							        				<span class="ey">应收金额：<span style="color: #e93380;">{$v.goods_price*$v.goods_num}</span></span>
+							        				<span>数量：{$v.goods_num}</span>
+							        			</div>
+							        		</div>
+										</div>
+										</volist>
 					        			
-					        			<div class="item">
-						        			<div class="imgs">
-							        			<img src="__STATIC__/images/video/001v.png" />
-							        		</div>
-							        		
-							        		<div class="right">
-							        			<p class="explain">连衣裙FJSKAJFSAJKGJSAKJG</p>
-							        			<div class="cost">单价：7</div>
-							        			<div class="money">
-							        				<span class="ey">应收金额：<span style="color: #e93380;">4900</span></span>
-							        				<span>数量：700</span>
-							        			</div>
-							        		</div>
-					        			</div>
-					        			<div class="item">
-						        			<div class="imgs">
-							        			<img src="__STATIC__/images/video/001v.png" />
-							        		</div>
-							        		
-							        		<div class="right">
-							        			<p class="explain">连衣裙FJSKAJFSAJKGJSAKJG</p>
-							        			<div class="cost">单价：7</div>
-							        			<div class="money">
-							        				<span class="ey">应收金额：<span style="color: #e93380;">4900</span></span>
-							        				<span>数量：700</span>
-							        			</div>
-							        		</div>
-					        			</div>
 					        			<!--总数-->
 					        			<div class="amount">
-					        				<div>总件数：9800</div>
-					        				<div>总金额：1400</div>
+					        				<div>总件数：{$val.goods_num}</div>
+					        				<div>总金额：{$val.total_amount}</div>
 					        			</div>
 					        		</div>
 					        	</div>	
-                            </li>
-                            <li>
-                                <div class="box_wrap">
-                            		<div class="date">2019/04/05</div>
-	                                <div class="order-num">6489389869</div>
-	                                <div class="number">50</div>
-	                                <div class="amount-money">9521.00</div>
-	                                <!--查看详情按钮-->
-									<div class="view">
-										<div class="det">查看详情</div>
-										<div class="icon"></div>
-									</div>
-								</div>
-								<!--下拉列表-->
-					        	<div class="down_list">
-					        		<div class="item_cont">
-					        			
-					        			<div class="item">
-						        			<div class="imgs">
-							        			<img src="__STATIC__/images/video/001v.png" />
-							        		</div>
-							        		
-							        		<div class="right">
-							        			<p class="explain">连衣裙FJSKAJFSAJKGJSAKJG</p>
-							        			<div class="cost">单价：7</div>
-							        			<div class="money">
-							        				<span class="ey">应收金额：<span style="color: #e93380;">4900</span></span>
-							        				<span>数量：700</span>
-							        			</div>
-							        		</div>
-					        			</div>
-					        			<div class="item">
-						        			<div class="imgs">
-							        			<img src="__STATIC__/images/video/001v.png" />
-							        		</div>
-							        		
-							        		<div class="right">
-							        			<p class="explain">连衣裙FJSKAJFSAJKGJSAKJG</p>
-							        			<div class="cost">单价：7</div>
-							        			<div class="money">
-							        				<span class="ey">应收金额：<span style="color: #e93380;">4900</span></span>
-							        				<span>数量：700</span>
-							        			</div>
-							        		</div>
-					        			</div>
-					        			<!--总数-->
-					        			<div class="amount">
-					        				<div>总件数：9800</div>
-					        				<div>总金额：1400</div>
-					        			</div>
-					        		</div>
-					        	</div>	
-                            </li>
-                            <li>
-                            	<div class="box_wrap">
-                            		<div class="date">2019/04/05</div>
-	                                <div class="order-num">6489389869</div>
-	                                <div class="number">50</div>
-	                                <div class="amount-money">9521.00</div>
-	                                <!--查看详情按钮-->
-									<div class="view">
-										<div class="det">查看详情</div>
-										<div class="icon"></div>
-									</div>
-								</div>
-								<!--下拉列表-->
-					        	<div class="down_list">
-					        		<div class="item_cont">
-					        			
-					        			<div class="item">
-						        			<div class="imgs">
-							        			<img src="__STATIC__/images/video/001v.png" />
-							        		</div>
-							        		
-							        		<div class="right">
-							        			<p class="explain">连衣裙FJSKAJFSAJKGJSAKJG</p>
-							        			<div class="cost">单价：7</div>
-							        			<div class="money">
-							        				<span>应收金额：4900</span>
-							        				<span>数量：700</span>
-							        			</div>
-							        		</div>
-					        			</div>
-					        			<div class="item">
-						        			<div class="imgs">
-							        			<img src="__STATIC__/images/video/001v.png" />
-							        		</div>
-							        		
-							        		<div class="right">
-							        			<p class="explain">连衣裙FJSKAJFSAJKGJSAKJG</p>
-							        			<div class="cost">单价：7</div>
-							        			<div class="money">
-							        				<span class="ey">应收金额：<span style="color: #e93380;">4900</span></span>
-							        				<span>数量：700</span>
-							        			</div>
-							        		</div>
-					        			</div>
-					        			<!--总数-->
-					        			<div class="amount">
-					        				<div>总件数：9800</div>
-					        				<div>总金额：1400</div>
-					        			</div>
-					        		</div>
-                            	</li>
-                            <li>
-                                <div class="box_wrap">
-                            		<div class="date">2019/04/05</div>
-	                                <div class="order-num">6489389869</div>
-	                                <div class="number">50</div>
-	                                <div class="amount-money">9521.00</div>
-	                                <!--查看详情按钮-->
-									<div class="view">
-										<div class="det">查看详情</div>
-										<div class="icon"></div>
-									</div>
-								</div>
-								<!--下拉列表-->
-					        	<div class="down_list">
-					        		<div class="item_cont">
-					        			
-					        			<div class="item">
-						        			<div class="imgs">
-							        			<img src="__STATIC__/images/video/001v.png" />
-							        		</div>
-							        		
-							        		<div class="right">
-							        			<p class="explain">连衣裙FJSKAJFSAJKGJSAKJG</p>
-							        			<div class="cost">单价：7</div>
-							        			<div class="money">
-							        				<span class="ey">应收金额：<span style="color: #e93380;">4900</span></span>
-							        				<span>数量：700</span>
-							        			</div>
-							        		</div>
-					        			</div>
-					        			<div class="item">
-						        			<div class="imgs">
-							        			<img src="__STATIC__/images/video/001v.png" />
-							        		</div>
-							        		
-							        		<div class="right">
-							        			<p class="explain">连衣裙FJSKAJFSAJKGJSAKJG</p>
-							        			<div class="cost">单价：7</div>
-							        			<div class="money">
-							        				<span class="ey">应收金额：<span style="color: #e93380;">4900</span></span>
-							        				<span>数量：700</span>
-							        			</div>
-							        		</div>
-					        			</div>
-					        			<!--总数-->
-					        			<div class="amount">
-					        				<div>总件数：9800</div>
-					        				<div>总金额：1400</div>
-					        			</div>
-					        		</div>
-					        	</div>	
-                            </li>
+							</li>
+							</volist>
                         </ul>
                     </div>
-                </div>
+				</div>
+				<div id="getmore"  style="font-size:.32rem;text-align: center;color:#888;padding:.25rem .24rem .4rem; clear:both;display: none">
+					<a >已显示完所有记录</a>
+				</div>
             </div>
 		</div>
 		<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
 		<script src="__STATIC__/js/public/public_lb.js"></script>
 		<script src="__STATIC__/js/public/public.js"></script>
-        <script src="__STATIC__/js/public/datePicker.min.js"></script>
+		<script src="__STATIC__/js/public/datePicker.min.js"></script>
+		<script type="text/javascript" src="__STATIC__/js/sourch_submit.js"></script>
         <script>
             // 日期选择器
             function dateStart() {
@@ -318,6 +158,38 @@
 //			$('.ca_btn').click(function (){
 //				$('.popup_wrap').hide();
 //			});
+			function search(){
+				var start_time = $('input[name="start_time"]').val();
+				var end_time = $('input[name="end_time"]').val();
+				var user_id = '{$_GET[user_id]}';
+				location.href="{:url('sub_order')}?user_id="+user_id+"&start_time="+start_time+"&end_time="+end_time;
+			}
+
+			//加载更多记录
+			var page = 1;
+			var submit = 1;
+			function ajax_sourch_submit()
+			{
+				if(submit == 0){
+					return false;
+				}
+				submit = 0;
+				++page;
+				$.ajax({
+					type : "GET",
+					url:"/index.php?m=Shop&c=User&a=ajax_sub_order&p="+page,//+tab,
+					success: function(data)
+					{
+						submit = 1;
+						if($.trim(data) == '') {
+							$('#getmore').show();
+							return false;
+						}else{
+							$(".hot-ajax_sub_order").append(data);
+						}
+					}
+				});
+			}
         </script>
 
 	</body>

@@ -1,0 +1,20 @@
+<volist name="list" id="vo">
+    <div class="single-item">
+        <div class="img-wrap">
+            <a href="/shop/goods/goodsInfo/id/{$vo.goods_id}"><img
+                    src="{$vo.original_img}"></a>
+        </div>
+        <div class="text">
+            <a href="/shop/goods/goodsInfo/id/{$vo.goods_id}">
+                <h3>植萃修护护发乳</h3>
+            </a>
+            <p class="dec"></p>
+            <div class="price">
+                <span class="discount-price">{$vo.shop_price}</span>
+                <span class="original-price">{$vo.market_price}</span>
+            </div>
+            <p class="spell-num">已售{$vo.virtual_sales_sum+$vo.sales_sum}件</p>
+            <a href="/shop/goods/goodsInfo/id/{$vo.goods_id}" class="buy-btn">立即购买</a>
+        </div>
+    </div>
+</volist>

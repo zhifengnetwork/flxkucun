@@ -18,6 +18,7 @@ use app\common\model\Withdrawals;
 use app\common\model\Users;
 use think\Loader;
 
+
 class Sign extends Base
 {
 
@@ -27,11 +28,21 @@ class Sign extends Base
      */
     public function signList()
     {
-
-       
-
-
-       return $this->fetch();
+        $mobile = input('mobile');
+        $where['sl.user_id'] = array('gt',0);
+        if($mobile){
+            $where['u.mobile'] = array('like','%'.$mobile.'%');
+        }
+        $count = Db::name('sign_log')->alias('sl')->join('tp_users u','u.user_id=sl.user_id')->order('sl.sign_day desc')->where($where)->group('sl.user_id')->count();
+        $page = new Page($count, 10);
+        $list = Db::name('sign_log')->alias('sl')->join('tp_users u','u.user_id=sl.user_id')->field('u.nickname,sl.id,u.mobile,sl.sign_day,sl.user_id')->order('sl.sign_day desc')->where($where)->group('sl.user_id')->limit($page->firstRow . ',' . $page->listRows)->select();
+        foreach($list as $k=>$v){
+            $list[$k]['day_num'] = Db::name('sign_log')->where('user_id',$v['user_id'])->count();
+        }
+        // 获取分页显示
+        $this->assign('list',$list);
+        $this->assign('page',$page->show());
+        return $this->fetch();
     }
 
 
@@ -45,7 +56,7 @@ class Sign extends Base
         // $list = M('sign_log')->group("user_id")->select();
 
         $list =  Db::query("select *,count(sign_day) as day_num from tp_sign_log as a,tp_users  as b where a.user_id = b.user_id group by a.user_id order by a.sign_day desc");
-        $this->assign('list',$list);
+        $this->assign('list',$list); 
 
         return $this->fetch();
     }

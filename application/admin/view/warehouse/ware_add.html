@@ -152,7 +152,7 @@
     }
     function selectGoods(){
         var json_data =$('#goods_ids').val();
-        var url = "{:U('Warehouse/search_goods',array('tpl'=>'select_goods','prom_type'=>0,'prom_id'=>$info[id]))}";
+        var url = "{:U('Warehouse/search_goods',array('type'=>'1','tpl'=>'select_goods','prom_type'=>0,'prom_id'=>$info[id]))}";
         var new_url =url+'/data/'+json_data;
         layer.open({
             type: 2,

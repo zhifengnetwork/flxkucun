@@ -270,6 +270,7 @@ class Cart extends MobileBase {
         $applyid = input('applyid/d',0); 
         $seller_id = input('seller_id');
         $pei_parent = input('pei_parent/d',0);
+        $kuaidi_type = input('kuaidi_type/d',0);
        // echo $seller_id;exit;
         $cart_validate = Loader::validate('Cart');
         if($action_type=='kucun_buy')
@@ -322,17 +323,19 @@ class Cart extends MobileBase {
                 $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn']]);
             }
             elseif ($_REQUEST['act'] == 'kucun_submit_order') {
+                if($kuaidi_type == 2)$pay->setShippingPrice(0);
                 $placeOrder = new PlaceOrder($pay); 
                 if(($type == 1) || $applyid){
                     $placeOrder->setUserNote($user_note)->setOrdertype()->setApplyid($applyid,$type)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
                 }else{
-                    $placeOrder->setUserAddress($address)->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
+                    $placeOrder->setUserAddress($address)->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->setApplyid($applyid,$type)->setKuaiditype($kuaidi_type)->addNormalOrder();
                 }
                 $cartLogic->clear();
                 $order = $placeOrder->getOrder();
 
-                if($seller_id){
-                    $msid = M('message_notice')->add(['message_title'=>'下级进货通知','message_content'=>"您有下级提交进货订单!",'send_time'=>time(),'mmt_code'=>'/shop/Order/order_send','type'=>11]);
+                if($seller_id != $this->user_id){
+                    $str = (($type == 2) && !$applyid) ? '取货' : '进货';
+                    $msid = M('message_notice')->add(['message_title'=>'下级'.$str.'通知','message_content'=>"您有下级提交".$str."订单!",'send_time'=>time(),'mmt_code'=>'/shop/Order/order_send','type'=>11]);
                     if($msid)M('user_message')->add(['user_id'=>$seller_id,'message_id'=>$msid]);
                 }
 
@@ -357,6 +360,15 @@ class Cart extends MobileBase {
 
             //$region=Db::name('user_address')->where('user_id',$this->user_id)->find();
             //$pricedata['shipping_price']=$this->dispatching($goods_id,$region['district']);
+            if($kuaidi_type == 2){
+                $pricedata['order_amount'] -= $pricedata['shipping_price'];
+                $pricedata['total_amount'] -= $pricedata['shipping_price'];
+                $pricedata['shipping_price'] = 0;
+            }
+            if(($type == 2) && !$applyid && ($this->user_id == $pei_parent)){
+                $pricedata['order_amount'] = $pricedata['shipping_price'];
+                $pricedata['total_amount'] = $pricedata['shipping_price'];    
+            }
             $this->ajaxReturn(['status' => 1, 'msg' => '计算成功', 'result' => $pricedata]);
         } catch (TpshopException $t) {
             $error = $t->getErrorArr();

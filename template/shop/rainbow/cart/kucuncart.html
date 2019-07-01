@@ -30,6 +30,7 @@
             <input type="hidden" name="type" value="{$type}">
             <input type="hidden" name="applyid" value="{$applyid}">
             <input type="hidden" name="pei_parent" value="{$pei_parent}">
+            <input type="hidden" name="kuaidi_type" id="kuaidi_type" value="1">
         </form>
         <!--地址-s-->
         <div class="edit_gtfix shipping_div" id="addressDefault" <if condition="$type eq 1 or $applyid gt 0">style="display: none"</if>>
@@ -79,6 +80,7 @@
                     选择配送方式
                 </div>
             </div>
+            <!--
             <div class="maleri30 z-dispatching-wrap">
                 <div class="p z-dispatching border-none">
                     <div class="fl">
@@ -91,9 +93,17 @@
                     </div>
                 </div>
                 <div class="z-dispatching-one dispatching-font1" style="display: block;">
-                    <!--下单后你的上级将收到信息后给你安排发货-->
+                    下单后你的上级将收到信息后给你安排发货
                 </div>
+            </div>-->
+            <if condition="$third_leader gt 0">
+            <div class="maleri30 z-dispatching-wrap">
+                <select style="width:90%;height:1rem;font-size:.6rem;margin:.3rem;" id='kuaidi' name='kuaidi'>
+                    <option value=1>快递现付</option>
+                    <option value=2>物流到付</option>
+                </select>
             </div>
+            </if>
         </div>
         <!--配送方式-e-->
         <!-- <if condition="$third_leader eq 0 and $applyid eq 0"> -->
@@ -615,7 +625,12 @@
         } else {
             $('#paypwd_view').hide();
         }
-    }    
+    }
+
+    $('#kuaidi').change(function(){
+        $("#kuaidi_type").val( $(this).val() );
+        ajax_order_price();
+    });    
 
     // 获取订单价格
     function ajax_order_price() {

@@ -111,7 +111,7 @@
                             <div class="sub-list" >
                                 <h4>配货下级</h4>
                                 <foreach name="peihuo_sub" id="v">
-                                <a href="{:U('User/sub_order')}">
+                                <a href="{:U('User/sub_order','user_id='.$v[user_id])}">
                                     <div class="item">
                                         <div class="img-wrap">
                                             <img src="{$v.head_pic}"/>
