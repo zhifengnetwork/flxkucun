@@ -31,7 +31,9 @@ class Team extends Controller{
 
         $Goods = M('Goods');
         foreach($list1 as $v){
-            $Goods->where(['goods_id'=>$v['goods_id']])->update(['prom_type'=>0,'prom_id'=>0]);
+            $goods_info = $Goods->field('prom_type,prom_id')->find($v['goods_id']);
+            if(($goods_info['prom_type'] == 2) && ($goods_info['prom_id'] == $v['id']))
+                $Goods->where(['goods_id'=>$v['goods_id']])->update(['prom_type'=>0,'prom_id'=>0]);
         }
 
         $Order = M('Order');

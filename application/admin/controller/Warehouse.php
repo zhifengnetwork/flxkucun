@@ -115,6 +115,7 @@ class Warehouse extends Base
         $brand_id = input('brand_id');
         $keywords = input('keywords');
         $prom_id = input('prom_id');
+        $type = input('type');
         $data =!empty(input('data'))?input('data'):'0';
         //var_dump($data);
         $tpl = input('tpl', 'search_goods');
@@ -140,13 +141,14 @@ class Warehouse extends Base
             $where['goods_name|keywords'] = ['like','%'.$keywords.'%'];
         }
         $Goods = new Goods();
-        $count = $Goods->where($where)->where(function ($query) use ($prom_type, $prom_id) {
+        if(($type == 1) && $where['prom_type'])unset($where['prom_type']);
+        $count = $Goods->where($where)->where(function ($query) use ($prom_type, $prom_id, $type) {
             if(in_array($prom_type,[3,6])){
                 //优惠促销,拼团
                 if ($prom_id) {
                     $query->where(['prom_id' => $prom_id, 'prom_type' => $prom_type])->whereor('prom_id', 0);
                 } else {
-                    $query->where('prom_type', 0);
+                    if(!$type)$query->where('prom_type', 0);
                 }
             }else if($prom_type == 7){
                 //
@@ -154,18 +156,19 @@ class Warehouse extends Base
             }else if(in_array($prom_type,[1,2])){
                 //抢购，团购
                 $query->where('prom_type','in' ,[0,$prom_type])->where('prom_type',0);
+                if(!$type)$query->where('prom_type',0);
             }else{
-                $query->where('prom_type',0);
+                if(!$type)$query->where('prom_type',0);
             }
         })->count();
         $Page = new Page($count, 10);
-        $goodsList = $Goods->with('specGoodsPrice')->where($where)->where(function ($query) use ($prom_type, $prom_id) {
+        $goodsList = $Goods->with('specGoodsPrice')->where($where)->where(function ($query) use ($prom_type, $prom_id, $type) {
             if(in_array($prom_type,[3,6])){
                 //优惠促销
                 if ($prom_id) {
                     $query->where(['prom_id' => $prom_id, 'prom_type' => $prom_type])->whereor('prom_id', 0);
                 } else {
-                    $query->where('prom_type', 0);
+                    if(!$type)$query->where('prom_type', 0);
                 }
             }else if($prom_type == 7){
                 //
@@ -174,7 +177,7 @@ class Warehouse extends Base
                 //抢购，团购
                 $query->where('prom_type','in' ,[0,$prom_type])->where('prom_type',0);
             }else{
-                $query->where('prom_type',0);
+                if(!$type)$query->where('prom_type',0);
             }
         })->order('goods_id DESC')->limit($Page->firstRow . ',' . $Page->listRows)->select();
         $GoodsLogic = new GoodsLogic;
