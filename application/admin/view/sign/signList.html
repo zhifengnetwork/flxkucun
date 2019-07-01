@@ -37,7 +37,7 @@
                     <div class="sDiv">
                         <div class="sDiv2">          
                             <input type="text" size="30" name="mobile" class="qsbox" placeholder="搜索用户手机号...">
-                            <input type="button" onclick="ajax_get_table('search-form2', 1)" class="btn" value="搜索">
+                            <input type="button" onclick="ajax_get_table2()" class="btn" value="搜索">
                         </div>
                     </div>
                 </form>
@@ -52,6 +52,9 @@
                         </th>
                         <th align="left" abbr="ac_id" axis="col4" class="">
                         <div style="text-align: left; width: 150px;" class="" >用户名称</div>
+                        </th>
+                        <th align="left" abbr="ac_id" axis="col4" class="">
+                        <div style="text-align: left; width: 150px;" class="" >用户ID</div>
                         </th>
                         <th align="left" abbr="ac_id" axis="col4" class="">
                         <div style="text-align: left; width: 150px;" class="" >手机号码</div>
@@ -76,12 +79,79 @@
 
             <div class="bDiv" style="height: auto;">
                 <!--ajax 返回 --> 
-                <div id="ajax_return" cellpadding="0" cellspacing="0" border="0"></div>      
+                <div id="ajax_return" cellpadding="0" cellspacing="0" border="0">
+                    <table>
+                        <tbody>
+                        <empty name="list">
+                            <tr>
+                                <td class="no-data" align="center" axis="col0" colspan="50">
+                                    <i class="fa fa-exclamation-circle"></i>没有符合条件的记录
+                                </td>
+                            </tr>
+                            <else/>
+                            <volist name="list" id="list">
+                                <tr>
+                                    <td align="center" axis="col0">
+                                        <div style="width: 50px;">                   
+                                            {$list.id}
+                                        </div>
+                                    </td>         
+                                    <td align="center" axis="col0">
+                                        <div style="text-align: left; width: 150px;">{$list.nickname}</div>
+                                    </td>   
+                                    <td align="center" axis="col0">
+                                        <div style="text-align: left; width: 150px;">{$list.user_id}</div>
+                                    </td>   
+                                    <td align="center" axis="col0">
+                                        <div style="text-align: left; width: 150px;">{$list.mobile}</div>
+                                    </td>
+                                    <td align="center" axis="col0">
+                                        <div style="text-align: center; width: 100px;">{$list.day_num}</div>
+                                    </td>
+                                    <td align="center" axis="col0">
+                                        <div style="text-align: center; width: 100px;">{$a=continue_sign($list['user_id'])}</div>
+                                    </td>
+                                    <td align="center" axis="col0">
+                                        <div style="text-align: center; width: 160px;">{$list.sign_day}</div>
+                                    </td>
+                                    <!-- <td align="center" axis="col0">
+                                        <div style="text-align: center; width: 100px;">{$list.sign_last}</div>
+                                    </td>
+                                    <td align="center" axis="col0">
+                                        <div style="text-align: center; width: 500px;">{$list.sign_time}</div>
+                                    </td>
+                                    
+                                    <td align="center" axis="col0">
+                                        <div style="text-align: center; width: 100px;">{$list.this_month}</div>
+                                    </td>
+                                    </a>
+                                    <td align="center" axis="col0">
+                                        <div style="text-align: center; width: 100px;">{$list.cumtrapz}</div>
+                                    </td> -->
+                    
+                                    <td align="" class="" style="width: 100%;">
+                                                    <div>&nbsp;</div>
+                    <!--                    <div style="text-align: center; width: 100px;">
+                                            <a class="btn blue" href=javascript:void(0);" onclick="takeoff(this)"><i class="fa fa-search"></i>查看</a>
+                                        </div>-->
+                                    </td>
+                                </tr>
+                            </volist>          
+                    
+                        </empty>
+                    </tbody>
+                    </table>
+                    <!--分页位置--> {$page}
+                </div>      
             </div>
 
         </div>
     </div>
     <script>
+        function ajax_get_table2(){
+            var mobile = $('input[name="mobile"]').val();
+            location.href="{:url('signList')}?mobile="+mobile;
+        }
         $(document).ready(function() {
 
             // 表格行点击选中切换
@@ -111,7 +181,7 @@
     <script>
         $(document).ready(function() {
             // ajax 加载签到列表
-            ajax_get_table('search-form2', 1);
+            // ajax_get_table('search-form2', 1);
 
         });
 
