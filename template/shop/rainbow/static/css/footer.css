@@ -59,6 +59,10 @@
 	background: url(../images/public/cart-icon1.png) no-repeat;
 	background-size: 100%;
 }
+.footer-zp ul li .exchange-icon{
+	background: url(../images/public/exchange-icon1.png) no-repeat;
+	background-size: 100%;
+}
 .footer-zp ul li .user-icon{
 	background: url(../images/public/user-icon1.png) no-repeat;
 	background-size: 100%;
@@ -75,6 +79,10 @@
 }
 .footer-zp ul li.on .cart-icon{
 	background: url(../images/public/cart-icon1-on.png) no-repeat;
+	background-size: 100%;
+}
+.footer-zp ul li.on .exchange-icon{
+	background: url(../images/public/exchange-icon1-on.png) no-repeat;
 	background-size: 100%;
 }
 .footer-zp ul li.on .user-icon{
