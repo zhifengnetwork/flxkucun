@@ -1481,6 +1481,14 @@ function confirm_order($id, $user_id = 0)
 
     order_give($order); // 调用送礼物方法, 给下单这个人赠送相应的礼物
 
+    if(($order['seller_id'] == $user_id) && ($order['kucun_type'] == 0)){
+        //自己向自己取货订单
+        $order_goods = M('order_goods')->field('goods_id,goods_name,goods_num')->where(["order_id" => $id])->select();
+        foreach($order_goods as $v){ 
+            changekucun($v['goods_id'],$user_id,-$v['goods_num']);
+        }
+    }
+
     //分销设置
     M('rebate_log')->where("order_id", $id)->save(array('status' => 2, 'confirm' => time()));
     return array('status' => 1, 'msg' => '操作成功', 'url' => U('Order/order_detail', ['id' => $id]));
