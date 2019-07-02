@@ -1168,7 +1168,7 @@ function update_pay_status($order_sn, $ext = array())
         //自己向自己取货 减库存
         $goods = M('order_goods')->field('goods_id')->where(['order_id'=>$orderinfo['order_id']])->select();
         foreach ($goods as $value){
-            changekucun($value['goods_id'],$this->user_id,-$value['goods_num']);
+            changekucun($value['goods_id'],$orderinfo['user_id'],-$value['goods_num']);
         }
 
     }
