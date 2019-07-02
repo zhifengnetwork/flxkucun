@@ -183,7 +183,7 @@ class Cart extends MobileBase {
                 $goods_data_number = $data['number'];//数量   
                 $goods_data_checkItem = $data['checkItem'];
                 $pei_parent =$data['pei_parent'];
-                if(count($goods_data_ids) > 20)$this->error('一次最多勾选20种商品');
+                if(count($goods_data_checkItem) > 20)$this->error('一次最多勾选20种商品');
                 foreach($goods_data_ids as $k=>$v)
                 {
                     if(!empty($goods_data_checkItem[$k]))
@@ -733,7 +733,7 @@ class Cart extends MobileBase {
         $cartLogic->setSpecGoodsPriceById($item_id);
         $cartLogic->setGoodsBuyNum($goods_num);
         $cartLogic->setCartDellerId($seller_id);
-        try {
+        try { 
             $cartLogic->kucun_addGoodsToCart();
            // $cartLogic->addGoodsToCart();
            // $this->ajaxReturn(['status' => 1, 'msg' => '加入购物车成功']);
