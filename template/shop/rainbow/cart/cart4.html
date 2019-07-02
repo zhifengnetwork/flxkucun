@@ -13,6 +13,7 @@
             <span class="fr">{$order[order_amount]}元</span>
         </div>
     </div>
+    <if condition="$type eq 2 and $applyid eq 0">
     <!--其他支付方式-s-->
     <div class="paylist">
         <div class="myorder debit otherpay p">
@@ -64,7 +65,7 @@
             <!--<p class="fr"><a href="javascript:void(0);" class="lossbq">支付失败？</a></p>-->
         </div>
     </div>
-
+    </if>
 <!--    <div class="quickpayment">
         <div class="maleri30">
             <div class="quicks fl"><img src="__STATIC__/images/quick.png"/></div>

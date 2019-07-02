@@ -230,6 +230,7 @@ class Cart extends MobileBase {
         $this->assign('applyid', $applyid);
         $this->assign('goods_prom_type', $goods_prom_type);
         $this->assign('prom_id', $prom_id);
+        $this->assign('level', $this->user['level']);
         $this->assign('cartGoodsTotalNum', $cartGoodsTotalNum);
         $this->assign('cartList', $cartList['cartList']); // 购物车的商品
         $this->assign('cartPriceInfo', $cartPriceInfo);//商品优惠总价
@@ -418,7 +419,9 @@ class Cart extends MobileBase {
             $this->redirect('User/login');
         }
         $order_id = I('order_id/d');
-        $order_sn= I('order_sn/s','');
+        $order_sn = I('order_sn/s','');
+        $type = I('type/d',0);
+        $applyid = I('applyid/d',0);
         $order_where = ['user_id'=>$this->user_id];
         if($order_sn)
         {
@@ -498,6 +501,8 @@ class Cart extends MobileBase {
         $this->assign('paymentList',$paymentList);
         $this->assign('bank_img',$bank_img);
         $this->assign('order',$order);
+        $this->assign('type',$type);
+        $this->assign('applyid',$applyid);
         $this->assign('bankCodeList',$bankCodeList);
         $this->assign('pay_date',date('Y-m-d', strtotime("+1 day")));
         return $this->fetch();
