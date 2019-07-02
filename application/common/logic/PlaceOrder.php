@@ -66,9 +66,6 @@ class PlaceOrder
         $this->addOrderGoods();//插入订单商品表
         Hook::listen('user_add_order', $this->order);//下单行为
         $reduce = tpCache('shopping.reduce');
-        if($reduce== 1 || empty($reduce)){
-            minus_stock($this->order);//下单减库存
-        }
         // 如果应付金额为0  可能是余额支付 + 积分 + 优惠券 这里订单支付状态直接变成已支付
         if ($this->order['order_amount'] == '0') {
             update_pay_status($this->order['order_sn']);
@@ -79,6 +76,9 @@ class PlaceOrder
         $this->changUserPointMoney($this->order);//扣除用户积分余额
         $this->changAuctionPrice();//修改竞拍状态
         $this->queueDec();
+        if($reduce== 1 || empty($reduce)){
+            minus_stock($this->order);//下单减库存
+        }        
     }
 
     public function addTeamOrder(Team $team)
