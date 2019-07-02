@@ -187,7 +187,7 @@ class User extends MobileBase
 
         $levlist = M('user_level')->field('id,level,level_name')->where([ 'level' => ['gt', 2] ])->where([ 'level' => ['elt', $this->user['level']] ])->select();
         $this->assign('levlist', $levlist);
-        $this->assign('pic', "/public/upload/zhengshu/users/{$this->user_id}.jpg");
+        $this->assign('pic', "/public/upload/zhengshu/users/{$this->user_id}.jpg?".rand(0,9999));
         return $this->fetch();
     }
 

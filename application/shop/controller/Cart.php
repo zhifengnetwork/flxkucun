@@ -348,6 +348,14 @@ class Cart extends MobileBase {
                     if($msid)M('user_message')->add(['user_id'=>$seller_id,'message_id'=>$msid]);
                 }
 
+                //有上级取货时，运费为零直接减库存
+                if(($type == 2) && !$applyid && ($this->user['level'] > 2) && !$order['shipping_price']){
+                    $order_goods = M('order_goods')->field('goods_id,goods_name,goods_num')->where(["order_id" => $order['order_id']])->select();
+                    foreach($order_goods as $v){ 
+                        changekucun($v['goods_id'],$order['seller_id'],-$v['goods_num']);
+                    }
+                }
+
                 $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn'],'third_leader'=>$this->user['third_leader'],'applyid'=>$applyid,'type'=>$type]);
             }
 
@@ -384,8 +392,6 @@ class Cart extends MobileBase {
             $this->ajaxReturn($error);
         }
     }
-
-
 
            /**
      * 商品物流配送和运费

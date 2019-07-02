@@ -194,8 +194,8 @@ class CartLogic extends Model
             'member_goods_price' => $this->goods['shop_price'],
             'goods_num' => $this->goodsBuyNum, // 购买数量
             'add_time' => time(), // 加入购物车时间
-            'prom_type' => 0,   // 0 普通订单,1 限时抢购, 2 团购 , 3 促销优惠
-            'prom_id' => 0,   // 活动id
+            'prom_type' => $this->goods_prom_type,   // 0 普通订单,1 限时抢购, 2 团购 , 3 促销优惠
+            'prom_id' => $this->prom_id,   // 活动id
             'weight' => $this->goods['weight'],   // 商品重量
             'goods' => $this->goods,
             'is_virtual'=>$this->goods['is_virtual'],

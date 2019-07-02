@@ -1164,7 +1164,7 @@ function rechargevip_rebate($order)
 function update_pay_status($order_sn, $ext = array())
 {
     $orderinfo = M('Order')->field('order_id,seller_id,user_id,shipping_price,total_amount,applyid,apply_type,kucun_type')->where(['order_sn'=>$order_sn])->find();
-    if(($orderinfo['seller_id'] == $orderinfo['user_id']) && !$orderinfo['kucun_type']){
+    if($orderinfo['seller_id'] && !$orderinfo['kucun_type']){
         //自己向自己取货 减库存
         $goods = M('order_goods')->field('goods_id')->where(['order_id'=>$orderinfo['order_id']])->select();
         foreach ($goods as $value){
@@ -1480,14 +1480,6 @@ function confirm_order($id, $user_id = 0)
     $messageLogic->sendMessage();
 
     order_give($order); // 调用送礼物方法, 给下单这个人赠送相应的礼物
-
-    if(($order['seller_id'] == $user_id) && ($order['kucun_type'] == 0)){
-        //自己向自己取货订单
-        $order_goods = M('order_goods')->field('goods_id,goods_name,goods_num')->where(["order_id" => $id])->select();
-        foreach($order_goods as $v){ 
-            changekucun($v['goods_id'],$user_id,-$v['goods_num']);
-        }
-    }
 
     //分销设置
     M('rebate_log')->where("order_id", $id)->save(array('status' => 2, 'confirm' => time()));
