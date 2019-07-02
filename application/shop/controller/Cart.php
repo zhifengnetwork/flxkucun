@@ -182,7 +182,8 @@ class Cart extends MobileBase {
                 $goods_data_ids = $data['goods_ids'];//id
                 $goods_data_number = $data['number'];//数量   
                 $goods_data_checkItem = $data['checkItem'];
-                 $pei_parent =$data['pei_parent'];
+                $pei_parent =$data['pei_parent'];
+                if(count($goods_data_ids) > 20)$this->error('一次最多勾选20种商品');
                 foreach($goods_data_ids as $k=>$v)
                 {
                     if(!empty($goods_data_checkItem[$k]))
@@ -207,7 +208,7 @@ class Cart extends MobileBase {
             $cartList['cartList'] = $cartLogic->getCartList(1); // 获取用户选中的购物车商品
             $cartList['cartList'] = $cartLogic->getCombination($cartList['cartList']);  //找出搭配购副商品
             $cartGoodsTotalNum = count($cartList['cartList']);
-        } 
+        }
         $cartPriceInfo = $cartLogic->getCartPriceInfo($cartList['cartList']);  //初始化数据。商品总额/节约金额/商品总共数量
         
         //$levellist = M('user_level')->field('stock,replenish')->where(['level'=>['gt',$this->user['level']]])->select();
