@@ -308,20 +308,19 @@ class Cart extends MobileBase {
                 
                 if($action_type=='kucun_buy')
                 {
-                       
                   $userCartList = $cartLogic->getCartkucunList(1);
                 }else
                 {
                     $userCartList = $cartLogic->getCartList(1);
                 }
-                $cartLogic->checkStockCartList($userCartList);
+                $cartLogic->checkStockCartList($userCartList,$action_type);
                 $pay->payCart($userCartList);
             }
             if(($type == 1) || $applyid)
                 $pay->setUserId($this->user_id)->useUserMoney($user_money);
             else
                 $pay->setUserId($this->user_id)->delivery($address['district'])->useUserMoney($user_money);
-
+                
             // 提交订单
             if ($_REQUEST['act'] == 'submit_order') {
                 $prominfo = M('goods')->field('prom_type,prom_id')->find($goods_id);
@@ -333,7 +332,7 @@ class Cart extends MobileBase {
             }
             elseif ($_REQUEST['act'] == 'kucun_submit_order') {
                 if($kuaidi_type == 2)$pay->setShippingPrice(0);
-                $placeOrder = new PlaceOrder($pay); 
+                $placeOrder = new PlaceOrder($pay);
                 if(($type == 1) || $applyid){
                     $placeOrder->setUserNote($user_note)->setOrdertype()->setApplyid($applyid,$type)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
                 }else{

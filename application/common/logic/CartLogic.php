@@ -1307,11 +1307,15 @@ class CartLogic extends Model
      * @param $cartList
      * @throws TpshopException
      */
-    public function checkStockCartList($cartList)
+    public function checkStockCartList($cartList,$str='')
     {
         foreach ($cartList as $cartKey => $cartVal) {
-            if ($cartVal->goods_num > $cartVal->limit_num) {
+            if (($cartVal->goods_num > $cartVal->limit_num) && ($str != 'kucun_buy')) {
                 throw new TpshopException('计算订单价格', 0, ['status' => 0, 'msg' => $cartVal->goods_name . '购买数量不能大于' . $cartVal->limit_num, 'result' => ['limit_num' => $cartVal->limit_num]]);
+            }
+            if($str == 'kucun_buy'){
+                $store_count = M('Goods')->where("goods_id", $val['goods_id'])->value('store_count');
+                if($cartVal->goods_num > $store_count)throw new TpshopException('商品库存不足', 0, ['status' => 0, 'msg' => $cartVal->goods_name . '商品总库存已不足' . $cartVal->limit_num, 'result' => ['limit_num' => $cartVal->limit_num]]);
             }
             if ($cartVal['prom_type'] == 7) {
                 $combination_goods_where = ['combination_id' => $cartVal['prom_id'], 'goods_id' => $cartVal['goods_id']];
