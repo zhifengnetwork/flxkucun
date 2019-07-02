@@ -28,6 +28,8 @@ class CartLogic extends Model
     protected $userGoodsTypeCount = 0;//用户购物车的全部商品种类
     protected $userCouponNumArr; //用户符合购物车店铺可用优惠券数量
     protected $combination;
+    protected $goods_prom_type = 0;
+    protected $prom_id = 0;
 
     public function __construct()
     {
@@ -60,6 +62,14 @@ class CartLogic extends Model
     //获取商品阶梯价格
     public function getGoodsPrices ($goodsId)
     {
+        if($this->goods_prom_type && $this->prom_id){
+            if($this->goods_prom_type == 1){
+                return M('flash_sale')->where(['id'=>$this->prom_id])->value('price');
+            }elseif($this->goods_prom_type == 2){
+                return M('group_buy')->where(['id'=>$this->prom_id])->value('price');
+            }
+        }
+
         $level_price = M('goods_level_price')->where(['goods_id'=>$goodsId,'level'=>$this->user['level']])->order('level asc')->value('price');
         //2019-06-28 修改默认价格，默认为市场价格
         if($level_price === null){
@@ -80,6 +90,11 @@ class CartLogic extends Model
         }else{
             $this->specGoodsPrice = null;
         }
+    }
+
+    public function setProm($goods_prom_type,$prom_id){
+        $this->goods_prom_type = $goods_prom_type;
+        $this->prom_id = $prom_id;
     }
 
     /**
