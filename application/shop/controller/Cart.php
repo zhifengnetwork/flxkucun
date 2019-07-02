@@ -133,6 +133,8 @@ class Cart extends MobileBase {
         $type = input("type/d",1);
         $applyid = input("applyid/d",0);
         $pei_parent = input("pei_parent/d",0);
+        $goods_prom_type = input("goods_prom_type/d",0);
+        $prom_id = input("prom_id/d",0);
         if ($this->user_id == 0){
             $this->error('请先登录', U('Shop/User/login'));
         }
@@ -146,6 +148,7 @@ class Cart extends MobileBase {
         $cartLogic->setUserId($this->user_id);
         //立即购买
         if($action == 'buy_now'){
+            $cartLogic->setProm($goods_prom_type,$prom_id);
             $cartLogic->setGoodsModel($goods_id);
             $cartLogic->setSpecGoodsPriceById($item_id);
             $cartLogic->setGoodsBuyNum($goods_num);
@@ -156,15 +159,14 @@ class Cart extends MobileBase {
                 $error = $t->getErrorArr();
                 $this->error($error['msg']);
             }
-      
-            if($user['level'] > 0){
+
+            if(($user['level'] > 0) && !$goods_prom_type && !$prom_id){
                 $price = M('goods_level_price')->where('goods_id',$goods_id)->where('level',$user['level'])->value('price');
                 $buyGoods['member_goods_price']= $price?$price:$goods['market_price'];
-            }else{
+            }elseif(!$goods_prom_type && !$prom_id){
                 $buyGoods['member_goods_price']= $buyGoods['market_price'];
             }
 
-            
             $cartList['cartList'][0] = $buyGoods;
             $cartGoodsTotalNum = $goods_num;
             $setRedirectUrl = new UsersLogic();
@@ -180,7 +182,8 @@ class Cart extends MobileBase {
                 $goods_data_ids = $data['goods_ids'];//id
                 $goods_data_number = $data['number'];//数量   
                 $goods_data_checkItem = $data['checkItem'];
-                 $pei_parent =$data['pei_parent'];
+                $pei_parent =$data['pei_parent'];
+                if(count($goods_data_checkItem) > 20)$this->error('一次最多勾选20种商品');
                 foreach($goods_data_ids as $k=>$v)
                 {
                     if(!empty($goods_data_checkItem[$k]))
@@ -205,7 +208,7 @@ class Cart extends MobileBase {
             $cartList['cartList'] = $cartLogic->getCartList(1); // 获取用户选中的购物车商品
             $cartList['cartList'] = $cartLogic->getCombination($cartList['cartList']);  //找出搭配购副商品
             $cartGoodsTotalNum = count($cartList['cartList']);
-        } 
+        }
         $cartPriceInfo = $cartLogic->getCartPriceInfo($cartList['cartList']);  //初始化数据。商品总额/节约金额/商品总共数量
         
         //$levellist = M('user_level')->field('stock,replenish')->where(['level'=>['gt',$this->user['level']]])->select();
@@ -226,6 +229,9 @@ class Cart extends MobileBase {
         $this->assign('pei_parent', $pei_parent);
         $this->assign('third_leader', $this->user['third_leader']);
         $this->assign('applyid', $applyid);
+        $this->assign('goods_prom_type', $goods_prom_type);
+        $this->assign('prom_id', $prom_id);
+        $this->assign('level', $this->user['level']);
         $this->assign('cartGoodsTotalNum', $cartGoodsTotalNum);
         $this->assign('cartList', $cartList['cartList']); // 购物车的商品
         $this->assign('cartPriceInfo', $cartPriceInfo);//商品优惠总价
@@ -271,6 +277,8 @@ class Cart extends MobileBase {
         $seller_id = input('seller_id');
         $pei_parent = input('pei_parent/d',0);
         $kuaidi_type = input('kuaidi_type/d',0);
+        $goods_prom_type = input('goods_prom_type/d',0);
+        $prom_id = input('prom_id/d',0);
        // echo $seller_id;exit;
         $cart_validate = Loader::validate('Cart');
         if($action_type=='kucun_buy')
@@ -289,6 +297,7 @@ class Cart extends MobileBase {
         try {
             $cartLogic->setUserId($this->user_id);
             if ($action == 'buy_now') {
+                $cartLogic->setProm($goods_prom_type,$prom_id);
                 $cartLogic->setGoodsModel($goods_id);
                 $cartLogic->setSpecGoodsPriceById($item_id);
                 $cartLogic->setGoodsBuyNum($goods_num);
@@ -299,20 +308,19 @@ class Cart extends MobileBase {
                 
                 if($action_type=='kucun_buy')
                 {
-                       
                   $userCartList = $cartLogic->getCartkucunList(1);
                 }else
                 {
                     $userCartList = $cartLogic->getCartList(1);
                 }
-                $cartLogic->checkStockCartList($userCartList);
+                $cartLogic->checkStockCartList($userCartList,$action_type);
                 $pay->payCart($userCartList);
             }
             if(($type == 1) || $applyid)
                 $pay->setUserId($this->user_id)->useUserMoney($user_money);
             else
                 $pay->setUserId($this->user_id)->delivery($address['district'])->useUserMoney($user_money);
-
+                
             // 提交订单
             if ($_REQUEST['act'] == 'submit_order') {
                 $prominfo = M('goods')->field('prom_type,prom_id')->find($goods_id);
@@ -324,7 +332,7 @@ class Cart extends MobileBase {
             }
             elseif ($_REQUEST['act'] == 'kucun_submit_order') {
                 if($kuaidi_type == 2)$pay->setShippingPrice(0);
-                $placeOrder = new PlaceOrder($pay); 
+                $placeOrder = new PlaceOrder($pay);
                 if(($type == 1) || $applyid){
                     $placeOrder->setUserNote($user_note)->setOrdertype()->setApplyid($applyid,$type)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
                 }else{
@@ -337,6 +345,14 @@ class Cart extends MobileBase {
                     $str = (($type == 2) && !$applyid) ? '取货' : '进货';
                     $msid = M('message_notice')->add(['message_title'=>'下级'.$str.'通知','message_content'=>"您有下级提交".$str."订单!",'send_time'=>time(),'mmt_code'=>'/shop/Order/order_send','type'=>11]);
                     if($msid)M('user_message')->add(['user_id'=>$seller_id,'message_id'=>$msid]);
+                }
+
+                //有上级取货时，运费为零直接减库存
+                if(($type == 2) && !$applyid && ($this->user['level'] > 2) && !$order['shipping_price']){
+                    $order_goods = M('order_goods')->field('goods_id,goods_name,goods_num')->where(["order_id" => $order['order_id']])->select();
+                    foreach($order_goods as $v){ 
+                        changekucun($v['goods_id'],$order['seller_id'],-$v['goods_num']);
+                    }
                 }
 
                 $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn'],'third_leader'=>$this->user['third_leader'],'applyid'=>$applyid,'type'=>$type]);
@@ -376,8 +392,6 @@ class Cart extends MobileBase {
         }
     }
 
-
-
            /**
      * 商品物流配送和运费
      */
@@ -411,7 +425,9 @@ class Cart extends MobileBase {
             $this->redirect('User/login');
         }
         $order_id = I('order_id/d');
-        $order_sn= I('order_sn/s','');
+        $order_sn = I('order_sn/s','');
+        $type = I('type/d',0);
+        $applyid = I('applyid/d',0);
         $order_where = ['user_id'=>$this->user_id];
         if($order_sn)
         {
@@ -491,6 +507,8 @@ class Cart extends MobileBase {
         $this->assign('paymentList',$paymentList);
         $this->assign('bank_img',$bank_img);
         $this->assign('order',$order);
+        $this->assign('type',$type);
+        $this->assign('applyid',$applyid);
         $this->assign('bankCodeList',$bankCodeList);
         $this->assign('pay_date',date('Y-m-d', strtotime("+1 day")));
         return $this->fetch();
@@ -720,7 +738,7 @@ class Cart extends MobileBase {
         $cartLogic->setSpecGoodsPriceById($item_id);
         $cartLogic->setGoodsBuyNum($goods_num);
         $cartLogic->setCartDellerId($seller_id);
-        try {
+        try { 
             $cartLogic->kucun_addGoodsToCart();
            // $cartLogic->addGoodsToCart();
            // $this->ajaxReturn(['status' => 1, 'msg' => '加入购物车成功']);

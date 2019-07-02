@@ -585,9 +585,10 @@ function minus_stock($order)
             $goodsPromLogic = $GoodsPromFactory->makeModule($val, $specGoodsPrice);
             $prom = $goodsPromLogic->getPromModel();
             if ($prom['is_end'] == 0) {
+                $pay_status = M('order')->where(['order_id'=>$order['order_id']])->value('pay_status');
                 $tb = $val['prom_type'] == 1 ? 'flash_sale' : 'group_buy';
-                M($tb)->where("id", $val['prom_id'])->setInc('buy_num', $val['goods_num']);
-                M($tb)->where("id", $val['prom_id'])->setInc('order_num');
+                if($pay_status)M($tb)->where("id", $val['prom_id'])->setInc('buy_num', $val['goods_num']);
+                M($tb)->where("id", $val['prom_id'])->setInc('order_num', $val['goods_num']);
             }
         }
         //更新拼团商品购买量
@@ -1164,11 +1165,11 @@ function rechargevip_rebate($order)
 function update_pay_status($order_sn, $ext = array())
 {
     $orderinfo = M('Order')->field('order_id,seller_id,user_id,shipping_price,total_amount,applyid,apply_type,kucun_type')->where(['order_sn'=>$order_sn])->find();
-    if(($orderinfo['seller_id'] == $orderinfo['user_id']) && !$orderinfo['kucun_type']){
+    if($orderinfo['seller_id'] && !$orderinfo['kucun_type']){
         //自己向自己取货 减库存
         $goods = M('order_goods')->field('goods_id')->where(['order_id'=>$orderinfo['order_id']])->select();
         foreach ($goods as $value){
-            changekucun($value['goods_id'],$this->user_id,-$value['goods_num']);
+            changekucun($value['goods_id'],$orderinfo['user_id'],-$value['goods_num']);
         }
 
     }
@@ -2510,4 +2511,39 @@ function cknum($num){
         return round(($num/1000),2) . '千';
     }else
     return $num;
+}
+
+// 生成二维码
+function create_qrcode($url='')
+{
+    vendor("phpqrcode.phpqrcode");
+    $data =$url;
+    $filename = "/public/qrcode/".rand(1,9999).time().'.jpg';
+    $outfile=ROOT_PATH.$filename;
+    $level = 'L';
+    $size =4;
+    $QRcode = new \QRcode();
+    ob_start();
+    $res = $QRcode->png($data,$outfile,$level,$size,2);
+    ob_end_clean();
+    return $filename;   
+}
+
+// 生成商品二维码
+function goods_qrcode($url='',$goods_id='0')
+{
+    vendor("phpqrcode.phpqrcode");
+    $data =$url;
+    $filename = "public/qrcode/goods/goodsID_".$goods_id.'.jpg';
+    if(file_exists($filename)){
+        return $filename;
+    }
+    $outfile=ROOT_PATH.$filename;
+    $level = 'L';
+    $size =6;
+    $QRcode = new \QRcode();
+    ob_start();
+    $res = $QRcode->png($data,$outfile,$level,$size,2);
+    ob_end_clean();
+    return $filename;   
 }

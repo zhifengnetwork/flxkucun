@@ -142,8 +142,8 @@
 				var $sonCheckBox = $(".check input")
 				$sonCheckBox.each( (i,e)=> {
 					if($(e).is(':checked')){
-						total_money+=parseInt($(e).parent().parent().find('.price').html().substring(1))*parseInt($(e).parent().parent().find('.number').val())
-						total_count+=parseInt($(e).parent().parent().find('.number').val())
+						total_money+=parseFloat($(e).parent().parent().find('.price').html().substring(1))*parseInt($(e).parent().parent().find('.number').val())
+						total_count+=parseInt($(e).parent().parent().find('.number').val());
 					}
 					
 				});
@@ -182,6 +182,7 @@
 	        });
 	        //选择数大于0
 	        if (j > 0) {
+				if(j > 20){layer.open({content: '一次最多勾选20中商品', time:2}); return;}
 	        	  $.ajax({
 			            type: "POST",
 			            url: "{:U('Shop/Cart/chekoutuserkucun')}",

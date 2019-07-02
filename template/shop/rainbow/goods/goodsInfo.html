@@ -68,6 +68,10 @@
                     <i sc="{$collect}" class=" <if condition='$collect gt 0'>red</if>"></i>
                     <span>收藏</span>
                 </a>
+                <a href="javascript:share_img_show();" id="favorite_add">
+                    <i sc="{$collect}" class=" <if condition='$collect gt 0'>red</if>"></i>
+                    <span>分享</span>
+                </a>
             </div>
             <div class="scunde p">
                 <span class="red" id="price">￥{$price}</span>
@@ -514,6 +518,12 @@
 <include file="public/wx_share"/>
 
 <script type="text/javascript">
+    //显示图片
+    function share_img_show(){
+        var share_img = '{$share_img}';
+        alert(share_img);
+    }
+
     $(function(){
         if(isWeiXin()){
             $('.contact').attr('href',"tel:{$tpshop_config['shop_info_phone']}");

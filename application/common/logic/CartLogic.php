@@ -28,6 +28,8 @@ class CartLogic extends Model
     protected $userGoodsTypeCount = 0;//用户购物车的全部商品种类
     protected $userCouponNumArr; //用户符合购物车店铺可用优惠券数量
     protected $combination;
+    protected $goods_prom_type = 0;
+    protected $prom_id = 0;
 
     public function __construct()
     {
@@ -60,6 +62,14 @@ class CartLogic extends Model
     //获取商品阶梯价格
     public function getGoodsPrices ($goodsId)
     {
+        if($this->goods_prom_type && $this->prom_id){
+            if($this->goods_prom_type == 1){
+                return M('flash_sale')->where(['id'=>$this->prom_id])->value('price');
+            }elseif($this->goods_prom_type == 2){
+                return M('group_buy')->where(['id'=>$this->prom_id])->value('price');
+            }
+        }
+
         $level_price = M('goods_level_price')->where(['goods_id'=>$goodsId,'level'=>$this->user['level']])->order('level asc')->value('price');
         //2019-06-28 修改默认价格，默认为市场价格
         if($level_price === null){
@@ -80,6 +90,11 @@ class CartLogic extends Model
         }else{
             $this->specGoodsPrice = null;
         }
+    }
+
+    public function setProm($goods_prom_type,$prom_id){
+        $this->goods_prom_type = $goods_prom_type;
+        $this->prom_id = $prom_id;
     }
 
     /**
@@ -179,8 +194,8 @@ class CartLogic extends Model
             'member_goods_price' => $this->goods['shop_price'],
             'goods_num' => $this->goodsBuyNum, // 购买数量
             'add_time' => time(), // 加入购物车时间
-            'prom_type' => 0,   // 0 普通订单,1 限时抢购, 2 团购 , 3 促销优惠
-            'prom_id' => 0,   // 活动id
+            'prom_type' => $this->goods_prom_type,   // 0 普通订单,1 限时抢购, 2 团购 , 3 促销优惠
+            'prom_id' => $this->prom_id,   // 活动id
             'weight' => $this->goods['weight'],   // 商品重量
             'goods' => $this->goods,
             'is_virtual'=>$this->goods['is_virtual'],
@@ -415,10 +430,10 @@ class CartLogic extends Model
         }
         switch($prom_type) {
             case 1:
-                $this->addFlashSaleCart();
+                $this->addFlashSaleCart(1);
                 break;
             case 2:
-                $this->addGroupBuyCart();
+                $this->addGroupBuyCart(1);
                 break;
             case 3:
                 $this->addPromGoodsCart();
@@ -528,12 +543,12 @@ class CartLogic extends Model
     /**
      * 购物车添加秒杀商品
      */
-    private function addFlashSaleCart()
+    private function addFlashSaleCart($type=0)
     {
         $flashSaleLogic = new FlashSaleLogic($this->goods, $this->specGoodsPrice);
         $flashSale = $flashSaleLogic->getPromModel();
         $flashSaleIsEnd = $flashSaleLogic->checkActivityIsEnd();
-        if ($flashSaleIsEnd) {
+        if ($flashSaleIsEnd && !$type) { 
             throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '秒杀活动已结束']);
         }
         $flashSaleIsAble = $flashSaleLogic->checkActivityIsAble();
@@ -547,29 +562,33 @@ class CartLogic extends Model
                 throw new TpshopException("加入购物车", 0, ['status' => -101, 'msg' => '购买活动商品必须先登录']);
             }
         }
-        if ($this->goodsBuyNum > $flashSale['buy_limit']) {
+        if (($this->goodsBuyNum > $flashSale['buy_limit']) && !$type) { 
             throw new TpshopException("加入购物车", 0, ['status' => 0,'msg' => '每人限购' . $flashSale['buy_limit'] . '件']);
         }
         //获取用户购物车的抢购商品 //加入有活动的商品购物车之前先将没有活动得该商品清除
-        if (!$this->user_id) {
+        if (!$this->user_id) { 
             db('cart')->where('user_id',$this->user_id)->where('goods_id',$this->goods['goods_id'])->where('session_id',$this->session_id)->where('prom_type','<>',1)->delete();
             $userCartGoods = Cart::get(['user_id' => $this->user_id, 'session_id' => $this->session_id, 'goods_id' => $this->goods['goods_id'], 'spec_key' => ($this->specGoodsPrice['key'] ?: '')]);
-        } else {
+        } else { 
             db('cart')->where('user_id',$this->user_id)->where('goods_id',$this->goods['goods_id'])->where('prom_type','<>',1)->delete();
             $userCartGoods = Cart::get(['user_id' => $this->user_id, 'goods_id' => $this->goods['goods_id'], 'spec_key' => ($this->specGoodsPrice['key'] ?: '')]);
+            if($type && $userCartGoods){
+                M('Cart')->where(['user_id' => $this->user_id, 'goods_id' => $this->goods['goods_id']])->delete();
+                $userCartGoods = [];
+            }
         }
         $userCartGoodsNum = empty($userCartGoods['goods_num']) ? 0 : $userCartGoods['goods_num'];///获取用户购物车的抢购商品数量
         $userFlashOrderGoodsNum = $flashSaleLogic->getUserFlashOrderGoodsNum($this->user_id); //获取用户抢购已购商品数量
         $flashSalePurchase = $flashSale['goods_num'] - $flashSale['buy_num'];//抢购剩余库存
         $userBuyGoodsNum = $this->goodsBuyNum + $userFlashOrderGoodsNum + $userCartGoodsNum;
-        if ($userBuyGoodsNum > $flashSale['buy_limit']) {
+        if (($userBuyGoodsNum > $flashSale['buy_limit']) && !$type) {
             throw new TpshopException("加入购物车", 0, ['status' => 0,'msg' => '每人限购' . $flashSale['buy_limit'] . '件，您已下单' . $userFlashOrderGoodsNum . '件' . '购物车已有' . $userCartGoodsNum . '件']);
         }
         $userWantGoodsNum = $this->goodsBuyNum + $userCartGoodsNum;//本次要购买的数量加上购物车的本身存在的数量
         if ($userWantGoodsNum > 200) {
             $userWantGoodsNum = 200;
         }
-        if ($userWantGoodsNum > $flashSalePurchase) {
+        if (($userWantGoodsNum > $flashSalePurchase) && !$type) {
             throw new TpshopException("加入购物车", 0, ['status' => 0,'msg' => '商品库存不足，剩余' . $flashSalePurchase . ',当前购物车已有' . $userCartGoodsNum . '件']);
         }
         // 如果该商品已经存在购物车
@@ -610,7 +629,7 @@ class CartLogic extends Model
     /**
      *  购物车添加团购商品
      */
-    private function addGroupBuyCart()
+    private function addGroupBuyCart($type=0)
     {
         $groupBuyLogic = new GroupBuyLogic($this->goods, $this->specGoodsPrice);
         $groupBuy = $groupBuyLogic->getPromModel();
@@ -634,6 +653,10 @@ class CartLogic extends Model
             $userCartGoods = Cart::get(['user_id' => $this->user_id, 'session_id' => $this->session_id, 'goods_id' => $this->goods['goods_id'], 'spec_key' => ($this->specGoodsPrice['key'] ?: '')]);
         } else {
             $userCartGoods = Cart::get(['user_id' => $this->user_id, 'goods_id' => $this->goods['goods_id'], 'spec_key' => ($this->specGoodsPrice['key'] ?: '')]);
+            if($type && $userCartGoods){
+                M('Cart')->where(['user_id' => $this->user_id, 'goods_id' => $this->goods['goods_id']])->delete();
+                $userCartGoods = [];
+            }
         }
         $userCartGoodsNum = empty($userCartGoods['goods_num']) ? 0 : $userCartGoods['goods_num'];///获取用户购物车的团购商品数量
         $userWantGoodsNum = $userCartGoodsNum + $this->goodsBuyNum;//购物车加上要加入购物车的商品数量
@@ -641,7 +664,7 @@ class CartLogic extends Model
         if ($userWantGoodsNum > 200) {
             $userWantGoodsNum = 200;
         }
-        if ($userWantGoodsNum > $groupBuyPurchase) {
+        if (($userWantGoodsNum > $groupBuyPurchase) && !$type) {
             throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '商品库存不足，剩余' . $groupBuyPurchase . ',当前购物车已有' . $userCartGoodsNum . '件']);
         }
         // 如果该商品已经存在购物车
@@ -1284,11 +1307,17 @@ class CartLogic extends Model
      * @param $cartList
      * @throws TpshopException
      */
-    public function checkStockCartList($cartList)
+    public function checkStockCartList($cartList,$str='')
     {
         foreach ($cartList as $cartKey => $cartVal) {
-            if ($cartVal->goods_num > $cartVal->limit_num) {
+            if (($cartVal->goods_num > $cartVal->limit_num) && ($str != 'kucun_buy')) {
                 throw new TpshopException('计算订单价格', 0, ['status' => 0, 'msg' => $cartVal->goods_name . '购买数量不能大于' . $cartVal->limit_num, 'result' => ['limit_num' => $cartVal->limit_num]]);
+            }
+            if($str == 'kucun_buy'){
+                $store_count = M('Goods')->where(["goods_id"=>$cartVal['goods_id']])->value('store_count');
+                if($cartVal->goods_num > $store_count){
+                    throw new TpshopException('商品库存不足', 0, ['status' => 0, 'msg' => $cartVal->goods_name . '商品总库存已不足' . $cartVal->goods_num, 'result' => ['limit_num' => $cartVal->limit_num]]);
+                }
             }
             if ($cartVal['prom_type'] == 7) {
                 $combination_goods_where = ['combination_id' => $cartVal['prom_id'], 'goods_id' => $cartVal['goods_id']];

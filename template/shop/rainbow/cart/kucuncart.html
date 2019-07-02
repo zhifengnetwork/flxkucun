@@ -74,12 +74,15 @@
         </div>
         <!--商品信息-e-->
         <!--配送方式s-->
+        
         <div class="z-select-wrap shipping_div">
+            <if condition="$level gt 2 && $type eq 2">
             <div class="z-select-title">
                 <div class="maleri30">
                     选择配送方式
                 </div>
             </div>
+            </if>
             <!--
             <div class="maleri30 z-dispatching-wrap">
                 <div class="p z-dispatching border-none">
@@ -96,7 +99,7 @@
                     下单后你的上级将收到信息后给你安排发货
                 </div>
             </div>-->
-            <if condition="$third_leader gt 0">
+            <if condition="$level gt 2 && $type eq 2">
             <div class="maleri30 z-dispatching-wrap">
                 <select style="width:90%;height:1rem;font-size:.6rem;margin:.3rem;" id='kuaidi' name='kuaidi'>
                     <option value=1>快递现付</option>
@@ -107,7 +110,7 @@
         </div>
         <!--配送方式-e-->
         <!-- <if condition="$third_leader eq 0 and $applyid eq 0"> -->
-        <if condition="$third_leader eq 0">
+        <if condition="$third_leader eq 0 && $type eq 2">
         <div class="information_dr">
             <div class="maleri30">
 
@@ -714,7 +717,7 @@
                 $("#order_prom_amount").text(data.result.order_prom_amount);// 订单 优惠活动
                 showErrorMsg('订单提交成功，跳转支付页面!');
                 if(data.third_leader == 0)
-                    location.href = "/index.php?m=shop&c=Cart&a=cart4&order_sn=" + data.result;
+                    location.href = "/index.php?m=shop&c=Cart&a=cart4&order_sn=" + data.result + '&third_leader=' + data.third_leader + '&applyid=' + data.applyid + '&type=' + data.type;
                 else
                     location.href = "/index.php?m=Shop&c=Cart&a=cart5&order_sn=" + data.result + '&third_leader=' + data.third_leader + '&applyid=' + data.applyid + '&type=' + data.type;
             }

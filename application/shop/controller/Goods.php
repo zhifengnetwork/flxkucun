@@ -254,6 +254,7 @@ class Goods extends MobileBase
         }else{
             $user = session('user');
         }
+
         C('TOKEN_ON', true);
         $goodsLogic = new GoodsLogic();
         $goods_id = I("get.id/d");
@@ -290,12 +291,84 @@ class Goods extends MobileBase
         }else{
             $price = $goods['market_price'];
         }
+        $goods['goods_price'] = $price;
+        $share_img = $this->goods_qrcode($goods);
+        $this->assign('share_img', $share_img); 
         $this->assign('price', $price); 
         // dump($goods);exit;
         $this->assign('recommend_goods', $recommend_goods);
         $this->assign('goods', $goods);
         $this->assign('user', $user);
         return $this->fetch();
+    }
+
+    //分享图片
+    public function goods_qrcode($goods)
+    {
+        //图片缩放
+        $goods_price = '￥'.$goods['goods_price'];//现价
+        $market_price = '￥'.$goods['market_price'];//市场价
+        $goods_id =  $goods['goods_id'];//商品id
+        $goods_name = $goods['goods_name'];//商品名称
+        $q_goods_name = mb_substr($goods_name,0,16,'UTF8');
+        $h_goods_name = mb_substr($goods_name,16,16,'UTF8');
+        $goods_name_num = mb_strlen($goods_name,'UTF8');
+        if($goods_name_num > 32){
+            $h_goods_name .= '...';
+        }
+        $goods_img_url = substr($goods['original_img'],1,200);//商品图片
+        if(!file_exists($goods_img_url)){
+            return false;
+        }
+        $goods_image = \think\Image::open($goods_img_url);
+        // 按照原图的比例生成一个最大为750*550的缩略图并保存
+        $goods_image->thumb(700,550,\think\Image::THUMB_FILLED)->save('public/qrcode/goods/goods_'. $goods_id.'_750_550.png');
+        $new_godos_img = 'public/qrcode/goods/goods_'. $goods_id.'_750_550.png';//新图片的名字
+        //获取商品的二维码
+        $url = 'http://'.$_SERVER["HTTP_HOST"].U("shop/goods/goodsInfo",'id='.$goods['goods_id']);
+        $goods_qrcode=goods_qrcode($url,$goods_id);
+        //背景图片，width-750，height-1335
+        $image = \think\Image::open('public/qrcode/goods/goods_qrcode.jpg');
+
+        $image->water($new_godos_img,[25,200]); //融合商品图
+        $image->water($goods_qrcode,[500,900]); //融合二维码
+        //判断价格字数来放位置
+        $goods_price_num = mb_strlen($goods_price,'UTF8');
+        $market_price_num = mb_strlen($market_price,'UTF8');
+        $wz = $goods_price_num*28+25;
+        if($market_price_num < 4){
+            $market_price_msg = '——';
+        }else if($market_price_num == 4){
+            $market_price_msg = '———';
+        }else if($market_price_num == 5){
+            $market_price_msg = '————';
+        }else{
+            $market_price_msg = '——————';
+        }
+        // 给原图添加文字水印并保存
+        $image->text($q_goods_name,'SourceHanSansCN-Normal.ttf',32,'#ffffff',[25,770]);
+        $image->text($h_goods_name,'SourceHanSansCN-Normal.ttf',32,'#ffffff',[25,820]);
+        $image->text($market_price,'SourceHanSansCN-Normal.ttf',20,'#ffffff',[$wz,915]);
+        $image->text($market_price_msg,'SourceHanSansCN-Normal.ttf',20,'#ffffff',[$wz,922]);
+        //融合用户头像和昵称-
+        $user = session('user');
+        if($user){
+            $head_pic = mb_substr($user['head_pic'],1,200,'UTF8');
+            if(file_exists($head_pic)){
+                //缩放用户头像
+                $user_logo = \think\Image::open($head_pic);
+                $user_logo->thumb(170,170,\think\Image::THUMB_FILLED)->save('public/qrcode/user/user_'. $user['user_id'].'_170_170.png');
+                $head_pic = 'public/qrcode/user/user_'. $user['user_id'].'_170_170.png';
+                //融合昵称
+                $nickname = mb_substr($user['nickname'],0,6,'UTF8');
+                $image->water($head_pic,[25,950]); //融合用户头像
+                $image->text($nickname,'SourceHanSansCN-Normal.ttf',26,'#ffffff',[210,1010]);
+            }
+        }
+        //保存图片
+        $image->text($goods_price,'SourceHanSansCN-Normal.ttf',32,'#ffffff',[25,900])->save('public/qrcode/goods/share_img_'.$goods['goods_id'].'.jpg');
+        $share_img = 'public/qrcode/goods/share_img_'.$goods['goods_id'].'.jpg';
+        return $share_img;
     }
 
     public function getLevelPrice($goods_id,$user)
@@ -607,10 +680,11 @@ class Goods extends MobileBase
 
         $level = Db::name('users')->where('user_id',cookie('user_id'))->value('level');
         if($goods_list){
-            foreach($goods_list as $key=>&$value){
+            foreach($goods_list as $key=>$value){
                 if($level > 0){
-                    $value['shop_price'] = M('goods_level_price')->where('goods_id',$value['goods_id'])->where('level',$level)->value('price');
+                    $goods_list[$key]['shop_price'] = M('goods_level_price')->where('goods_id',$value['goods_id'])->where('level',$level)->value('price');
                 }
+                $goods_list[$key]['shop_price'] = $goods_list[$key]['shop_price']?$goods_list[$key]['shop_price']:$value['market_price'];
             }
         }
 

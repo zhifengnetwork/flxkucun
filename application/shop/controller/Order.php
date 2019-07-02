@@ -360,7 +360,7 @@ class Order extends MobileBase
         }
 
         $this->assign('order', $order);
-        if($order['receive_btn']){
+        if($order['receive_btn']){ 
             //待收货详情
             return $this->fetch('wait_receive_detail');
         }
