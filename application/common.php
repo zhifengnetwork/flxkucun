@@ -2519,3 +2519,38 @@ function cknum($num){
     }else
     return $num;
 }
+
+// 生成二维码
+function create_qrcode($url='')
+{
+    vendor("phpqrcode.phpqrcode");
+    $data =$url;
+    $filename = "/public/qrcode/".rand(1,9999).time().'.jpg';
+    $outfile=ROOT_PATH.$filename;
+    $level = 'L';
+    $size =4;
+    $QRcode = new \QRcode();
+    ob_start();
+    $res = $QRcode->png($data,$outfile,$level,$size,2);
+    ob_end_clean();
+    return $filename;   
+}
+
+// 生成商品二维码
+function goods_qrcode($url='',$goods_id='0')
+{
+    vendor("phpqrcode.phpqrcode");
+    $data =$url;
+    $filename = "public/qrcode/goods/goodsID_".$goods_id.'.jpg';
+    if(file_exists($filename)){
+        return $filename;
+    }
+    $outfile=ROOT_PATH.$filename;
+    $level = 'L';
+    $size =7;
+    $QRcode = new \QRcode();
+    ob_start();
+    $res = $QRcode->png($data,$outfile,$level,$size,2);
+    ob_end_clean();
+    return $filename;   
+}
