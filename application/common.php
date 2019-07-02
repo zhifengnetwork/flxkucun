@@ -2547,7 +2547,7 @@ function goods_qrcode($url='',$goods_id='0')
     }
     $outfile=ROOT_PATH.$filename;
     $level = 'L';
-    $size =7;
+    $size =6;
     $QRcode = new \QRcode();
     ob_start();
     $res = $QRcode->png($data,$outfile,$level,$size,2);

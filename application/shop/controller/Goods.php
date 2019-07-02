@@ -291,7 +291,9 @@ class Goods extends MobileBase
         }else{
             $price = $goods['market_price'];
         }
-        // $this->goods_qrcode();
+        $goods['goods_price'] = $price;
+        $share_img = $this->goods_qrcode($goods);
+        $this->assign('share_img', $share_img); 
         $this->assign('price', $price); 
         // dump($goods);exit;
         $this->assign('recommend_goods', $recommend_goods);
@@ -301,26 +303,30 @@ class Goods extends MobileBase
     }
 
     //分享图片
-    public function goods_qrcode()
+    public function goods_qrcode($goods)
     {
         //图片缩放
-        $goods_price = '￥9999.9';//现价
-        $market_price = '￥9.99';//市场价
-        $goods_id = '1';//商品id
-        $goods_name = '【新客专享9.9元包邮】海飞丝洗发水200ml！新疆西藏青海不发货、北京、上海...';//商品名称
+        $goods_price = '￥'.$goods['goods_price'];//现价
+        $market_price = '￥'.$goods['market_price'];//市场价
+        $goods_id =  $goods['goods_id'];//商品id
+        $goods_name = $goods['goods_name'];//商品名称
         $q_goods_name = mb_substr($goods_name,0,16,'UTF8');
         $h_goods_name = mb_substr($goods_name,16,16,'UTF8');
         $goods_name_num = mb_strlen($goods_name,'UTF8');
         if($goods_name_num > 32){
             $h_goods_name .= '...';
         }
-        $goods_img_url = 'public/qrcode/goods/goods.jpg';//商品图片
+        $goods_img_url = substr($goods['original_img'],1,200);//商品图片
+        if(!file_exists($goods_img_url)){
+            return false;
+        }
         $goods_image = \think\Image::open($goods_img_url);
         // 按照原图的比例生成一个最大为750*550的缩略图并保存
         $goods_image->thumb(700,550,\think\Image::THUMB_FILLED)->save('public/qrcode/goods/goods_'. $goods_id.'_750_550.png');
         $new_godos_img = 'public/qrcode/goods/goods_'. $goods_id.'_750_550.png';//新图片的名字
         //获取商品的二维码
-        $goods_qrcode=goods_qrcode('http://www.baidu.com',$goods_id);
+        $url = 'http://'.$_SERVER["HTTP_HOST"].U("shop/goods/goodsInfo",'id='.$goods['goods_id']);
+        $goods_qrcode=goods_qrcode($url,$goods_id);
         //背景图片，width-750，height-1335
         $image = \think\Image::open('public/qrcode/goods/goods_qrcode.jpg');
 
@@ -344,17 +350,25 @@ class Goods extends MobileBase
         $image->text($h_goods_name,'SourceHanSansCN-Normal.ttf',32,'#ffffff',[25,820]);
         $image->text($market_price,'SourceHanSansCN-Normal.ttf',20,'#ffffff',[$wz,915]);
         $image->text($market_price_msg,'SourceHanSansCN-Normal.ttf',20,'#ffffff',[$wz,922]);
-        $image->text($goods_price,'SourceHanSansCN-Normal.ttf',32,'#ffffff',[25,900])->save('public/qrcode/goods/111.jpg');
         //融合用户头像和昵称-
         $user = session('user');
         if($user){
             $head_pic = mb_substr($user['head_pic'],1,200,'UTF8');
-            $nickname = mb_substr($user['nickname'],0,6,'UTF8');
-            $image->water($head_pic,[25,930]); //融合用户头像
-            // $image->text($q_goods_name,'SourceHanSansCN-Normal.ttf',32,'#ffffff',[25,930]);
-            echo $head_pic;exit;
+            if(file_exists($head_pic)){
+                //缩放用户头像
+                $user_logo = \think\Image::open($head_pic);
+                $user_logo->thumb(170,170,\think\Image::THUMB_FILLED)->save('public/qrcode/user/user_'. $user['user_id'].'_170_170.png');
+                $head_pic = 'public/qrcode/user/user_'. $user['user_id'].'_170_170.png';
+                //融合昵称
+                $nickname = mb_substr($user['nickname'],0,6,'UTF8');
+                $image->water($head_pic,[25,950]); //融合用户头像
+                $image->text($nickname,'SourceHanSansCN-Normal.ttf',26,'#ffffff',[210,1010]);
+            }
         }
-        echo $goods_qrcode;exit;
+        //保存图片
+        $image->text($goods_price,'SourceHanSansCN-Normal.ttf',32,'#ffffff',[25,900])->save('public/qrcode/goods/share_img_'.$goods['goods_id'].'.jpg');
+        $share_img = 'public/qrcode/goods/share_img_'.$goods['goods_id'].'.jpg';
+        return $share_img;
     }
 
     public function getLevelPrice($goods_id,$user)
