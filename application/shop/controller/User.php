@@ -2390,20 +2390,24 @@ class User extends MobileBase
         }else{
             $head_pic = substr($user['head_pic'],1,200);
         }
-        $head_img = \think\Image::open(IMGROOT_PATH.'/'.$head_pic);
-        $head_img->thumb(65,65,\think\Image::THUMB_FILLED)->save('public/qrcode/user/user_head_'. $goods_id.'_65_65.png');
-        $head_pic = 'public/qrcode/user/user_head_'. $goods_id.'_65_65.png';
-        //生成二维码
-        $user_qrcode = user_qrcode($url,$user['user_id']);
-        $erweima = 'public/qrcode/user/erweima.jpg';
-        $image = \think\Image::open(IMGROOT_PATH.'/'.$erweima);
-        //width297，height494
-        //融合昵称和用户二维码
-        $image->text($nickname,'SourceHanSansCN-Normal.ttf',9,'#fa3c63',[130,70]);
-        $image->water($head_pic,[116,0]);
-        $image->water($user_qrcode,[80,133])->save('public/qrcode/user/user_qrcode_'.$user_id.'.jpg');
-
-        $image = '/public/qrcode/user/user_qrcode_'.$user_id.'.jpg';
+        dump(IMGROOT_PATH.'/'.$head_pic);exit;
+        if(file_exists(IMGROOT_PATH.'/'.$head_pic)){
+            $head_img = \think\Image::open(IMGROOT_PATH.'/'.$head_pic);
+            $head_img->thumb(65,65,\think\Image::THUMB_FILLED)->save('public/qrcode/user/user_head_'. $goods_id.'_65_65.png');
+            $head_pic = 'public/qrcode/user/user_head_'. $goods_id.'_65_65.png';
+            //生成二维码
+            $user_qrcode = user_qrcode($url,$user['user_id']);
+            $erweima = 'public/qrcode/user/erweima.jpg';
+            if(file_exists(IMGROOT_PATH.'/'.$erweima)){
+                $image = \think\Image::open(IMGROOT_PATH.'/'.$erweima);
+                //width297，height494
+                //融合昵称和用户二维码
+                $image->text($nickname,'SourceHanSansCN-Normal.ttf',9,'#fa3c63',[130,70]);
+                $image->water($head_pic,[116,0]);
+                $image->water($user_qrcode,[80,133])->save('public/qrcode/user/user_qrcode_'.$user_id.'.jpg');
+                $image = '/public/qrcode/user/user_qrcode_'.$user_id.'.jpg';
+            }
+        }
         $this->assign('image', $image);
         $this->assign('user', $user);
         $this->assign('head_pic', $head_pic);
