@@ -2384,7 +2384,11 @@ class User extends MobileBase
         //缩放用户头像
         $q = substr($user['head_pic'],0,1);
         if($q == 'h'){
-            copy($user['head_pic'],'public/qrcode/user/user_head_'. $user_id.'.png');
+            if(!file_exists('public/qrcode/user/user_head_'. $user_id.'.png')){
+                copy($user['head_pic'],'public/qrcode/user/user_head_'. $user_id.'.png');
+                //图片放大
+                $this->resizeImage('public/qrcode/user/user_head_'. $user_id.'.png',350,350,'public/qrcode/user/user_head_'. $user_id.'.png');
+            }
             $head_pic = 'public/qrcode/user/user_head_'. $user_id.'.png';
         }else{
             $head_pic = substr($user['head_pic'],1,200);
@@ -2412,6 +2416,29 @@ class User extends MobileBase
         $this->assign('head_pic', $head_pic);
         $this->assign('url', $url);
         return $this->fetch();
+    }
+
+    //图片放大
+    function resizeImage($srcImage,$maxwidth,$maxheight,$name)
+    {
+        list($width, $height, $type, $attr) = getimagesize($srcImage);
+        switch ($type) {
+            case 1:
+                $img = imagecreatefromgif($srcImage);
+                break;
+            case 2:
+                $img = imagecreatefromjpeg($srcImage);
+                break;
+            case 3:
+                $img = imagecreatefrompng($srcImage);
+                break;
+            default:
+                $img = imagecreatefrompng($srcImage);
+                break;
+        }
+        $canvas = imagecreatetruecolor($maxwidth,$maxheight); // 创建一个真彩色图像 我把它理解为创建了一个画布
+        imagecopyresampled($canvas,$img,0,0,0,0,$maxwidth,$maxheight,$width,$height);
+        imagejpeg($canvas,$name,100);
     }
 
     // 用户海报二维码
