@@ -292,7 +292,9 @@ class Goods extends MobileBase
             $price = $goods['market_price'];
         }
         $goods['goods_price'] = $price;
-        // $share_img = $this->goods_qrcode($goods);
+        //二维码扫码链接
+        $url = 'http://'.$_SERVER["HTTP_HOST"].U("shop/goods/goodsInfo",'id='.$goods['goods_id']);
+        $share_img = $this->goods_qrcode($goods,$url);
         $this->assign('share_img', $share_img); 
         $this->assign('price', $price); 
         // dump($goods);exit;
@@ -303,7 +305,7 @@ class Goods extends MobileBase
     }
 
     //分享图片
-    public function goods_qrcode($goods)
+    public function goods_qrcode($goods,$url)
     {
         $root = $_SERVER['DOCUMENT_ROOT'].'/';
         //图片缩放
@@ -321,15 +323,17 @@ class Goods extends MobileBase
         if(!file_exists($goods_img_url)){
             return false;
         }
-        $goods_image = \think\Image::open($root.$goods_img_url);
+        $goods_image = \think\Image::open($goods_img_url);
         // 按照原图的比例生成一个最大为750*550的缩略图并保存
         $goods_image->thumb(700,550,\think\Image::THUMB_FILLED)->save('public/qrcode/goods/goods_'. $goods_id.'_750_550.png');
         $new_godos_img = 'public/qrcode/goods/goods_'. $goods_id.'_750_550.png';//新图片的名字
         //获取商品的二维码
-        $url = 'http://'.$_SERVER["HTTP_HOST"].U("shop/goods/goodsInfo",'id='.$goods['goods_id']);
         $goods_qrcode=goods_qrcode($url,$goods_id);
         //背景图片，width-750，height-1335
-        $image = \think\Image::open($root.'public/qrcode/goods/goods_qrcode.jpg');
+        if(!file_exists('public/qrcode/goods/goods_qrcode.jpg')){
+            return false;
+        }
+        $image = \think\Image::open('public/qrcode/goods/goods_qrcode.jpg');
 
         $image->water($new_godos_img,[25,200]); //融合商品图
         $image->water($goods_qrcode,[500,900]); //融合二维码

@@ -7,18 +7,19 @@ class Find extends MobileBase{
     public function find(){
         $user_id = session('user.user_id');
     	//平台商品视频
-        $goodsVideoList = Db::table('tp_goods')->where(['is_on_sale'=>1,'is_video'=>1,'is_recommend'=>1])->field('goods_name,goods_id,original_img,video')->order("sort DESC")->limit(4)->select();
+        // $goodsVideoList = Db::table('tp_goods')->where(['is_on_sale'=>1,'is_video'=>1,'is_recommend'=>1])->field('goods_name,goods_id,original_img,video')->order("sort DESC")->limit(4)->select();
+        $goodsVideoList = Db::table('tp_video')->alias('v')->join('tp_goods g','g.goods_id=v.goods_id','LEFT')->where(['v.is_on_sale'=>1,'v.user_id'=>0,'v.is_recommend'=>1])->field('g.goods_name,v.goods_id,g.original_img,v.video_url')->order("v.sort DESC")->group('v.id desc')->limit(4)->select();
         $addtime=strtotime(date("Y-m-d"));
-        foreach ($goodsVideoList as $key => $value){
-            $res = Db::name('video_favor')->where(['addtime'=>$addtime,'user_id'=>$user_id,'type'=>1,'video_id'=>$value['goods_id']])->find();
-              if($res){
-                  $goodsVideoList[$key]["favor"]="red";
-              }else{
-                  $goodsVideoList[$key]["favor"]="";
-              }
-              $videoImg=explode('.',$value['video']);
-             $goodsVideoList[$key]["original_img"]=$videoImg[0].".jpg";
-        }
+        // foreach ($goodsVideoList as $key => $value){
+        //     $res = Db::name('video_favor')->where(['addtime'=>$addtime,'user_id'=>$user_id,'type'=>1,'video_id'=>$value['goods_id']])->find();
+        //       if($res){
+        //           $goodsVideoList[$key]["favor"]="red";
+        //       }else{
+        //           $goodsVideoList[$key]["favor"]="";
+        //       }
+        //       $videoImg=explode('.',$value['video']);
+        //      $goodsVideoList[$key]["original_img"]=$videoImg[0].".jpg";
+        // }
         $this->assign('goodsVideo', $goodsVideoList);
 
     	//平台推荐用户视频
