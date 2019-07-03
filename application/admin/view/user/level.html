@@ -154,6 +154,17 @@
 			        <p class="notic">设置签到赠送的积分。</p>
 			    </dd>
 			</dl>
+
+			<dl class="row">
+			    <dt class="tit">
+			        <label for="level_name">邀请送积分</label>
+			    </dt>
+			    <dd class="opt">
+			        <input type="text" name="apply_integral" value="{$info.apply_integral}" id="apply" class="input-txt" onkeyup="this.value=this.value.replace(/[^\d]/g,'')">
+			        <p class="notic">设置邀请会员成功赠送的积分。</p>
+			    </dd>
+			</dl>
+
 			<if condition="$info['level'] eq 4">
 			<dl class="row">
                 <dt class="tit">

@@ -153,6 +153,13 @@ function share_deal_after($xiaji, $shangji)
 
     $res = M('users')->where(['user_id' => $xiaji])->update(['first_leader' => $shangji]);
     if ($res) {
+        //邀请成功送积分
+        $level = M('Users')->where(['user_id'=>$shangji])->value('level');
+        $apply_integral = M('user_level')->where(['level'=>$level])->value('apply_integral');
+        if($apply_integral){ 
+            M('Users')->where(['user_id'=>$shangji])->setInc('pay_points',$apply_integral);
+            accountLog($shangji,0,$apply_integral,'邀请成功送积分');
+        }
         $before = '成功';
 
         //给上级发送消息

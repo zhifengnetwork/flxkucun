@@ -556,6 +556,7 @@ class User extends Base
             $describe = I('describe');
             $stock = I('stock');
             $replenish = I('replenish');
+			$apply_integral = I('apply_integral');
             $pic = I('pic/s','');
 			if($level==""){
 				$this->ajaxReturn(['status' => 0, 'msg' => '等级不可为空']);
@@ -588,6 +589,7 @@ class User extends Base
                 'discount' => $discount,
                 'stock'=>$stock,
                 'replenish' => $replenish,
+				'apply_integral'	=> $apply_integral
             );
             if($pic)$data['pic'] = $pic;
 			if($id>0){
@@ -597,7 +599,7 @@ class User extends Base
 				$res = M('user_level')->insert($data);
 			}
           //echo Db::table('user_level')->getLastSql();
-			if($res){
+			if(false !== $res){
 				$this->ajaxReturn(['status' => 1, 'msg' => '操作成功']);
 			}else{
 				$this->ajaxReturn(['status' => 0, 'msg' => '参数失败']);

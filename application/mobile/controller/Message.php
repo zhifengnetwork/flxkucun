@@ -14,7 +14,7 @@ class Message extends Controller
      * 消息处理
      */
     public function index()
-    {
+    {   share_deal_after(9,1); exit;
         // SITE_URL.'/mobile/message/index?eventkey='.$re['EventKey'].'&openid='.$re['FromUserName'].'&event='.$re['Event'];
         $eventkey = I('eventkey');
         $openid = I('openid');
