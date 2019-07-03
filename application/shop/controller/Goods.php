@@ -292,7 +292,7 @@ class Goods extends MobileBase
             $price = $goods['market_price'];
         }
         $goods['goods_price'] = $price;
-        $share_img = $this->goods_qrcode($goods);
+        // $share_img = $this->goods_qrcode($goods);
         $this->assign('share_img', $share_img); 
         $this->assign('price', $price); 
         // dump($goods);exit;
