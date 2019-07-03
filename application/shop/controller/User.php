@@ -2375,16 +2375,34 @@ class User extends MobileBase
      */
     public function qr_code()
     {
-        $user_id = $this->user['user_id'];
-        if (!$user_id) {
-            return $this->fetch();
-        }
-
-        $user = M('users')->where('user_id', $user_id)->find();
-
+        $user = session('user');
+        $user_id = $user['user_id'];
         $logic = new ShareLogic();
-        $url = $logic->get_ticket_url($user_id);
-    
+        $url = $logic->get_ticket_url($user_id);//链接
+        $nickname = mb_substr($user['nickname'],0,6,'UTF8');
+        //缩放用户头像
+        $q = substr($user['head_pic'],0,1);
+        if($q == 'h'){
+            copy($user['head_pic'],'public/qrcode/user/user_head_'. $user_id.'.png');
+            $head_pic = 'public/qrcode/user/user_head_'. $user_id.'.png';
+        }else{
+            $head_pic = substr($user['head_pic'],1,200);
+        }
+        $head_img = \think\Image::open($head_pic);
+        $head_img->thumb(65,65,\think\Image::THUMB_FILLED)->save('public/qrcode/user/user_head_'. $goods_id.'_65_65.png');
+        $head_pic = 'public/qrcode/user/user_head_'. $goods_id.'_65_65.png';
+        //生成二维码
+        $user_qrcode = user_qrcode($url,$user['user_id']);
+        $erweima = 'public/qrcode/user/erweima.jpg';
+        $image = \think\Image::open($erweima);
+        //width297，height494
+        //融合昵称和用户二维码
+        $image->text($nickname,'SourceHanSansCN-Normal.ttf',9,'#fa3c63',[130,70]);
+        $image->water($head_pic,[115,0]);
+        $image->water($user_qrcode,[80,133])->save('public/qrcode/user/user_qrcode_'.$user_id.'.jpg');
+
+        $image = '/public/qrcode/user/user_qrcode_'.$user_id.'.jpg';
+        $this->assign('image', $image);
         $this->assign('user', $user);
         $this->assign('head_pic', $head_pic);
         $this->assign('url', $url);

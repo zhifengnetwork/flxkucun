@@ -367,7 +367,7 @@ class Goods extends MobileBase
         }
         //保存图片
         $image->text($goods_price,'SourceHanSansCN-Normal.ttf',32,'#ffffff',[25,900])->save('public/qrcode/goods/share_img_'.$goods['goods_id'].'.jpg');
-        $share_img = 'public/qrcode/goods/share_img_'.$goods['goods_id'].'.jpg';
+        $share_img = '/public/qrcode/goods/share_img_'.$goods['goods_id'].'.jpg';
         return $share_img;
     }
 

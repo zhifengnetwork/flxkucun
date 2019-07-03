@@ -2512,15 +2512,15 @@ function cknum($num){
     return $num;
 }
 
-// 生成二维码
-function create_qrcode($url='')
+// 生成海报二维码
+function user_qrcode($url='',$user_id=0)
 {
     vendor("phpqrcode.phpqrcode");
     $data =$url;
-    $filename = "/public/qrcode/".rand(1,9999).time().'.jpg';
+    $filename = "public/qrcode/user/user_id_erweima_".$user_id.'.jpg';
     $outfile=ROOT_PATH.$filename;
     $level = 'L';
-    $size =4;
+    $size =4.1;
     $QRcode = new \QRcode();
     ob_start();
     $res = $QRcode->png($data,$outfile,$level,$size,2);
