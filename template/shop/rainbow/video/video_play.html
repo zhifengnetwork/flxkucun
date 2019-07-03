@@ -56,6 +56,7 @@
 				<div class="prism-player" id="player-con"></div>
 			</div>
 			<p>{$goodsInfo['goods_remark']}</p>
+			<notempty name="goodsInfo">
 			<div class="goods-item">
 				<a href="{:U('Shop/Goods/goodsInfo',array('id'=>$goodsInfo['goods_id']))}">
 					<div class="img-wrap">
@@ -68,7 +69,7 @@
 					<div class="more"><img src="__STATIC__/images/find/right-arrow.png" /></div>
 				</a>
 			</div>
-			
+			</notempty>
 		</div>
 	</div>
 	</div>
@@ -80,7 +81,7 @@
 			"height": "7.02rem",
 			"autoplay": true,
 			"isLive": false,
-			"rePlay": true,
+			"rePlay": false,
 			"playsinline": true,
 			"preload": false,
 			"cover": "{$video['video_img']}",//视频封面

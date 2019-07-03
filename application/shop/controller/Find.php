@@ -8,7 +8,7 @@ class Find extends MobileBase{
         $user_id = session('user.user_id');
     	//平台商品视频
         // $goodsVideoList = Db::table('tp_goods')->where(['is_on_sale'=>1,'is_video'=>1,'is_recommend'=>1])->field('goods_name,goods_id,original_img,video')->order("sort DESC")->limit(4)->select();
-        $goodsVideoList = Db::table('tp_video')->alias('v')->join('tp_goods g','g.goods_id=v.goods_id','LEFT')->where(['v.is_on_sale'=>1,'v.user_id'=>0,'v.is_recommend'=>1])->field('g.goods_name,v.goods_id,g.original_img,v.video_url,v.video_img,v.title,v.id')->order("v.sort DESC")->group('v.id desc')->limit(4)->select();
+        $goodsVideoList = Db::table('tp_video')->alias('v')->join('tp_goods g','g.goods_id=v.goods_id','LEFT')->where(['v.is_on_sale'=>1,'v.user_id'=>0])->field('g.goods_name,v.goods_id,g.original_img,v.video_url,v.video_img,v.title,v.id')->order("v.is_recommend DESC,v.sort DESC")->group('v.id desc')->limit(4)->select();
         // $addtime=strtotime(date("Y-m-d"));
         // foreach ($goodsVideoList as $key => $value){
         //     $res = Db::name('video_favor')->where(['addtime'=>$addtime,'user_id'=>$user_id,'type'=>1,'video_id'=>$value['goods_id']])->find();
@@ -21,7 +21,7 @@ class Find extends MobileBase{
         $this->assign('goodsVideo', $goodsVideoList);
 
     	//平台推荐用户视频
-    	$userVideoList = Db::table('tp_video')->where(['status'=>1,'is_on_sale'=>1,'is_recommend'=>1,'user_id'=>array('gt',0)])->field('id,title,nickname,video_img,user_id')->order("sort DESC")->limit(8)->select();
+    	$userVideoList = Db::table('tp_video')->where(['status'=>1,'is_on_sale'=>1,'user_id'=>array('gt',0)])->field('id,title,nickname,video_img,user_id')->order("is_recommend desc,sort DESC")->limit(8)->select();
     	foreach ($userVideoList as $key => $value){
     	    $userImg=Db::table('tp_users')->where(['user_id'=>$value['user_id']])->field('head_pic')->find();
             $res = Db::name('video_favor')->where(['addtime'=>$addtime,'user_id'=>$user_id,'type'=>2,'video_id'=>$value['id']])->find();
@@ -46,7 +46,7 @@ class Find extends MobileBase{
         //平台商品视频
         // $goodsVideoList = Db::table('tp_goods')->where(['is_on_sale'=>1,'is_video'=>1,'is_recommend'=>1])->field('goods_name,goods_id,original_img,video')->order("sort DESC")->limit(10)->select();
 
-        $goodsVideoList = Db::table('tp_video')->alias('v')->join('tp_goods g','g.goods_id=v.goods_id','LEFT')->where(['v.is_on_sale'=>1,'v.user_id'=>0,'v.is_recommend'=>1])->field('g.goods_name,v.goods_id,g.original_img,v.video_url,v.video_img,v.title,v.id')->order("v.sort DESC")->group('v.id desc')->limit(10)->select();
+        $goodsVideoList = Db::table('tp_video')->alias('v')->join('tp_goods g','g.goods_id=v.goods_id','LEFT')->where(['v.is_on_sale'=>1,'v.user_id'=>0])->field('g.goods_name,v.goods_id,g.original_img,v.video_url,v.video_img,v.title,v.id')->order("v.is_recommend desc,v.sort DESC")->group('v.id desc')->limit(10)->select();
         $addtime=strtotime(date("Y-m-d"));
         // foreach ($goodsVideoList as $key => $value){
         //     $videoImg=explode('.',$value['video']);
@@ -68,8 +68,8 @@ class Find extends MobileBase{
         $pageSize=10;
         $pageOffset=($page-1)*$pageSize;
         //平台商品视频
-        $goodsVideoList = Db::table('tp_goods')->where(['is_on_sale'=>1,'is_video'=>1,'is_recommend'=>1])->field('goods_name,goods_id,original_img,video')->order("sort DESC")->limit($pageOffset,$pageSize)->select();
-        $goodsVideoList = Db::table('tp_video')->alias('v')->join('tp_goods g','g.goods_id=v.goods_id','LEFT')->where(['v.is_on_sale'=>1,'v.user_id'=>0,'v.is_recommend'=>1])->field('g.goods_name,v.goods_id,g.original_img,v.video_url,v.video_img,v.title,v.id')->order("v.sort DESC")->group('v.id desc')->limit(10)->select();
+        // $goodsVideoList = Db::table('tp_goods')->where(['is_on_sale'=>1,'is_video'=>1])->field('goods_name,goods_id,original_img,video')->order("is_recommend desc,sort DESC")->limit($pageOffset,$pageSize)->select();
+        $goodsVideoList = Db::table('tp_video')->alias('v')->join('tp_goods g','g.goods_id=v.goods_id','LEFT')->where(['v.is_on_sale'=>1,'v.user_id'=>0])->field('g.goods_name,v.goods_id,g.original_img,v.video_url,v.video_img,v.title,v.id')->order("v.is_recommend desc,v.sort DESC")->group('v.id desc')->limit(10)->select();
         $addtime=strtotime(date("Y-m-d"));
         // foreach ($goodsVideoList as $key => $value){
         //     $videoImg=explode('.',$value['video']);
@@ -104,7 +104,7 @@ class Find extends MobileBase{
         $pageSize=8;
         $pageOffset=($page-1)*$pageSize;
         //平台推荐用户视频
-        $userVideoList = Db::table('tp_video')->where(['status'=>1,'is_on_sale'=>1,'is_recommend'=>1])->field('id,title,nickname,video_img,user_id')->order("sort DESC")->limit($pageOffset,$pageSize)->select();
+        $userVideoList = Db::table('tp_video')->where(['status'=>1,'is_on_sale'=>1])->field('id,title,nickname,video_img,user_id')->order("is_recommend desc,sort DESC")->limit($pageOffset,$pageSize)->select();
         $addtime=strtotime(date("Y-m-d"));
         foreach ($userVideoList as $key => $value){
             $userImg=Db::table('tp_users')->where(['user_id'=>$value['user_id']])->field('head_pic')->find();
