@@ -751,7 +751,7 @@ class Goods extends MobileBase
 
     /**
      * 收藏列表
-     */
+     */ 
     public function collection_list(){
         $user_id = cookie('user_id');
         if(!$user_id){
@@ -774,9 +774,10 @@ class Goods extends MobileBase
      */
     public function collect_goods()
     {
-        $goods_id = I('goods_id/d');
+        $user_id = session('user.user_id');
+        $goods_id = input('goods_id/d');
         $goodsLogic = new GoodsLogic();
-        $result = $goodsLogic->collect_goods(cookie('user_id'), $goods_id);
+        $result = $goodsLogic->collect_goods($user_id, $goods_id);
         $this->ajaxReturn($result);
     }
 

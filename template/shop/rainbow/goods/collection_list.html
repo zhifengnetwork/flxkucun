@@ -134,9 +134,9 @@ $('.buy-btn').on('click',function(){
     var obj = $(this);
     var goods_id = obj.attr('goods_id');
     $.post("{:U('goods/collect_goods')}",{"goods_id":goods_id},function(data){
-        if(data.status==1){
+        if(data.status){
             obj.parents('.single-item').remove();
-        layer.open({content:data.msg,time:1});
+            layer.open({content:data.msg,time:1});
         }
     })
     
