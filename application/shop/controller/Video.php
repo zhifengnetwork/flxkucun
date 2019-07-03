@@ -30,15 +30,27 @@ class Video extends MobileBase{
      // 跳转到商品视频播放页
     public function video_play(){
         $user_id = session('user.user_id');
-        $goods_id = input('id');
-        $goodsInfo = Db::table('tp_goods')->where('goods_id',$goods_id)->find();
-        $videoImg=explode('.',$goodsInfo['video']);
-        $goodsInfo["video_img"]=$videoImg[0].".jpg";
-        $addtime=strtotime(date("Y-m-d"));
-        $res = Db::name('video_favor')->where(['addtime'=>$addtime,'user_id'=>$user_id,'video_id'=>$goods_id,'type'=>1])->find();
+        // $goods_id = input('id');
+        // $goodsInfo = Db::table('tp_goods')->where('goods_id',$goods_id)->find();
+        // $videoImg=explode('.',$goodsInfo['video']);
+        // $goodsInfo["video_img"]=$videoImg[0].".jpg";
+        // $addtime=strtotime(date("Y-m-d"));
+        // $res = Db::name('video_favor')->where(['addtime'=>$addtime,'user_id'=>$user_id,'video_id'=>$goods_id,'type'=>1])->find();
+        
+        $id = input('id');
+        $video = Db::name('video')->where(array('id'=>$id))->find();
+        $res = Db::name('video_favor')->where(array('video_id'=>$id))->find();
         //总点赞数
-        $count = Db::name('video_favor')->where(['video_id'=>$goods_id])->count();
-      
+        $count = Db::name('video_favor')->where(['video_id'=>$video['id']])->count();
+        if($video['goods_id']){
+            $goodsInfo = Db::name('goods')->where('goods_id',$video['goods_id'])->find();
+            $level = session('user.level');
+            if($level){
+                $goodsInfo['shop_price'] = Db::name('goods_level_price')->where('goods_id',$video['goods_id'])->where('level',$level)->value('price');
+                $goodsInfo['shop_price'] = $goodsInfo['shop_price']?$goodsInfo['shop_price']:$goodsInfo['market_price'];
+            }
+        }
+        
         if($res){
             $favor=true;
         }else{
@@ -47,6 +59,7 @@ class Video extends MobileBase{
         return $this->fetch('',[
             'goodsInfo'=>$goodsInfo,
             'favor'=>$favor,
+            'video'=>$video,
             'count' => $count,
         ]);
 

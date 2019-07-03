@@ -8,8 +8,8 @@ class Find extends MobileBase{
         $user_id = session('user.user_id');
     	//平台商品视频
         // $goodsVideoList = Db::table('tp_goods')->where(['is_on_sale'=>1,'is_video'=>1,'is_recommend'=>1])->field('goods_name,goods_id,original_img,video')->order("sort DESC")->limit(4)->select();
-        $goodsVideoList = Db::table('tp_video')->alias('v')->join('tp_goods g','g.goods_id=v.goods_id','LEFT')->where(['v.is_on_sale'=>1,'v.user_id'=>0,'v.is_recommend'=>1])->field('g.goods_name,v.goods_id,g.original_img,v.video_url')->order("v.sort DESC")->group('v.id desc')->limit(4)->select();
-        $addtime=strtotime(date("Y-m-d"));
+        $goodsVideoList = Db::table('tp_video')->alias('v')->join('tp_goods g','g.goods_id=v.goods_id','LEFT')->where(['v.is_on_sale'=>1,'v.user_id'=>0,'v.is_recommend'=>1])->field('g.goods_name,v.goods_id,g.original_img,v.video_url,v.video_img,v.title,v.id')->order("v.sort DESC")->group('v.id desc')->limit(4)->select();
+        // $addtime=strtotime(date("Y-m-d"));
         // foreach ($goodsVideoList as $key => $value){
         //     $res = Db::name('video_favor')->where(['addtime'=>$addtime,'user_id'=>$user_id,'type'=>1,'video_id'=>$value['goods_id']])->find();
         //       if($res){
@@ -17,8 +17,6 @@ class Find extends MobileBase{
         //       }else{
         //           $goodsVideoList[$key]["favor"]="";
         //       }
-        //       $videoImg=explode('.',$value['video']);
-        //      $goodsVideoList[$key]["original_img"]=$videoImg[0].".jpg";
         // }
         $this->assign('goodsVideo', $goodsVideoList);
 
@@ -46,18 +44,20 @@ class Find extends MobileBase{
     public function find_more(){
         $user_id = session('user.user_id');
         //平台商品视频
-        $goodsVideoList = Db::table('tp_goods')->where(['is_on_sale'=>1,'is_video'=>1,'is_recommend'=>1])->field('goods_name,goods_id,original_img,video')->order("sort DESC")->limit(10)->select();
+        // $goodsVideoList = Db::table('tp_goods')->where(['is_on_sale'=>1,'is_video'=>1,'is_recommend'=>1])->field('goods_name,goods_id,original_img,video')->order("sort DESC")->limit(10)->select();
+
+        $goodsVideoList = Db::table('tp_video')->alias('v')->join('tp_goods g','g.goods_id=v.goods_id','LEFT')->where(['v.is_on_sale'=>1,'v.user_id'=>0,'v.is_recommend'=>1])->field('g.goods_name,v.goods_id,g.original_img,v.video_url,v.video_img,v.title,v.id')->order("v.sort DESC")->group('v.id desc')->limit(10)->select();
         $addtime=strtotime(date("Y-m-d"));
-        foreach ($goodsVideoList as $key => $value){
-            $videoImg=explode('.',$value['video']);
-            $goodsVideoList[$key]["original_img"]=$videoImg[0].".jpg";
-            $res = Db::name('video_favor')->where(['addtime'=>$addtime,'user_id'=>$user_id,'type'=>1,'video_id'=>$value['goods_id']])->find();
-            if($res){
-                $goodsVideoList[$key]["favor"]="red";
-            }else{
-                $goodsVideoList[$key]["favor"]="";
-            }
-        }
+        // foreach ($goodsVideoList as $key => $value){
+        //     $videoImg=explode('.',$value['video']);
+        //     $goodsVideoList[$key]["original_img"]=$videoImg[0].".jpg";
+        //     $res = Db::name('video_favor')->where(['addtime'=>$addtime,'user_id'=>$user_id,'type'=>1,'video_id'=>$value['goods_id']])->find();
+        //     if($res){
+        //         $goodsVideoList[$key]["favor"]="red";
+        //     }else{
+        //         $goodsVideoList[$key]["favor"]="";
+        //     }
+        // }
         $this->assign('goodsVideo', $goodsVideoList);
         return $this -> fetch();
     }
@@ -69,28 +69,29 @@ class Find extends MobileBase{
         $pageOffset=($page-1)*$pageSize;
         //平台商品视频
         $goodsVideoList = Db::table('tp_goods')->where(['is_on_sale'=>1,'is_video'=>1,'is_recommend'=>1])->field('goods_name,goods_id,original_img,video')->order("sort DESC")->limit($pageOffset,$pageSize)->select();
+        $goodsVideoList = Db::table('tp_video')->alias('v')->join('tp_goods g','g.goods_id=v.goods_id','LEFT')->where(['v.is_on_sale'=>1,'v.user_id'=>0,'v.is_recommend'=>1])->field('g.goods_name,v.goods_id,g.original_img,v.video_url,v.video_img,v.title,v.id')->order("v.sort DESC")->group('v.id desc')->limit(10)->select();
         $addtime=strtotime(date("Y-m-d"));
-        foreach ($goodsVideoList as $key => $value){
-            $videoImg=explode('.',$value['video']);
-            $goodsVideoList[$key]["original_img"]=$videoImg[0].".jpg";
-            $res = Db::name('video_favor')->where(['addtime'=>$addtime,'user_id'=>$user_id,'type'=>1,'video_id'=>$value['goods_id']])->find();
-            if($res){
-                $goodsVideoList[$key]["favor"]="red";
-            }else{
-                $goodsVideoList[$key]["favor"]="";
-            }
-        }
+        // foreach ($goodsVideoList as $key => $value){
+        //     $videoImg=explode('.',$value['video']);
+        //     $goodsVideoList[$key]["original_img"]=$videoImg[0].".jpg";
+        //     $res = Db::name('video_favor')->where(['addtime'=>$addtime,'user_id'=>$user_id,'type'=>1,'video_id'=>$value['goods_id']])->find();
+        //     if($res){
+        //         $goodsVideoList[$key]["favor"]="red";
+        //     }else{
+        //         $goodsVideoList[$key]["favor"]="";
+        //     }
+        // }
         $data='';
         foreach ($goodsVideoList as $value){
             $data.="<li class=\"item\">
-			<a href=\"{:U('shop/video/video_play',array('id'=>'".$value['goods_id']."'))}\">
+			<a href=\"{:U('shop/video/video_play',array('id'=>'".$value['id']."'))}\">
 				<div class=\"img_wrap\">
-					<img src=".$value["original_img"]." height=\"246.41\" />				
+					<img src=".$value["video_url"]." height=\"246.41\" />				
 								<span class=\"playBtn_sm\">
 									<img src=\"__STATIC__/images/home_zp/playBtn-sm.png\" />
 								</span>
 							</div>
-							<p>".$value["goods_name"]." <i class=\"video_favor ".$value["favor"]."\"></i></p>
+							<p>".$value["title"]." <i class=\"video_favor ".$value["favor"]."\"></i></p>
 						</a>
 			</li>";
         }

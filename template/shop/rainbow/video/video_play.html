@@ -43,14 +43,14 @@
 		</div>
 
 		<div class="content">
-			<h3>{$goodsInfo['goods_name']} <i class="video_favor <if $favor> red</if> " onclick="videoFavor(1,{$goodsInfo['goods_id']})"></i>
+			<h3>{$video['title']} <i class="video_favor <if $favor> red</if> " onclick="videoFavor(1,{$video['id']})"></i>
 			</h3>
 			<span style="font-size:13px;margin-left: 92%;">{$count}</span>
 			<p class="date">
-				<span><?php echo date("Y-m-d",$goodsInfo['last_update']) ?></span>
-				<span><?php echo date("H:i:s",$goodsInfo['last_update']) ?></span>
+				<span><?php echo date("Y-m-d",$video['update_time']) ?></span>
+				<span><?php echo date("H:i:s",$video['update_time']) ?></span>
 				<span>发布者:管理员</span>
-				<span class="video_down"><a href="{$goodsInfo['video']}" download="{$goodsInfo['goods_name']}">下载</a></span>
+				<span class="video_down"><a href="{$video['video_url']}" download="{$video['title']}">下载</a></span>
 			</p>
 			<div class="playWrap">
 				<div class="prism-player" id="player-con"></div>
@@ -74,7 +74,7 @@
 	<script>
 		var player = new Aliplayer({
 			"id": "player-con",
-			"source": "{$goodsInfo['video']}",//视频地址
+			"source": "{$video['video_url']}",//视频地址
 			"width": "100%",
 			"height": "7.02rem",
 			"autoplay": true,
@@ -82,7 +82,7 @@
 			"rePlay": true,
 			"playsinline": true,
 			"preload": false,
-			"cover": "{$goodsInfo['video_img']}",//视频封面
+			"cover": "{$video['video_img']}",//视频封面
 			"controlBarVisibility": "always",//控制面板的实现
 			"videoWidth": "100%",
 			"useH5Prism": true,

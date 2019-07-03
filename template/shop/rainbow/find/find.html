@@ -77,11 +77,11 @@
 					<ul>
 						<foreach name='goodsVideo' item='v' >
 							<li class="item">
-								<a href="{:U('shop/video/video_play',array('id'=>$v.goods_id))}">
-									<h3>{$v.goods_name}</h3>
+								<a href="{:U('shop/video/video_play',array('id'=>$v.id))}">
+									<h3>{$v.title}</h3>
 									<div class="img_wrap">
 										<if $v.original_img >
-											<img src="{$v.original_img}" height="246.41" />
+											<img src="{$v.video_url}" height="246.41" />
 											<else/>
 											<img src="__STATIC__/images/home_zp/00product-img01.png" />
 										</if>
