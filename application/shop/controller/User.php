@@ -2375,6 +2375,7 @@ class User extends MobileBase
      */
     public function qr_code()
     {
+        $root = $_SERVER['DOCUMENT_ROOT'].'/';
         $user = session('user');
         $user_id = $user['user_id'];
         $logic = new ShareLogic();
@@ -2388,17 +2389,17 @@ class User extends MobileBase
         }else{
             $head_pic = substr($user['head_pic'],1,200);
         }
-        $head_img = \think\Image::open($head_pic);
+        $head_img = \think\Image::open($root.$head_pic);
         $head_img->thumb(65,65,\think\Image::THUMB_FILLED)->save('public/qrcode/user/user_head_'. $goods_id.'_65_65.png');
         $head_pic = 'public/qrcode/user/user_head_'. $goods_id.'_65_65.png';
         //生成二维码
         $user_qrcode = user_qrcode($url,$user['user_id']);
         $erweima = 'public/qrcode/user/erweima.jpg';
-        $image = \think\Image::open($erweima);
+        $image = \think\Image::open($root.$erweima);
         //width297，height494
         //融合昵称和用户二维码
         $image->text($nickname,'SourceHanSansCN-Normal.ttf',9,'#fa3c63',[130,70]);
-        $image->water($head_pic,[115,0]);
+        $image->water($head_pic,[116,0]);
         $image->water($user_qrcode,[80,133])->save('public/qrcode/user/user_qrcode_'.$user_id.'.jpg');
 
         $image = '/public/qrcode/user/user_qrcode_'.$user_id.'.jpg';
