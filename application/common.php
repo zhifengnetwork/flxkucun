@@ -585,9 +585,10 @@ function minus_stock($order)
             $goodsPromLogic = $GoodsPromFactory->makeModule($val, $specGoodsPrice);
             $prom = $goodsPromLogic->getPromModel();
             if ($prom['is_end'] == 0) {
+                $pay_status = M('order')->where(['order_id'=>$order['order_id']])->value('pay_status');
                 $tb = $val['prom_type'] == 1 ? 'flash_sale' : 'group_buy';
-                M($tb)->where("id", $val['prom_id'])->setInc('buy_num', $val['goods_num']);
-                M($tb)->where("id", $val['prom_id'])->setInc('order_num');
+                if($pay_status)M($tb)->where("id", $val['prom_id'])->setInc('buy_num', $val['goods_num']);
+                M($tb)->where("id", $val['prom_id'])->setInc('order_num', $val['goods_num']);
             }
         }
         //更新拼团商品购买量

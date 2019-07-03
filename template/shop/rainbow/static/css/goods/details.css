@@ -295,3 +295,18 @@
 .goods-details img{
     width: 100%;
 }
+
+/* 分享 */
+.share-popup{
+    width: 6rem;
+    height: 10.67rem;
+    background: url(../../images/details/share-bg.png) no-repeat;
+    background-size: 100%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 3;
+    transform: translate(-50%,-50%);
+   
+}
+
