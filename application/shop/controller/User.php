@@ -2390,7 +2390,6 @@ class User extends MobileBase
         }else{
             $head_pic = substr($user['head_pic'],1,200);
         }
-        dump(IMGROOT_PATH.'/'.$head_pic);exit;
         if(file_exists(IMGROOT_PATH.'/'.$head_pic)){
             $head_img = \think\Image::open(IMGROOT_PATH.'/'.$head_pic);
             $head_img->thumb(65,65,\think\Image::THUMB_FILLED)->save('public/qrcode/user/user_head_'. $goods_id.'_65_65.png');
