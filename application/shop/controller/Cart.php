@@ -362,7 +362,7 @@ class Cart extends MobileBase {
                 $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn'],'third_leader'=>$this->user['third_leader'],'applyid'=>$applyid,'type'=>$type]);
             }
 
-            $pricedata = $pay->toArray(); 
+            $pricedata = $pay->toArray();
             if (($action == 'buy_now') && ($goods_num==2)) {
                 $prominfo = M('goods')->field('prom_type,prom_id')->find($goods_id);
                 if($prominfo['prom_type'] == 1){

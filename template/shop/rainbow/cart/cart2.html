@@ -682,7 +682,7 @@
         if(typeof(data.result.order_amount) != 'undefined'){
             // $("#payables").text(parseFloat(data.result.order_amount.toFixed(2))+parseInt(data.result.shipping_price));// 应付
             var goodprice="{$cartPriceInfo['total_fee']}";
-            $("#payables").text(parseInt(goodprice)+parseInt(data.result.shipping_price));
+            $("#payables").text(parseFloat(goodprice)+parseFloat(data.result.shipping_price));
         }
     }
 
