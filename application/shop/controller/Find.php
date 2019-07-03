@@ -23,7 +23,7 @@ class Find extends MobileBase{
         $this->assign('goodsVideo', $goodsVideoList);
 
     	//平台推荐用户视频
-    	$userVideoList = Db::table('tp_video')->where(['status'=>1,'is_on_sale'=>1,'is_recommend'=>1])->field('id,title,nickname,video_img,user_id')->order("sort DESC")->limit(8)->select();
+    	$userVideoList = Db::table('tp_video')->where(['status'=>1,'is_on_sale'=>1,'is_recommend'=>1,'user_id'=>array('gt',0)])->field('id,title,nickname,video_img,user_id')->order("sort DESC")->limit(8)->select();
     	foreach ($userVideoList as $key => $value){
     	    $userImg=Db::table('tp_users')->where(['user_id'=>$value['user_id']])->field('head_pic')->find();
             $res = Db::name('video_favor')->where(['addtime'=>$addtime,'user_id'=>$user_id,'type'=>2,'video_id'=>$value['id']])->find();

@@ -358,7 +358,12 @@ class Goods extends MobileBase
         //融合用户头像和昵称-
         $user = session('user');
         if($user){
-            $head_pic = mb_substr($user['head_pic'],1,200,'UTF8');
+            $q = mb_substr($user['head_pic'],0,1,'UTF8');
+            if($q== 'h'){
+                return false;
+            }else{
+                $head_pic = mb_substr($user['head_pic'],1,200,'UTF8');
+            }
             if(file_exists($head_pic)){
                 //缩放用户头像
                 $user_logo = \think\Image::open($head_pic);
