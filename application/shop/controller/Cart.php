@@ -188,6 +188,10 @@ class Cart extends MobileBase {
                 {
                     if(!empty($goods_data_checkItem[$k]))
                     {
+                        if($pei_parent){
+                            $num = M('warehouse_goods')->where(['user_id'=>$pei_parent,'goods_id'=>$goods_data_ids[$k]])->value('nums');
+                            if($num < $goods_data_number[$k])$this->error('商品库存不足');
+                        }
                      // echo $pei_parent;exit;
                         $result = $this->kucun_add($goods_data_ids[$k],$goods_data_number[$k],0,$pei_parent);
                     }

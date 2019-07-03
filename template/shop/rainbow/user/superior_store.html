@@ -178,6 +178,8 @@
 			
 			//获取选中的商品个数
 	        var j = 0;
+			var bol = true;
+			var str = '';
 	        $('input[name^="checkItem"]:checked').each(function (i,val) {
 				var goods_id = $(val).attr('data-id');
 	        	//alert(val.data('id'));
@@ -185,9 +187,18 @@
 				var goods_name = $(this).next('input[name^="num"]').next('input[name^="goods_name"]').attr('data-id'); 
 				var number = $('#number'+goods_id).val();
 
-				if(number > kucun){layer.open({content: goods_name + '库存不足', time:2}); return;}
+				if(number > kucun){
+					//layer.open({content: '库存不足', time:2}); 
+					bol = false;
+					str = goods_name + '库存不足';
+					return false;
+				}
 	            j++;
 	        }); 
+			if(!bol){
+				layer.open({content: str, time:2}); 
+				return false;
+			}
 	        //选择数大于0
 	        if (j > 0) {
 				if(j > 20){layer.open({content: '一次最多勾选20中商品', time:2}); return;}
