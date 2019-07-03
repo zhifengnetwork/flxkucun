@@ -50,32 +50,21 @@
 
 			<!-- 列表 -->
 			<div class="seckill-list">
+				<volist name='list' id='v'>
 				<div class="single-item">
-					<a href="{:U('Shop/Exchange/details')}"><div class="img-wrap"></div></a>
+					<a href="{:U('Exchange/details',['goods_id'=>$v['goods_id']])}"><div class="img-wrap"><img style='width:100%;height:100%;' src='{$v.original_img}' /></div></a>
 					<div class="text">
-						<h3><a href="{:U('Shop/Exchange/details')}">可爱多洗衣液500ml*6袋</a></h3>
-						<p class="dec">温和低敏 强力去污易漂洗</p>
+						<h3><a href="{:U('Exchange/details',['goods_id'=>$v['goods_id']])}">{$v.goods_name}</a></h3>
+						<p class="dec">{$v.goods_remark}</p>
 						<div class="price">
-							<span class="discount-price">$29.9</span>
-							<span class="original-price">$99.9</span>
+							<span class="discount-price">{$v.exchange_integral}积分</span>
+							<!-- <span class="original-price">$99.9</span> -->
 						</div>
-						<div class="quota">已领取9741件</div>
+						<div class="quota">已领取{$v.virtual_sales_sum + $v.sales_sum}件</div>
 					</div>
-					<div class="buyBtn">立即领取</div>
+					<a href="{:U('Exchange/details',['goods_id'=>$v['goods_id']])}" class="buyBtn">立即领取</a>
 				</div>
-				<div class="single-item">
-					<a href="{:U('Shop/Exchange/details')}"><div class="img-wrap"></div></a>
-					<div class="text">
-						<h3><a href="{:U('Shop/Exchange/details')}">可爱多洗衣液500ml*6袋</a></h3>
-						<p class="dec">温和低敏 强力去污易漂洗</p>
-						<div class="price">
-							<span class="discount-price">$29.9</span>
-							<span class="original-price">$99.9</span>
-						</div>
-						<div class="quota">已领取9741件</div>
-					</div>
-					<div class="buyBtn">立即领取</div>
-				</div>
+				</volist>
 			</div>
 		
 		</div>
