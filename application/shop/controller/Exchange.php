@@ -12,6 +12,8 @@ class Exchange extends MobileBase
 {
     // 积分兑换首页
     public function index(){
+        //获取商品
+        M('Goods')->where(['is_on_sale'=>1])->select();
         return $this->fetch();
     }
     // 积分兑换详情

@@ -38,6 +38,8 @@
 						<li>
 							<div class="check">
 								<input type="checkbox" name="checkItem[{$v.goods_id}]" data-id="{$v.goods_id}">
+								<input type="hidden" name="num[{$v.goods_id}]" data-id="{$v.nums}">
+								<input type="hidden" name="goods_name[{$v.goods_id}]" data-id="{$v.goods_name}">
 							</div>
 							<div class="img-wrap">
 								<a href="###"><img src="{$v[goods_id]|goods_thum_images=200,200}?v={:date('Ymd')}" /></a>
@@ -52,7 +54,7 @@
 									<div class="price">￥{$v.shop_price}</div>
 									<div class="num">
 										<a href="javascript:" class="min" id="min"></a>
-										<input type="text" value="1" size="2" class="number" name='number[{$v.goods_id}]'>
+										<input type="text" value="1" size="2" id='number{$v.goods_id}' class="number" name='number[{$v.goods_id}]'>
 										<a href="javascript:" class="add" id="add"></a>
 									</div>
 								</div>
@@ -177,9 +179,15 @@
 			//获取选中的商品个数
 	        var j = 0;
 	        $('input[name^="checkItem"]:checked').each(function (i,val) {
+				var goods_id = $(val).attr('data-id');
 	        	//alert(val.data('id'));
+				var kucun = $(this).next('input[name^="num"]').attr('data-id'); 
+				var goods_name = $(this).next('input[name^="num"]').next('input[name^="goods_name"]').attr('data-id'); 
+				var number = $('#number'+goods_id).val();
+
+				if(number > kucun){layer.open({content: goods_name + '库存不足', time:2}); return;}
 	            j++;
-	        });
+	        }); 
 	        //选择数大于0
 	        if (j > 0) {
 				if(j > 20){layer.open({content: '一次最多勾选20中商品', time:2}); return;}

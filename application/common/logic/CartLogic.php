@@ -427,7 +427,7 @@ class CartLogic extends Model
             $prom_type = $this->specGoodsPrice['prom_type'];
         }else{
             $prom_type = $this->goods['prom_type'];
-        }
+        } 
         switch($prom_type) {
             case 1:
                 $this->addFlashSaleCart(1);
@@ -499,7 +499,7 @@ class CartLogic extends Model
                 //throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '商品库存不足，剩余' . $store_count . ',当前购物车已有' . $userCartGoodsNum . '件']);
             }
             $cartResult = $userCartGoods->save(['goods_num' => $userWantGoodsNum, 'goods_price' => $price, 'member_goods_price' => $price]);
-        } else {
+        } else { 
             //如果该商品没有存在购物车
             if ($this->goodsBuyNum > $store_count) {
                // throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '商品库存不足，剩余' . $this->goods['store_count']]);
@@ -619,6 +619,7 @@ class CartLogic extends Model
                 $cartAddFlashSaleData['goods_price'] = $this->goods['shop_price'];   // 原价
                 $cartAddFlashSaleData['prom_id'] = $this->goods['prom_id'];// 活动id
             }
+            if($type)$cartAddFlashSaleData['cart_type'] = 1;
             $cartResult = Db::name('Cart')->insert($cartAddFlashSaleData);
         }
         if ($cartResult === false) {
@@ -638,11 +639,11 @@ class CartLogic extends Model
             throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '团购活动已结束']);
         }
         $groupBuyIsAble = $groupBuyLogic->checkActivityIsAble();
-        if (!$groupBuyIsAble) {
+        if (!$groupBuyIsAble) { 
             //活动没有进行中，走普通商品下单流程
             $this->addNormalCart();
             return;
-        } else {
+        } else { 
             //活动进行中
             if ($this->user_id == 0) {
                 throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '购买活动商品必须先登录']);
@@ -653,7 +654,7 @@ class CartLogic extends Model
             $userCartGoods = Cart::get(['user_id' => $this->user_id, 'session_id' => $this->session_id, 'goods_id' => $this->goods['goods_id'], 'spec_key' => ($this->specGoodsPrice['key'] ?: '')]);
         } else {
             $userCartGoods = Cart::get(['user_id' => $this->user_id, 'goods_id' => $this->goods['goods_id'], 'spec_key' => ($this->specGoodsPrice['key'] ?: '')]);
-            if($type && $userCartGoods){
+            if($type && $userCartGoods){  
                 M('Cart')->where(['user_id' => $this->user_id, 'goods_id' => $this->goods['goods_id']])->delete();
                 $userCartGoods = [];
             }
@@ -695,9 +696,10 @@ class CartLogic extends Model
                 $cartAddFlashSaleData['goods_price'] = $this->goods['shop_price'];   // 原价
                 $cartAddFlashSaleData['prom_id'] = $this->goods['prom_id'];// 活动id
             }
+            if($type)$cartAddFlashSaleData['cart_type'] = 1;
             $cartResult = Db::name('Cart')->insert($cartAddFlashSaleData);
         }
-        if ($cartResult === false) {
+        if ($cartResult === false) { 
             throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '加入购物车失败']);
         }
     }
@@ -859,16 +861,16 @@ class CartLogic extends Model
             $cartWhere['selected'] = 1;
         }
         $cartWhere['combination_group_id'] = 0;
-         $cartWhere['cart_type'] = 1;
+         $cartWhere['cart_type'] = 1;  
         $cartList = $cart->with('goods')->where($cartWhere)->select();  // 获取购物车商品
-
+        
         foreach($cartList as $k=>$v){
             $goods_price = M('goods_level_price')->where(['goods_id'=>$v['goods_id'],'level'=>$this->user['level']])->value('price');
             $goods_price && $cartList[$k]['goods_price'] = $goods_price;
             $goods_price && $cartList[$k]['member_goods_price'] = $goods_price;
         }
 
-        $cartCheckAfterList = $this->checkCartList($cartList); 
+        $cartCheckAfterList = $this->checkCartList($cartList);
         return $cartCheckAfterList;
     }
 

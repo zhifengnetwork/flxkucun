@@ -172,7 +172,7 @@ class Cart extends MobileBase {
             $setRedirectUrl = new UsersLogic();
             $setRedirectUrl->orderPageRedirectUrl($_SERVER['REQUEST_URI'],'',$goods_id,$goods_num,$item_id ,$action);
         }elseif($action=="kucun_buy")
-        {
+        { 
             //添加到购物车
             $data =I('post.');
             if(!empty($data))
@@ -210,7 +210,7 @@ class Cart extends MobileBase {
             $cartGoodsTotalNum = count($cartList['cartList']);
         }
         $cartPriceInfo = $cartLogic->getCartPriceInfo($cartList['cartList']);  //初始化数据。商品总额/节约金额/商品总共数量
-        
+ 
         //$levellist = M('user_level')->field('stock,replenish')->where(['level'=>['gt',$this->user['level']]])->select();
         $levelinfo = M('user_level')->field('stock,replenish')->where(['level'=>$this->user['level']])->find();
         if(($type == 1) && !$applyid && ($cartPriceInfo['total_fee'] < $levelinfo['replenish']) && ($action=="kucun_buy"))$this->error('补货金额必须达到'.$levelinfo['replenish'].'元','/shop/User/superior_store/type/1');
@@ -738,7 +738,7 @@ class Cart extends MobileBase {
         $cartLogic->setSpecGoodsPriceById($item_id);
         $cartLogic->setGoodsBuyNum($goods_num);
         $cartLogic->setCartDellerId($seller_id);
-        try { 
+        try {
             $cartLogic->kucun_addGoodsToCart();
            // $cartLogic->addGoodsToCart();
            // $this->ajaxReturn(['status' => 1, 'msg' => '加入购物车成功']);
