@@ -2391,7 +2391,7 @@ class User extends MobileBase
         }
         if(file_exists($head_pic)){
             $head_img = \think\Image::open($head_pic);
-            $head_img->thumb(65,65,\think\Image::THUMB_FILLED)->save('public/qrcode/user/user_head_'. $user_id.'_65_65.png');
+            $head_img->thumb(65,65,\think\Image::IMAGE_THUMB_FIXED)->save('public/qrcode/user/user_head_'. $user_id.'_65_65.png');
             $head_pic = 'public/qrcode/user/user_head_'. $user_id.'_65_65.png';
             //生成二维码
             $user_qrcode = user_qrcode($url,$user['user_id']);
