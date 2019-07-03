@@ -2393,8 +2393,8 @@ class User extends MobileBase
         echo IMGROOT_PATH.$head_pic.'<br>';
         if(file_exists(IMGROOT_PATH.$head_pic)){
             $head_img = \think\Image::open(IMGROOT_PATH.$head_pic);
-            $head_img->thumb(65,65,\think\Image::THUMB_FILLED)->save(IMGROOT_PATH.'public/qrcode/user/user_head_'. $goods_id.'_65_65.png');
-            $head_pic = 'public/qrcode/user/user_head_'. $goods_id.'_65_65.png';
+            $head_img->thumb(65,65,\think\Image::THUMB_FILLED)->save(IMGROOT_PATH.'public/qrcode/user/user_head_'. $user_id.'_65_65.png');
+            $head_pic = 'public/qrcode/user/user_head_'. $user_id.'_65_65.png';
             //生成二维码
             $user_qrcode = user_qrcode($url,$user['user_id']);
             $erweima = 'public/qrcode/user/erweima.jpg';
