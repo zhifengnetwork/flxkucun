@@ -292,7 +292,7 @@ class User extends MobileBase
         }
 
         $goods_id = I('get.goods_id/d',0);
-        $type = I('get.type/d',0);
+        $type = I('get.type/d',1);
         //if(!$goods_id)$this->error('参数错误');
 
         // 找配货上级

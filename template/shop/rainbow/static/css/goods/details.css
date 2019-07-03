@@ -297,6 +297,16 @@
 }
 
 /* 分享 */
+.mask1 {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 10;
+    background: rgba(0,0,0,.5);
+    display: none;
+}
 .share-popup{
     width: 6rem;
     height: 10.67rem;
@@ -307,6 +317,6 @@
     top: 50%;
     z-index: 3;
     transform: translate(-50%,-50%);
-   
+    display: none;
 }
 

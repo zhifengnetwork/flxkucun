@@ -110,13 +110,13 @@ function pageJump(_url){
 function skuShow(){
 	$(".mask").show();
 	$(".sku-content").animate({'bottom':'0'});
-	stopSliding(".wrapper");//禁止body滑动
+	// stopSliding(".wrapper");//禁止body滑动
 }
 
 function skuHide(){
 	$(".mask").hide();
 	$(".sku-content").animate({'bottom':'-100%'});
-	resumingSlip(".wrapper");//恢复body滑动
+	// resumingSlip(".wrapper");//恢复body滑动
 }
 
 /**

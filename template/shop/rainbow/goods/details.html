@@ -37,30 +37,29 @@
                     <div class="slider-wrap">
                         <div class="swiper-container" style="height:100%">
                             <div class="swiper-wrapper">
+                                <if condition="$goods.video neq ''">
                                 <div class="swiper-slide">
-                                    <video  id="video1" src="http://img.ksbbs.com/asset/Mon_1605/0ec8cc80112a2d6.mp4" width="100%" height="100%"
-                                        loop="loop" poster="__STATIC__/images/details/details-img01.png" x5-playsinline="" x-webkit-airplay="" playsinline="" webkit-playsinline="">
+                                    <video  id="video1" src="{$goods.video}" width="100%" height="100%"
+                                        loop="loop" x5-playsinline="" x-webkit-airplay="" playsinline="" webkit-playsinline="">
                                     </video>
                                     <span class="playBtn"></span>
                                     <span class="voiceBtn"></span>
                                 </div>
-                                <div class="swiper-slide">
-                                    <img src="__STATIC__/images/details/details-img02.png" >
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="__STATIC__/images/details/details-img03.png" >
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="__STATIC__/images/details/details-img04.png" >
-                                </div>
-                                <div class="swiper-slide">
-                                    <img src="__STATIC__/images/details/details-img05.png">
-                                </div>
+                                </if>
+                                <foreach name="goods['goods_images']" item="pic">
+                                    <div class="swiper-slide">
+                                        <img src="{$pic[image_url]}" >
+                                    </div>
+                                </foreach>
                             </div>
                             <div class="swiper-pagination"></div>
                             <div class="nav-tag">
+                                <if condition="$goods.video neq ''">
                                 <span class="tag-item active"><i class="paly-icon"></i> 视频</span>
+                                </if>
+                                <if condition="$goods.goods_images neq ''">
                                 <span class="tag-item">图片</span>
+                                </if>
                             </div>
                         </div>
                     </div>
@@ -68,11 +67,11 @@
                     <div class="goodsInfo">
                         <!-- 商品名称 -->
                         <div class="goodsName group-line">
-                            <h1>可爱多洗衣液500ml*6袋</h1>
+                            <h1>{$goods.goods_name}</h1>
                         </div>
                         <div class="group-line border-none" onclick="skuShow()">
                             <div class="label">已选</div>
-                            <div class="center">8片装 8件</div>
+                            <div class="center">{$goods.goods_name}</div>
                             <div class="right-arrow"></div>
                         </div>
                     </div>
@@ -83,41 +82,30 @@
                 <div class="floor-con comment">
                     <div class="headline">
                         <h3>评价</h3>
-                        <span>好评率99%</span>
+                        <span onclick="$(window).scrollTop($('.comment').offset().top-100);">好评率{$goods['comment_statistics']['high_rate']}%</span>
                     </div>
                     <div class="comment-list">
+                        <volist name='list' id='v' offset="0" length='3' >
                         <div class="single-item">
                             <div class="user-info">
-                                <div class="avatar"></div>
-                                <div class="name">芊芊</div>
+                                <div class="avatar"><img src="{$v['head_pic']|default='__STATIC__/images/user68.jpg'}" style="width:100%;height:100%;border-radius:50%;"></div>
+                                <div class="name">{$v['username']}</div>
                             </div>
-                            <div class="comment-con"><p>36*280、300*250、以及160*600 这三种大小的Banner广告在宣传效果上较好。在高度一定的情况下，宽度越大，效果也会越好，因为这样广告会给用户带来了较好的阅读体验。Banner位置在网页的顶。</p></div>
+                            <div class="comment-con"><p>{$v['content']|htmlspecialchars_decode}</p></div>
                             <div class="imgView">
-                                <span></span>
-                                <span></span>
-                                <span></span>
+                            <foreach name="v['img']" key="key" item="v2">
+                                <span><img src="{$v2}" style="width:100%;height:100%;"></span>
+                            </foreach>
                             </div>
-                            <div class="comment-sku">规格:8片</div>
+                            <!--<div class="comment-sku">规格:8片</div>-->
                         </div>
-                        <div class="single-item">
-                            <div class="user-info">
-                                <div class="avatar"></div>
-                                <div class="name">芊芊</div>
-                            </div>
-                            <div class="comment-con"><p>36*280、300*250、以及160*600 这三种大小的Banner广告在宣传效果上较好。在高度一定的情况下，宽度越大，效果也会越好，因为这样广告会给用户带来了较好的阅读体验。Banner位置在网页的顶。</p></div>
-                            <div class="imgView">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                            <div class="comment-sku">规格:8片</div>
-                        </div>
+                        </volist>
                     </div>
                 </div>
 
                 <!-- 商品详情 -->
                 <div class="floor-con goods-details">
-                    <div class="goods-information">
+                <!--    <div class="goods-information">
                         <div class="heading">产品信息</div>
                         <table>
                             <tr>
@@ -133,8 +121,8 @@
                                 <td>水光针</td>
                             </tr>
                         </table>
-                    </div>
-                    <img src="__STATIC__/images/details/detailsImg01.jpg" />
+                    </div> -->
+                    {$goods.goods_content|htmlspecialchars_decode}
                 </div>
 
             </div>
@@ -147,33 +135,33 @@
                 <div class="thead">
                     <div class="img-wrap">
                         <a href="#">
-                            <img src="__STATIC__/images/home_zp/00recommend-img02.png" >
+                            <img src="{$goods.original_img}" >
                         </a>
                     </div>
                     <div class="main">
-                        <div class="goods-name">可爱多洗衣液500ml*6袋</div>
-                        <div class="goods-price">$2900.00</div>
-                        <div class="sku-choose"><span>已选:</span>洗衣液300ml*2</div>
+                        <div class="goods-name">{$goods.goods_name}</div>
+                        <div class="goods-price">￥{$price}</div>
+                        <div class="sku-choose"><span>已选:</span>{$goods.goods_name}</div>
                     </div>
                     <div class="close-btn" onclick="skuHide()"></div>
                 </div>
 
                 <div class="tbody">
-                    <div class="sku-row">
-                        <div class="sku-row-title">套餐</div>
+                    <!-- <div class="sku-row">
+                    <div class="sku-row-title">套餐</div>
                         <div class="sku-row-con">
                             <span class="sku-row-item active">洗衣液300ml*2</span>
                             <span class="sku-row-item">洗衣液500ml*2</span>
                             <span class="sku-row-item">洗衣液500ml*6</span>
                             <span class="sku-row-item">可爱多洗衣液100ml*6袋</span>
                         </div>
-                    </div> 
-
+                    </div>  -->
+                    <br />
                     <div class="sku-row">
                         <div class="sku-row-title">数量</div>
                         <div class="stepper">
                             <a href="javascript:" class="min"></a>
-                            <input type="text" value="1" size="2" class="number">
+                            <input type="text" value="1" size="2" class="number" id="number">
                             <a href="javascript:" class="add" ></a>
                         </div>
                     </div>
@@ -188,6 +176,13 @@
             </div>
         </div>
 
+        <form method='post' action="/Shop/Cart/cart2/action/buy_now" id='buy_now' >
+            <input id='goods_id' name='goods_id' type='hidden' value='{$goods.goods_id}' >
+            <input id='goods_num' name='goods_num' type='hidden' value='1' >
+            <input id='activity_is_on' name='activity_is_on' type='hidden' value='1' >
+            <input id='shop_price' name='shop_price' type='hidden' value={$price} >
+        </form> 
+
         <!-- 操作栏 -->
 		<div class="action-bar">
             <div class="home">
@@ -197,19 +192,19 @@
                 </a>
             </div>
             <div class="fav">
-                <i class="fav-icon"></i>
+                <i class="fav-icon <if condition='$collect gt 0'>faved</if>"></i>
                 <span>收藏</span>
                 <span class="fav-tips">
                     <em class="fav-animation">收藏成功</em>
                 </span>
             </div>
-            <div class="price">原价:<span>$</span>69</div>
+            <div class="price"><span>￥</span>{$price}</div>
             <div class="btn" onclick="skuShow()">立即购买</div>
         </div>
         
         <!-- 分享 -->
-        <div class="mask">
-            <div class="share-popup">
+        <div class="mask1">
+            <div class="share-popup" style="background:url({$share_img});">
 
             </div>
         </div>
@@ -240,17 +235,23 @@
                     }
                 },
             },
-        })
+        });
+
+        $('.confirmBtn').click(function(){
+            $("#buy_now").submit();
+        });        
 
         /**
          * 分享
          */
          $(".header .right-icon").click(function(){
-            $('.mask').show();
+            $('.mask1').show();
+            $('.share-popup').show();
          })
 
-         $(".mask").click(function(){
-            $('.mask').hide();
+         $(".mask1").click(function(){
+            $('.mask1').hide();
+            $('.share-popup').hide();
          })
         //  取消冒泡
          $(".share-popup").click(function(event){

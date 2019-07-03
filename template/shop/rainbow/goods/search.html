@@ -66,13 +66,13 @@
             <foreach name="goods_list" item="vo" key="k">
              <div class="pro-box">
                  <div class="itemImg">
-                    <a href="{:U('Shop/Goods/goodsInfo',array('id'=>$vo[goods_id]))}">
+                    <a href="<if condition='$vo.exchange_integral gt 0 and $vo.cat_id eq 8'>{:U('Shop/Exchange/details',array('goods_id'=>$vo[goods_id]))}<else />{:U('Shop/Goods/goodsInfo',array('id'=>$vo[goods_id]))}</if>">
                         <img src="{$vo.goods_id|goods_thum_images=400,400}" alt="">
                     </a>
                  </div>
                  <div class="itemMsg">
                      <div class="deletes">
-                         <a href="{:U('Shop/Goods/goodsInfo',array('id'=>$vo[goods_id]))}" class="item">
+                         <a href="<if condition='$vo.exchange_integral gt 0 and $vo.cat_id eq 8'>{:U('Shop/Exchange/details',array('goods_id'=>$vo[goods_id]))}<else />{:U('Shop/Goods/goodsInfo',array('id'=>$vo[goods_id]))}</if>" class="item">
                             <span class="similar-product-text fl">{$vo.goods_name|getSubstr=0,20}</span>
                         </a>
                            </div>
@@ -85,7 +85,7 @@
                             
                            
                           </div>
-                                <a href="{:U('Shop/Goods/goodsInfo',array('id'=>$vo[goods_id]))}" class="moda">
+                                <a href="<if condition='$vo.exchange_integral gt 0 and $vo.cat_id eq 8'>{:U('Shop/Exchange/details',array('goods_id'=>$vo[goods_id]))}<else />{:U('Shop/Goods/goodsInfo',array('id'=>$vo[goods_id]))}</if>" class="moda">
                                     <span>凡露希专营店<img src="/template/shop/rainbow/static/images/Back@2x.png"></span>
                                 </a>
                           <p class="weight">
