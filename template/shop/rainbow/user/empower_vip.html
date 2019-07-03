@@ -108,7 +108,7 @@
 			});
 
 			$('.inviteBtn').click(function(){
-				var level = 1;//$(".select-level").html();
+				var level = 2;//$(".select-level").html();
 				var uid1 = parseInt($("#uid1").val());
 				if(!uid1){
 					layer.open({content: '请输入邀请ID', time: 2000});
@@ -117,7 +117,7 @@
 
 				$.ajax({
 					type : "POST",
-					url:"/Shop/Apply/SendInvitation",
+					url:"/Shop/Apply/shouquan",
 					dataType:'json',
 					data : {'level':level, 'uid1':uid1},
 					success: function(data){

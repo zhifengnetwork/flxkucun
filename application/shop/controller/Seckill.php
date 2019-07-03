@@ -122,9 +122,12 @@ class Seckill extends MobileBase
             $list[$k]['reply_num'] = Db::name('reply')->where(['comment_id' => $v['comment_id'], 'parent_id' => 0])->count();
         }
         $this->assign('list', $list);    
+        $goods['goods_price'] = $price; 
+        $share_img = $this->goods_qrcode($goods,U('shop/seckill/details',['id'=>$goods_id]));
 
         $prominfo['rate'] = !$prominfo['order_num'] ? 100 : 100-intval(($prominfo['order_num']/$prominfo['goods_num'])*100);
         $this->assign('price', $price); 
+        $this->assign('share_img', $share_img); 
         //dump($goods);exit;
         $this->assign('recommend_goods', $recommend_goods);
         $this->assign('goods', $goods);

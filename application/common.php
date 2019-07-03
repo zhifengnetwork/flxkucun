@@ -1163,15 +1163,30 @@ function rechargevip_rebate($order)
  */
 function update_pay_status($order_sn, $ext = array())
 {
-    $orderinfo = M('Order')->field('order_id,seller_id,user_id,shipping_price,total_amount,applyid,apply_type,kucun_type')->where(['order_sn'=>$order_sn])->find();
+    $orderinfo = M('Order')->field('order_id,seller_id,user_id,shipping_price,prom_id,prom_type,total_amount,applyid,apply_type,kucun_type')->where(['order_sn'=>$order_sn])->find();
     if($orderinfo['seller_id'] && !$orderinfo['kucun_type']){
         //自己向自己取货 减库存
         $goods = M('order_goods')->field('goods_id')->where(['order_id'=>$orderinfo['order_id']])->select();
         foreach ($goods as $value){
             changekucun($value['goods_id'],$orderinfo['user_id'],-$value['goods_num']);
         }
-
     }
+
+    if($orderinfo['prom_type'] == 2){ //团购订单
+        $goodsinfo = M('order_goods')->field('goods_id,goods_num')->where(['order_id'=>$orderinfo['order_id']])->find();
+        //查找有此库存商品的上级
+        $GoodsLogic = new \app\common\logic\GoodsLogic();
+        $leader = $GoodsLogic->getLeaderShip($orderinfo['user_id'],$goodsinfo['goods_id']);
+        
+        if($leader){ //减库存，加余额
+            changekucun($goodsinfo['goods_id'],$leader,-$goodsinfo['goods_num']);
+            M('Users')->where(['user_id'=>$leader])->setInc('user_money',$orderinfo['total_amount'] - $orderinfo['shipping_price']);   
+
+            if(!M('account_log')->where(['user_id'=>$leader,'order_sn'=>$order_sn,'order_id'=>$orderinfo['order_id'],'states'=>80])->count())
+                M('account_log')->add(['user_id'=>$leader,'user_money'=>$orderinfo['total_amount'] - $orderinfo['shipping_price'],'change_time'=>time(),'desc'=>'下级团购','order_sn'=>$order_sn,'order_id'=>$orderinfo['order_id'],'states'=>80]);  
+        }
+    }
+
     $time = time();
     if($ext['attach'] === 'pay_shipping'){ //订单支付运费
         $orderinfo = $orderinfo ? $orderinfo : (M('Order')->field('order_id,seller_id,user_id,shipping_price,total_amount,applyid,apply_type')->where(['order_sn'=>$order_sn])->find());

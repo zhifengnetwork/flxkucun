@@ -82,6 +82,40 @@ class Apply extends MobileBase
 
 	}
 
+	//授权提交
+	public function shouquan(){
+		$level = I('post.level/d',0);
+		$uid1 = I('post.uid1/d',0);
+
+		if(!$this->user_id){
+			$this->ajaxReturn(['status'=>-1,'msg'=>'请先登录!','data'=>null]);
+		}
+		if(!$level || !$uid1){
+			$this->ajaxReturn(['status'=>-1,'msg'=>'参数错误!','data'=>null]);
+		}
+		$Users = M('users');
+		$info = $Users->field('level,mobile,first_leader,head_pic,openid')->where(['user_id'=>$uid1])->find();
+		//非下级且不是普通会员/VIP
+        if($info['first_leader'] != $this->user_id)$this->ajaxReturn(['status'=>-1,'msg'=>'抱歉，该用户上级不是您!','data'=>null]);  
+		if(!$info)$this->ajaxReturn(['status'=>-1,'msg'=>'未查询到该用户!','data'=>null]);
+		if($info['level'] >= $level)$this->ajaxReturn(['status'=>-1,'msg'=>'该下级用户的代理级别已不小于邀请级别!','data'=>null]);
+		$user_level = M('user_level')->field('level')->where(['level'=>$level])->find();
+		if(!$user_level)$this->ajaxReturn(['status'=>-1,'msg'=>'级别错误!','data'=>null]);
+
+		$leader_level = $Users->where(['user_id'=>$this->user_id])->value('level');
+		if($level > $leader_level){
+			$this->ajaxReturn(['status'=>-1,'msg'=>'您的级别不足以授权!','data'=>null]);
+		}
+		$res = M('Users')->where(['user_id'=>$uid1])->update(['level'=>$level]);
+
+		if($res){
+			$this->ajaxReturn(['status'=>0,'msg'=>'授权成功!','data'=>$msid]);
+		}else{
+			$this->ajaxReturn(['status'=>-1,'msg'=>'授权失败!','data'=>null]);
+		}
+
+	}	
+
     public function invitation_agent(){
 		$id = I('get.id/d',1);
 		$type = I('get.type/d',1);
