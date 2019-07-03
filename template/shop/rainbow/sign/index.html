@@ -49,7 +49,7 @@
 					</div>
 					<!--连续、累积签到-->
 					<p class="recordBox">
-						我的积分:&nbsp;<span>{$user.pay_points}</span><br /><br/>
+						我的积分:&nbsp;<span class="add_points">{$user.pay_points}</span><br /><br/>
 						累计签到:&nbsp;<span class="dayNum">0<!--天数--></span>天，
 						已连续签到:&nbsp;<span class="continuityNum">0</span>天
 					</p>
@@ -270,6 +270,8 @@
 								}
 								/*把签到数据，丢到本地渲染*/
 								signData.push(todayState);
+								//改变积分
+								$('.add_points').html(parseInt(_re.add_points)+parseInt($('.add_points').html()));
 								
 							},
 							error: function(error){ 

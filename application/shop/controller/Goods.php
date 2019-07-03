@@ -395,7 +395,7 @@ class Goods extends MobileBase
         $goods_img_url = substr($goods['original_img'],1,200);//商品图片
         if(!file_exists($goods_img_url)){
             return false;
-        }
+        } 
 
         $goods_image = \think\Image::open($goods_img_url);
         // 按照原图的比例生成一个最大为750*550的缩略图并保存
@@ -437,7 +437,11 @@ class Goods extends MobileBase
         if($user){
             $q = mb_substr($user['head_pic'],0,1,'UTF8');
             if($q== 'h'){
-                $head_pic = '';
+                if(file_exists('public/qrcode/user/user_head_'. $user_id.'.png')){
+                    $head_pic = 'public/qrcode/user/user_head_'. $user_id.'.png';
+                }else{
+                    $head_pic = '';
+                }
             }else{
                 $head_pic = mb_substr($user['head_pic'],1,200,'UTF8');
             }
