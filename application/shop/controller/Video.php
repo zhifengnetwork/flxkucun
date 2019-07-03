@@ -50,7 +50,6 @@ class Video extends MobileBase{
                 $goodsInfo['shop_price'] = $goodsInfo['shop_price']?$goodsInfo['shop_price']:$goodsInfo['market_price'];
             }
         }
-        
         if($res){
             $favor=true;
         }else{
