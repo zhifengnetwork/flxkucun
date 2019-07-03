@@ -2520,7 +2520,7 @@ function user_qrcode($url='',$user_id=0)
     $filename = "public/qrcode/user/user_id_erweima_".$user_id.'.jpg';
     $outfile=ROOT_PATH.$filename;
     $level = 'L';
-    $size =4.1;
+    $size =17;
     $QRcode = new \QRcode();
     ob_start();
     $res = $QRcode->png($data,$outfile,$level,$size,2);

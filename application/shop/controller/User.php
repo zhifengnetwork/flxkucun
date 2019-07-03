@@ -2375,7 +2375,7 @@ class User extends MobileBase
      */
     public function qr_code()
     {
-        define('IMGROOT_PATH', str_replace("\\","/",realpath(dirname(dirname(__FILE__)).'/../../')).'/'); //图片根目录（绝对路径）
+        // define('IMGROOT_PATH', str_replace("\\","/",realpath(dirname(dirname(__FILE__)).'/../../')).'/'); //图片根目录（绝对路径）
         $user = session('user');
         $user_id = $user['user_id'];
         $logic = new ShareLogic();
@@ -2391,18 +2391,18 @@ class User extends MobileBase
         }
         if(file_exists($head_pic)){
             $head_img = \think\Image::open($head_pic);
-            $head_img->thumb(65,65,\think\Image::THUMB_FILLED)->save('public/qrcode/user/user_head_'. $user_id.'_65_65.png');
-            $head_pic = 'public/qrcode/user/user_head_'. $user_id.'_65_65.png';
+            $head_img->thumb(350,350,\think\Image::THUMB_FILLED)->save('public/qrcode/user/user_head_'. $user_id.'_350_350.png');
+            $head_pic = 'public/qrcode/user/user_head_'. $user_id.'_350_350.png';
             //生成二维码
             $user_qrcode = user_qrcode($url,$user['user_id']);
-            $erweima = 'public/qrcode/user/erweima.jpg';
+            $erweima = 'public/qrcode/user/erweima.png';
             if(file_exists($erweima)){
                 $image = \think\Image::open($erweima);
                 //width297，height494
                 //融合昵称和用户二维码s
-                $image->text($nickname,'SourceHanSansCN-Normal.ttf',9,'#fa3c63',[130,70]);
-                $image->water($head_pic,[116,0]);
-                $image->water($user_qrcode,[80,133])->save('public/qrcode/user/user_qrcode_'.$user_id.'.jpg');
+                $image->text($nickname,'SourceHanSansCN-Normal.ttf',38,'#686060',[600,455]);
+                $image->water($head_pic,[450,70]);
+                $image->water($user_qrcode,[350,735])->save('public/qrcode/user/user_qrcode_'.$user_id.'.jpg');
 
                 $image = '/public/qrcode/user/user_qrcode_'.$user_id.'.jpg';
             }
