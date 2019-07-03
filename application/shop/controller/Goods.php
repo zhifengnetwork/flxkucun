@@ -84,8 +84,10 @@ class Goods extends MobileBase
             $replyList[$v['comment_id']] = M('Comment')->where(['is_show' => 1, 'goods_id' => $goods_id, 'parent_id' => $v['comment_id']])->order("add_time desc")->select();
             $list[$k]['reply_num'] = Db::name('reply')->where(['comment_id' => $v['comment_id'], 'parent_id' => 0])->count();
         }
+        //二维码扫码链接
+        $url = 'http://'.$_SERVER["HTTP_HOST"].U('shop/goods/details',['id'=>$goods_id]);
         $goods['goods_price'] = $price;
-        $share_img = $this->goods_qrcode($goods,U('shop/goods/details',['id'=>$goods_id]));
+        $share_img = $this->goods_qrcode($goods,$url);
 
         $this->assign('list', $list);    
         $this->assign('price', $price); 
@@ -380,7 +382,7 @@ class Goods extends MobileBase
     //分享图片
     public function goods_qrcode($goods,$url)
     {
-        $root = $_SERVER['DOCUMENT_ROOT'].'/';
+        // $root = $_SERVER['DOCUMENT_ROOT'].'/';
         //图片缩放
         $goods_price = '￥'.$goods['goods_price'];//现价
         $market_price = '￥'.$goods['market_price'];//市场价
