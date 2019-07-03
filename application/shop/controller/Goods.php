@@ -316,7 +316,8 @@ class Goods extends MobileBase
      * 商品详情页
      */
     public function goodsInfo()
-    {   $this->redirect('details', ['id' => I("get.id/d",0),'shareid'=>I('shareid/d',0)]); return;
+    {   
+        $this->redirect('details', ['id' => I("get.id/d",0),'shareid'=>I('shareid/d',0)]); return;
 
         $shareid = I('shareid');
         if(!empty($shareid) && !session('?user'))
@@ -346,7 +347,6 @@ class Goods extends MobileBase
             $collect = db('goods_collect')->where(array("goods_id" => $goods_id, "user_id" => $user_id))->count(); //当前用户收藏
             $this->assign('collect', $collect);
         }
-
         $recommend_goods = M('goods')->where("is_recommend=1 and is_on_sale=1 and cat_id = {$goods['cat_id']}")->cache(7200)->limit(9)->field("goods_id, goods_name, shop_price")->select();
 
         //等级价格
@@ -387,69 +387,73 @@ class Goods extends MobileBase
         $goods_id =  $goods['goods_id'];//商品id
         $goods_name = $goods['goods_name'];//商品名称
         $q_goods_name = mb_substr($goods_name,0,16,'UTF8');
-        $h_goods_name = mb_substr($goods_name,16,16,'UTF8');
+        $h_goods_name = mb_substr($goods_name,16,15,'UTF8');
         $goods_name_num = mb_strlen($goods_name,'UTF8');
-        if($goods_name_num > 32){
+        if($goods_name_num > 31){
             $h_goods_name .= '...';
         }
         $goods_img_url = substr($goods['original_img'],1,200);//商品图片
         if(!file_exists($goods_img_url)){
             return false;
         }
+
         $goods_image = \think\Image::open($goods_img_url);
         // 按照原图的比例生成一个最大为750*550的缩略图并保存
-        $goods_image->thumb(700,550,\think\Image::THUMB_FILLED)->save('public/qrcode/goods/goods_'. $goods_id.'_750_550.png');
+        $goods_image->thumb(562,420,\think\Image::THUMB_FILLED)->save('public/qrcode/goods/goods_'. $goods_id.'_750_550.png');
         $new_godos_img = 'public/qrcode/goods/goods_'. $goods_id.'_750_550.png';//新图片的名字
         //获取商品的二维码
         $goods_qrcode=goods_qrcode($url,$goods_id);
         //背景图片，width-750，height-1335
-        if(!file_exists('public/qrcode/goods/goods_qrcode.jpg')){
+        if(!file_exists('public/qrcode/goods/goods_qrcode.png')){
             return false;
         }
-        $image = \think\Image::open('public/qrcode/goods/goods_qrcode.jpg');
+        
+        $image = \think\Image::open('public/qrcode/goods/goods_qrcode.png');
 
-        $image->water($new_godos_img,[25,200]); //融合商品图
-        $image->water($goods_qrcode,[500,900]); //融合二维码
+        $image->water($new_godos_img,[19,170]); //融合商品图
+        $image->water($goods_qrcode,[350,700]); //融合二维码
         //判断价格字数来放位置
         $goods_price_num = mb_strlen($goods_price,'UTF8');
         $market_price_num = mb_strlen($market_price,'UTF8');
-        $wz = $goods_price_num*28+25;
+        $wz = $goods_price_num*22+25;
         if($market_price_num < 4){
             $market_price_msg = '——';
         }else if($market_price_num == 4){
             $market_price_msg = '———';
         }else if($market_price_num == 5){
             $market_price_msg = '————';
+        }else if($market_price_num == 6){
+            $market_price_msg = '—————';
         }else{
             $market_price_msg = '——————';
         }
         // 给原图添加文字水印并保存
-        $image->text($q_goods_name,'SourceHanSansCN-Normal.ttf',32,'#ffffff',[25,770]);
-        $image->text($h_goods_name,'SourceHanSansCN-Normal.ttf',32,'#ffffff',[25,820]);
-        $image->text($market_price,'SourceHanSansCN-Normal.ttf',20,'#ffffff',[$wz,915]);
-        $image->text($market_price_msg,'SourceHanSansCN-Normal.ttf',20,'#ffffff',[$wz,922]);
+        $image->text($q_goods_name,'SourceHanSansCN-Normal.ttf',24,'#585858',[40,620]);
+        $image->text($h_goods_name,'SourceHanSansCN-Normal.ttf',24,'#585858',[40,660]);
+        $image->text($market_price,'SourceHanSansCN-Normal.ttf',16,'#C7C7C7',[$wz,750]);
+        $image->text($market_price_msg,'SourceHanSansCN-Normal.ttf',16,'#C7C7C7',[$wz,756]);
         //融合用户头像和昵称-
         $user = session('user');
         if($user){
             $q = mb_substr($user['head_pic'],0,1,'UTF8');
             if($q== 'h'){
-                return false;
+                $head_pic = '';
             }else{
                 $head_pic = mb_substr($user['head_pic'],1,200,'UTF8');
             }
             if(file_exists($head_pic)){
                 //缩放用户头像
                 $user_logo = \think\Image::open($head_pic);
-                $user_logo->thumb(170,170,\think\Image::THUMB_FILLED)->save('public/qrcode/user/user_'. $user['user_id'].'_170_170.png');
-                $head_pic = 'public/qrcode/user/user_'. $user['user_id'].'_170_170.png';
+                $user_logo->thumb(120,120,\think\Image::THUMB_FILLED)->save('public/qrcode/user/user_'. $user['user_id'].'_120_120.png');
+                $head_pic = 'public/qrcode/user/user_'. $user['user_id'].'_120_120.png';
                 //融合昵称
                 $nickname = mb_substr($user['nickname'],0,6,'UTF8');
-                $image->water($head_pic,[25,950]); //融合用户头像
-                $image->text($nickname,'SourceHanSansCN-Normal.ttf',26,'#ffffff',[210,1010]);
+                $image->water($head_pic,[25,800]); //融合用户头像
+                $image->text($nickname,'SourceHanSansCN-Normal.ttf',18,'#474747',[150,850]);
             }
         }
         //保存图片
-        $image->text($goods_price,'SourceHanSansCN-Normal.ttf',32,'#ffffff',[25,900])->save('public/qrcode/goods/share_img_'.$goods['goods_id'].'.jpg');
+        $image->text($goods_price,'SourceHanSansCN-Normal.ttf',24,'#D798AF',[25,740])->save('public/qrcode/goods/share_img_'.$goods['goods_id'].'.jpg');
         $share_img = '/public/qrcode/goods/share_img_'.$goods['goods_id'].'.jpg';
         return $share_img;
     }
