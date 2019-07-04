@@ -86,17 +86,17 @@ class User extends Base{
     }
 
 
-    public function logout(){
-    	setcookie('uname','',time()-3600,'/');
-    	setcookie('cn','',time()-3600,'/');
-    	setcookie('user_id','',time()-3600,'/');
-        setcookie('PHPSESSID','',time()-3600,'/');
-        session_unset();
-        session_destroy();
-        //$this->success("退出成功",U('Home/Index/index'));
-        $this->redirect('Home/Index/index');
-        exit;
-    }
+    // public function logout(){
+    // 	setcookie('uname','',time()-3600,'/');
+    // 	setcookie('cn','',time()-3600,'/');
+    // 	setcookie('user_id','',time()-3600,'/');
+    //     setcookie('PHPSESSID','',time()-3600,'/');
+    //     session_unset();
+    //     session_destroy();
+    //     //$this->success("退出成功",U('Home/Index/index'));
+    //     $this->redirect('Home/Index/index');
+    //     exit;
+    // }
 
     /*
      * 账户资金
@@ -1336,5 +1336,21 @@ class User extends Base{
         $this->assign('bankCodeList', $bankCodeList);
         return $this->fetch();
     }
+
+    //退出
+    public function logout()
+    {
+        Session::set('user','');
+        session_unset();
+        session_destroy();
+        setcookie('uname', '', time() - 3600, '/');
+        setcookie('cn', '', time() - 3600, '/');
+        setcookie('user_id', '', time() - 3600, '/');
+        setcookie('PHPSESSID', '', time() - 3600, '/');
+        header("Location:" . U('shop/index/index'));
+        // $this->success("退出成功",U('shop/Index/index'));
+        exit;
+    }
+
 
 }

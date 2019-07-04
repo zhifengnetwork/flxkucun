@@ -21,6 +21,7 @@ use think\Image;
 use think\Loader;
 use think\Page;
 use think\Verify;
+use think\session;
 
 class User extends MobileBase
 {
@@ -72,7 +73,6 @@ class User extends MobileBase
 
     public function index()
     {
-
         $map['user_id'] = $this->user_id;
 
         $this->user['visit_count'] = M('goods_visit')->where($map)->count();
@@ -745,16 +745,17 @@ class User extends MobileBase
 
     public function logout()
     {
+        header("Location:" . U('Home/User/logout'));
+        exit();
+        Session::set('user','');
         session_unset();
         session_destroy();
         setcookie('uname', '', time() - 3600, '/');
-        setcookie('user', '', time() - 3600, '/');
         setcookie('cn', '', time() - 3600, '/');
         setcookie('user_id', '', time() - 3600, '/');
         setcookie('PHPSESSID', '', time() - 3600, '/');
         //$this->success("退出成功",U('Mobile/Index/index'));
-        header("Location:" . U('Shop/Index/index'));
-        exit();
+        exit;
     }
 
     /*
