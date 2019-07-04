@@ -38,7 +38,7 @@ class Team extends Controller{
     public function change_group_buy_is_end(){
         //取结束时间大于等于当前时间且未结束的团购
         $GroupBuy = M('group_buy');
-        $list = $GroupBuy->field('id,buy_num,min_mduser_num')->where(['end_time'=>['egt',time()],'is_end'=>0])->select();
+        $list = $GroupBuy->field('id,buy_num,min_mduser_num')->where(['end_time'=>['elt',time()],'is_end'=>0])->select();
 
         $list1 = $GroupBuy->field('goods_id')->where(['end_time'=>['elt',time()],'is_end'=>0])->select();
         $GroupBuy->where(['end_time'=>['elt',time()],'is_end'=>0])->update(['is_end'=>1]);
