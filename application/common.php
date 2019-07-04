@@ -2556,9 +2556,6 @@ function goods_qrcode($url='',$goods_id='0')
     vendor("phpqrcode.phpqrcode");
     $data =$url;
     $filename = "public/qrcode/goods/goodsID_".$goods_id.'.jpg';
-    if(file_exists($filename)){
-        return $filename;
-    }
     $outfile=ROOT_PATH.$filename;
     $level = 'L';
     $size =6;
