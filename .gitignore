@@ -7,6 +7,7 @@
 .idea
 /public/upload/goods/thumb/
 /public/upload/*
+/public/qrcode/*
 /public/uploads/*
 cron.txt
 cron_team.sh
