@@ -2391,7 +2391,11 @@ class User extends MobileBase
                 //图片放大
             }
             $head_pic = 'public/qrcode/user/user_head_'. $user_id.'.jpg';
-            $this->resizeImage('public/qrcode/user/user_head_'. $user_id.'.jpg',350,350,'public/qrcode/user/user_head_'. $user_id.'.jpg');
+            try {
+                $this->resizeImage('public/qrcode/user/user_head_'. $user_id.'.jpg',350,350,'public/qrcode/user/user_head_'. $user_id.'.jpg');
+            } catch (EmptyIterator $e) {
+                //不操作继续执行
+            }
         }else{
             $head_pic = substr($user['head_pic'],1,200);
         }
