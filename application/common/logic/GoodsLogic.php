@@ -1093,11 +1093,11 @@ class GoodsLogic extends Model
                 $user_logo = \think\Image::open($head_pic);
                 $user_logo->thumb(120,120,\think\Image::THUMB_FILLED)->save('public/qrcode/user/user_'. $user['user_id'].'_120_120.png');
                 $head_pic = 'public/qrcode/user/user_'. $user['user_id'].'_120_120.png';
-                //融合昵称
-                $nickname = mb_substr($user['nickname'],0,6,'UTF8');
-                $image->water($head_pic,[25,800]); //融合用户头像
-                $image->text($nickname,'SourceHanSansCN-Normal.ttf',18,'#474747',[150,850]);
             }
+            //融合昵称
+            $nickname = mb_substr($user['nickname'],0,6,'UTF8');
+            $image->water($head_pic,[25,800]); //融合用户头像
+            $image->text($nickname,'SourceHanSansCN-Normal.ttf',18,'#474747',[150,850]);
         }
         //保存图片
         $image->text($goods_price,'SourceHanSansCN-Normal.ttf',24,'#D798AF',[25,740])->save('public/qrcode/goods/share_img_'.$goods['goods_id'].'.jpg');
