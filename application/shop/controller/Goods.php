@@ -85,7 +85,7 @@ class Goods extends MobileBase
             $list[$k]['reply_num'] = Db::name('reply')->where(['comment_id' => $v['comment_id'], 'parent_id' => 0])->count();
         }
         //二维码扫码链接
-        $url = 'http://'.$_SERVER["HTTP_HOST"].U('shop/goods/details',['id'=>$goods_id,'user_id'=>$user_id]);
+        $url = U('shop/goods/details',['id'=>$goods_id,'user_id'=>$user_id]);
         $goods['goods_price'] = $price;
         $GoodsLogic = new GoodsLogic();
         $share_img = $GoodsLogic->goods_qrcode($goods,$url);
