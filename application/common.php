@@ -2559,7 +2559,12 @@ function goods_qrcode($url='',$goods_id='0')
     $filename = "public/qrcode/goods/goodsID_".$goods_id.'_'.$user_id.rand(1,9999).'.jpg';
     $outfile=ROOT_PATH.$filename;
     $level = 'L';
-    $size =6;
+    $tmp = explode('/',$url);
+    if(count($tmp) > 10){
+        $size =5.4;
+    }else{
+        $size =6;
+    }
     $QRcode = new \QRcode();
     ob_start();
     $res = $QRcode->png($data,$outfile,$level,$size,2);
