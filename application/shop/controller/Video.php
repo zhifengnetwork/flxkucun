@@ -120,7 +120,7 @@ class Video extends MobileBase{
                    $video_img=$videoImg[0].".jpg";
                }
             };
-
+ 
             $data = [
                 'user_id' => $user_id,
                 'title' => $title,
@@ -144,6 +144,53 @@ class Video extends MobileBase{
         return $this->fetch();
     }
 
+    //添加视频
+    public function add_video()
+    {
+        if(request()->isPost()){
+            $user_id = session('user.user_id');
+            $nickname = Db::table('tp_users')->where('user_id',$user_id)->value('nickname');
+            $title = input('title');
+            $content = input('content');
+            $category = input('category');
+            $video_url = input('video_url');
+            $video_img = input('video_img');
+            $time = time();
+            if(!empty($user_id)){
+                if(empty($video_url)){
+                    $this->error('请选择您要上传的视频');
+                };
+                if(empty($title)){
+                    $this->error('视频标题不能为空');
+                };
+                if(empty($content)){
+                    $this->error('请输入您想说的话');
+                };
+            };
+            $data = [
+                'user_id' => $user_id,
+                'title' => $title,
+                'content' => $content,
+                'video_url' => $video_url,
+                'video_img' => $video_img,
+                'update_time' => $time,
+                'category' =>$category,
+                'nickname' =>$nickname
+            ];
+            $id = input('post.id');
+            if($id){
+                $result = Db::name('video')->where('id',$id)->update($data);
+            }else{
+                $result = Db::name('video')->insert($data);
+            }
+            if($result){
+                $this->success('提交成功',url("/shop/video/video_list"));
+            }else{
+                $this->error('提交失败，请重试');
+            }
+        }
+    }
+
     //上传公共方法
     public function upload(){
         $uploadDir = './public/uploads/video/';
@@ -156,6 +203,37 @@ class Video extends MobileBase{
             $this->error($file->getError());
         }
         return ltrim($uploadDir.$path,'.');
+    }
+
+    //ajax上传视频
+    public function ajaxUpload()
+    {
+        $uploadDir = './public/uploads/video/';
+        $path = '';
+        $file = request()->file('video');
+        $info = $file->validate(['size' =>1024*1024*10,'ext'=>'avi,mp4,flw,mov'])->move($uploadDir);
+        if($info){
+            $path = str_replace("\\","/",$info->getSaveName());
+        }else{
+            $result['msg'] = $file->getError();
+            $result['status'] = 2;
+            return json($result);
+        }
+        
+        //获取封面图
+        $video_img='';
+        $this->setVideoImg($video);
+        if($video){     
+            $video = $video;
+            $videoImg=explode('.',$video);
+            if(!empty($videoImg)){
+                $video_img=$videoImg[0].".jpg";
+            }
+        };
+        $result['video_url'] = ltrim($uploadDir.$path,'.');
+        $result['video_img'] = $video_img;
+        $result['status'] = 1;
+        return json($result);
     }
 
     // 跳转到视频列表

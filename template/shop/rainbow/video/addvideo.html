@@ -25,7 +25,9 @@
 	</style>
 	<body>
 		<div class="wrapper">
-			<form method="post" action="./addvideo" enctype='multipart/form-data'>
+			<form method="post" action="{:U('add_video')}" enctype='multipart/form-data'>
+				<input type="hidden" name="video_url" value="" class="video_url">
+				<input type="hidden" name="video_img" value="" class="video_img">
 	        <!-- 公共头部 -->
 			<div class="header">
 				<span class="backBtn" onclick="returnFun()"></span>
@@ -38,7 +40,7 @@
 	        	<div class="push_wrap">
 	        		<!--上传视频存放区-->
 	        		<div class="storage">
-	        			<video class="vid"></video>
+	        			<video class="vid video" src=""></video>
 	        		</div>
 	        		<!--上传点击区-->
 	        		<div class="up_btn">
@@ -48,7 +50,7 @@
 		        			</div>
 		        			<p>添加您要上传的视频</p>
 		        		</div>
-		        		<input class="put" name="video" type="file" placeholder ="添加您要上传的视频" accept="video/*" />
+		        		<!-- <input class="put" name="video" type="file" placeholder ="添加您要上传的视频" accept="video/*" /> -->
 	        		</div>
 	        	
 	        		<!--上传中状态显示，没有上传默认隐藏-->
@@ -73,11 +75,12 @@
 		        	</div>
 		        	
 	        	</div>
-	        	
 	        	<!--文字说明-->
 				<div class="state">上传视频大小不能超过10M</div>
 				<!-- 上传按钮 -->
-				<input type="button" value="上传图片" class="s_but">
+				<div class="state">
+					<div class="s_but"><label for="video_file">上传视频</label></div>
+				</div>
         		<!--标题输入框-->
         		<div class="inp">
         			<input type="text" name="title" placeholder="输入标题" />
@@ -91,11 +94,16 @@
         			<input type="submit" class="ack_btn">
         		</div>
 	        </div>
-	        </form>
+			</form>
+			<form action="{:url('ajaxUpload')}" enctype='multipart/form-data' id="ajaxform" method="post">
+				<input type="file" name="video" accept="video/*" style="display: none;" id="video_file" onchange="up_video()">
+			</form>
 		</div>
 		
 		<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
 		<script src="__STATIC__/js/public/public.js"></script>
+		<script src="__PUBLIC__/js/layer/layer.js"></script>
+		<script src="__PUBLIC__/js/jquery.form.js"></script>
 		<script>
 			$(function (){
 				$('.ack_btn').click(function (){
@@ -103,6 +111,22 @@
 					// $('.ack_btn').addClass('ack_btn_on');
 				})
 			})
+			//视频上传
+			function up_video(){
+				layer.load(2);
+				$("#ajaxform").ajaxSubmit(function (data) {
+					layer.closeAll('loading');
+					if(data.status == 1){
+						$('.video_img').val(data.video_img);
+						$('.video_url').val(data.video_url);
+						$('.video').attr('src',data.video_url);
+						$('.video').attr('controls','controls');
+						$('.up_btn').remove();
+					}else{
+						layer.msg(data.msg, {icon: 2,time: 1000});
+					}
+				});
+			}
 			
 		</script>
 	</body>
