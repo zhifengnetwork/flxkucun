@@ -89,8 +89,9 @@ class Goods extends MobileBase
         $goods['goods_price'] = $price;
         $GoodsLogic = new GoodsLogic();
         $share_img = $GoodsLogic->goods_qrcode($goods,$url);
-        $get_user_id = input('user_id');
-        $this->binding_leader($get_user_id);
+        //$get_user_id = input('user_id');
+        if($user_id && I('user_id'))share_deal_after($user_id,I('user_id'));
+        //$this->binding_leader($get_user_id);
 
         $this->assign('list', $list);    
         $this->assign('price', $price); 
