@@ -2386,19 +2386,19 @@ class User extends MobileBase
         //缩放用户头像
         $q = substr($user['head_pic'],0,1);
         if($q == 'h'){
-            if(!file_exists('public/qrcode/user/user_head_'. $user_id.'.png')){
-                copy($user['head_pic'],'public/qrcode/user/user_head_'. $user_id.'.png');
+            if(!file_exists('public/qrcode/user/user_head_'. $user_id.'.jpg')){
+                copy($user['head_pic'],'public/qrcode/user/user_head_'. $user_id.'.jpg');
                 //图片放大
             }
-            $head_pic = 'public/qrcode/user/user_head_'. $user_id.'.png';
-            $this->resizeImage('public/qrcode/user/user_head_'. $user_id.'.png',350,350,'public/qrcode/user/user_head_'. $user_id.'.png');
+            $head_pic = 'public/qrcode/user/user_head_'. $user_id.'.jpg';
+            $this->resizeImage('public/qrcode/user/user_head_'. $user_id.'.jpg',350,350,'public/qrcode/user/user_head_'. $user_id.'.jpg');
         }else{
             $head_pic = substr($user['head_pic'],1,200);
         }
         if(file_exists($head_pic)){
             $head_img = \think\Image::open($head_pic);
-            $head_img->thumb(350,350,\think\Image::THUMB_FILLED)->save('public/qrcode/user/user_head_'. $user_id.'_350_350.png');
-            $head_pic = 'public/qrcode/user/user_head_'. $user_id.'_350_350.png';
+            $head_img->thumb(350,350,\think\Image::THUMB_FILLED)->save('public/qrcode/user/user_head_'. $user_id.'_350_350.jpg');
+            $head_pic = 'public/qrcode/user/user_head_'. $user_id.'_350_350.jpg';
             //生成二维码
             $user_qrcode = user_qrcode($url,$user['user_id']);
             $erweima = 'public/qrcode/user/erweima.png';
@@ -2435,7 +2435,7 @@ class User extends MobileBase
                 $img = imagecreatefrompng($srcImage);
                 break;
             default:
-                $img = imagecreatefrompng($srcImage);
+                $img = imagecreatefromjpg($srcImage);
                 break;
         }
         $canvas = imagecreatetruecolor($maxwidth,$maxheight); // 创建一个真彩色图像 我把它理解为创建了一个画布

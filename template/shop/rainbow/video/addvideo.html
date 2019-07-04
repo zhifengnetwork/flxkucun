@@ -9,6 +9,20 @@
 		<link rel="stylesheet" href="__STATIC__/css/public/base.css">
 		<link rel="stylesheet" type="text/css" href="__STATIC__/css/video/addvideo.css" />
 	</head>
+	<style>
+		.s_but{
+			margin: .2rem;
+			width: 2.3rem;
+			height: 0.7rem;
+			text-align: center;
+			line-height: .7rem;
+			letter-spacing: 3px;
+			color: #fff;
+			font-size: .3rem;
+			background: #e93380;
+			border-radius: 45px;
+		}
+	</style>
 	<body>
 		<div class="wrapper">
 			<form method="post" action="./addvideo" enctype='multipart/form-data'>
@@ -61,7 +75,9 @@
 	        	</div>
 	        	
 	        	<!--文字说明-->
-        		<div class="state">上传视频大小不能超过10M</div>
+				<div class="state">上传视频大小不能超过10M</div>
+				<!-- 上传按钮 -->
+				<input type="button" value="上传图片" class="s_but">
         		<!--标题输入框-->
         		<div class="inp">
         			<input type="text" name="title" placeholder="输入标题" />
