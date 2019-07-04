@@ -156,7 +156,7 @@ class Cart extends MobileBase {
         $this->assign('userCartCouponList', $userCartCouponList);  //优惠券，用able判断是否可用
         $this->assign('userCouponNum', $userCouponNum);  //优惠券数量
         $this->assign('cartGoodsTotalNum', $cartGoodsTotalNum);
-        $this->assign('source_uid', I('post.source_uid/d',0));
+        $this->assign('source_uid', I('source_uid/d',0));
         $this->assign('cartList', $cartList['cartList']); // 购物车的商品
         $this->assign('cartPriceInfo', $cartPriceInfo);//商品优惠总价
         return $this->fetch();

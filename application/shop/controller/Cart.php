@@ -240,6 +240,7 @@ class Cart extends MobileBase {
         $this->assign('cartList', $cartList['cartList']); // 购物车的商品
         $this->assign('cartPriceInfo', $cartPriceInfo);//商品优惠总价
         $this->assign('pei_parent', $cartList['cartList'][0]['cart_seller_id']);//取货上级
+        $this->assign('source_uid', I('post.source_uid/d',0));
         //echo 1;exit;
         if($action=='kucun_buy'){
              return $this->fetch('kucuncart');
@@ -283,6 +284,7 @@ class Cart extends MobileBase {
         $kuaidi_type = input('kuaidi_type/d',0);
         $goods_prom_type = input('goods_prom_type/d',0);
         $prom_id = input('prom_id/d',0);
+        $source_uid = input('source_uid/d',0);
        // echo $seller_id;exit;
         $cart_validate = Loader::validate('Cart');
         if($action_type=='kucun_buy')
@@ -329,7 +331,7 @@ class Cart extends MobileBase {
             if ($_REQUEST['act'] == 'submit_order') {
                 $prominfo = M('goods')->field('prom_type,prom_id')->find($goods_id);
                 $placeOrder = new PlaceOrder($pay);
-                $placeOrder->setUserAddress($address)->setUserNote($user_note)->setPayPsw($pay_pwd)->addNormalOrder($prominfo['prom_type'],$prominfo['prom_id']);
+                $placeOrder->setUserAddress($address)->setUserNote($user_note)->setPayPsw($pay_pwd)->setSourceUid($source_uid)->addNormalOrder($prominfo['prom_type'],$prominfo['prom_id']);
                 $cartLogic->clear();
                 $order = $placeOrder->getOrder();
                 $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn']]);
