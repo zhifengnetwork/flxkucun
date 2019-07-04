@@ -118,21 +118,21 @@
                             <th>两件不可提现金额</th>
                         </tr>
                         <volist name='userlevel' id='v'>
-                        <tr>
-                            <td style='width:120px;text-align:center;'>{$v.level_name}</td>
+                        <tr style='margin-top:10px;height:40px;'>
+                            <td style='width:160px;text-align:center;'>{$v.level_name}</td>
                             <td>￥<input type="text" name="num1_{$v.level}" id="num1_{$v.level}"  style='width:60px;margin-right:20px;' value={$v.commission.one_commission}></td>
                             <td>￥<input type="text" name="price1_{$v.level}" id="price1_{$v.level}" style='width:60px;margin-right:20px;' value={$v.commission.not_money1}></td>
                             <td>￥<input type="text" name="num2_{$v.level}" id="num2_{$v.level}" style='width:60px;margin-right:20px;' value={$v.commission.tow_commission}></td>
                             <td>￥<input type="text" name="price2_{$v.level}" id="price2_{$v.level}" style='width:60px;margin-right:20px;' value={$v.commission.not_money2}></td>
                         </tr>
-                        <if condition="$i eq count($userlevel)">
-                        <tr>
-                            <td style='width:120px;text-align:center;'>{$v.level_name}（第二级）</td>
+                        <if condition="$i egt count($userlevel)-1">
+                        <tr style='margin-top:10px;height:40px;'>
+                            <td style='width:160px;text-align:center;'>{$v.level_name}（第二级）</td>
                             <td>￥<input type="text" name="numm1_{$v.level}" id="numm1_{$v.level}"  style='width:60px;margin-right:20px;' value={:get_level_commission($info['id'],0-$v['level'],'one_commission')}></td>
                             <td>￥<input type="text" name="pricem1_{$v.level}" id="pricem1_{$v.level}" style='width:60px;margin-right:20px;' value={:get_level_commission($info['id'],0-$v['level'],'not_money1')}></td>
                             <td>￥<input type="text" name="numm2_{$v.level}" id="numm2_{$v.level}" style='width:60px;margin-right:20px;' value={:get_level_commission($info['id'],0-$v['level'],'tow_commission')}></td>
                             <td>￥<input type="text" name="pricem2_{$v.level}" id="pricem2_{$v.level}" style='width:60px;margin-right:20px;' value={:get_level_commission($info['id'],0-$v['level'],'not_money2')}></td>
-                        </tr>                            
+                        </tr>                           
                         </if>
                     </volist>
                     </table>    

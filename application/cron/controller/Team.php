@@ -18,9 +18,10 @@ class Team extends Controller{
      */
     public function run()
     {
-        $this->$this->change_group_buy_is_end();  
+        $this->change_group_buy_is_end();  
         $this->change_group_buy_is_end(); 
-        $this->change_flash_sale_is_end();        
+        $this->change_flash_sale_is_end();  
+        M('A')->add(['msg'=>date('Y-m-d H:i:s',time())]);      
     }
 
     public function change_flash_sale_is_end(){

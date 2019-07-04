@@ -82,7 +82,11 @@
 							<span class="original-price">￥{$v.market_price}</span>
 						</div>
 					</div>
-					<a <if condition="$v.start eq 1">href="{:U(\'shop/seckill/details',['id'=>$v['id'],'goods_id'=>$v['goods_id']])}"<else />href="javascript:;" style="background:#808080;"</if> class="buyBtn">马上抢购</a>
+					<if condition="$v.start eq 1">
+						<a href="{:U(\'shop/seckill/details',['id'=>$v['id'],'goods_id'=>$v['goods_id']])}" class="buyBtn">马上抢购</a>
+					<else />
+						<a href="javascript:;" class="buyBtn" style="background:#808080;">即将开始</a>
+					</if>
 				</div>
 				</volist>
 			</div>
