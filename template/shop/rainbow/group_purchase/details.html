@@ -246,7 +246,14 @@
             </div>
             <div class="price">原价:<span>￥</span>{$goods.market_price}</div>
             <div class="btn" onclick="skuShow()">立即拼团</div>
-		</div>
+        </div>
+        
+        <!-- 分享 -->
+        <div class="mask1">
+            <div class="share-popup" style="background:url({$share_img});background-size:100%;">
+
+            </div>
+        </div>
 
     </div>
     <script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
@@ -279,6 +286,28 @@
         $('.confirmBtn').click(function(){
             $("#buy_now").submit();
         });
+
+        /**
+         * 分享
+         */
+         $(".header .right-icon").click(function(){
+            $('.mask1').show();
+            $('.share-popup').show();
+         })
+
+         $(".mask1").click(function(){
+            $('.mask1').hide();
+            $('.share-popup').hide();
+         })
+        //  取消冒泡
+         $(".share-popup").click(function(event){
+            var e = window.event || event;
+            if(e.stopPropagation){
+                e.stopPropagation();
+            }else{
+                e.cancelBubble = true;
+            }
+        });   
 
         // 视频播放
         $('.swiper-slide').click(function(){

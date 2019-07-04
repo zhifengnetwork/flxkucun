@@ -6,6 +6,7 @@
 namespace app\shop\controller;
 
 use think\Db;
+use app\common\logic\GoodsLogic;
 use app\common\model\WxNews;
 
 class Exchange extends MobileBase
@@ -82,7 +83,12 @@ class Exchange extends MobileBase
             $list[$k]['reply_num'] = Db::name('reply')->where(['comment_id' => $v['comment_id'], 'parent_id' => 0])->count();
         }
         $this->assign('list', $list);    
+        $goods['goods_price'] = $price; 
+        $GoodsLogic = new GoodsLogic();
+        $share_img = $GoodsLogic->goods_qrcode($goods,U('shop/Exchange/details',['id'=>$goods_id])); 
+
         $this->assign('price', $price); 
+        $this->assign('share_img', $share_img); 
         //dump($goods);exit;
         $this->assign('recommend_goods', $recommend_goods);
         $this->assign('goods', $goods);

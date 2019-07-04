@@ -6,6 +6,7 @@
 namespace app\shop\controller;
 
 use think\Db;
+use app\common\logic\GoodsLogic;
 use app\common\model\WxNews;
 
 class GroupPurchase extends MobileBase
@@ -89,10 +90,14 @@ class GroupPurchase extends MobileBase
             $replyList[$v['comment_id']] = M('Comment')->where(['is_show' => 1, 'goods_id' => $goods_id, 'parent_id' => $v['comment_id']])->order("add_time desc")->select();
             $list[$k]['reply_num'] = Db::name('reply')->where(['comment_id' => $v['comment_id'], 'parent_id' => 0])->count();
         }
-        $this->assign('list', $list);    
+        $this->assign('list', $list);   
+        $goods['goods_price'] = $price; 
+        $GoodsLogic = new GoodsLogic();
+        $share_img = $GoodsLogic->goods_qrcode($goods,U('shop/GroupPurchase/details',['id'=>$goods_id,'shareid'=>($user['user_id'] ? $user['user_id'] : 0)])); 
 
         $prominfo['rate'] = !$prominfo['order_num'] ? 100 : 100-intval(($prominfo['order_num']/$prominfo['goods_num'])*100);
         $this->assign('price', $price); 
+        $this->assign('share_img', $share_img); 
         //dump($goods);exit;
         $this->assign('recommend_goods', $recommend_goods);
         $this->assign('goods', $goods);

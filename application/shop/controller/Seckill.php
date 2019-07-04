@@ -6,6 +6,7 @@
 namespace app\shop\controller;
 
 use think\Db;
+use app\common\logic\GoodsLogic;
 use app\common\model\WxNews;
  
 class Seckill extends MobileBase
@@ -123,7 +124,8 @@ class Seckill extends MobileBase
         }
         $this->assign('list', $list);    
         $goods['goods_price'] = $price; 
-        $share_img = $this->goods_qrcode($goods,U('shop/seckill/details',['id'=>$goods_id]));
+        $GoodsLogic = new GoodsLogic();
+        $share_img = $GoodsLogic->goods_qrcode($goods,U('shop/seckill/details',['id'=>$goods_id]));
 
         $prominfo['rate'] = !$prominfo['order_num'] ? 100 : 100-intval(($prominfo['order_num']/$prominfo['goods_num'])*100);
         $this->assign('price', $price); 
