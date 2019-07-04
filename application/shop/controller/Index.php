@@ -74,7 +74,7 @@ class Index extends MobileBase {
         $p = I('get.p/d',1);
         $num = 6;
         //获取热销新品前6
-        $goodslist = M('Goods')->field('goods_id,goods_name,market_price,goods_remark,original_img,virtual_sales_sum,sales_sum')->where(['is_on_sale'=>1,'is_new'=>1,'is_hot'=>1,'prom_type'=>0])->order('sort asc')->limit(($p-1)*$num . ',' . $num)->select();
+        $goodslist = M('Goods')->field('goods_id,goods_name,market_price,goods_remark,original_img,virtual_sales_sum,sales_sum')->where(['is_on_sale'=>1,'is_new'=>1,'is_hot'=>1])->order('sort asc')->limit(($p-1)*$num . ',' . $num)->select();
 
         $GoodsLevelPrice = M('goods_level_price');
         foreach($goodslist as $k=>$v){
