@@ -2561,7 +2561,7 @@ function goods_qrcode($url='',$goods_id='0')
     $level = 'L';
     $tmp = explode('/',$url);
     if(count($tmp) > 10){
-        $size =5;
+        $size =4.8;
     }else{
         $size =5.4;
     }
