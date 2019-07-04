@@ -107,7 +107,7 @@ class Goods extends MobileBase
     {
         if($user_id){
             $first_leader = Db::name('users')->where('user_id',$user_id)->value('first_leader');
-            if($first_leader === 0){
+            if($first_leader == 0){
                 Db::name('users')->where('user_id',$user_id)->update(['first_leader'=>$user_id]);
             }
         }else{
