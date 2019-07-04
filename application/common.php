@@ -2560,11 +2560,12 @@ function goods_qrcode($url='',$goods_id='0')
     $outfile=ROOT_PATH.$filename;
     $level = 'L';
     $tmp = explode('/',$url);
-    if(count($tmp) > 10){
-        $size =5.4;
-    }else{
-        $size =6;
-    }
+    // if(count($tmp) > 10){
+    //     $size =5.4;
+    // }else{
+    //     $size =6;
+    // }
+    $size =5;
     $QRcode = new \QRcode();
     ob_start();
     $res = $QRcode->png($data,$outfile,$level,$size,2);
