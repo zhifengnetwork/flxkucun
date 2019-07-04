@@ -86,7 +86,6 @@ class Goods extends MobileBase
         }
         //二维码扫码链接
         $url = U('shop/goods/details',['id'=>$goods_id,'user_id'=>$user_id]);
-        dump($url);exit;
         $goods['goods_price'] = $price;
         $GoodsLogic = new GoodsLogic();
         $share_img = $GoodsLogic->goods_qrcode($goods,$url);
