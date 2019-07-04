@@ -85,7 +85,7 @@ class Exchange extends MobileBase
         $this->assign('list', $list);    
         $goods['goods_price'] = $price; 
         $GoodsLogic = new GoodsLogic();
-        $share_img = $GoodsLogic->goods_qrcode($goods,U('shop/Exchange/details',['id'=>$goods_id])); 
+        $share_img = $GoodsLogic->goods_qrcode($goods,U('shop/Exchange/details',['goods_id'=>$goods_id])); 
 
         $this->assign('price', $price); 
         $this->assign('share_img', $share_img); 

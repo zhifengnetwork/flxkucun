@@ -93,7 +93,7 @@ class GroupPurchase extends MobileBase
         $this->assign('list', $list);   
         $goods['goods_price'] = $price; 
         $GoodsLogic = new GoodsLogic();
-        $share_img = $GoodsLogic->goods_qrcode($goods,U('shop/GroupPurchase/details',['goods_id'=>$goods_id,'shareid'=>($user['user_id'] ? $user['user_id'] : 0),'source_uid'=>($user['user_id'] ? $user['user_id'] : 0)])); 
+        $share_img = $GoodsLogic->goods_qrcode($goods,U('shop/GroupPurchase/details',['id'=>$id,'goods_id'=>$goods_id,'shareid'=>($user['user_id'] ? $user['user_id'] : 0),'source_uid'=>($user['user_id'] ? $user['user_id'] : 0)])); 
 
         $prominfo['rate'] = !$prominfo['order_num'] ? 100 : 100-intval(($prominfo['order_num']/$prominfo['goods_num'])*100);
         $this->assign('price', $price); 
