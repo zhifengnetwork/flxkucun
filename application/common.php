@@ -2553,15 +2553,18 @@ function user_qrcode($url='',$user_id=0)
 // 生成商品二维码
 function goods_qrcode($url='',$goods_id='0')
 {
+    $user_id = $_SESSION['think']['user']['user_id'];
     vendor("phpqrcode.phpqrcode");
     $data =$url;
-    $filename = "public/qrcode/goods/goodsID_".$goods_id.'.jpg';
-    if(file_exists($filename)){
-        return $filename;
-    }
+    $filename = "public/qrcode/goods/goodsID_".$goods_id.'_'.$user_id.rand(1,9999).'.jpg';
     $outfile=ROOT_PATH.$filename;
     $level = 'L';
-    $size =6;
+    $tmp = explode('/',$url);
+    if(count($tmp) > 10){
+        $size =4.8;
+    }else{
+        $size =5.4;
+    }
     $QRcode = new \QRcode();
     ob_start();
     $res = $QRcode->png($data,$outfile,$level,$size,2);

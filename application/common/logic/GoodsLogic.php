@@ -1043,7 +1043,7 @@ class GoodsLogic extends Model
         if(!file_exists($goods_img_url)){
             return false;
         }
-
+        $url = 'http://'.$_SERVER["HTTP_HOST"].$url;
         $goods_image = \think\Image::open($goods_img_url);
         // 按照原图的比例生成一个最大为750*550的缩略图并保存
         $goods_image->thumb(562,420,\think\Image::THUMB_FILLED)->save('public/qrcode/goods/goods_'. $goods_id.'_750_550.png');
