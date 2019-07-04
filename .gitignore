@@ -6,7 +6,6 @@
 .project
 .idea
 /public/upload/goods/thumb/
-/public/qrcode/*
 /public/upload/*
 /public/uploads/*
 cron.txt
