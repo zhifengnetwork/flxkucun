@@ -2389,9 +2389,9 @@ class User extends MobileBase
             if(!file_exists('public/qrcode/user/user_head_'. $user_id.'.png')){
                 copy($user['head_pic'],'public/qrcode/user/user_head_'. $user_id.'.png');
                 //图片放大
-                $this->resizeImage('public/qrcode/user/user_head_'. $user_id.'.png',350,350,'public/qrcode/user/user_head_'. $user_id.'.png');
             }
             $head_pic = 'public/qrcode/user/user_head_'. $user_id.'.png';
+            $this->resizeImage('public/qrcode/user/user_head_'. $user_id.'.png',350,350,'public/qrcode/user/user_head_'. $user_id.'.png');
         }else{
             $head_pic = substr($user['head_pic'],1,200);
         }
