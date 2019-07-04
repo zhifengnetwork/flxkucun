@@ -19,7 +19,8 @@ class Team extends Controller{
     public function run()
     {
         $this->$this->change_group_buy_is_end();  
-        $this->change_group_buy_is_end();         
+        $this->change_group_buy_is_end(); 
+        $this->change_flash_sale_is_end();        
     }
 
     public function change_flash_sale_is_end(){
