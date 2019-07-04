@@ -86,6 +86,7 @@ class Goods extends MobileBase
         }
         //二维码扫码链接
         $url = U('shop/goods/details',['id'=>$goods_id,'user_id'=>$user_id]);
+        dump($url);exit;
         $goods['goods_price'] = $price;
         $GoodsLogic = new GoodsLogic();
         $share_img = $GoodsLogic->goods_qrcode($goods,$url);
@@ -384,7 +385,7 @@ class Goods extends MobileBase
         }
         $goods['goods_price'] = $price;
         //二维码扫码链接
-        $url = 'http://'.$_SERVER["HTTP_HOST"].U("shop/goods/goodsInfo",'id='.$goods['goods_id']);
+        $url = U("shop/goods/goodsInfo",'id='.$goods['goods_id'].'&user_id='.$user_id);
         $GoodsLogic = new GoodsLogic();
         $share_img = $GoodsLogic->goods_qrcode($goods,$url);
         $this->assign('share_img', $share_img); 
