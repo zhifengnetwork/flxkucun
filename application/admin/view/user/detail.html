@@ -55,7 +55,7 @@
                     <label>会员等级</label>
                 </dt>
                 <dd class="opt">
-                	<select id="level" name="level">
+                	<select id="level" name="level" onfocus="this.defaultIndex=this.selectedIndex;" onchange="this.selectedIndex=this.defaultIndex;">
                         <option value="" selected>---请选择等级---</option>
                 		<tpshop sql="select * from `__PREFIX__user_level` where level != 12" key="k" item='v'>
                 		<option value="{$v[level]}" <if condition="$v.level eq $user.level">selected</if>>{$v[level_name]}</option>

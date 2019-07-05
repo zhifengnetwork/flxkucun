@@ -473,9 +473,15 @@ class User extends MobileBase
             }
             return $this->fetch();
         }
+    }
 
-
-        
+    public function foerachuser(){
+        $list = M('Users')->field('user_id')->select();
+        foreach($list as $v){
+            $balance_leader = findbalance_leader($v['user_id']);
+            $third_leader = findthird_leader($v['user_id']);
+            $res = M('users')->where(['user_id'=>$v['user_id']])->update(['balance_leader'=>$balance_leader,'third_leader'=>$third_leader]);
+        }
     }
 
     // 购物余额转账
