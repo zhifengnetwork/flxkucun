@@ -476,12 +476,15 @@ class User extends MobileBase
     }
 
     public function foerachuser(){
-        $list = M('Users')->field('user_id,level')->select();
+        $p = I('get.p/d',1);
+        $num = I('get.num/d',200);
+        $list = M('Users')->field('user_id,level')->limit(($p*$num) . ',' . $num)->select();
         foreach($list as $v){
             $balance_leader = findbalance_leader($v['user_id'],$v['level']);
             $third_leader = findthird_leader($v['user_id'],$v['level']);
             $res = M('users')->where(['user_id'=>$v['user_id']])->update(['balance_leader'=>$balance_leader,'third_leader'=>$third_leader]);
         }
+        if(count($list) < $num)die('已到尾页');
     }
 
     // 购物余额转账
