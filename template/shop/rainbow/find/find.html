@@ -156,7 +156,7 @@
 				</ul>
 			</div> -->
 			<div style="text-align: center;width: 100%;margin-bottom: .4rem;">
-				<span id="get_more" >视频加载中...</span>
+				<span id="get_more" style="display:none;">视频加载中...</span>
 				<em id="no_more" style="display:none;">视频加载完毕...</em>
 			</div>
 			<div class="height-88"></div>
@@ -297,6 +297,8 @@
                     return false;
                 before_request = 0;
                 page++;
+				$('#no_more').hide();
+				$('#get_more').show();
                 $.ajax({
                     type: "get",
                     url: "/index.php/Shop/Find/ajaxUserVideo/page/" + page,
