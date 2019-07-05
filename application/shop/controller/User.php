@@ -2443,7 +2443,7 @@ class User extends MobileBase
                 $tmp_arr = explode('.',$head_pic);
                 $houzui = $tmp_arr[count($tmp_arr)-1];
                 try {
-                    $this->resizeImage($path.'/'.time().$houzui,350,350,$path.'/'.time().$houzui);
+                    $this->resizeImage($path.'/'.time().$houzui,350,350,$path.'/'.time().'.'.$houzui);
                 } catch (EmptyIterator $e) {
                     //不操作继续执行
                 }
