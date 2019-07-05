@@ -21,7 +21,7 @@ class Seckill extends MobileBase
             $flash_salelist[$k]['rate'] = !$v['order_num'] ? 100 : 100-intval(($v['order_num']/$v['goods_num'])*100);
         }
         //查时间段
-        $time_arr = M('flash_sale')->alias('FS')->join('goods G','FS.goods_id=G.goods_id','left')->field('FS.start_time,FS.end_time')->where(['FS.end_time'=>['gt',time()],'FS.is_end'=>0])->order('FS.start_time asc')->group('FS.start_time')->limit(5)->select();
+        $time_arr = M('flash_sale')->alias('FS')->join('goods G','FS.goods_id=G.goods_id','left')->field('FS.start_time,FS.end_time')->where(['start_time'=>['between',[time()-8*3600,time()+8*3600,]]])->where(['FS.end_time'=>['gt',time()],'FS.is_end'=>0])->order('FS.start_time asc')->group('FS.start_time')->limit(5)->select();
         foreach($time_arr as $key=>$val){
             $time_arr[$key]['start_time_msg'] = date('H:i',$val['start_time']);
             if($time < $val['start_time']){
