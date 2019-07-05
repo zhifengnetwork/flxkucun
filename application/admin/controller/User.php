@@ -25,12 +25,13 @@ class User extends Base
         
         if(IS_POST){
             $post = I('post.');
-            $cunzai = M('users')->where(['user_id'=>$post['user_id'],'level'=>$post['level']])->find();
+            $balance_leader = findbalance_leader($post['user_id']);
+            $third_leader = findthird_leader($post['user_id']);
+            $cunzai = M('users')->where(['user_id'=>$post['user_id'],'level'=>$post['level'],'balance_leader'=>$balance_leader,'third_leader'=>$third_leader])->find();
             if($cunzai){
                 $this->error('无需修改');
             }
-
-            $res = M('users')->where(['user_id'=>$post['user_id']])->update(['level'=>$post['level']]);
+            $res = M('users')->where(['user_id'=>$post['user_id']])->update(['level'=>$post['level'],'balance_leader'=>$balance_leader,'third_leader'=>$third_leader]);
             if($res){
               
                 //修改  tp_agent_info

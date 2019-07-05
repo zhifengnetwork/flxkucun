@@ -195,8 +195,11 @@ class Order extends MobileBase
                         $orderuserlevel = M('Users')->where(['user_id'=>$orderinfo['user_id']])->value('level');
                         $level = M('user_level')->field('level')->where(['level'=>['gt',$orderuserlevel],'stock'=>['elt',$orderinfo['total_amount']]])->order('level desc')->limit(1)->find();
                         $level = $level['level'] ? $level['level'] : 0;
-                        if($level > $orderuserlevel)
-                            M('Users')->where(['user_id'=>$orderinfo['user_id']])->update(['level'=>$level]);
+                        if($level > $orderuserlevel){
+                            $balance_leader = findbalance_leader($orderinfo['user_id']);
+                            $third_leader = findthird_leader($orderinfo['user_id']);
+                            M('Users')->where(['user_id'=>$orderinfo['user_id']])->update(['level'=>$level,'balance_leader'=>$balance_leader,'third_leader'=>$third_leader]);
+                        }
                     }        
                     if($type == 'kucun'){
 						M('Order')->where(['order_id'=>$order_id])->update(['pay_status'=>1]);
@@ -204,7 +207,10 @@ class Order extends MobileBase
 							$Apply = ($orderinfo['apply_type'] == 1) ? M('Apply') : M('Apply_for');
                             $applyinfo = $Apply->find($orderinfo['applyid']);
 							if($applyinfo['leaderid'] == $this->user_id){
-								M('Users')->where(['user_id'=>$orderinfo['user_id']])->update(['first_leader'=>$this->user_id,'third_leader'=>$this->user_id]);
+                                M('Users')->where(['user_id'=>$orderinfo['user_id']])->update(['first_leader'=>$this->user_id]);
+                                $balance_leader = findbalance_leader($orderinfo['user_id']);
+                                $third_leader = findthird_leader($orderinfo['user_id']);
+                                M('Users')->where(['user_id'=>$orderinfo['user_id']])->update(['balance_leader'=>$balance_leader,'third_leader'=>$third_leader]);
 							}
 						}
 					}

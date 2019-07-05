@@ -2571,3 +2571,31 @@ function goods_qrcode($url='',$goods_id='0')
     ob_end_clean();
     return $filename;   
 }
+
+//查找配货上级
+function findthird_leader($user_id){
+    if(!$user_id)return 0;
+    $Users = M('Users');
+    $info = $Users->field('level,first_leader')->find($user_id);
+    if(!$info['level'] || !$info['first_leader'])return 0;
+
+    $leaderinfo = $Users->field('level,first_leader')->find($info['first_leader']);
+    if($leaderinfo['level'] > $info['level'])
+        return $info['first_leader'];
+    else
+        return findthird_leader($info['first_leader']);
+}
+
+//查找平级上级
+function findbalance_leader($user_id){
+    if(!$user_id)return 0;
+    $Users = M('Users');
+    $info = $Users->field('level,first_leader')->find($user_id);
+    if(!$info['level'] || !$info['first_leader'])return 0;
+
+    $leaderinfo = $Users->field('level,first_leader')->find($info['first_leader']);
+    if($leaderinfo['level'] == $info['level'])
+        return $info['first_leader'];
+    else
+        return findbalance_leader($info['first_leader']);
+}
