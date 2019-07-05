@@ -389,6 +389,39 @@ class User extends MobileBase
     // 我的佣金
     public function mommission()
     {
+        $y = I('get.y/d',date('Y'));
+        $m = I('get.m/d',date('m'));
+        $day = 0;
+
+        if(($y > 2000) && ($y < 2100) && ($m > 0) && ($m < 13))
+            $day = cal_days_in_month(CAL_GREGORIAN, $m, $y);
+
+        $Users = M('Users');
+        $tjxiajilist = $Users->field('user_id,nickname,level,mobile,third_leader,head_pic')->where(['first_leader'=>$this->user_id])->select();
+        $phxiajilist = $Users->field('user_id,nickname,level,mobile,third_leader,head_pic')->where(['third_leader'=>$this->user_id])->select();
+
+        $Order = M('Order');
+        $UserLevel = M('User_level');
+        $num = $num1 = 0;
+        $where = ['order_status'=>['not in',[3,5]],'pay_status'=>1,'kucun_type'=>1];
+        if($day)$where['add_time'] = ['between',[strtotime("$y-$m-01"),strtotime("$y-$m-01")+$day*24*3600]];
+        foreach($tjxiajilist as $k=>$v){
+            $where['user_id'] = $v['user_id'];
+            $tjxiajilist[$k]['level_name'] = $UserLevel->where(['level'=>$v['level']])->value('level_name');
+            $tjxiajilist[$k]['total_amount'] = M('Order')->where($where)->sum('total_amount');   
+            $num += $tjxiajilist[$k]['total_amount'];
+        }
+        foreach($phxiajilist as $k=>$v){
+            $where['user_id'] = $v['user_id'];
+            $phxiajilist[$k]['level_name'] = $UserLevel->where(['level'=>$v['level']])->value('level_name');
+            $phxiajilist[$k]['total_amount'] = M('Order')->where($where)->sum('total_amount');   
+            $num1 += $phxiajilist[$k]['total_amount'];
+        }
+        $this->assign('tjxiajilist',$tjxiajilist);
+        $this->assign('phxiajilist',$phxiajilist);
+        $this->assign('num',$num);
+        $this->assign('num1',$num1);
+        $this->assign('ym',$y.'-'.$m);
         return $this->fetch();
     }
 

@@ -18,7 +18,7 @@
 				<h1>我的业绩</h1>
 				<div class="data_wrap">
 		            <div class="data_the" id="dateShowBtn">
-	        			<div class="the" id="date" data-options="{'type':'YYYY-MM','beginyear':2010,'endyear':2088}">2019-05</div>
+	        			<div class="the" id="date" data-options="{'type':'YYYY-MM','beginyear':2010,'endyear':2088}">{$ym}</div>
 	        		</div>
 	        		<div class="arrows"></div>
 	    		</div>
@@ -34,8 +34,8 @@
 		        		</div>
 		        		<!--总金额-->
 		        		<div class="sum_wrap">
-		        			<div>￥100000</div>
-		        			<div>￥100000</div>
+		        			<div>￥{$num}</div>
+		        			<div>￥{$num1}</div>
 		        		</div>
 		        		<div class="tab_content">
 		        			<!--推荐佣金详细-->
@@ -43,52 +43,31 @@
 		        				<div class="detail_list">
 		        					<h4>推荐明细</h4>
 		        					<div class="item_wrap">
+			        					<volist name='tjxiajilist' id='v'>
 			        					<div class="item">
 	                                        <div class="img_wrap">
-	                                            <img src="__STATIC__/images/video/001v.png" />
+	                                            <img src="{$v.head_pic}" />
 	                                        </div>
 	                                        <div class="text">
 	                                        	<div>
-			                                        <span>昵称：好货上场</span>
-			                                        <span>ID：81345</span>
+			                                        <span>昵称：{$v.nickname}</span>
+			                                        <span>ID：{$v.user_id}</span>
 	                                            </div>
 	                                            <div>
-		                                            <span>手机号：18005239654</span>
-		                                            <span>等级：大区</span>
+		                                            <span>手机号：{$v.mobile}</span>
+		                                            <span>等级：{$v.level_name}</span>
+	                                            </div>
+	                                            <div>&nbsp;
+		                                            <!-- <span>商品：和大好河山</span>
+		                                            <span>数量：1000</span> -->
 	                                            </div>
 	                                            <div>
-		                                            <span>商品：和大好河山</span>
-		                                            <span>数量：1000</span>
-	                                            </div>
-	                                            <div>
-		                                            <span>金额：100000</span>
-		                                            <span>配货ID：86523</span>
+		                                            <span>金额：￥{$v.total_amount}</span>
+		                                            <span>配货ID：{$v.third_leader}</span>
 	                                            </div>
 	                                        </div>
 	                                   	</div>
-	                                   	<div class="item">
-	                                        <div class="img_wrap">
-	                                            <img src="__STATIC__/images/user_zp/000avatar-02.png" />
-	                                        </div>
-	                                        <div class="text">
-	                                        	<div>
-			                                        <span>昵称：好货上场</span>
-			                                        <span>ID：81345</span>
-	                                            </div>
-	                                            <div>
-		                                            <span>手机号：18005239654</span>
-		                                            <span>等级：大区</span>
-	                                            </div>
-	                                            <div>
-		                                            <span>商品：和大好河山</span>
-		                                            <span>数量：1000</span>
-	                                            </div>
-	                                            <div>
-		                                            <span>金额：100000</span>
-		                                            <span>配货ID：86523</span>
-	                                            </div>
-	                                        </div>
-	                                   	</div>
+										</volist>
                                    	</div>
 		        				</div>
 		        			</div>
@@ -97,52 +76,31 @@
 		        				<div class="detail_list">
 		        					<h4>业绩明细</h4>
 		        					<div class="item_wrap">
-			        					<div class="item">
-	                                        <div class="img_wrap">
-	                                            <img src="__STATIC__/images/user_zp/000avatar-02.png" />
-	                                        </div>
-	                                        <div class="text">
-	                                        	<div>
-			                                        <span>昵称：好货</span>
-			                                        <span>ID：81346</span>
-	                                            </div>
-	                                            <div>
-		                                            <span>手机号：18005239655</span>
-		                                            <span>等级：中区</span>
-	                                            </div>
-	                                            <div>
-		                                            <span>商品：和大</span>
-		                                            <span>数量：10000</span>
-	                                            </div>
-	                                            <div>
-		                                            <span>金额：10000</span>
-		                                            <span>配货ID：86524</span>
-	                                            </div>
-	                                        </div>
-	                                   	</div>
-	                                   	<div class="item">
-	                                        <div class="img_wrap">
-	                                            <img src="__STATIC__/images/video/001v.png" />
-	                                        </div>
-	                                        <div class="text">
-	                                        	<div>
-			                                        <span>昵称：好货</span>
-			                                        <span>ID：81346</span>
-	                                            </div>
-	                                            <div>
-		                                            <span>手机号：18005239655</span>
-		                                            <span>等级：中区</span>
-	                                            </div>
-	                                            <div>
-		                                            <span>商品：和大</span>
-		                                            <span>数量：10000</span>
-	                                            </div>
-	                                            <div>
-		                                            <span>金额：10000</span>
-		                                            <span>配货ID：86524</span>
-	                                            </div>
-	                                        </div>
-	                                   	</div>
+										<volist name='phxiajilist' id='v'>
+											<div class="item">
+												<div class="img_wrap">
+													<img src="{$v.head_pic}" />
+												</div>
+												<div class="text">
+													<div>
+														<span>昵称：{$v.nickname}</span>
+														<span>ID：{$v.user_id}</span>
+													</div>
+													<div>
+														<span>手机号：{$v.mobile}</span>
+														<span>等级：{$v.level_name}</span>
+													</div>
+													<div>&nbsp;
+														<!-- <span>商品：和大好河山</span>
+														<span>数量：1000</span> -->
+													</div>
+													<div>
+														<span>金额：￥{$v.total_amount}</span>
+														<span>配货ID：{$v.third_leader}</span>
+													</div>
+												</div>
+											</div>
+										</volist>
                                    	</div>
 		        				</div>
 		        			</div>
@@ -165,7 +123,12 @@
             $(".title div").click(function(){
                 $(this).addClass("active").siblings().removeClass("active");
                 $(".tab_content").children().eq($(this).index()).addClass("active").siblings().removeClass("active");
-            })
+            });
+			$('#d-confirm').click(function(){
+				var y = $('#d-year .active').text();
+				var m = $('#d-month .active').text();
+				window.location.href = '/Shop/User/mommission/y/' + y + '/m/' + m;
+			});
         </script>
 	</body>
 </html>
