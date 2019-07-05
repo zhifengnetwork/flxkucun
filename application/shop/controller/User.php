@@ -2440,7 +2440,7 @@ class User extends MobileBase
             $q = substr($user['head_pic'],0,1);
             if($q == 'h'){
                 $head_pic = getWxHead($user['head_pic']);
-                $tmp_arr = expload('.',$head_pic);
+                $tmp_arr = explode('.',$head_pic);
                 $houzui = $tmp_arr[count($tmp_arr)-1];
                 try {
                     $this->resizeImage($path.'/'.time().$houzui,350,350,$path.'/'.time().$houzui);
