@@ -187,7 +187,7 @@
 				var goods_name = $(this).next('input[name^="num"]').next('input[name^="goods_name"]').attr('data-id'); 
 				var number = $('#number'+goods_id).val();
 
-				if(number > kucun){
+				if(parseInt(number) > parseInt(kucun)){
 					//layer.open({content: '库存不足', time:2}); 
 					bol = false;
 					str = goods_name + '库存不足';
