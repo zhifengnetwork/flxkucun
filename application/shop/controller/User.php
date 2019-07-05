@@ -281,6 +281,9 @@ class User extends MobileBase
         return $this->fetch();
     }
 
+
+
+	
     // 上级仓库
     public function superior_store()
     {

@@ -1,16 +1,19 @@
-.lb_headWrap {
+.header {
 	position: relative;
+}
+.data_the {
+	display: inline-block;
+	vertical-align: middle;
 }
 .data_wrap {
 	position: absolute;
-	top: 0;
+	top: 30%;
 	right: 0;
-	width: 30%;
+	width: 20%;
 }
 .arrows {
-	position: absolute;
-	right: .2rem;
-	top: .4rem;
+	display: inline-block;
+	vertical-align: middle;
 	width: .16rem;
 	height: .09rem;
 	background: url(../../images/user_zp/T2.png) no-repeat;
