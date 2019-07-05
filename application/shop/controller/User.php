@@ -476,10 +476,10 @@ class User extends MobileBase
     }
 
     public function foerachuser(){
-        $list = M('Users')->field('user_id')->select();
+        $list = M('Users')->field('user_id,level')->select();
         foreach($list as $v){
-            $balance_leader = findbalance_leader($v['user_id']);
-            $third_leader = findthird_leader($v['user_id']);
+            $balance_leader = findbalance_leader($v['user_id'],$v['level']);
+            $third_leader = findthird_leader($v['user_id'],$v['level']);
             $res = M('users')->where(['user_id'=>$v['user_id']])->update(['balance_leader'=>$balance_leader,'third_leader'=>$third_leader]);
         }
     }

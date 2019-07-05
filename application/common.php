@@ -2403,7 +2403,7 @@ function find_prepareuserinfo($user_id, $type = 1, $first_leader_id = 0, &$userL
     $field = "user_id,first_leader,agent_user,is_lock,level";
     $userinfo = M('users')->field($field)->where(['user_id' => $user_id])->find();
 
-    if ($userinfo['level'] == 5) {
+    if ($userinfo['level'] == 6) {
         return 0; //代表最高级，上属是公司
     } elseif ($type == 1) {
         $first_data = getAllUp($userinfo['first_leader']);
@@ -2573,29 +2573,29 @@ function goods_qrcode($url='',$goods_id='0')
 }
 
 //查找配货上级
-function findthird_leader($user_id){
+function findthird_leader($user_id,$level){
     if(!$user_id)return 0;
     $Users = M('Users');
     $info = $Users->field('level,first_leader')->find($user_id);
     if(!$info['level'] || !$info['first_leader'])return 0;
 
     $leaderinfo = $Users->field('level,first_leader')->find($info['first_leader']);
-    if($leaderinfo['level'] > $info['level'])
+    if($leaderinfo['level'] > $level)
         return $info['first_leader'];
     else
-        return findthird_leader($info['first_leader']);
+        return findthird_leader($info['first_leader'],$level);
 }
 
 //查找平级上级
-function findbalance_leader($user_id){
+function findbalance_leader($user_id,$level){
     if(!$user_id)return 0;
     $Users = M('Users');
     $info = $Users->field('level,first_leader')->find($user_id);
     if(!$info['level'] || !$info['first_leader'])return 0;
 
     $leaderinfo = $Users->field('level,first_leader')->find($info['first_leader']);
-    if($leaderinfo['level'] == $info['level'])
+    if($leaderinfo['level'] == $level){ 
         return $info['first_leader'];
-    else
-        return findbalance_leader($info['first_leader']);
+    }else
+        return findbalance_leader($info['first_leader'],$level);
 }

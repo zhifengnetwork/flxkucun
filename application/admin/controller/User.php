@@ -25,8 +25,8 @@ class User extends Base
         
         if(IS_POST){
             $post = I('post.');
-            $balance_leader = findbalance_leader($post['user_id']);
-            $third_leader = findthird_leader($post['user_id']);
+            $balance_leader = findbalance_leader($post['user_id'],$post['level']);
+            $third_leader = findthird_leader($post['user_id'],$post['level']);
             $cunzai = M('users')->where(['user_id'=>$post['user_id'],'level'=>$post['level'],'balance_leader'=>$balance_leader,'third_leader'=>$third_leader])->find();
             if($cunzai){
                 $this->error('无需修改');
