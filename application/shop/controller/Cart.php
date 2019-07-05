@@ -344,7 +344,7 @@ class Cart extends MobileBase {
                 }else{
                     $placeOrder->setUserAddress($address)->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->setApplyid($applyid,$type)->setKuaiditype($kuaidi_type)->addNormalOrder();
                 }
-                $cartLogic->clear();
+                $cartLogic->clear(); 
                 $order = $placeOrder->getOrder();
 
                 if($seller_id != $this->user_id){
@@ -352,7 +352,7 @@ class Cart extends MobileBase {
                     $msid = M('message_notice')->add(['message_title'=>'下级'.$str.'通知','message_content'=>"您有下级提交".$str."订单!",'send_time'=>time(),'mmt_code'=>'/shop/Order/order_send','type'=>11]);
                     if($msid)M('user_message')->add(['user_id'=>$seller_id,'message_id'=>$msid]);
                 }
-
+                
                 //有上级取货时，运费为零直接减库存
                 if(($type == 2) && !$applyid && ($this->user['level'] > 2) && !$order['shipping_price']){
                     $order_goods = M('order_goods')->field('goods_id,goods_name,goods_num')->where(["order_id" => $order['order_id']])->select();
@@ -360,7 +360,7 @@ class Cart extends MobileBase {
                         changekucun($v['goods_id'],$order['seller_id'],-$v['goods_num']);
                     }
                 }
-
+                
                 $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn'],'third_leader'=>$this->user['third_leader'],'applyid'=>$applyid,'type'=>$type]);
             }
 

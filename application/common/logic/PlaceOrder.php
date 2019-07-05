@@ -586,6 +586,7 @@ class PlaceOrder
      */
     public function getOrder()
     {
+        $this->order['seller_id'] = $this->sellerid;
         return $this->order;
     }
 

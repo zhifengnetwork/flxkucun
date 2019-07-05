@@ -41,9 +41,10 @@
         </td>
         <td align="center" abbr="article_time" axis="col6" class="">
             <if condition="$list.shipping_status egt 1 && $list.pay_status egt 1 && $list.shipping_name eq '' ">
-                 <div style="text-align: center; width: 60px;" class="">无需物流</div>
+                 <div style="text-align: center; width: 150px;" class="">无需物流</div>
                 <else />
-                 <div style="text-align: center; width: 60px;" class="">{$list.shipping_name}</div>
+                 <div style="text-align: center; width: 150px;" class="">{$list.shipping_name}<if condition="$list.kuaidi_type eq 1"> -- 快递现付<elseif condition="$list.kuaidi_type eq 2" /> -- 物流到付</if></div>
+                 
             </if>
         </td>
         <td align="center" abbr="article_time" axis="col6" class="">

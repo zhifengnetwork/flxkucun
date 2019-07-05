@@ -548,11 +548,14 @@ class CartLogic extends Model
         $flashSaleLogic = new FlashSaleLogic($this->goods, $this->specGoodsPrice);
         $flashSale = $flashSaleLogic->getPromModel();
         $flashSaleIsEnd = $flashSaleLogic->checkActivityIsEnd();
-        if ($flashSaleIsEnd && !$type) { 
+        if ($flashSaleIsEnd && !$type) {
             throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '秒杀活动已结束']);
         }
+        if($type){
+            M('Cart')->where(['user_id' => $this->user_id, 'goods_id' => $this->goods['goods_id']])->delete();
+        }
         $flashSaleIsAble = $flashSaleLogic->checkActivityIsAble();
-        if (!$flashSaleIsAble) {
+        if (!$flashSaleIsAble && !$type) {
             //活动没有进行中，走普通商品下单流程
             $this->addNormalCart();
             return;
@@ -638,8 +641,11 @@ class CartLogic extends Model
         if ($groupBuy['is_end'] == 1 || empty($groupBuy)) {
             throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '团购活动已结束']);
         }
+        if($type){
+            M('Cart')->where(['user_id' => $this->user_id, 'goods_id' => $this->goods['goods_id']])->delete();
+        }
         $groupBuyIsAble = $groupBuyLogic->checkActivityIsAble();
-        if (!$groupBuyIsAble) { 
+        if (!$groupBuyIsAble && !$type) { 
             //活动没有进行中，走普通商品下单流程
             $this->addNormalCart();
             return;
