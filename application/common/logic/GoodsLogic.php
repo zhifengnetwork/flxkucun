@@ -1023,7 +1023,7 @@ class GoodsLogic extends Model
         }else
             return $info['user_id'];
     }
-
+ 
     //生成分享二维码
     public function goods_qrcode($goods,$url)
     {
@@ -1043,21 +1043,26 @@ class GoodsLogic extends Model
         if(!file_exists($goods_img_url)){
             return false;
         }
+        //创建文件夹
+        $date = date('Ymd',time());
+        $path = 'public/qrcode/goods/'.$date;
+        if (!is_dir($path)){  
+            mkdir($path,0777,true);
+        }
+
         $url = 'http://'.$_SERVER["HTTP_HOST"].$url;
         $goods_image = \think\Image::open($goods_img_url);
+        $new_img = $path.'/'.time().rand(111,999).'.png';
         // 按照原图的比例生成一个最大为750*550的缩略图并保存
-        $goods_image->thumb(562,420,\think\Image::THUMB_FILLED)->save('public/qrcode/goods/goods_'. $goods_id.'_750_550.png');
-        $new_godos_img = 'public/qrcode/goods/goods_'. $goods_id.'_750_550.png';//新图片的名字
+        $goods_image->thumb(562,420,\think\Image::THUMB_FILLED)->save($new_img);
         //获取商品的二维码
         $goods_qrcode=goods_qrcode($url,$goods_id);
         //背景图片，width-750，height-1335
         if(!file_exists('public/qrcode/goods/goods_qrcode.png')){
             return false;
         }
-        
         $image = \think\Image::open('public/qrcode/goods/goods_qrcode.png');
-
-        $image->water($new_godos_img,[19,170]); //融合商品图
+        $image->water($new_img,[19,170]); //融合商品图
         $image->water($goods_qrcode,[350,700]); //融合二维码
         //判断价格字数来放位置
         $goods_price_num = mb_strlen($goods_price,'UTF8');
@@ -1091,17 +1096,16 @@ class GoodsLogic extends Model
             if(file_exists($head_pic)){
                 //缩放用户头像
                 $user_logo = \think\Image::open($head_pic);
-                $user_logo->thumb(120,120,\think\Image::THUMB_FILLED)->save('public/qrcode/user/user_'. $user['user_id'].'_120_120.png');
-                $head_pic = 'public/qrcode/user/user_'. $user['user_id'].'_120_120.png';
-                $image->water($head_pic,[25,800]); //融合用户头像
+                $user_logo->thumb(120,120,\think\Image::THUMB_FILLED)->save($new_img);
+                $image->water($new_img,[25,800]); //融合用户头像
             }
             //融合昵称
             $nickname = mb_substr($user['nickname'],0,6,'UTF8');
             $image->text($nickname,'SourceHanSansCN-Normal.ttf',18,'#474747',[150,850]);
         }
         //保存图片
-        $image->text($goods_price,'SourceHanSansCN-Normal.ttf',24,'#D798AF',[25,740])->save('public/qrcode/goods/share_img_'.$goods['goods_id'].'.jpg');
-        $share_img = '/public/qrcode/goods/share_img_'.$goods['goods_id'].'.jpg';
+        $image->text($goods_price,'SourceHanSansCN-Normal.ttf',24,'#D798AF',[25,740])->save($new_img);
+        $share_img = '/'.$new_img;
         return $share_img;
     }    
 }

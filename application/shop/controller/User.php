@@ -2422,50 +2422,55 @@ class User extends MobileBase
      */
     public function qr_code()
     {
-        // define('IMGROOT_PATH', str_replace("\\","/",realpath(dirname(dirname(__FILE__)).'/../../')).'/'); //图片根目录（绝对路径）
         $user = session('user');
+        $type = input('type');
         $user_id = $user['user_id'];
-        $logic = new ShareLogic();
-        $url = $logic->get_ticket_url($user_id);//链接
-        $nickname = mb_substr($user['nickname'],0,6,'UTF8');
-        //缩放用户头像
-        $q = substr($user['head_pic'],0,1);
-        if($q == 'h'){
-            if(!file_exists('public/qrcode/user/user_head_'. $user_id.'.jpg')){
-                copy($user['head_pic'],'public/qrcode/user/user_head_'. $user_id.'.jpg');
-                //图片放大
+        $user_qrcode =  Db::name('users')->where('user_id',$user_id)->value('erweima');
+        if(!file_exists($user_qrcode) || $type){
+            $logic = new ShareLogic();
+            $url = $logic->get_ticket_url($user_id);//链接
+            $nickname = mb_substr($user['nickname'],0,6,'UTF8');
+            //创建文件夹
+            $date = date('Ymd',time());
+            $path = 'public/qrcode/user/'.$date;
+            if (!is_dir($path)){  
+                mkdir($path,0777,true);
             }
-            $head_pic = 'public/qrcode/user/user_head_'. $user_id.'.jpg';
-            try {
-                $this->resizeImage('public/qrcode/user/user_head_'. $user_id.'.jpg',350,350,'public/qrcode/user/user_head_'. $user_id.'.jpg');
-            } catch (EmptyIterator $e) {
-                //不操作继续执行
+            //缩放用户头像
+            $q = substr($user['head_pic'],0,1);
+            if($q == 'h'){
+                $head_pic = getWxHead($user['head_pic']);
+                $tmp_arr = expload('.',$head_pic);
+                $houzui = $tmp_arr[count($tmp_arr)-1];
+                try {
+                    $this->resizeImage($path.'/'.time().$houzui,350,350,$path.'/'.time().$houzui);
+                } catch (EmptyIterator $e) {
+                    //不操作继续执行
+                }
+            }else{
+                $head_pic = substr($user['head_pic'],1,200);
+                $tmp_arr = explode('.',$head_pic);
+                $houzui = $tmp_arr[count($tmp_arr)-1];
             }
-        }else{
-            $head_pic = substr($user['head_pic'],1,200);
+            $new_img = $path.'/'.time().$houzui;
+            if(file_exists($head_pic)){
+                $head_img = \think\Image::open($head_pic);
+                $head_img->thumb(350,350,\think\Image::THUMB_FILLED)->save($new_img);
+                //生成二维码
+                $user_qrcode = user_qrcode($url,$user['user_id']);
+                $erweima = 'public/qrcode/user/erweima.png';
+                if(file_exists($erweima)){
+                    $image = \think\Image::open($erweima);
+                    //width297，height494
+                    //融合昵称和用户二维码s
+                    $image->text($nickname,'SourceHanSansCN-Normal.ttf',38,'#686060',[600,455]);
+                    $image->water($new_img,[450,70]);
+                    $image->water($user_qrcode,[350,735])->save($user_qrcode);
+                }
+            }
+            Db::name('users')->where('user_id',$user_id)->save(['erweima'=>$user_qrcode]);
         }
-        if(file_exists($head_pic)){
-            $head_img = \think\Image::open($head_pic);
-            $head_img->thumb(350,350,\think\Image::THUMB_FILLED)->save('public/qrcode/user/user_head_'. $user_id.'_350_350.jpg');
-            $head_pic = 'public/qrcode/user/user_head_'. $user_id.'_350_350.jpg';
-            //生成二维码
-            $user_qrcode = user_qrcode($url,$user['user_id']);
-            $erweima = 'public/qrcode/user/erweima.png';
-            if(file_exists($erweima)){
-                $image = \think\Image::open($erweima);
-                //width297，height494
-                //融合昵称和用户二维码s
-                $image->text($nickname,'SourceHanSansCN-Normal.ttf',38,'#686060',[600,455]);
-                $image->water($head_pic,[450,70]);
-                $image->water($user_qrcode,[350,735])->save('public/qrcode/user/user_qrcode_'.$user_id.'.jpg');
-
-                $image = '/public/qrcode/user/user_qrcode_'.$user_id.'.jpg';
-            }
-        }
-        $this->assign('image', $image);
-        $this->assign('user', $user);
-        $this->assign('head_pic', $head_pic);
-        $this->assign('url', $url);
+        $this->assign('image', '/'.$user_qrcode);
         return $this->fetch();
     }
 
