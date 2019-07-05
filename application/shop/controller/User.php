@@ -2440,19 +2440,13 @@ class User extends MobileBase
             $q = substr($user['head_pic'],0,1);
             if($q == 'h'){
                 $head_pic = getWxHead($user['head_pic']);
-                $tmp_arr = explode('.',$head_pic);
-                $houzui = $tmp_arr[count($tmp_arr)-1];
-                try {
-                    $this->resizeImage($path.'/'.time().$houzui,350,350,$path.'/'.time().'.'.$houzui);
-                } catch (EmptyIterator $e) {
-                    //不操作继续执行
-                }
+                $this->resizeImage($head_pic,350,350,$head_pic);
             }else{
                 $head_pic = substr($user['head_pic'],1,200);
-                $tmp_arr = explode('.',$head_pic);
-                $houzui = $tmp_arr[count($tmp_arr)-1];
             }
-            $new_img = $path.'/'.time().$houzui;
+            $tmp_arr = explode('.',$head_pic);
+            $houzui = $tmp_arr[count($tmp_arr)-1];
+            $new_img = $head_pic;
             if(file_exists($head_pic)){
                 $head_img = \think\Image::open($head_pic);
                 $head_img->thumb(350,350,\think\Image::THUMB_FILLED)->save($new_img);
@@ -2477,20 +2471,25 @@ class User extends MobileBase
     //图片放大
     function resizeImage($srcImage,$maxwidth,$maxheight,$name)
     {
-        list($width, $height, $type, $attr) = getimagesize($srcImage);
-        switch ($type) {
-            case 1:
-                $img = imagecreatefromgif($srcImage);
-                break;
-            case 2:
-                $img = imagecreatefromjpeg($srcImage);
-                break;
-            case 3:
-                $img = imagecreatefrompng($srcImage);
-                break;
-            default:
-                $img = imagecreatefromjpg($srcImage);
-                break;
+        try {
+            list($width, $height, $type, $attr) = getimagesize($srcImage);
+            switch ($type) {
+                case 1:
+                    $img = imagecreatefromgif($srcImage);
+                    break;
+                case 2:
+                    $img = imagecreatefromjpeg($srcImage);
+                    break;
+                case 3:
+                    $img = imagecreatefrompng($srcImage);
+                    break;
+                default:
+                    $img = imagecreatefromjpg($srcImage);
+                    break;
+            }
+        } catch (EmptyIterator $e) {
+            return false;
+            //不操作继续执行
         }
         $canvas = imagecreatetruecolor($maxwidth,$maxheight); // 创建一个真彩色图像 我把它理解为创建了一个画布
         imagecopyresampled($canvas,$img,0,0,0,0,$maxwidth,$maxheight,$width,$height);

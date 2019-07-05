@@ -2638,9 +2638,9 @@ function getWxHead($url='')
     if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $img_content, $result))
     { 
         $type = $result[2];//得到图片类型png?jpg?gif? 
-        $new_file = $path.time().rand(1111,9999).".{$type}"; 
+        $new_file = $path.'/'.time().rand(1111,9999).".{$type}"; 
         if (file_put_contents($new_file, base64_decode(str_replace($result[1], '', $img_content))))
-        {  return '/'.$new_file; }
+        {  return $new_file; }
     } 
     return '';
 }
