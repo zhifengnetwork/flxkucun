@@ -80,7 +80,16 @@
 .single-item .img-wrap{
     width: 2rem;
     height: 2rem;
-    background-color: #c59864;
+    /* background-color: #c59864; */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
     border-radius: .08rem;
     overflow: hidden;
     margin-right: .13rem;
