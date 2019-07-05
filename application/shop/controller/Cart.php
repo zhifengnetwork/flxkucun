@@ -390,7 +390,7 @@ class Cart extends MobileBase {
             if(($type == 2) && !$applyid && ($this->user_id == $pei_parent)){
                 $pricedata['order_amount'] = $pricedata['shipping_price'];
                 $pricedata['total_amount'] = $pricedata['shipping_price'];    
-            }
+            }  
             $this->ajaxReturn(['status' => 1, 'msg' => '计算成功', 'result' => $pricedata]);
         } catch (TpshopException $t) {
             $error = $t->getErrorArr();
