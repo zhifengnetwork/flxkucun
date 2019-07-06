@@ -144,7 +144,6 @@ class User extends MobileBase
     // 团队数据
     public function team_data()
     {
-
         /******我的上级*****/
         //直推上级
         $first_leader = M('users')->where('user_id', $this->user['first_leader'])->find();
@@ -157,7 +156,17 @@ class User extends MobileBase
         /******我的配货下级*****/
 
         //$peihuo_sub = getAlldp1($this->user['user_id'], $this->user['level'],'third_leader');
-        $peihuo_sub = getAlldp($this->user['user_id'], $this->user['level']);
+        //$peihuo_sub = getAlldp($this->user['user_id'], $this->user['level']);
+        $UsersLogic = new UsersLogic();
+        $arr = $peihuo_sub = [];  
+        $arr = $UsersLogic->getUserLevBotAll($this->user['user_id'],$this->user['level'],$arr);
+        $Users = M('Users');
+        foreach($arr as $k=>$v){
+            $leader = find_prepareuserinfoID($v);
+            if($leader == $this->user['user_id']){
+                $peihuo_sub[] = $Users->field('user_id,level,nickname,mobile,head_pic,mobile')->find($v);
+            }
+        }
         /******直推下级*****/
         $zhitui_sub = getAlldp($this->user_id);
         //print_r($peihuo_sub);exit;

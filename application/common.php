@@ -2426,6 +2426,26 @@ function find_prepareuserinfo($user_id, $type = 1, $first_leader_id = 0, &$userL
 
 }
 
+/*找出配货上级id*/
+function find_prepareuserinfoID($user_id)
+{
+    $data = array();
+    $field = "user_id,first_leader,level";
+    $userinfo = M('users')->field($field)->where(['user_id' => $user_id])->find();
+
+    if ($userinfo['level'] == 6) {
+        return 0; //代表最高级，上属是公司
+    }else{
+        $first_data = getAllUp($userinfo['first_leader']);
+        foreach ($first_data as $key => $value) {
+            if ($value['level'] > $userinfo['level'] && empty($data)) {
+                return $value['user_id'];
+            }
+        }
+    }
+
+}
+
 //找出配货上级
 function getThird_leader($user_id, $goods_id){
     $third_leader = M('Users')->where(['user_id'=>$user_id])->find('third_leader');
@@ -2500,7 +2520,7 @@ function getAlldp($invite_id, $userlevel = 0, &$userList = array())
         foreach ($UpInfo as $key => $value) {
             if ($userlevel == 0) {
                 $userList[] = $value;
-            } elseif ($userlevel != 0 && $userlevel > $value['level']) {
+            } elseif ($userlevel != 0 && $userlevel >= $value['level']) {
                 $userList[] = $value;
             }
 

@@ -1611,4 +1611,30 @@ class UsersLogic extends Model
         }
     }
 
+    //获取用户下级
+    public function getUserLevBot($uid,$level){
+        if(is_array($uid)){
+            $sql = "select user_id from tp_users where level < $level and first_leader in (".implode(',',$uid).")";
+        }else
+            $sql = "select user_id from tp_users where level < $level and first_leader = $uid";
+            
+        $res = M('Users_mem')->query($sql);
+        $arr1 = get_arr_column($res,'user_id');          
+        return $arr1;
+    }
+
+    //获取用户下级链
+    public function getUserLevBotAll($uid,$level,&$arr){
+        if(!$arr)$arr = [];
+        $arr1 = $this->getUserLevBot($uid,$level); 
+        if($arr1)$arr = array_merge($arr,$arr1);
+
+        if($arr1){
+            //foreach($arr1 as $v){
+                $this->getUserLevBotAll($arr1,$level,$arr);
+            //}
+        }
+        return $arr;
+    }
+
 }
