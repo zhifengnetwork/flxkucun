@@ -153,7 +153,7 @@ class User extends MobileBase
         $pinji_leader_first = M('users')->field($field)->where(['user_id' => $this->user['balance_leader']])->find();
         //配货上级
         //$peihuo_leader_first = find_prepareuserinfo($this->user['user_id'], 2);
-        $pinji_leader_first = M('users')->field($field)->where(['user_id' => $this->user['third_leader']])->find();
+        $peihuo_leader_first = M('users')->field($field)->where(['user_id' => $this->user['third_leader']])->find();
         /******我的配货下级*****/
 
         $peihuo_sub = getAlldp1($this->user['user_id'], $this->user['level'],'third_leader');
