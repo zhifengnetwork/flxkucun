@@ -32,7 +32,7 @@ class Order
 
             $user = Db::name('users')->where(['user_id'=>$order['user_id']])->field('openid,first_leader')->find();
             
-            if($user['openid']){
+            /* if($user['openid']){
                 $goods = Db::name('OrderGoods')->where(['order_id'=>$order['order_id']])->select();
                 $text = '';
                 foreach ($goods as $key => $value) {
@@ -53,7 +53,7 @@ class Order
                     $first_leader_wx_content = "您的下级【{$nickname}】已提交订单成功！\n\n店铺：凡露希环球直供\n下单时间：{$time}\n商品：{$text}\n\n".$fanli;
                     $wechat->sendMsg($first_leader_openid, 'text', $first_leader_wx_content);
                 }
-            }
+            } */
         }
 
         //用户下单, 发送短信给商家

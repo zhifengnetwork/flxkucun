@@ -158,7 +158,6 @@ class User extends MobileBase
 
         //$peihuo_sub = getAlldp1($this->user['user_id'], $this->user['level'],'third_leader');
         $peihuo_sub = getAlldp($this->user['user_id'], $this->user['level']);
-        dump($peihuo_sub); exit;
         /******直推下级*****/
         $zhitui_sub = getAlldp($this->user_id);
         //print_r($peihuo_sub);exit;
