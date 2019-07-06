@@ -1255,7 +1255,8 @@ exit("请联系DC环球直供网络客服购买高级版支持此功能");
     	$strTable .= '<td style="text-align:center;font-size:12px;" width="*">实际支付</td>';
     	$strTable .= '<td style="text-align:center;font-size:12px;" width="*">支付方式</td>';
     	$strTable .= '<td style="text-align:center;font-size:12px;" width="*">支付状态</td>';
-    	$strTable .= '<td style="text-align:center;font-size:12px;" width="*">发货状态</td>';
+        $strTable .= '<td style="text-align:center;font-size:12px;" width="*">发货状态</td>';
+        $strTable .= '<td style="text-align:center;font-size:12px;" width="*">配送方式</td>';
         $strTable .= '<td style="text-align:center;font-size:12px;" width="*">商品数量</td>';
     	$strTable .= '<td style="text-align:center;font-size:12px;" width="*">商品信息</td>';
     	$strTable .= '</tr>';
@@ -1282,7 +1283,21 @@ exit("请联系DC环球直供网络客服购买高级版支持此功能");
 	    			if ($goods['spec_key_name'] != '') $strGoods .= " 规格：".$goods['spec_key_name'];
 	    			$strGoods .= "<br />";
 	    		}
-	    		unset($orderGoods);
+                unset($orderGoods);
+
+                 $str = '';
+                 if($val['shipping_status'] >= 1 and $val['pay_status'] >= 1 and $val['shipping_name'] == ''){
+                     $str .= '<div style="text-align: center; width: 150px;" class="">无需物流</div>';
+                 }else{
+                     $str .= '<div style="text-align: center; width: 150px;" class="">' . $val['shipping_name'];
+                     if($val['kuaidi_type'] == 1){
+                         $str .= ' -- 快递现付';
+                     }else if($val['kuaidi_type'] == 2){
+                        $str .= ' -- 物流到付';
+                    }
+                 }
+                $strTable .= '<td style="text-align:left;font-size:12px;">'.$str.' </td>';
+
                 $strTable .= '<td style="text-align:left;font-size:12px;">总'.$goods_num.' </td>';
 	    		$strTable .= '<td style="text-align:left;font-size:12px;">'.$strGoods.' </td>';
 	    		$strTable .= '</tr>';

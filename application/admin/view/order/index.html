@@ -35,11 +35,11 @@
 	  <form class="navbar-form form-inline"  method="post" action="{:U('Admin/order/export_order')}"  name="search-form2" id="search-form2">  
         <input type="hidden" name="order_by" value="order_id">
         <input type="hidden" name="type" id="type" value="">
-            <input type="hidden" name="sort" value="desc">
-            <input type="hidden" name="user_id" value="{$Request.param.user_id}">
-            <input type="hidden" name="order_ids" value="">
-            <!--用于查看结算统计 包含了哪些订单-->
-            <input type="hidden" value="{$_GET['order_statis_id']}" name="order_statis_id" />
+          <input type="hidden" name="sort" value="desc">
+          <input type="hidden" name="user_id" value="{$Request.param.user_id}">
+          <input type="hidden" name="order_ids" value="">
+          <!--用于查看结算统计 包含了哪些订单-->
+          <input type="hidden" value="{$_GET['order_statis_id']}" name="order_statis_id" />
                                     
       <div class="sDiv">
         <div class="sDiv2">
