@@ -138,9 +138,14 @@ class Cart extends MobileBase {
         if ($this->user_id == 0){
             $this->error('请先登录', U('Shop/User/login'));
         }
+        //判断是不是积分商品
+        $exchange_integral = Db::name('goods')->where(['goods_id'=>$goods_id])->value('exchange_integral');
         $logic = new UsersLogic();
         $data = $logic->get_info($this->user_id);
         $user = $data['result'];
+        if($user['level'] < 2 && $exchange_integral > 0){
+            $this->error('普通会员不能兑换积分商品');
+        }
         if ($user['mobile'] == '')
             $this->error('请先绑定手机号码', U('Shop/User/setMobile'));
 
