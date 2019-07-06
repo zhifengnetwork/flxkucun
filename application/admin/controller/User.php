@@ -174,6 +174,8 @@ class User extends Base
                  $this->agent_add($user['user_id'],$user['first_leader'],$userLevel);
                  $_POST['is_agent'] = 1;
              }
+             $_POST['balance_leader'] = findbalance_leader($uid,$_POST['level']);
+             $_POST['third_leader'] = findthird_leader($uid,$_POST['level']);
              $row = M('users')->where(array('user_id' => $uid))->save($_POST);
              if ($row)
  

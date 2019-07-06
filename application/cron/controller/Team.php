@@ -20,7 +20,7 @@ class Team extends Controller{
     {
         $this->change_group_buy_is_end();  
         $this->change_flash_sale_is_end();  
-        M('A')->add(['msg'=>date('Y-m-d H:i:s',time())]);      
+        //M('A')->add(['msg'=>date('Y-m-d H:i:s',time())]);      
     }
 
     public function change_flash_sale_is_end(){
