@@ -2513,6 +2513,26 @@ function getAlldp($invite_id, $userlevel = 0, &$userList = array())
 
 }
 
+//获取一级下级
+function getAlldp1($invite_id, $userlevel = 0, $str='')
+{
+    $field = "user_id,level,nickname,mobile,head_pic,mobile";
+    $UpInfo = M('users')->field($field)->where([$str => $invite_id])->select();
+    if ($UpInfo) {
+        foreach ($UpInfo as $key => $value) {
+            if ($userlevel == 0) {
+                $userList[] = $value;
+            } elseif ($userlevel != 0 && $userlevel > $value['level']) {
+                $userList[] = $value;
+            }
+        }
+
+    }
+
+    return $userList;
+
+}
+
 function get_level_commission($flash_sale_id, $level, $key)
 {
     $val = M('flash_sale_commission')->where(['flash_sale_id' => $flash_sale_id, 'level' => $level])->value($key);
