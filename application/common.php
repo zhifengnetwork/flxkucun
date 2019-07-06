@@ -2403,7 +2403,7 @@ function find_prepareuserinfo($user_id, $type = 1, $first_leader_id = 0, &$userL
     $field = "user_id,first_leader,agent_user,is_lock,level";
     $userinfo = M('users')->field($field)->where(['user_id' => $user_id])->find();
 
-    if ($userinfo['level'] == 6) {
+    if (($userinfo['level'] == 6) && ($type == 1)) {
         return 0; //代表最高级，上属是公司
     } elseif ($type == 1) {
         $first_data = getAllUp($userinfo['first_leader']);
@@ -2413,7 +2413,7 @@ function find_prepareuserinfo($user_id, $type = 1, $first_leader_id = 0, &$userL
             }
         }
         return $data;
-    } else {
+    } else { 
         $first_data = getAllUp($userinfo['first_leader']);
         foreach ($first_data as $key => $value) {
             if ($value['level'] == $userinfo['level'] && empty($data)) {

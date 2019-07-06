@@ -149,14 +149,16 @@ class User extends MobileBase
         //直推上级
         $first_leader = M('users')->where('user_id', $this->user['first_leader'])->find();
         //平级上级
-        //$pinji_leader_first = find_prepareuserinfo($this->user['user_id']);
-        $pinji_leader_first = M('users')->field($field)->where(['user_id' => $this->user['balance_leader']])->find();
+        $pinji_leader_first = find_prepareuserinfo($this->user['user_id'],2);
+        //$pinji_leader_first = M('users')->field($field)->where(['user_id' => $this->user['balance_leader']])->find();
         //配货上级
-        //$peihuo_leader_first = find_prepareuserinfo($this->user['user_id'], 2);
-        $peihuo_leader_first = M('users')->field($field)->where(['user_id' => $this->user['third_leader']])->find();
+        $peihuo_leader_first = find_prepareuserinfo($this->user['user_id']);
+        //$peihuo_leader_first = M('users')->field($field)->where(['user_id' => $this->user['third_leader']])->find();
         /******我的配货下级*****/
 
-        $peihuo_sub = getAlldp1($this->user['user_id'], $this->user['level'],'third_leader');
+        //$peihuo_sub = getAlldp1($this->user['user_id'], $this->user['level'],'third_leader');
+        $peihuo_sub = getAlldp($this->user['user_id'], $this->user['level']);
+        dump($peihuo_sub); exit;
         /******直推下级*****/
         $zhitui_sub = getAlldp($this->user_id);
         //print_r($peihuo_sub);exit;
