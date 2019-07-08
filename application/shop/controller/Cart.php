@@ -134,6 +134,7 @@ class Cart extends MobileBase {
         $applyid = input("applyid/d",0);
         $pei_parent = input("pei_parent/d",0);
         $goods_prom_type = input("goods_prom_type/d",0);
+        $third_leader = input("third_leader/d",0);
         $prom_id = input("prom_id/d",0);
         if ($this->user_id == 0){
             $this->error('请先登录', U('Shop/User/login'));
@@ -246,6 +247,7 @@ class Cart extends MobileBase {
         $this->assign('cartPriceInfo', $cartPriceInfo);//商品优惠总价
         $this->assign('pei_parent', $cartList['cartList'][0]['cart_seller_id']);//取货上级
         $this->assign('source_uid', I('post.source_uid/d',0));
+        $this->assign('third_leader', I('post.third_leader/d',0));
         //echo 1;exit;
         if($action=='kucun_buy'){
              return $this->fetch('kucuncart');
@@ -290,6 +292,8 @@ class Cart extends MobileBase {
         $goods_prom_type = input('goods_prom_type/d',0);
         $prom_id = input('prom_id/d',0);
         $source_uid = input('source_uid/d',0);
+        $third_leader = input('third_leader/d',0);
+        if($third_leader)$seller_id = $third_leader;
        // echo $seller_id;exit;
         $cart_validate = Loader::validate('Cart');
         if($action_type=='kucun_buy')
@@ -346,13 +350,15 @@ class Cart extends MobileBase {
                 $placeOrder = new PlaceOrder($pay);
                 if(($type == 1) || $applyid){
                     $placeOrder->setUserNote($user_note)->setOrdertype()->setApplyid($applyid,$type)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
+                }elseif($third_leader){ 
+                    $placeOrder->setThird_leader($third_leader)->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->setApplyid($applyid,$type)->setKuaiditype($kuaidi_type)->addNormalOrder();
                 }else{
                     $placeOrder->setUserAddress($address)->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->setApplyid($applyid,$type)->setKuaiditype($kuaidi_type)->addNormalOrder();
                 }
                 $cartLogic->clear(); 
                 $order = $placeOrder->getOrder();
 
-                if($seller_id != $this->user_id){
+                if(($seller_id != $this->user_id) || ($third_leader > 0)){
                     $str = (($type == 2) && !$applyid) ? '取货' : '进货';
                     $msid = M('message_notice')->add(['message_title'=>'下级'.$str.'通知','message_content'=>"您有下级提交".$str."订单!",'send_time'=>time(),'mmt_code'=>'/shop/Order/order_send','type'=>11]);
                     if($msid)M('user_message')->add(['user_id'=>$seller_id,'message_id'=>$msid]);
@@ -366,7 +372,7 @@ class Cart extends MobileBase {
                     }
                 }
                 
-                $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn'],'third_leader'=>$this->user['third_leader'],'applyid'=>$applyid,'type'=>$type]);
+                $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn'],'third_leader0'=>$third_leader,'third_leader'=>$this->user['third_leader'],'applyid'=>$applyid,'type'=>$type]);
             }
 
             $pricedata = $pay->toArray();
@@ -381,7 +387,7 @@ class Cart extends MobileBase {
                     if(!$user_money)
                         $pricedata['order_amount'] -= $pricedata['order_prom_amount'];
                     else
-                    $pricedata['order_amount'] = $pricedata['goods_price'] + $pricedata['shipping_price'];
+                        $pricedata['order_amount'] = $pricedata['goods_price'] + $pricedata['shipping_price'];
                 }
             }
 
@@ -395,7 +401,11 @@ class Cart extends MobileBase {
             if(($type == 2) && !$applyid && ($this->user_id == $pei_parent)){
                 $pricedata['order_amount'] = $pricedata['shipping_price'];
                 $pricedata['total_amount'] = $pricedata['shipping_price'];    
-            }  
+            } 
+            if($third_leader){
+                $pricedata['order_amount'] -= $pricedata['shipping_price'];
+                $pricedata['total_amount'] -= $pricedata['shipping_price'];    
+            }
             $this->ajaxReturn(['status' => 1, 'msg' => '计算成功', 'result' => $pricedata]);
         } catch (TpshopException $t) {
             $error = $t->getErrorArr();
@@ -610,6 +620,7 @@ class Cart extends MobileBase {
         $order_sn= I('order_sn/s','');
         $type= I('type/d',0);
         $applyid= I('applyid/d',0);
+        $third_leader = I('third_leader0/d',0);
         $order_where = ['user_id'=>$this->user_id];
         if($order_sn)
         {
@@ -694,6 +705,7 @@ class Cart extends MobileBase {
         $this->assign('applyid',$applyid);
         $this->assign('bankCodeList',$bankCodeList);
         $this->assign('third_leader',I('get.third_leader/d',0));
+        $this->assign('third_leader0',$third_leader);
         $this->assign('pay_date',date('Y-m-d', strtotime("+1 day")));
         return $this->fetch();
     }

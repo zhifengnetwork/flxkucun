@@ -31,6 +31,7 @@
             <input type="hidden" name="applyid" value="{$applyid}">
             <input type="hidden" name="pei_parent" value="{$pei_parent}">
             <input type="hidden" name="kuaidi_type" id="kuaidi_type" value="1">
+            <input type="hidden" name="third_leader" id="third_leader" value="{$third_leader}" value="1">
         </form>
         <!--地址-s-->
         <div class="edit_gtfix shipping_div" id="addressDefault" <if condition="$type eq 1 or $applyid gt 0">style="display: none"</if>>
@@ -719,7 +720,7 @@
                 if(data.third_leader == 0)
                     location.href = "/index.php?m=shop&c=Cart&a=cart4&order_sn=" + data.result + '&third_leader=' + data.third_leader + '&applyid=' + data.applyid + '&type=' + data.type;
                 else
-                    location.href = "/index.php?m=Shop&c=Cart&a=cart5&order_sn=" + data.result + '&third_leader=' + data.third_leader + '&applyid=' + data.applyid + '&type=' + data.type;
+                    location.href = "/index.php?m=Shop&c=Cart&a=cart5&order_sn=" + data.result + '&third_leader=' + data.third_leader + '&third_leader0=' + data.third_leader0 + '&applyid=' + data.applyid + '&type=' + data.type;
             }
         });
     }

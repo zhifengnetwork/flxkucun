@@ -43,6 +43,7 @@ class PlaceOrder
     private $apply_type = 1;
     private $kucun_type = 0;
     private $kuaidi_type = 0;
+    private $third_leader = 0;
 
     /**
      * PlaceOrder constructor.
@@ -392,7 +393,11 @@ class PlaceOrder
         if(($this->apply_type == 2) && !$this->applyid && ($this->user_id == $this->sellerid)){
             $orderData['order_amount'] = $orderData['shipping_price'];
             $orderData['total_amount'] = $orderData['shipping_price'];    
-        }        
+        } 
+        if($this->third_leader && $orderData['shipping_price']){
+            $orderData['order_amount'] -= $orderData['shipping_price'];
+            $orderData['total_amount'] -= $orderData['shipping_price'];    
+        }         
 
         $this->order->data($orderData, true);
         $orderSaveResult = $this->order->save();
@@ -601,6 +606,12 @@ class PlaceOrder
         $this->kucun_type = 1;
         return $this;
     }  
+
+    public function setThird_leader($third_leader)
+    {
+        $this->third_leader = $third_leader;
+        return $this;
+    }      
     
     public function setApplyid($applyid,$type)
     {

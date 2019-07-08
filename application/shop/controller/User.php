@@ -352,6 +352,7 @@ class User extends MobileBase
         $this->assign('kucun', $kucun);
         $this->assign('type', $type);
         $this->assign('title', $title);
+        $this->assign('third_leader', I('get.third_leader/d',0));
         return $this->fetch();
     }
 
