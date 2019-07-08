@@ -243,7 +243,7 @@
             //普通流程
             var goods_num = $("#goods_num").val();
             var store_count = $("#store_count").val();
-            if (goods_num <= store_count) {
+            if (goods_num <= store_count) { 
                 if(({$user_first_leader} == 0) && ({$user.level} <= 2)){
                     $("#buy_now").submit();
                 }else{
@@ -254,9 +254,9 @@
                     $("#buy_now").submit();
                 }
             } else {
-                layer.open({icon: 2, content: "购买数量超过此商品购买上限", time: 2});
+                layer.open({icon: 2, content: "购买数量超过此商品购买上限", time: 2000});
             }
-            $("#buy_now").submit();
+            //$("#buy_now").submit();
         });        
 
         /**
