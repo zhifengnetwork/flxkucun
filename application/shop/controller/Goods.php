@@ -93,13 +93,20 @@ class Goods extends MobileBase
         if($user_id && I('user_id'))share_deal_after($user_id,I('user_id'));
         //$this->binding_leader($get_user_id);
 
+        //获取库存
+        $user_first_leader = findthird_leader($user['user_id'],$user['level']);
+        if(($user['level'] > 2) && $user_first_leader){
+            $goods['store_count'] = M('warehouse_goods')->where(['user_id'=>$user_first_leader,'goods_id'=>$goods_id])->value('nums');
+        }
+
         $this->assign('list', $list);    
         $this->assign('price', $price); 
         $this->assign('share_img', $share_img); 
         //dump($goods);exit;
         $this->assign('recommend_goods', $recommend_goods);
         $this->assign('goods', $goods);
-        $this->assign('user', $user);          
+        $this->assign('user', $user);     
+        $this->assign('user_first_leader', $user_first_leader);       
         return $this->fetch();
     }
 
