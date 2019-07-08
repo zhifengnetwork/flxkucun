@@ -181,6 +181,7 @@
             <input id='goods_num' name='goods_num' type='hidden' value='1' >
             <input id='activity_is_on' name='activity_is_on' type='hidden' value='1' >
             <input id='shop_price' name='shop_price' type='hidden' value={$price} >
+            <input id='store_count' name='store_count' type='hidden' value={$goods.store_count} >
         </form> 
 
         <!-- 操作栏 -->
@@ -238,6 +239,22 @@
         });
 
         $('.confirmBtn').click(function(){
+            //普通流程
+            var goods_num = $("#goods_num").val();
+            var store_count = $("#store_count").val();
+            if (goods_num <= store_count) {
+                if(({$user_first_leader} == 0) && ({$user.level} <= 2)){
+                    $("#buy_now").submit();
+                }else{
+                    alert('将跳转到上级仓库');
+                    //form.attr('action', "{:U('shop/User/store_manage',['action'=>'buy_now'])}").submit();
+                    //form.attr('action', "{:U('shop/User/superior_store',['goods_id'=>$v[goods_id]])}").submit();
+                    $("#buy_now").attr('action',"{:U('shop/User/superior_store',['goods_id'=>$v[goods_id]])}");
+                    $("#buy_now").submit();
+                }
+            } else {
+                layer.open({icon: 2, content: "购买数量超过此商品购买上限", time: 2});
+            }
             $("#buy_now").submit();
         });        
 
