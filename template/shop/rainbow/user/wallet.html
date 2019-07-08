@@ -24,8 +24,10 @@
         		<!---->
         		<div class="money_wrap">
         			<div class="money">
-        				<p>可提现金额</p>
-        				<p>{$user.user_money}</p>
+						<a href="{:U('Mobile/User/withdrawals')}">
+        					<p>可提现金额</p>
+							<p>{$user.user_money}</p>
+						</a>
         			</div>
         			<div class="integral">
         				<div class="int">

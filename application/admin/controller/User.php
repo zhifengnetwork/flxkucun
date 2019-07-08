@@ -949,27 +949,126 @@ class User extends Base
     public function withdrawals_update()
     {
         $id_arr = I('id/a');
+       
+        if(count($id_arr) > 1){
+            $this->ajaxReturn(array('status' => 0, 'msg' => "操作失败，请单选"), 'JSON');
+            exit;
+        }
+
         $data['status'] = $status = I('status');
         $data['remark'] = I('remark');
-        if ($status == 1) $data['check_time'] = time();
-        if ($status != 1) $data['refuse_time'] = time();
+
         $ids = implode(',', $id_arr);
+
         $falg = M('withdrawals')->where(['id'=>$ids])->find();
         $user_find = M('users')->where(['user_id'=>$falg['user_id']])->find();
-        if($user_find['user_money'] < $falg['money'])
-        {
-            $this->ajaxReturn(array('status' => 0, 'msg' => "当前用户余额不足"), 'JSON');
+
+        if ($status == 1){
+            $data['check_time'] = time();
+            $wx_content = "您提交的提现申请已通过审核\n将在24小时内到账，请注意查收！\n备注：{$data['remark']}";
+
         }
+        if ($status != 1){
+            //审核未通过退还金额
+            accountLog($falg['user_id'], $falg['money'] , 0, '提现未通过退款',  0, 0, '');
+            $wx_content = "您提交的提现申请未通过审核！\n备注：{$data['remark']}";
+            $data['refuse_time'] = time();
+            // 发送公众号消息给用户
+            $wechat = new \app\common\logic\wechat\WechatUtil();
+            $wechat->sendMsg($user_find['openid'], 'text', $wx_content);
+
+            Db::name('withdrawals')->whereIn('id', $ids)->update($data);
+
+            $this->ajaxReturn(array('status' => 1, 'msg' => "操作成功"), 'JSON');
+            exit;
+        }
+
+        // $falg = M('withdrawals')->where(['id'=>$ids])->find();
+        // $user_find = M('users')->where(['user_id'=>$falg['user_id']])->find();
+        // if($user_find['user_money'] < $falg['money'])
+        // {
+        //     $this->ajaxReturn(array('status' => 0, 'msg' => "当前用户余额不足"), 'JSON');
+        //     exit;
+        // }
         $user_arr = array(
             'user_money' => $user_find['user_money'] - $falg['money']
         );
+
+        if($ids == ''){
+            $this->ajaxReturn(array('status' => 0, 'msg' => "操作失败，ID不能为空"), 'JSON');
+            exit;
+        }
+
+        // //写记录（扣钱）
+        // $rr = accountLog($falg['user_id'], -$falg['money'], 0, '提现编号:'.$ids,0, 0 , 0);
+        // if($rr == false){
+        //     // 发送公众号消息给用户
+        //     $wechat = new \app\common\logic\wechat\WechatUtil();
+        //     $wechat->sendMsg($user_find['openid'], 'text', '您提交的提现申请操作失败！');
+        //     $this->ajaxReturn(array('status' => 0, 'msg' => "操作失败"), 'JSON');
+        //     exit;
+        // }
+    
+        if($falg['bank_name'] == '微信'){  
+            //微信
+            $result = $this->withdrawals_weixin($falg['id']);
+            if(isset($result['status'])){
+                // 发送公众号消息给用户
+                $wechat = new \app\common\logic\wechat\WechatUtil();
+                $wechat->sendMsg($user_find['openid'], 'text', '您提交的提现申请操作失败！');
+                $this->ajaxReturn(array('status' => 0, 'msg' => $result['msg']), 'JSON');
+                exit;
+            }else{
+                $result['payment_time'] = strtotime($result['payment_time']);
+                $result['money'] = $falg['money'];
+                $result['user_id'] = $falg['user_id'];
+                $flag = M('withdrawals_weixin')->insert($result);
+            } 
+            // ["mch_appid"] => string(18) "wxaef006dc718188f7"
+            // ["mchid"] => string(10) "1507131181"
+            // ["device_info"] => string(0) ""
+            // ["nonce_str"] => string(32) "d2ad6d55fd8329342da107ea105fcfaa"
+            // ["result_code"] => string(7) "SUCCESS"
+            // ["partner_trade_no"] => string(8) "15357032"
+            // ["payment_no"] => string(28) "1507131181201903296764930713"
+            // ["payment_time"] => string(19) "2019-03-29 15:20:40"
+        }
+
         $r = Db::name('withdrawals')->whereIn('id', $ids)->update($data);
         if ($r !== false) {
-            Db::name('users')->whereIn('user_id', $falg['user_id'])->update($user_arr);
+         
+            // 发送公众号消息给用户
+            $wechat = new \app\common\logic\wechat\WechatUtil();
+            $wechat->sendMsg($user_find['openid'], 'text', $wx_content);
+
             $this->ajaxReturn(array('status' => 1, 'msg' => "操作成功"), 'JSON');
+
         } else {
             $this->ajaxReturn(array('status' => 0, 'msg' => "操作失败"), 'JSON');
         }
+    }
+
+    //用户微信提现
+    private function withdrawals_weixin($id){
+        $falg = M('withdrawals')->where(['id'=>$id])->find();
+        $openid = M('users')->where('user_id', $falg['user_id'])->value('openid');
+        $data['openid'] = $openid;
+        $data['pay_code'] = $falg['id'].$falg['user_id'];
+        $data['desc'] = '提现ID'.$falg['id'];
+        if($falg['taxfee'] >= $falg['money']){
+            return array('status'=>1, 'msg'=>"提现额度必须大于手续费！" );
+        }else{
+            $data['money'] = bcsub($falg['money'], $falg['taxfee'], 2);
+        }
+        include_once PLUGIN_PATH . "payment/weixin/weixin.class.php";
+        $weixin_obj = new \weixin('weixin',['mchid'=>'1520508141','key'=>'a8d2628f336ef5d895c28517a62dd8e2']);
+        $result = $weixin_obj->transfer($data);
+        // if($result){
+        //     $result['payment_time'] = strtotime($result['payment_time']);
+        //     $result['money'] = $falg['money'];
+        //     $result['user_id'] = $falg['user_id'];
+        // }
+        return $result;
     }
 
     // 用户申请提现
