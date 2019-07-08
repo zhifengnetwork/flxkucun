@@ -2467,7 +2467,7 @@ function getThird_leader1($user_id, $level){
     if(!$third_leader)return 0;
 
     $third_leader_level = M('Users')->where(['user_id'=>$third_leader])->value('level');
-    if($third_leader_level <= $level)
+    if(($third_leader_level <= $level) || ($third_leader_level <= 2))
         return getThird_leader1($third_leader,$level);
     else
         return $third_leader;
