@@ -65,6 +65,8 @@ class Index extends MobileBase {
         $this->assign('activity_img',$activity_img);
         //获取首页视频
         $video = Db::name('config')->where('inc_type','home')->column('name,value');
+        $third_leader = findthird_leader($user['user_id'],$user['level']);
+        $this->assign('third_leader',$third_leader);
         $this->assign('video',$video);
         return $this->fetch();
     }

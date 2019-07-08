@@ -170,6 +170,7 @@ function share_deal_after($xiaji, $shangji)
                 $xiaji_nickname = get_nickname_new($xiaji);
             }
             $wx_content = "您的一级创客[" . $xiaji_nickname . "][ID:" . $xiaji . "]" . $before . "关注了公众号";
+            if($apply_integral)$wx_content .= '！您获得 ' . $apply_integral . ' 积分';
             $wechat = new \app\common\logic\wechat\WechatUtil();
             $wechat->sendMsg($shangji_openid, 'text', $wx_content);
         }
@@ -2447,32 +2448,34 @@ function find_prepareuserinfoID($user_id)
 }
 
 //找出配货上级
-function getThird_leader($user_id, $goods_id){
-    $third_leader = M('Users')->where(['user_id'=>$user_id])->find('third_leader');
+function getThird_leader($user_id, $level, $goods_id){
+    //$third_leader = M('Users')->where(['user_id'=>$user_id])->find('third_leader');
+    $third_leader = findthird_leader($user_id,$level);
     if(!$third_leader)
-        return 0;
-    $num = M('Warehouse_goods')->where(['user_id'=>$third_leader,'goods_id'=>$goods_id])->value('num');
-    if($num > 0)
+        return 0; 
+    $num = M('Warehouse_goods')->where(['user_id'=>$third_leader,'goods_id'=>$goods_id])->find();
+    if($num && ($num['num'] > 0))
         return $third_leader;
     else
-        return getThird_leader($third_leader, $goods_id);
+        return getThird_leader($third_leader, $level, $goods_id);
 }
 
 //找出配货上级
 function getThird_leader1($user_id, $level){
-    $third_leader = M('Users')->where(['user_id'=>$user_id])->value('third_leader');
+    //$third_leader = M('Users')->where(['user_id'=>$user_id])->value('third_leader');
+    $third_leader = findthird_leader($user_id, $level);
     if(!$third_leader)return 0;
 
     $third_leader_level = M('Users')->where(['user_id'=>$third_leader])->value('level');
-    if($third_leader_level <= $level)
+    if(($third_leader_level <= $level) || ($third_leader_level <= 2))
         return getThird_leader1($third_leader,$level);
     else
         return $third_leader;
 
     if(!$third_leader)
         return 0;
-    $num = M('Warehouse_goods')->where(['user_id'=>$third_leader,'goods_id'=>$goods_id])->value('num');
-    if($num > 0)
+    $num = M('Warehouse_goods')->where(['user_id'=>$third_leader,'goods_id'=>$goods_id])->find();
+    if($num && ($num['num'] > 0))
         return $third_leader;
     else
         return getThird_leader($third_leader, $goods_id);

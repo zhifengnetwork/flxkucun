@@ -385,4 +385,24 @@ class Video extends MobileBase{
 
     }
 
+    //图片上传
+    public function upload_image(){
+        // 获取表单上传文件 例如上传了001.jpg
+        $file = request()->file('image');
+        // 移动到框架应用根目录/public/uploads/ 目录下
+        if($file){
+            $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads' . DS . 'video');
+            if($info){
+                $result['url'] = '/public/uploads/video/'.$info->getSaveName();
+                $result['status'] = 1;
+                return json($result);
+            }else{
+                // 上传失败获取错误信息
+                $result['msg'] = $file->getError();
+                $result['status'] = 2;
+                return json($result);
+            }
+        }
+    }
+
 }

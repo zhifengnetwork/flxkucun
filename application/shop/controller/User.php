@@ -316,11 +316,11 @@ class User extends MobileBase
         if(($this->user['level'] <= 2) && !$goods_id && !$type){
             $this->redirect(U('User/store_manage',['third_leader'=>$this->user['third_leader']])); return;
         }
-        if($goods_id && ($this->user['level'] <= 2)){
-            $pei_parent = getThird_leader($this->user_id, $goods_id);
-        }else 
-            $pei_parent = getThird_leader1($this->user_id, $this->user['level']);
-        
+        /* if($goods_id && ($this->user['level'] <= 2)){
+            $pei_parent = getThird_leader($this->user_id, $this->user['level'], $goods_id);
+        }else  */
+        $pei_parent = getThird_leader1($this->user_id, $this->user['level']);
+
         (($this->user['level'] > 2) && ($type == 2)) && $pei_parent = $this->user_id;
         if($pei_parent == $this->user_id){
             $title = '我的仓库';

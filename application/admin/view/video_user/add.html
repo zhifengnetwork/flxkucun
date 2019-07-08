@@ -135,12 +135,21 @@
                     <label>视频</label>
                 </dt>
                 <dd class="opt">
-                    <div style="width: 60px;height:24px;border: 1px solid #4fc0e8;text-align: center;background-color: #4fc0e8;color: #fff;"><label for="video_id">视频上传</label></div>
+                    <div style="width: 86px;height:24px;border: 1px solid #4fc0e8;text-align: center;background-color: #4fc0e8;color: #fff;"><label for="video_id">视频上传</label></div>
                     <video src="{$info.video_url}"  width="330" height="180" controls="controls" class="video">
                     </video>
                 </dd>
             </dl>
-            
+            <dl class="row">
+                <dt class="tit">
+                    <label>封面</label>
+                </dt>
+                <dd class="opt">
+                    <div style="width: 86px;height:24px;border: 1px solid #4fc0e8;text-align: center;background-color: #4fc0e8;color: #fff;"><label for="up_image">封面上传</label></div>
+                    <img src="{$info.video_img}" class="video_img" width="330">
+                    </video>
+                </dd>
+            </dl>
             <dl class="row">
                 <dt class="tit">是否推荐</dt>
                 <dd class="opt">
@@ -180,6 +189,9 @@
      <form action="{:url('videoUser/upload')}" enctype="multipart/form-data" method="post" id="video_form">
         <input type="file" name="video" style="display: none;" id="video_id" onchange="up_video()">
      </form>
+     <form action="{:url('videoUser/upload_image')}" enctype="multipart/form-data" method="post" id="ajaxform">
+        <input type="file" name="image" style="display: none;" id="up_image" onchange="up_image2()">
+     </form>
     <!--表单数据-->
 </div>
 <div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
@@ -191,9 +203,21 @@
         $("#video_form").ajaxSubmit(function (data) {
             layer.closeAll('loading');
             if(data.status == 1){
-                $('input[name="video_img"]').val(data.img);
                 $('input[name="video_url"]').val(data.url);
                 $('.video').attr('src',data.url);
+            }else{
+                layer.msg(data.msg, {icon: 2,time: 1000});
+            }
+        });
+    }
+    //封面上传
+    function up_image2(){
+        layer.load(2);
+        $("#ajaxform").ajaxSubmit(function (data) {
+            layer.closeAll('loading');
+            if(data.status == 1){
+                $('input[name="video_img"]').val(data.url);
+                $('.video_img').attr('src',data.url);
             }else{
                 layer.msg(data.msg, {icon: 2,time: 1000});
             }
