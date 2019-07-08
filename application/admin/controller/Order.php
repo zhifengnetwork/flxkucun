@@ -1424,6 +1424,69 @@ exit("请联系DC环球直供网络客服购买高级版支持此功能");
      */
     public function export_order()
     {
+        $begin = $this->begin;
+        $end = $this->end;
+        // 搜索条件
+        $condition = array('shop_id'=>0);
+        $keyType = I("key_type");
+        $keywords = I('keywords','','trim');
+        
+        $consignee =  ($keyType && $keyType == 'consignee') ? $keywords : I('consignee','','trim');
+        $consignee ? $condition['consignee'] = trim($consignee) : false;
+
+        if($begin && $end){
+        	$condition['add_time'] = array('between',"$begin,$end");
+        }
+        $condition['prom_type'] = array('lt',5);
+        $order_sn = ($keyType && $keyType == 'order_sn') ? $keywords : I('order_sn') ;
+        $order_sn ? $condition['order_sn'] = trim($order_sn) : false;
+        
+        I('order_status') != '' ? $condition['order_status'] = I('order_status') : false;
+        I('pay_status') != '' ? $condition['pay_status'] = I('pay_status') : false;
+        I('prom_type/d',0) ? $condition['prom_type'] = I('prom_type/d',0) : false;
+        if(I('seller_id/d',0) == 1)$condition['kucun_type'] = ['neq',0];
+        if(I('seller_id/d',0) == 2)$condition['kucun_type'] = 0;
+		//$condition['seller_id'] = 0;
+        //I('pay_code') != '' ? $condition['pay_code'] = I('pay_code') : false;
+        if(I('pay_code')){
+            switch (I('pay_code')){
+                case '余额支付':
+                    $condition['pay_name'] = I('pay_code');
+                    break;
+                case '积分兑换':
+                    $condition['pay_name'] = I('pay_code');
+                    break;
+                case 'alipay':
+                    $condition['pay_code'] = ['in',['alipay','alipayMobile']];
+                    break;
+                case 'weixin':
+                    $condition['pay_code'] = ['in',['weixin','weixinH5','miniAppPay']];
+                    break;
+                case '其他方式':
+                    $condition['pay_name'] = '';
+                    $condition['pay_code'] = '';
+                    break;
+                default:
+                    $condition['pay_code'] = I('pay_code');
+                    break;
+            }
+        }
+
+        I('shipping_status') != '' ? $condition['shipping_status'] = I('shipping_status') : false;
+        I('user_id') ? $condition['user_id'] = trim(I('user_id')) : false;
+        $sort_order = I('order_by','DESC').' '.I('sort');
+        $count = Db::name('order')->where($condition)->count();
+        $Page  = new AjaxPage($count,20);
+        $show = $Page->show();
+        $orderList = Db::name('order')->where($condition)->limit($Page->firstRow,$Page->listRows)->order($sort_order)->select();
+
+        $Users = M('Users');
+        foreach($orderList as $k=>$v){
+            $userinfo = $v['seller_id'] ? $Users->field('nickname,mobile')->find($v['seller_id']) : '';
+            $orderList[$k]['seller_name'] = $userinfo ? $userinfo['nickname'] : '';
+            $orderList[$k]['seller_mobile'] = $userinfo ? $userinfo['mobile'] : '';
+        }
+        /*        
     	//搜索条件
         $order_status = I('order_status','');
         $order_ids = I('order_ids');
@@ -1478,7 +1541,8 @@ exit("请联系DC环球直供网络客服购买高级版支持此功能");
         }
 
         $orderList = Db::name('order')->field("*,FROM_UNIXTIME(add_time,'%Y-%m-%d') as create_time")->where($where)->order('order_id')->select();
-    	$strTable ='<table width="500" border="0">';
+        */
+        $strTable ='<table width="500" border="0">';
     	$strTable .= '<tr>';
     	$strTable .= '<td style="text-align:center;font-size:12px;width:120px;">订单编号</td>';
     	$strTable .= '<td style="text-align:center;font-size:12px;" width="100">日期</td>';

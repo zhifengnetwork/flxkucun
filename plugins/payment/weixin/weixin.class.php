@@ -170,8 +170,8 @@ EOF;
     	$wxchat['appid'] = WxPayConfig::$appid;
     	$wxchat['mchid'] = WxPayConfig::$mchid;
 
-    	$wxchat['api_cert'] = '/plugins/payment/weixin/cert/apiclient_cert.pem';
-    	$wxchat['api_key'] = '/plugins/payment/weixin/cert/apiclient_key.pem';
+    	$wxchat['api_cert'] = './plugins/payment/weixin/cert/apiclient_cert.pem';
+    	$wxchat['api_key'] = './plugins/payment/weixin/cert/apiclient_key.pem';
         // $wxchat['api_ca'] = '/plugins/payment/weixin/cert/rootca.pem';
     	$webdata = array(
     			'mch_appid' => $wxchat['appid'],
@@ -182,7 +182,8 @@ EOF;
     			'openid' => $data['openid'],//转账用户的openid
     			'check_name'=> 'NO_CHECK', //OPTION_CHECK不强制校验真实姓名, FORCE_CHECK：强制 NO_CHECK：
     			//'re_user_name' => 'jorsh', //收款人用户姓名
-    			'amount' => $data['money'] * 100, //付款金额单位为分
+                'amount' => $data['money'] * 100, //付款金额单位为分
+                //'amount' => 1, //付款金额单位为分
     			'desc'   => $data['desc'],
     			'spbill_create_ip' => request()->ip(),
         );
@@ -271,9 +272,11 @@ EOF;
     		curl_setopt($oCurl,CURLOPT_SSLCERT,$wxchat['api_cert']);
     		curl_setopt($oCurl,CURLOPT_SSLKEY,$wxchat['api_key']);
     		curl_setopt($oCurl,CURLOPT_CAINFO,$wxchat['api_ca']);
-    	}
-    	$sContent = curl_exec($oCurl);
-    	$aStatus = curl_getinfo($oCurl);
+        }
+    	$sContent = curl_exec($oCurl);  
+        $aStatus = curl_getinfo($oCurl);
+        //dump(curl_error($oCurl)); exit;
+        //dump($sContent);dump($aStatus); exit;
     	curl_close($oCurl);
     	if (intval($aStatus["http_code"]) == 200) {
     		return $sContent;
