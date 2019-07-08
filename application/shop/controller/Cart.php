@@ -294,6 +294,7 @@ class Cart extends MobileBase {
         $source_uid = input('source_uid/d',0);
         $third_leader = input('third_leader/d',0);
         if($third_leader)$seller_id = $third_leader;
+        if($prom_id){$user_money=0;$pay_pwd='';} //团购，秒杀不要余额支付
        // echo $seller_id;exit;
         $cart_validate = Loader::validate('Cart');
         if($action_type=='kucun_buy')
