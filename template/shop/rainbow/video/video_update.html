@@ -53,34 +53,33 @@
 		        		</div>
 		        		<input class="put" name="video" type="file" placeholder ="添加您要上传的视频" accept="video/*" />
 	        		</div> -->
-	        	
-	        		<!--上传中状态显示，没有上传默认隐藏-->
-		        	<div class="hide">
-		        		<div class="niu_z">
-	        				<img src="__STATIC__/images/video/003v.png" />
-	        			</div>
-	        			<!---->
-	        			<p>正常上传中 请耐心等待......</p>
-		        	</div>
-		        	<!--上传完成弹框-->
-		        	<div class="up_box">
-		        		<div class="pop">
-		        			<div class="img">
-		        				<img src="__STATIC__/images/video/004v.png" />
-		        			</div>
-							<p>上传成功</p>
-							<a href="{:U('shop/video/video_list')}">
-								<div class="acc">完成</div>
-							</a>
-		        		</div>
-		        	</div>
-		        	
 	        	</div>
 	        	<!--文字说明-->
 				<div class="state">上传视频大小不能超过10M</div>
 				<!-- 上传按钮 -->
 				<div class="state">
 					<div class="s_but"><label for="video_file">上传视频</label></div>
+				</div>
+				<!--点击上传-->
+				<div class="push_wrap">
+					<!--上传视频封面存放区-->
+					<div class="storage storage_img">
+						<img src="{$info.video_img}" alt="">
+					</div>
+					<!--上传点击区-->
+					<!-- <div class="up_btn up_btn2">
+						<div class="push">
+							<div class="niu">
+								<img src="__STATIC__/images/video/002v.png" />
+							</div>
+							<p>添加您要上传的封面</p>
+						</div> -->
+						<!-- <input class="put" name="video" type="file" placeholder ="添加您要上传的视频" accept="video/*" /> -->
+					<!-- </div> -->
+				</div>
+				<!-- 上传按钮 -->
+				<div class="state">
+					<div class="s_but"><label for="up_image">上传封面</label></div>
 				</div>
         		<!--标题输入框-->
         		<div class="inp">
@@ -98,6 +97,9 @@
 			</form>
 			<form action="{:url('ajaxUpload')}" enctype='multipart/form-data' id="ajaxform" method="post">
 				<input type="file" name="video" accept="video/*" style="display: none;" id="video_file" onchange="up_video()">
+			</form>
+			<form action="{:url('upload_image')}" enctype='multipart/form-data' id="ajaxform2" method="post">
+				<input type="file" name="image" accept="image/*" style="display: none;" id="up_image" onchange="up_image2()">
 			</form>
 		</div>
 		
@@ -118,11 +120,24 @@
 				$("#ajaxform").ajaxSubmit(function (data) {
 					layer.closeAll('loading');
 					if(data.status == 1){
-						$('.video_img').val(data.video_img);
 						$('.video_url').val(data.video_url);
 						$('.video').attr('src',data.video_url);
 						$('.video').attr('controls','controls');
-						$('.up_btn').remove();
+						$('.up_btn1').remove();
+					}else{
+						layer.msg(data.msg, {icon: 2,time: 1000});
+					}
+				});
+			}
+			//视频封面上传
+			function up_image2(){
+				layer.load(2);
+				$("#ajaxform2").ajaxSubmit(function (data) {
+					layer.closeAll('loading');
+					if(data.status == 1){
+						$('.video_img').val(data.url);
+						$('.storage_img').html('<img src="'+data.url+'">');
+						$('.up_btn2').remove();
 					}else{
 						layer.msg(data.msg, {icon: 2,time: 1000});
 					}
