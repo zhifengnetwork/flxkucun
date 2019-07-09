@@ -41,7 +41,7 @@ class Team extends Controller{
         $GroupBuy = M('group_buy');
         $list = $GroupBuy->field('id,buy_num,min_mduser_num')->where(['end_time'=>['elt',time()],'is_end'=>0])->select();
         
-        $list1 = $GroupBuy->field('goods_id')->where(['end_time'=>['elt',time()],'is_end'=>0])->select();
+        $list1 = $GroupBuy->field('id,goods_id')->where(['end_time'=>['elt',time()],'is_end'=>0])->select();
         $GroupBuy->where(['end_time'=>['elt',time()],'is_end'=>0])->update(['is_end'=>1]);
 
         $Goods = M('Goods');

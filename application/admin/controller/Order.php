@@ -1084,7 +1084,6 @@ exit("请联系DC环球直供网络客服购买高级版支持此功能");
                 'pay_status'     => 1,
             ];
             $order = Db::name('order')->where($where)->order('order_id DESC')->select();
-            
             //改变order 发货时的状态和信息
             $update['shipping_code']    = $v['shipping_code'];
             $update['shipping_name']    = $v['shipping_name'];
@@ -1096,7 +1095,6 @@ exit("请联系DC环球直供网络客服购买高级版支持此功能");
             }else{
                 foreach($order as $val){
                     $res = Db::name('order')->where('order_sn',$val['order_sn'])->update($update);
-                    
                     if($res == 1){
                         // 记录订单操作日志
                         $action_info = array(
@@ -1147,7 +1145,7 @@ exit("请联系DC环球直供网络客服购买高级版支持此功能");
                         Db::name('delivery_order_handle')->insert($arr[$k]);
                     }
                }
-            }
+            } 
         }
        sleep(1);
        $this->success('处理成功');
