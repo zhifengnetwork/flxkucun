@@ -79,6 +79,7 @@ class Index extends MobileBase {
         $goodslist = M('Goods')->field('goods_id,goods_name,market_price,goods_remark,original_img,virtual_sales_sum,sales_sum')->where(['is_on_sale'=>1,'is_new'=>1,'is_hot'=>1])->order('sort asc')->limit(($p-1)*$num . ',' . $num)->select();
 
         $GoodsLevelPrice = M('goods_level_price');
+        $level = 1;  //2019-07-09更改为显示普通会员价
         foreach($goodslist as $k=>$v){
             if(!$level){
                 $goodslist[$k]['price'] = $v['market_price'];

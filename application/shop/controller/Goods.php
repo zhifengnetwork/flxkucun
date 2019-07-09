@@ -53,14 +53,16 @@ class Goods extends MobileBase
         }
 
         $recommend_goods = M('goods')->where("is_recommend=1 and is_on_sale=1 and cat_id = {$goods['cat_id']}")->cache(7200)->limit(9)->field("goods_id, goods_name, shop_price")->select();
-
+        /*
         //等级价格
         if($user['level'] > 0){
             $price = M('goods_level_price')->where('goods_id',$goods_id)->where('level',$user['level'])->value('price');
-            $price = $price?$price:$goods['market_price'];
         }else{
             $price = $goods['market_price'];
-        }
+        }*/
+        //2019-07-09更改为显示普通会员价
+        $price = M('goods_level_price')->where('goods_id',$goods_id)->where('level',1)->value('price');
+        $price = $price ? $price : $goods['market_price'];
 
         $commentType = I('commentType', '1'); // 1 全部 2好评 3 中评 4差评
         if ($commentType == 5) {
