@@ -302,6 +302,13 @@ class Cart extends MobileBase {
         $prom_id = input('prom_id/d',0);
         $source_uid = input('source_uid/d',0);
         $third_leader = input('third_leader/d',0);
+
+		if($type && $applyid){
+			$model = ($type == 1) ? M('Apply') : M('Apply_for');
+			$applyinfo = $model->find($applyid);
+			$seller_id = $applyinfo['leaderid'] ? $applyinfo['leaderid'] : $seller_id;
+		}
+
         if($third_leader)$seller_id = $third_leader;
         if($prom_id){$user_money=0;$pay_pwd='';} //团购，秒杀不要余额支付
        // echo $seller_id;exit;
@@ -367,12 +374,6 @@ class Cart extends MobileBase {
                 }
                 $cartLogic->clear(); 
                 $order = $placeOrder->getOrder();
-
-				if($type && $applyid){
-					$model = ($type == 1) ? M('Apply') : M('Apply_for');
-					$applyinfo = $model->find($applyid);
-					$seller_id = $applyinfo['leaderid'] ? $applyinfo['leaderid'] : $seller_id;
-				}
 
                 if(($seller_id != $this->user_id) || ($third_leader > 0)){
                     $str = (($type == 2) && !$applyid) ? '取货' : '进货';
