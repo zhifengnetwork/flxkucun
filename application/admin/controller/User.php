@@ -1023,7 +1023,7 @@ class User extends Base
                 $result['money'] = $falg['money'];
                 $result['user_id'] = $falg['user_id'];
                 $flag = M('withdrawals_weixin')->insert($result);
-				Db::name('users')->whereIn(['user_id'=>$falg['user_id']])->setDec('user_money',$falg['money']);
+				//Db::name('users')->where(['user_id'=>$falg['user_id']])->setDec('user_money',$falg['money']);
             } 
             // ["mch_appid"] => string(18) "wxaef006dc718188f7"
             // ["mchid"] => string(10) "1507131181"
@@ -1034,14 +1034,14 @@ class User extends Base
             // ["payment_no"] => string(28) "1507131181201903296764930713"
             // ["payment_time"] => string(19) "2019-03-29 15:20:40"
         }
-
+		
         $r = Db::name('withdrawals')->whereIn('id', $ids)->update($data);
         if ($r !== false) {
          
             // 发送公众号消息给用户
             $wechat = new \app\common\logic\wechat\WechatUtil();
             $wechat->sendMsg($user_find['openid'], 'text', $wx_content);
-
+			Db::name('users')->where(['user_id'=>$falg['user_id']])->setDec('user_money',$falg['money']);
             $this->ajaxReturn(array('status' => 1, 'msg' => "操作成功"), 'JSON');
 
         } else {

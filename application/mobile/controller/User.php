@@ -189,7 +189,8 @@ class User extends MobileBase
      * 账户资金
      */
     public function account()
-    {
+    {	
+		$this->redirect(U("shop/User/wallet"));
         $user = session('user');
         //获取账户资金记录
         $logic = new UsersLogic();
