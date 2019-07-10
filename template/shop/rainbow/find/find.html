@@ -81,10 +81,10 @@
 								<a href="{:U('shop/video/video_play',array('id'=>$v.id))}">
 									<h3>{$v.title}</h3>
 									<div class="img_wrap">
-										<if $v.original_img >
+										<if $v.video_img >
 											<img src="{$v.video_url}" height="246.41" />
 											<else/>
-											<img src="__STATIC__/images/home_zp/00product-img01.png" />
+											<img src="{$v.video_img}" />
 										</if>
 										<span class="playBtn_sm">
 											<img src="__STATIC__/images/home_zp/playBtn-sm1.png" />
@@ -163,7 +163,7 @@
 			<!--底部导航-start-->
 			<include file="public/footer_nav" />
 
-		</div>
+		</div> 
 	</div>
 		<script src="__STATIC__/js/public/jquery-1.8.3.min.js"></script>
 		<script src="__STATIC__/js/swiper.min.js"></script>
