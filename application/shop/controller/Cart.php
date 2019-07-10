@@ -328,6 +328,15 @@ class Cart extends MobileBase {
         $pay = new Pay();
         try {
             $cartLogic->setUserId($this->user_id);
+
+			$applylevel = 0;
+			if($type && $applyid){
+				$model = ($type == 1) ? M('Apply') : M('Apply_for');
+				$applyinfo = $model->find($applyid);
+				$applylevel = $applyinfo['level'];
+			}
+			$cartLogic->setApplylevel($applylevel);
+
             if ($action == 'buy_now') {
                 $cartLogic->setProm($goods_prom_type,$prom_id);
                 $cartLogic->setGoodsModel($goods_id);

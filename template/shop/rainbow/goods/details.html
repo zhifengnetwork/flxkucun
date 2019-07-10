@@ -250,6 +250,10 @@
                     return;
                 }
                 $("#buy_now").submit();
+            }else if(({$user_first_leader} > 0) && ({$user.level} <= 2)){
+                alert('将跳转到上级仓库');
+                $("#buy_now").attr('action',"{:U('shop/User/store_manage',['third_leader'=>$user_first_leader])}");
+                $("#buy_now").submit();
             }else{
                 alert('将跳转到上级仓库');
                 //form.attr('action', "{:U('shop/User/store_manage',['action'=>'buy_now'])}").submit();
