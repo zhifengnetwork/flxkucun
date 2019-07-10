@@ -124,14 +124,14 @@ class FanliLogic extends Model
 		 $user_info = M('users')->where('user_id',$user_id)->field('first_leader,level,is_code,user_id')->find();
         $goodid = $this->goodId;
         $tgoodsid =$this->tgoodsid;
-		if( $order['pay_status']==1 && $user_info['level']==1 && $goodid!=$tgoodsid)//自动升级vip
+		if( $order['pay_status']==1 && $user_info['level']==1)//自动升级vip
 		{
               $res = M('users')->where(['user_id'=>$user_id])->update(['level'=>2]);
               	$desc = "购买产品成为vip";
 	        	$log = $this->writeLog_ug($user_info['user_id'],'',$desc,2); //写入日志
 		}
 		else if($this->goodId==$this->tgoodsid  && $order['pay_status']==1 && $user_info['level']<3)//自动升级店主
-		{
+		{return;
 			$res_s = M('users')->where(['user_id'=>$user_id])->update(['level'=>3]);
 			$desc = "购买指定产品获得店主";
 	        $log = $this->writeLog_ug($user_info['user_id'],'398',$desc,2); //写入日志
