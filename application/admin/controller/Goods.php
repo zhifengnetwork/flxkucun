@@ -845,8 +845,12 @@ class Goods extends Base {
 
     public function  doUploadVideo(){
         $videoInfo=I('post.','');
+        $Goods = new \app\common\model\Goods();
+        if($videoInfo['video_url'] == '' && $videoInfo['video'] == ''){
+            $Goods->where(['goods_id'=>$videoInfo['goods_id']])->update(['is_video'=>0,'video_url'=>'','video'=>'']);
+            $this->ajaxReturn(['status' => 1,'msg' => '操作成功','url'=>U('Admin/Goods/goodsList')]);
+        }
         if(!empty($videoInfo['video'])||!empty($videoInfo['video_url'])){
-            $Goods = new \app\common\model\Goods();
             if($videoInfo['video_url']){
                 $videoPath=$videoInfo['video_url'];
             }

@@ -159,6 +159,7 @@
                 <input type="hidden" value="{$goodsInfo.video}" name="video_url"   class="input-txt"/>
                 <input type="hidden" value="{$goodsInfo.goods_id}" name="goods_id"   class="input-txt"/>
                 <a href="JavaScript:void(0);" id="submit" class="ncap-btn-big ncap-btn-green">确认提交</a>
+                <a href="JavaScript:void(0);" id="qingchu" class="ncap-btn-big ncap-btn-green">清除视频</a>
                 <span class="err" id="err_goods_id"></span>
             </div>
         </div>
@@ -215,6 +216,11 @@
             }
         });
     });
+    //清除视频
+    $('#qingchu').click(function(){
+        $('input[name="video_url"]').val('');
+        $('input[name="video"]').val('');
+    })
 </script>
 </body>
 </html>
