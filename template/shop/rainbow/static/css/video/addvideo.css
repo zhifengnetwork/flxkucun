@@ -3,9 +3,9 @@
 }
 img {
 	display: block;
+	margin: 0 auto;
 	max-width: 100%;
 	height: 100%;
-	margin: 0 auto;
 }
 .lb_headWrap {
 	background: #F2F2F2;
