@@ -968,6 +968,9 @@ class User extends Base
             $wx_content = "您提交的提现申请已通过审核\n将在24小时内到账，请注意查收！\n备注：{$data['remark']}";
 
         }
+		if ($user_find['user_money'] < $falg['money']){
+			$this->ajaxReturn(array('status' => 0, 'msg' => "该户余额已不足"), 'JSON');
+        }
         if ($status != 1){
             //审核未通过退还金额
             accountLog($falg['user_id'], $falg['money'] , 0, '提现未通过退款',  0, 0, '');
