@@ -557,6 +557,7 @@ class Cart extends MobileBase {
         $this->assign('type',$type);
         $this->assign('applyid',$applyid);
         $this->assign('bankCodeList',$bankCodeList);
+		$this->assign('third_leader0',I('get.third_leader0/d',0));
         $this->assign('pay_date',date('Y-m-d', strtotime("+1 day")));
         return $this->fetch();
     }

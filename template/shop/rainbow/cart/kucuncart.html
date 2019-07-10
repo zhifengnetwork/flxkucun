@@ -718,7 +718,7 @@
                 $("#order_prom_amount").text(data.result.order_prom_amount);// 订单 优惠活动
                 showErrorMsg('订单提交成功，跳转支付页面!');
                 if(data.third_leader == 0)
-                    location.href = "/index.php?m=shop&c=Cart&a=cart4&order_sn=" + data.result + '&third_leader=' + data.third_leader + '&applyid=' + data.applyid + '&type=' + data.type;
+                    location.href = "/index.php?m=shop&c=Cart&a=cart4&order_sn=" + data.result + '&third_leader=' + data.third_leader + '&applyid=' + data.applyid + '&type=' + data.type + '&third_leader0=' + data.third_leader0;
                 else
                     location.href = "/index.php?m=Shop&c=Cart&a=cart5&order_sn=" + data.result + '&third_leader=' + data.third_leader + '&third_leader0=' + data.third_leader0 + '&applyid=' + data.applyid + '&type=' + data.type;
             }
