@@ -1023,6 +1023,7 @@ class User extends Base
                 $result['money'] = $falg['money'];
                 $result['user_id'] = $falg['user_id'];
                 $flag = M('withdrawals_weixin')->insert($result);
+				Db::name('users')->whereIn(['user_id'=>$falg['user_id']])->setDec('user_money',$falg['money']);
             } 
             // ["mch_appid"] => string(18) "wxaef006dc718188f7"
             // ["mchid"] => string(10) "1507131181"
@@ -1061,7 +1062,7 @@ class User extends Base
             $data['money'] = bcsub($falg['money'], $falg['taxfee'], 2);
         }
         include_once PLUGIN_PATH . "payment/weixin/weixin.class.php";
-        $weixin_obj = new \weixin('weixin',['mchid'=>'1520508141','key'=>'a8d2628f336ef5d895c28517a62dd8e2']);
+        $weixin_obj = new \weixin('weixin',['mchid'=>C('customize.MCHID'),'key'=>C('customize.KEY')]);
         $result = $weixin_obj->transfer($data);
         // if($result){
         //     $result['payment_time'] = strtotime($result['payment_time']);
