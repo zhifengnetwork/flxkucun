@@ -190,6 +190,14 @@ class Cart extends MobileBase {
                 $goods_data_checkItem = $data['checkItem'];
                 $pei_parent =$data['pei_parent'];
                 if(count($goods_data_checkItem) > 20)$this->error('一次最多勾选20种商品');
+
+				$applylevel = 0;
+				if($type && $applyid){
+					$model = ($type == 1) ? M('Apply') : M('Apply_for');
+					$applyinfo = $model->find($applyid);
+					$applylevel = $applyinfo['level'];
+				}
+				
                 foreach($goods_data_ids as $k=>$v)
                 {
                     if(!empty($goods_data_checkItem[$k]))
@@ -199,7 +207,7 @@ class Cart extends MobileBase {
                             if($num < $goods_data_number[$k])$this->error('商品库存不足');
                         }
                      // echo $pei_parent;exit;
-                        $result = $this->kucun_add($goods_data_ids[$k],$goods_data_number[$k],0,$pei_parent);
+                        $result = $this->kucun_add($goods_data_ids[$k],$goods_data_number[$k],0,$pei_parent,$applylevel);
                     }
                 }
             }
@@ -207,6 +215,7 @@ class Cart extends MobileBase {
             if ($cartLogic->getUserCartOrderkucunCount() == 0){
                 $this->error('你的购物车没有选中商品', 'Cart/index');
             }
+			$cartLogic->setApplylevel($applylevel);
             $cartList['cartList'] = $cartLogic->getCartkucunList(1); // 获取用户选中的购物车商品
             $cartList['cartList'] = $cartLogic->getCombination($cartList['cartList']);  //找出搭配购副商品
             $cartGoodsTotalNum = count($cartList['cartList']);
@@ -358,6 +367,12 @@ class Cart extends MobileBase {
                 }
                 $cartLogic->clear(); 
                 $order = $placeOrder->getOrder();
+
+				if($type && $applyid){
+					$model = ($type == 1) ? M('Apply') : M('Apply_for');
+					$applyinfo = $model->find($applyid);
+					$seller_id = $applyinfo['leaderid'] ? $applyinfo['leaderid'] : $seller_id;
+				}
 
                 if(($seller_id != $this->user_id) || ($third_leader > 0)){
                     $str = (($type == 2) && !$applyid) ? '取货' : '进货';
@@ -742,7 +757,7 @@ class Cart extends MobileBase {
         /**
      * ajax 将库存商品加入购物车 
      */
-    function kucun_add($goods_id,$goods_num,$item_id=0,$seller_id=0)
+    function kucun_add($goods_id,$goods_num,$item_id=0,$seller_id=0,$applylevel=0)
     {
         $message =array();
        // $goods_id = I("goods_id/d"); // 商品id
@@ -762,6 +777,7 @@ class Cart extends MobileBase {
         $cartLogic->setSpecGoodsPriceById($item_id);
         $cartLogic->setGoodsBuyNum($goods_num);
         $cartLogic->setCartDellerId($seller_id);
+		$cartLogic->setApplylevel($applylevel);
         try {
             $cartLogic->kucun_addGoodsToCart();
            // $cartLogic->addGoodsToCart();

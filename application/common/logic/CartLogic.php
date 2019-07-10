@@ -30,6 +30,7 @@ class CartLogic extends Model
     protected $combination;
     protected $goods_prom_type = 0;
     protected $prom_id = 0;
+	protected $level = 0;
 
     public function __construct()
     {
@@ -142,6 +143,12 @@ class CartLogic extends Model
     public function setCartDellerId($seller_id)
     {
         $this->seller_id = $seller_id;
+       
+    }
+
+    public function setApplylevel($level)
+    {
+        $this->level = $level;
        
     }
 
@@ -427,7 +434,7 @@ class CartLogic extends Model
             $prom_type = $this->specGoodsPrice['prom_type'];
         }else{
             $prom_type = $this->goods['prom_type'];
-        } 
+        }
         switch($prom_type) {
             case 1:
                 $this->addFlashSaleCart(1);
@@ -475,7 +482,7 @@ class CartLogic extends Model
         $userWantGoodsNum = $this->goodsBuyNum + $userCartGoodsSum;//本次要购买的数量加上购物车的本身存在的数量
         if ($userWantGoodsNum > 200) {
             $userWantGoodsNum = 200;
-        }
+        } 
         if ($userWantGoodsNum > $store_count) {
             $userCartGoodsNum = empty($userCartGoodsSum) ? 0 : $userCartGoodsSum;///获取用户购物车的抢购商品数量
            // throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '商品库存不足，剩余' . $store_count . ',当前购物车已有' . $userCartGoodsNum . '件']);
@@ -499,7 +506,7 @@ class CartLogic extends Model
                 //throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '商品库存不足，剩余' . $store_count . ',当前购物车已有' . $userCartGoodsNum . '件']);
             }
             $cartResult = $userCartGoods->save(['goods_num' => $userWantGoodsNum, 'goods_price' => $price, 'member_goods_price' => $price]);
-        } else { 
+        } else {
             //如果该商品没有存在购物车
             if ($this->goodsBuyNum > $store_count) {
                // throw new TpshopException("加入购物车", 0, ['status' => 0, 'msg' => '商品库存不足，剩余' . $this->goods['store_count']]);
@@ -511,6 +518,8 @@ class CartLogic extends Model
                 $price_ladder = $this->goods['price_ladder'];
                 $price = $goodsLogic->getGoodsPriceByLadder($this->goodsBuyNum, $this->goods['shop_price'], $price_ladder);
             }
+			//$goods_level_price = M('goods_level_price')->where(['goods_id'=>$this->goods['goods_id'],'level'=>$this->user['level']])->order('level asc')->value('price');
+			//$goods_level_price && ($price = $goods_level_price);
             $cartAddData = array(
                 'user_id' => $this->user_id,   // 用户id
                 'session_id' => $this->session_id,   // sessionid
@@ -622,7 +631,11 @@ class CartLogic extends Model
                 $cartAddFlashSaleData['goods_price'] = $this->goods['shop_price'];   // 原价
                 $cartAddFlashSaleData['prom_id'] = $this->goods['prom_id'];// 活动id
             }
-            if($type)$cartAddFlashSaleData['cart_type'] = 1;
+            if($type){
+				$level_price = $this->level ? M('goods_level_price')->where(['goods_id'=>$this->goods['goods_id'],'level'=>$this->level])->order('level asc')->value('price') : 0;
+				$cartAddFlashSaleData['goods_price'] = $level_price ? $level_price : $cartAddFlashSaleData['goods_price'];
+				$cartAddFlashSaleData['cart_type'] = 1;
+			}
             $cartResult = Db::name('Cart')->insert($cartAddFlashSaleData);
         }
         if ($cartResult === false) {
@@ -702,7 +715,11 @@ class CartLogic extends Model
                 $cartAddFlashSaleData['goods_price'] = $this->goods['shop_price'];   // 原价
                 $cartAddFlashSaleData['prom_id'] = $this->goods['prom_id'];// 活动id
             }
-            if($type)$cartAddFlashSaleData['cart_type'] = 1;
+            if($type){
+				$level_price = $this->level ? M('goods_level_price')->where(['goods_id'=>$this->goods['goods_id'],'level'=>$this->level])->order('level asc')->value('price') : 0;
+				$cartAddFlashSaleData['goods_price'] = $level_price ? $level_price : $cartAddFlashSaleData['goods_price'];
+				$cartAddFlashSaleData['cart_type'] = 1;
+			}
             $cartResult = Db::name('Cart')->insert($cartAddFlashSaleData);
         }
         if ($cartResult === false) { 
@@ -869,9 +886,10 @@ class CartLogic extends Model
         $cartWhere['combination_group_id'] = 0;
          $cartWhere['cart_type'] = 1;  
         $cartList = $cart->with('goods')->where($cartWhere)->select();  // 获取购物车商品
-        
         foreach($cartList as $k=>$v){
-            $goods_price = M('goods_level_price')->where(['goods_id'=>$v['goods_id'],'level'=>$this->user['level']])->value('price');
+			$where = ['goods_id'=>$v['goods_id'],'level'=>$this->user['level']];
+			if($this->level)$where['level'] = $this->level;
+            $goods_price = M('goods_level_price')->where($where)->value('price');
             $goods_price && $cartList[$k]['goods_price'] = $goods_price;
             $goods_price && $cartList[$k]['member_goods_price'] = $goods_price;
         }
