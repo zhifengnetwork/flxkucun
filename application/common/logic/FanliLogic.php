@@ -69,12 +69,12 @@ class FanliLogic extends Model
 		$pro_num = $this->getproductnum();
 		if($this->prom_type == 1)$this->flash_sale_commission(); //秒杀返利
 		if($this->goodId==$this->tgoodsid )//是否特殊产品
-		{
+		{ return true;
 			$this->addhostmoney($user_info['user_id'],$parent_info);//店主推荐店主
 			$this->upzdmoney($user_info['first_leader']);//大区，董事无限代
 		}
 		else
-    {
+    { return true;
       //不是特产品按照佣金比例反给用户 ，自购返利
 
 			if ($user_info['level']>1) {
@@ -370,7 +370,7 @@ class FanliLogic extends Model
 	}
 		//总监，大区无限代返利
 	public function upzdmoney($user_id)
-	{
+	{ return;
 		$three =0;
 	    $zongjing =0;
 	    $four = 0;
