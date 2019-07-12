@@ -196,8 +196,8 @@ class Order extends MobileBase
                         $level = M('user_level')->field('level')->where(['level'=>['gt',$orderuserlevel],'stock'=>['elt',$orderinfo['total_amount']]])->order('level desc')->limit(1)->find();
                         $level = $level['level'] ? $level['level'] : 0;
                         if($level > $orderuserlevel){
-                            $balance_leader = findbalance_leader($orderinfo['user_id']);
-                            $third_leader = findthird_leader($orderinfo['user_id']);
+                            $balance_leader = findbalance_leader($orderinfo['user_id'],$orderuserlevel);
+                            $third_leader = findthird_leader($orderinfo['user_id'],$orderuserlevel);
                             M('Users')->where(['user_id'=>$orderinfo['user_id']])->update(['level'=>$level,'balance_leader'=>$balance_leader,'third_leader'=>$third_leader]);
                         }
                     }        
@@ -208,8 +208,8 @@ class Order extends MobileBase
                             $applyinfo = $Apply->find($orderinfo['applyid']);
 							if($applyinfo['leaderid'] == $this->user_id){
                                 M('Users')->where(['user_id'=>$orderinfo['user_id']])->update(['first_leader'=>$this->user_id]);
-                                $balance_leader = findbalance_leader($orderinfo['user_id']);
-                                $third_leader = findthird_leader($orderinfo['user_id']);
+                                $balance_leader = findbalance_leader($orderinfo['user_id'],$orderuserlevel);
+                                $third_leader = findthird_leader($orderinfo['user_id'],$orderuserlevel);
                                 M('Users')->where(['user_id'=>$orderinfo['user_id']])->update(['balance_leader'=>$balance_leader,'third_leader'=>$third_leader]);
 							}
 						}
