@@ -305,6 +305,7 @@ class User extends MobileBase
         if ($user['mobile'] == '' && $user['email'] == '') {
             $this->error('请先绑定手机号码', U('Shop/User/setMobile'));
         }
+		$this->user['third_leader'] = findthird_leader($this->user_id, $this->user['level']);
 
         $goods_id = I('get.goods_id/d',0);
         $type = I('get.type/d',1);
@@ -352,7 +353,7 @@ class User extends MobileBase
         $this->assign('kucun', $kucun);
         $this->assign('type', $type);
         $this->assign('title', $title);
-        $this->assign('third_leader', I('get.third_leader/d',0));
+        $this->assign('third_leader', I('get.third_leader/d',0) ? I('get.third_leader/d',0) : $pei_parent);
         return $this->fetch();
     }
 
