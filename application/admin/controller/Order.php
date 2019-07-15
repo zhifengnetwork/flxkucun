@@ -1476,7 +1476,7 @@ exit("请联系DC环球直供网络客服购买高级版支持此功能");
         $count = Db::name('order')->where($condition)->count();
         $Page  = new AjaxPage($count,20);
         $show = $Page->show();
-        $orderList = Db::name('order')->where($condition)->limit($Page->firstRow,$Page->listRows)->order($sort_order)->select();
+        $orderList = Db::name('order')->where($condition)->/*limit($Page->firstRow,$Page->listRows)->*/order($sort_order)->select();
 
         $Users = M('Users');
         foreach($orderList as $k=>$v){
