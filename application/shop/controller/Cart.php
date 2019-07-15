@@ -361,7 +361,7 @@ class Cart extends MobileBase {
                 $pay->setUserId($this->user_id)->useUserMoney($user_money);
             else
                 $pay->setUserId($this->user_id)->delivery($address['district'])->useUserMoney($user_money);
-                
+
             // 提交订单
             if ($_REQUEST['act'] == 'submit_order') {
                 $prominfo = M('goods')->field('prom_type,prom_id')->find($goods_id);
@@ -397,7 +397,7 @@ class Cart extends MobileBase {
                         changekucun($v['goods_id'],$order['seller_id'],-$v['goods_num']);
                     }
                 }
-                
+                if($this->user_id == $third_leader)$this->user['third_leader'] = $third_leader;
                 $this->ajaxReturn(['status' => 1, 'msg' => '提交订单成功', 'result' => $order['order_sn'],'third_leader0'=>$third_leader,'third_leader'=>$this->user['third_leader'],'applyid'=>$applyid,'type'=>$type]);
             }
 

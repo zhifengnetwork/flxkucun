@@ -544,16 +544,17 @@ class GoodsLogic extends Model
         }
         $freight = 0;
         foreach ($template_list as $templateVal => $goodsArr) {
-            $temp['template_id'] = $templateVal;
             foreach ($goodsArr as $goodsKey => $goodsVal) {
+				$temp['template_id'] = $templateVal;
                 //2019-06-28加了个判断,针对多商品的订单
                 if($goodsVal['is_free_shipping'] != 1){
-                    $temp['total_volume'] += $goodsVal['volume'] * $goodsVal['goods_num'];
+					$temp['total_volume'] += $goodsVal['volume'] * $goodsVal['goods_num']; 
                     $temp['total_weight'] += $goodsVal['weight'] * $goodsVal['goods_num'];
                     $temp['goods_num'] += $goodsVal['goods_num'];
                     $temp['is_free_shipping'] = 0;
                 }
             }
+			
             $freightLogic->setGoodsModel($temp);
             $freightLogic->setGoodsNum($temp['goods_num']);
             $freightLogic->doCalculation();
