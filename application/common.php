@@ -1174,7 +1174,7 @@ function update_pay_status($order_sn, $ext = array())
     $orderinfo = M('Order')->field('order_id,seller_id,user_id,shipping_price,prom_id,prom_type,total_amount,applyid,apply_type,kucun_type')->where(['order_sn'=>$order_sn])->find();
     if($orderinfo['seller_id'] && !$orderinfo['kucun_type']){
         //自己向自己取货 减库存
-        $goods = M('order_goods')->field('goods_id')->where(['order_id'=>$orderinfo['order_id']])->select();
+        $goods = M('order_goods')->field('goods_id,goods_num')->where(['order_id'=>$orderinfo['order_id']])->select();
         foreach ($goods as $value){
             changekucun($value['goods_id'],$orderinfo['user_id'],-$value['goods_num']);
         }
@@ -2273,7 +2273,7 @@ function changekucun($goods_id, $user_id, $num, $type = 0, $desc = '')
             'change_time' => time(),
         );
         $update = Db::name('warehouse_goods')->where(['goods_id' => $goods_id, 'user_id' => $user_id])->save($update_data);
-        if ($update) {
+		if ($update) {
 
             $log_bool = M('warehouse_goods_log')->add($warehouse_goods_log);
             //return true;
