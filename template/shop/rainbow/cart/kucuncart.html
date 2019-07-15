@@ -522,7 +522,7 @@
                 if(select_address_id > 0){
                     $("#address_list_html").find('.address_id_'+select_address_id).trigger('click');
                 }
-                //ajax_order_price();
+                ajax_order_price();
             }
         });
     }
@@ -641,7 +641,8 @@
         couponListHide(); 
         var address_id = cart2_form.find("input[name='address_id']").val();
         if(address_id == ''){
-            get_address_list();
+			return;
+            //get_address_list();
         }
         //cart2_form.find("input[name='address_id']").val(address_id);
         $.ajax({

@@ -424,11 +424,11 @@ class Cart extends MobileBase {
                 $pricedata['total_amount'] -= $pricedata['shipping_price'];
                 $pricedata['shipping_price'] = 0;
             }
-            if(($type == 2) && !$applyid && ($this->user_id == $pei_parent)){
+            if(($type == 2) && !$applyid && (($this->user_id == $pei_parent) || ($this->user_id == $seller_id))){
                 $pricedata['order_amount'] = $pricedata['shipping_price'];
                 $pricedata['total_amount'] = $pricedata['shipping_price'];    
             } 
-            if($third_leader){
+            if($third_leader && ($this->user_id != $seller_id)){
                 $pricedata['order_amount'] -= $pricedata['shipping_price'];
                 $pricedata['total_amount'] -= $pricedata['shipping_price'];    
             }

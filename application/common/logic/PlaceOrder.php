@@ -389,12 +389,11 @@ class PlaceOrder
         if ($orderData['integral'] > 0 || $orderData['user_money'] > 0) {
             $orderData['pay_name'] = $orderData['user_money']>0 ? '余额支付' : '积分兑换';//支付方式，可能是余额支付或积分兑换，后面其他支付方式会替换
         }
-
         if(($this->apply_type == 2) && !$this->applyid && ($this->user_id == $this->sellerid)){
             $orderData['order_amount'] = $orderData['shipping_price'];
             $orderData['total_amount'] = $orderData['shipping_price'];    
         } 
-        if($this->third_leader && $orderData['shipping_price']){
+        if($this->third_leader && $orderData['shipping_price'] && ($this->user_id != $this->third_leader)){
             $orderData['order_amount'] -= $orderData['shipping_price'];
             $orderData['total_amount'] -= $orderData['shipping_price'];    
         }         
