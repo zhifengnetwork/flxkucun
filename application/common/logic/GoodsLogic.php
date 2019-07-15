@@ -545,7 +545,9 @@ class GoodsLogic extends Model
         $freight = 0;
         foreach ($template_list as $templateVal => $goodsArr) {
             foreach ($goodsArr as $goodsKey => $goodsVal) {
+				//$temp = $goodsVal;
 				$temp['template_id'] = $templateVal;
+				$temp['is_free_shipping'] = $goodsVal['is_free_shipping'];
                 //2019-06-28加了个判断,针对多商品的订单
                 if($goodsVal['is_free_shipping'] != 1){
 					$temp['total_volume'] += $goodsVal['volume'] * $goodsVal['goods_num']; 
