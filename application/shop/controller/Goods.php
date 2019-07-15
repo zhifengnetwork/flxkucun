@@ -785,8 +785,9 @@ class Goods extends MobileBase
 
         $list = Db::name('goods_collect')->alias('c')
                 ->join('goods g','g.goods_id=c.goods_id','LEFT')
-                ->field('g.goods_id,g.goods_name,g.shop_price,g.original_img img')
+                ->field('g.goods_id,g.goods_name,g.shop_price,g.original_img img,g.goods_id')
                 ->where('user_id',$user_id)
+				->where('g.goods_id','>',0)
                 ->select();
 
         return $this->fetch('',[
