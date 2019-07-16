@@ -149,7 +149,7 @@
 
         <!-- 商品规格-->
         <div class="mask" onclick="skuHide()">
-            <div class="sku-content" onclick="cancelTap()">
+            <div class="sku-content" onclick="cancelTap()" style="z-index:1;">
                 <div class="thead">
                     <div class="img-wrap">
                         <a href="#">
@@ -255,7 +255,7 @@
 
         $('.confirmBtn').click(function(){
             if({$user.pay_points} < ({$goods.exchange_integral} * $('#number').val())){
-                layer.open({content: '您的积分不足', time: 5});
+                layer.open({type:0, content: '您的积分不足', time: 5});
                 return;
             }
             $("#buy_now").submit();
