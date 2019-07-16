@@ -18,7 +18,7 @@
         <td align="left" abbr="consignee" axis="col4" class="">
           <div style="text-align: left; width: 120px;" class="">
 		  <!--{$list.seller_name} : {$list.seller_mobile}-->
-		  <if condition="$list.seller_id gt 0">上级发货<else />平台发货</if>
+		  <if condition="$list.seller_id gt 0 and $list.kucun_type eq 1">上级发货<else />平台发货</if>
 		  </div>
         </td>
         <td align="left" abbr="consignee" axis="col4" class="">
