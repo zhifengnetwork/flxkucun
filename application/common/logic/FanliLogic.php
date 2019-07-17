@@ -683,7 +683,7 @@ class FanliLogic extends Model
 			$commission = $commissioninfo['tow_commission'];
 			$not_money  = $commissioninfo['not_money2'];
 		}
-		if(!$commission)return;
+		if(!$commission && !($commission-$not_money) && !$not_money)return;
 		$Users = M('Users');
 		$log = $this->writeLog($user_id,($commission-$not_money),$desc,$status,$not_money); 
 		$Users->where(['user_id'=>$user_id])->setInc('user_money',$commission-$not_money);
@@ -691,14 +691,20 @@ class FanliLogic extends Model
 	}
 
 	//多返一级
-	private function next_lev_commission($commissioninfo,$leader,$status){
+	private function next_lev_commission($commissioninfo,$leader,$status,$level){
 			//多返一级
+			/*
 			$first_leader = M('Users')->where(['user_id'=>$leader['user_id']])->value('first_leader');
 			$level = $first_leader ? M('Users')->where(['user_id'=>$first_leader])->value('level') : 0;	
 			$leader5 = ['user_id'=>($first_leader ? $first_leader : 0),'level'=>$level];
+			*/
+			$UsersLogic = new \app\common\logic\UsersLogic();
+			$leader5 = $UsersLogic->getUserLevTop($leader['user_id'],$level);
 			if($leader5['user_id']){
 				$this->set_flash_sale_commission($leader5['user_id'],$commissioninfo,$status);
-			}			
+				return true;
+			}		
+			return false;
 	}
 	
 	private function flash_sale_commission(){
@@ -734,15 +740,16 @@ class FanliLogic extends Model
 			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,95);
 			//多返一级
 			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>-5])->find();	
-			$this->next_lev_commission($commissioninfo,$leader,96);	
+			$nfl = $this->next_lev_commission($commissioninfo,$leader,96,5);	
 
-			$leader = $UsersLogic->getUserLevTop($this->userId,6); 
+			$leader = $UsersLogic->getUserLevTop($this->userId,6);
+			if(!$nfl)$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,96);
 			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>6])->find();
 			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,95);
 
 			//多返一级
 			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>-6])->find();
-			$this->next_lev_commission($commissioninfo,$leader,96);			
+			$this->next_lev_commission($commissioninfo,$leader,96,6);			
 		}elseif($leader['level'] == 4){
 			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,90);
 			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>3])->find();
@@ -753,15 +760,16 @@ class FanliLogic extends Model
 			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,95);
 			//多返一级
 			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>-5])->find();
-			$this->next_lev_commission($commissioninfo,$leader,96);
+			$nfl = $this->next_lev_commission($commissioninfo,$leader,96,5);
 
 			$leader = $UsersLogic->getUserLevTop($this->userId,6); 
+			if(!$nfl)$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,96);
 			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>6])->find();
 			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,95);
 
 			//多返一级
 			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>-6])->find();
-			$this->next_lev_commission($commissioninfo,$leader,96);		
+			$this->next_lev_commission($commissioninfo,$leader,96,6);		
 		}elseif($leader['level'] == 5){
 			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,90);
 
@@ -771,14 +779,15 @@ class FanliLogic extends Model
 			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,91);	
 			//多返一级
 			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>-5])->find();
-			$this->next_lev_commission($commissioninfo,$leader,96);
+			$nfl = $this->next_lev_commission($commissioninfo,$leader,96,5);
 
 			$leader = $UsersLogic->getUserLevTop($this->userId,6); 
+			if(!$nfl)$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,96);
 			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>6])->find();
 			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,95);			
 			//多返一级
 			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>-6])->find();
-			$this->next_lev_commission($commissioninfo,$leader,93);	
+			$this->next_lev_commission($commissioninfo,$leader,93,6);	
 		}elseif($leader['level'] == 6){
 			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,90);
 
@@ -791,7 +800,7 @@ class FanliLogic extends Model
 	
 			//多返一级
 			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>-6])->find();
-			$this->next_lev_commission($commissioninfo,$leader,93);	
+			$this->next_lev_commission($commissioninfo,$leader,93,6);	
 		}
 		
 	}
