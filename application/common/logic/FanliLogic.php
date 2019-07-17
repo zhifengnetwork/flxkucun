@@ -793,6 +793,8 @@ class FanliLogic extends Model
 
 			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>5])->find();
 			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,93);
+			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>-5])->find();
+			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,96);
 			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>4])->find();
 			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,92);
 			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>3])->find();
