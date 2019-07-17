@@ -85,24 +85,24 @@
                     <label><em>*</em>限购数量</label>
                 </dt>
                 <dd class="opt">
-                    <input type="text" <if condition="$info[id] gt 0">readonly="readonly"</if> id="buy_limit" name="buy_limit" value="2" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')"  class="input-txt">
+                    <input type="text" <if condition="$info[id] gt 0">readonly="readonly"</if> id="buy_limit" name="buy_limit" value="1" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onkeyup="this.value=this.value.replace(/[^\d.]/g,'')"  class="input-txt">
                     <span class="err" id="err_buy_limit"></span><!--{$info.buy_limit}-->
                     <p class="notic">限时抢购每个人能购买的数量</p>
                 </dd>
             </dl>
 
-            <dl class="row">
+            <!-- <dl class="row">
                 <dt class="tit">是否第二件半价</dt>
                 <dd class="opt">
                     <div class="onoff">
-                        <label for="mmt_mail_switch1" class="cb-enable selected">是</label>
-                        <label for="mmt_mail_switch0" class="cb-disable ">否</label>
+                        <label for="mmt_mail_switch1" class="cb-enable ">是</label>
+                        <label for="mmt_mail_switch0" class="cb-disable selected">否</label>
                         <input id="mmt_mail_switch1" name="is_tow_half" checked="checked" value="1" type="radio">
                         <input id="mmt_mail_switch0" name="is_tow_half" value="0" type="radio">
                     </div>
                     <p class="notic"></p>
                 </dd>
-            </dl>            
+            </dl>         -->    
 
             <dl class="row">
                 <dt class="tit">
@@ -114,24 +114,24 @@
                             <th style='text-align:center;'>级别名称</th>
                             <th>&nbsp;&nbsp;&nbsp;&nbsp;一件佣金</th>
                             <th>一件不可提现金额</th>
-                            <th>&nbsp;&nbsp;&nbsp;&nbsp;两件佣金</th>
-                            <th>两件不可提现金额</th>
+                            <!-- <th>&nbsp;&nbsp;&nbsp;&nbsp;两件佣金</th>
+                            <th>两件不可提现金额</th> -->
                         </tr>
                         <volist name='userlevel' id='v'>
                         <tr style='margin-top:10px;height:40px;'>
                             <td style='width:160px;text-align:center;'>{$v.level_name}</td>
                             <td>￥<input type="text" name="num1_{$v.level}" id="num1_{$v.level}"  style='width:60px;margin-right:20px;' value={$v.commission.one_commission}></td>
                             <td>￥<input type="text" name="price1_{$v.level}" id="price1_{$v.level}" style='width:60px;margin-right:20px;' value={$v.commission.not_money1}></td>
-                            <td>￥<input type="text" name="num2_{$v.level}" id="num2_{$v.level}" style='width:60px;margin-right:20px;' value={$v.commission.tow_commission}></td>
-                            <td>￥<input type="text" name="price2_{$v.level}" id="price2_{$v.level}" style='width:60px;margin-right:20px;' value={$v.commission.not_money2}></td>
+                            <!-- <td>￥<input type="text" name="num2_{$v.level}" id="num2_{$v.level}" style='width:60px;margin-right:20px;' value={$v.commission.tow_commission}></td>
+                            <td>￥<input type="text" name="price2_{$v.level}" id="price2_{$v.level}" style='width:60px;margin-right:20px;' value={$v.commission.not_money2}></td> -->
                         </tr>
                         <if condition="$i egt count($userlevel)-1">
                         <tr style='margin-top:10px;height:40px;'>
                             <td style='width:160px;text-align:center;'>{$v.level_name}（第二级）</td>
                             <td>￥<input type="text" name="numm1_{$v.level}" id="numm1_{$v.level}"  style='width:60px;margin-right:20px;' value={:get_level_commission($info['id'],0-$v['level'],'one_commission')}></td>
                             <td>￥<input type="text" name="pricem1_{$v.level}" id="pricem1_{$v.level}" style='width:60px;margin-right:20px;' value={:get_level_commission($info['id'],0-$v['level'],'not_money1')}></td>
-                            <td>￥<input type="text" name="numm2_{$v.level}" id="numm2_{$v.level}" style='width:60px;margin-right:20px;' value={:get_level_commission($info['id'],0-$v['level'],'tow_commission')}></td>
-                            <td>￥<input type="text" name="pricem2_{$v.level}" id="pricem2_{$v.level}" style='width:60px;margin-right:20px;' value={:get_level_commission($info['id'],0-$v['level'],'not_money2')}></td>
+                            <!-- <td>￥<input type="text" name="numm2_{$v.level}" id="numm2_{$v.level}" style='width:60px;margin-right:20px;' value={:get_level_commission($info['id'],0-$v['level'],'tow_commission')}></td>
+                            <td>￥<input type="text" name="pricem2_{$v.level}" id="pricem2_{$v.level}" style='width:60px;margin-right:20px;' value={:get_level_commission($info['id'],0-$v['level'],'not_money2')}></td> -->
                         </tr>                           
                         </if>
                     </volist>
