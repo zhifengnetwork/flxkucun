@@ -764,6 +764,11 @@ class FanliLogic extends Model
 			$this->next_lev_commission($commissioninfo,$leader,96);		
 		}elseif($leader['level'] == 5){
 			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,90);
+
+			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>4])->find();
+			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,92);
+			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>3])->find();
+			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,91);	
 			//多返一级
 			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>-5])->find();
 			$this->next_lev_commission($commissioninfo,$leader,96);
@@ -774,17 +779,8 @@ class FanliLogic extends Model
 			//多返一级
 			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>-6])->find();
 			$this->next_lev_commission($commissioninfo,$leader,93);	
-
-			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>4])->find();
-			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,92);
-			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>3])->find();
-			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,91);	
 		}elseif($leader['level'] == 6){
 			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,90);
-	
-			//多返一级
-			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>-6])->find();
-			$this->next_lev_commission($commissioninfo,$leader,93);	
 
 			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>5])->find();
 			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,93);
@@ -792,6 +788,10 @@ class FanliLogic extends Model
 			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,92);
 			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>3])->find();
 			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,91);	
+	
+			//多返一级
+			$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>-6])->find();
+			$this->next_lev_commission($commissioninfo,$leader,93);	
 		}
 		
 	}

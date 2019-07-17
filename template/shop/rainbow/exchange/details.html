@@ -9,6 +9,15 @@
 	<link rel="stylesheet" href="__STATIC__/css/public/base.css">
 	<link rel="stylesheet" type="text/css" href="__STATIC__/css/swiper.min.css?v=111" />
 	<link rel="stylesheet" type="text/css" href="__STATIC__/css/exchange/details.css" />
+<style>
+/*
+@media (device-height:480px) and (-webkit-min-device-pixel-ratio:2){
+    .layui-m-layerchild{
+        禁止默认的滚动,当你触摸并按住触摸目标时候，禁止或显示系统默认菜单。
+        touch-action: none;
+    }
+} */
+</style>
 </head>
 <body>
     <div class="wrapper">
@@ -256,6 +265,7 @@
         $('.confirmBtn').click(function(){
             if({$user.pay_points} < ({$goods.exchange_integral} * $('#number').val())){
                 layer.open({type:0, content: '您的积分不足', time: 5});
+				//alert('您的积分不足');
                 return;
             }
             $("#buy_now").submit();
