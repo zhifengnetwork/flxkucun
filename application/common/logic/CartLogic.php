@@ -189,6 +189,21 @@ class CartLogic extends Model
                 throw new TpshopException('立即购买',0,['status' => 0, 'msg' => '您已超过该商品的限制购买数', 'result' => '']);
             }
         }
+
+        if($this->goods['prom_type'] == 1){
+            $isBuyWhere = [
+                'og.goods_id'=>$this->goods['goods_id'],
+                'o.user_id'=>$this->user_id,
+                'o.deleted'=>0,
+                'o.order_status'=>['neq',3]
+            ];
+            $isBuySum = Db::name('order_goods')->alias('og')->join('__ORDER__ o','og.order_id = o.order_id','LEFT')->where($isBuyWhere)->sum('og.goods_num');
+            $buy_limit = M('flash_sale')->where(['id'=>$this->goods['prom_id']])->value('buy_limit');
+            if (($this->goodsBuyNum + $isBuySum) > $buy_limit) {
+                throw new TpshopException('立即购买',0,['status' => 0, 'msg' => '您已超过该商品的限制购买数 '.$buy_limit.'件', 'result' => '']);
+            }
+        }
+
         $this->goods['shop_price'] = $this->goods['shop_price']?$this->goods['shop_price']:$this->goods['market_price'];
         $buyGoods = [
             'user_id' => $this->user_id,
