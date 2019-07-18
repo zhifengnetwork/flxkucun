@@ -1030,6 +1030,11 @@ class GoodsLogic extends Model
     //生成分享二维码
     public function goods_qrcode($goods,$url)
     {
+        //删除昨天和前天的文件
+        $dir='public/qrcode/goods/'.date('Ymd',time()-3600*24).'/';
+        $dir2='public/qrcode/goods/'.date('Ymd',time()-3600*48).'/';
+        $this->deldir($dir);
+        $this->deldir($dir2);
         $root = $_SERVER['DOCUMENT_ROOT'].'/';
         //图片缩放
         $goods_price = '￥'.$goods['goods_price'];//现价
@@ -1110,5 +1115,32 @@ class GoodsLogic extends Model
         $image->text($goods_price,'SourceHanSansCN-Normal.ttf',24,'#D798AF',[25,740])->save($new_img);
         $share_img = '/'.$new_img;
         return $share_img;
-    }    
+    }  
+    
+    //删除指定文件夹以及文件夹下的所有文件
+    public function deldir($dir='') {
+        if(!file_exists($dir)){
+            return false;
+        }
+        //先删除目录下的文件：
+        $dh=opendir($dir);
+        while ($file=readdir($dh)) {
+            if($file!="." && $file!="..") {
+                $fullpath=$dir."/".$file;
+                if(!is_dir($fullpath)) {
+                    @unlink($fullpath);
+                } else {
+                    @deldir($fullpath);
+                }
+            }
+        }
+    
+        closedir($dh);
+        //删除当前文件夹：
+        if(rmdir($dir)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
