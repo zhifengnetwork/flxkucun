@@ -147,8 +147,7 @@ class Cart extends MobileBase {
         if($user['level'] < 2 && $exchange_integral > 0){
             $this->error('普通会员不能兑换积分商品');
         }
-        if ($user['mobile'] == '')
-            $this->error('请先绑定手机号码', U('Shop/User/setMobile'));
+        //if ($user['mobile'] == '')$this->error('请先绑定手机号码', U('Shop/User/setMobile'));
 
         $cartLogic = new CartLogic();
         $cartLogic->setUserId($this->user_id);

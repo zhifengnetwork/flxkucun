@@ -303,7 +303,7 @@ class User extends MobileBase
         $data = $logic->get_info($this->user_id);
         $user = $data['result'];
         if ($user['mobile'] == '' && $user['email'] == '') {
-            $this->error('请先绑定手机号码', U('Shop/User/setMobile'));
+            //$this->error('请先绑定手机号码', U('Shop/User/setMobile'));
         }
 		$this->user['third_leader'] = findthird_leader($this->user_id, $this->user['level']);
 
@@ -370,7 +370,7 @@ class User extends MobileBase
         $data = $logic->get_info($this->user_id);
         $user = $data['result'];
         if ($user['mobile'] == '' && $user['email'] == '') {
-            $this->error('请先绑定手机号码', U('Shop/User/setMobile'));
+            //$this->error('请先绑定手机号码', U('Shop/User/setMobile'));
         }
 
         // 存找配货上级
