@@ -245,9 +245,14 @@
             var store_count = $("#store_count").val();
             
             if(({$user_first_leader} == 0) && ({$user.level} <= 2)){
+                layer.open({icon: 2, content: "请先联系客服绑定上下级关系", time: 2000});
+                return;  
                 if (goods_num > store_count) { 
                     layer.open({icon: 2, content: "商品库存不足", time: 2000});
                     return;
+                }else{
+                    layer.open({icon: 2, content: "请先联系客服绑定上下级关系", time: 2000});
+                    return;  
                 }
                 $("#buy_now").submit();
             }else if(({$user_first_leader} > 0) && ({$user.level} <= 2)){
