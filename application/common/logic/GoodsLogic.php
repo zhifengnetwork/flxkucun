@@ -1033,8 +1033,8 @@ class GoodsLogic extends Model
         //删除昨天和前天的文件
         $dir='public/qrcode/goods/'.date('Ymd',time()-3600*24).'/';
         $dir2='public/qrcode/goods/'.date('Ymd',time()-3600*48).'/';
-        $this->deldir($dir);
-        $this->deldir($dir2);
+        // $this->deldir($dir);
+        // $this->deldir($dir2);
         $root = $_SERVER['DOCUMENT_ROOT'].'/';
         //图片缩放
         $goods_price = '￥'.$goods['goods_price'];//现价
