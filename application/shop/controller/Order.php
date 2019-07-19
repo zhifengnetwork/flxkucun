@@ -267,6 +267,45 @@ class Order extends MobileBase
         }
         return $this->fetch();
     }
+
+    public function child_order_list()
+    {
+        $type = input('type');
+        $is_shop = input('is_shop/d');
+        $childid = I('get.user_id/d',0);
+        $order = new OrderModel();
+        $where_arr = [
+            'user_id'=>$childid,
+            //'deleted'=>0,//删除的订单不列出来
+            //'prom_type'=>['lt',5],//虚拟拼团订单不列出来
+            'seller_id'=>$this->user_id,'order_status'=>['not in',[3,5]],'pay_status'=>1,'kucun_type'=>1
+        ];
+        if($is_shop){
+            $where_arr['shop_id'] = ['gt', 0];
+        }
+        $count = $order->where($where_arr)
+            ->where(function ($query) use ($type) {
+                if ($type) {
+                    $query->where("1=1".C(strtoupper($type)));
+                }
+            })
+            ->count();
+        $Page = new Page($count, 10);
+        $order_list = $order->where($where_arr)
+            ->where(function ($query) use ($type) {
+                if ($type) {
+                    $query->where("1=1".C(strtoupper($type)));
+                }
+            })
+            ->limit($Page->firstRow . ',' . $Page->listRows)->order("order_id DESC")->select();
+        $this->assign('level', $this->user['level']);
+        $this->assign('order_list', $order_list);
+        if ($_GET['is_ajax']) {
+            return $this->fetch('ajax_order_list');
+        }
+        return $this->fetch();
+    }
+
     //拼团订单列表
     public function team_list(){
         $type = input('type');

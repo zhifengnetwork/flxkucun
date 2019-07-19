@@ -27,19 +27,23 @@
 	        <div class="content">
 	        	<div class="mom_wrap">
 	        		<div class="top_wrap">
-
+		        		<!--列表标题-->
+		        		<div class="title">
+		        			<div class="active">推荐佣金</div>
+		        			<div>业绩佣金</div>
+		        		</div>
 		        		<!--总金额-->
 		        		<div class="sum_wrap">
-		        			<div>总金额： ￥{$num}</div>
+		        			<div>￥{$num}</div>
+		        			<div>￥{$num1}</div>
 		        		</div>
 		        		<div class="tab_content">
 		        			<!--推荐佣金详细-->
 		        			<div class="main active">
 		        				<div class="detail_list">
-		        					<h4>业绩明细</h4>
+		        					<h4>推荐明细</h4>
 		        					<div class="item_wrap">
 			        					<volist name='tjxiajilist' id='v'>
-										<a href='/Shop/order/child_order_list/user_id/{$v.user_id}'>
 			        					<div class="item">
 	                                        <div class="img_wrap">
 	                                            <img src="{$v.head_pic}" />
@@ -59,17 +63,47 @@
 	                                            </div>
 	                                            <div>
 		                                            <span>金额：￥{$v.total_amount}</span>
-													<span>配货ID：{$v.third_leader}</span>
-													<span>&nbsp;配货数量：{$v.goods_num}</span>
+		                                            <span>配货ID：{$v.third_leader}</span>
 	                                            </div>
 	                                        </div>
-										</div>
-										</a>
+	                                   	</div>
 										</volist>
                                    	</div>
 		        				</div>
 		        			</div>
-
+		        			<!--业绩佣金详细-->
+		        			<div class="main">
+		        				<div class="detail_list">
+		        					<h4>业绩明细</h4>
+		        					<div class="item_wrap">
+										<volist name='phxiajilist' id='v'>
+											<div class="item">
+												<div class="img_wrap">
+													<img src="{$v.head_pic}" />
+												</div>
+												<div class="text">
+													<div>
+														<span>昵称：{$v.nickname}</span>
+														<span>ID：{$v.user_id}</span>
+													</div>
+													<div>
+														<span>手机号：{$v.mobile}</span>
+														<span>等级：{$v.level_name}</span>
+													</div>
+													<div>&nbsp;
+														<!-- <span>商品：和大好河山</span>
+														<span>数量：1000</span> -->
+													</div>
+													<div>
+														<span>金额：￥{$v.total_amount}</span>
+														<span>配货ID：{$v.third_leader}</span>
+													</div>
+												</div>
+											</div>
+										</volist>
+                                   	</div>
+		        				</div>
+		        			</div>
 		        		</div>
 	        		</div>
 	        		
