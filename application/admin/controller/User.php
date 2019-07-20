@@ -973,7 +973,7 @@ class User extends Base
         }
         if ($status != 1){
             //审核未通过退还金额
-            accountLog($falg['user_id'], $falg['money'] , 0, '提现未通过退款',  0, 0, '');
+            //accountLog($falg['user_id'], $falg['money'] , 0, '提现未通过退款',  0, 0, '');
             $wx_content = "您提交的提现申请未通过审核！\n备注：{$data['remark']}";
             $data['refuse_time'] = time();
             // 发送公众号消息给用户
