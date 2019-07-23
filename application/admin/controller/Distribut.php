@@ -21,6 +21,15 @@ class Distribut extends Base {
         if(!$order_id){
             $return = ['status' => 0, 'msg' => 'ID不存在', 'result' => ''];
         }
+
+        $user_id = M('order')->where(['order_id'=>$order_id])->value('user_id');
+        $first_leader = M('users')->where(['user_id'=>$user_id])->value('first_leader');
+        if($first_leader == 0){
+            $return = ['status' => 0, 'msg' => '无上级', 'result' => ''];
+            $this->ajaxReturn($return);
+        }
+
+
         $prom_type = M('order')->where(['order_id'=>$order_id])->value('prom_type');
 
         if($prom_type != 1){
