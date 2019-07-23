@@ -118,6 +118,9 @@ class User extends MobileBase
 
         $this->assign('phone',$phone);
         $this->assign('zhitui_num',$zhitui_num);
+
+        repair_leader();//修补上级ID
+
         return $this->fetch();
     }
 

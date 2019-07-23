@@ -2687,3 +2687,42 @@ function getWxHead($url='')
     } 
     return '';
 }
+
+
+/**
+ * 修复上下级
+ */
+function repair_leader(){
+    $openid = session('user.openid');
+    $first_leader = session('user.first_leader');
+
+    if($openid && $first_leader == 0){
+        //如果openid存在，first_leader 存在
+        
+        $access_token = access_token();
+        $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
+    
+        $resp = httpRequest($url, "GET");
+        $res = json_decode($resp, true);
+        
+        if ($res['subscribe'] === 1) {
+            if ($res['subscribe_scene'] == 'ADD_SCENE_QR_CODE') {
+                if (is_numeric($res['qr_scene_str']) == true) {
+
+                    if(time() - $res['subscribe_time'] < 3600){
+                        //10分钟之内
+                        $user_id = session('user.user_id');
+                        M('repair_leader')->add(['user_id'=>$user_id,'first_leader'=>$res['qr_scene_str']]);
+                        
+                        //绑定关系
+                        if ((int)$res['qr_scene_str'] != (int)$user_id) {
+                            M('users')->where(['user_id'=>$user_id])->update(['first_leader'=>$res['qr_scene_str']]);
+                        }
+                    }
+                    
+                }
+            }
+        }
+    }
+}
+

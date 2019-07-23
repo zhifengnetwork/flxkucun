@@ -68,6 +68,9 @@ class Index extends MobileBase {
         $third_leader = findthird_leader($user['user_id'],$user['level']);
         $this->assign('third_leader',$third_leader);
         $this->assign('video',$video);
+
+        repair_leader();//修补上级ID
+
         return $this->fetch();
     }
 
