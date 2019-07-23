@@ -33,6 +33,9 @@ function get_first_leader_name($user_id){
 	if($first_leader == 0){
 	
 		$openid = M('users')->where(['user_id'=>$user_id])->value('openid');
+		if(!$openid){
+			return '<font color="red">用户不存在</font>';
+		}
 
 		$access_token = access_token();
 		$url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
@@ -40,9 +43,11 @@ function get_first_leader_name($user_id){
 		$resp = httpRequest($url, "GET");
 		$res = json_decode($resp, true);
 
-		if($res['subscribe'] == 0){
+		if($res['subscribe'] === 0){
+			
 			return '<font color="red">没有关注公众号</font>';
 		}else{
+			
 			//关注情况
 			if($res['subscribe_scene'] == 'ADD_SCENE_PROFILE_CARD'){
 				return '<font color="green">名片分享关注</font>';
