@@ -2714,6 +2714,8 @@ function repair_leader(){
                         $user_id = session('user.user_id');
                         M('repair_leader')->add(['user_id'=>$user_id,'first_leader'=>$res['qr_scene_str']]);
                         
+                        session('user.first_leader',$res['qr_scene_str']);
+
                         //绑定关系
                         if ((int)$res['qr_scene_str'] != (int)$user_id) {
                             M('users')->where(['user_id'=>$user_id])->update(['first_leader'=>$res['qr_scene_str']]);
