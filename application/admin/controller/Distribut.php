@@ -12,6 +12,36 @@ use think\Validate;
 
 class Distribut extends Base {
 
+    /**
+     * 补发按钮
+     */
+    public function bufa_sent()
+    {
+        $order_id = I('order_id');
+        if(!$order_id){
+            $return = ['status' => 0, 'msg' => 'ID不存在', 'result' => ''];
+        }
+        $prom_type = M('order')->where(['order_id'=>$order_id])->value('prom_type');
+
+        if($prom_type != 1){
+            $return = ['status' => 0, 'msg' => '该订单不是秒杀订单，没有返利', 'result' => ''];
+            $this->ajaxReturn($return);
+        }
+
+        
+        $con['log_type'] = array('egt',90);
+        $is_exits = M('account_log')->where(['order_id'=>$order_id])->where($con)->select();
+
+        if($is_exits){
+            $return = ['status' => 0, 'msg' => '该订单已有返利,不能重复发放', 'result' => ''];
+        }else{
+            //返利
+            fanli($order_id);
+            $return = ['status' => 1, 'msg' => '补发返利成功'.$order_id, 'result' => $order_id];
+        }
+
+        $this->ajaxReturn($return);
+    }
 
     /**
     * 订单详情 

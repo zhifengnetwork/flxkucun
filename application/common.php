@@ -1413,7 +1413,6 @@ function change_role($order_id)
  */
 function fanli($order_id)
 {
-
     $r = M('order_divide')->where(['order_id' => $order_id])->find();
 
     //记录表
@@ -1422,11 +1421,12 @@ function fanli($order_id)
     //}
 
     $order = M('order')->field('seller_id,order_sn,user_id,prom_id,prom_type,shipping_price,total_amount')->where(['order_id' => $order_id])->find();
-
+   
     $userId = $order['user_id'];
     $orderSn = $order['order_sn'];
 
     $goods_list = M('order_goods')->where(['order_id' => $order_id])->select();
+   
     //agent_performance($order_id);
     foreach ($goods_list as $k => $v) {
 
@@ -1435,6 +1435,7 @@ function fanli($order_id)
 
         //团购
         if ($order['prom_type'] == 2) {
+
             M('warehouse_goods')->where(['user_id' => $order['user_id'], 'goods_id' => $goodId])->setDec('nums', 1);
             M('warehouse_goods')->where(['user_id' => $order['user_id'], 'goods_id' => $goodId])->update(['change_time' => time()]);
             M('warehouse')->where(['user_id' => $order['user_id']])->setDec('totals', 1);

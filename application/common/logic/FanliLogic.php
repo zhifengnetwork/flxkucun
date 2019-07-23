@@ -54,7 +54,9 @@ class FanliLogic extends Model
     //会员返利
 	public function fanliModel()
 	{
+	
 		$price = M('goods')->where(['goods_id'=>$this->goodId])->value('shop_price');
+		
 		//判断商品是否是活动商品
 		$good = M('goods')->where('goods_id', $this->goodId)->field('is_distribut,is_agent')->find();
 		//获取每个产品返利数据
@@ -67,7 +69,13 @@ class FanliLogic extends Model
 		//用户购买后检查升级
 		$this->checkuserlevel($this->userId,$this->orderId);
 		$pro_num = $this->getproductnum();
-		if($this->prom_type == 1)$this->flash_sale_commission(); //秒杀返利
+
+		if($this->prom_type == 1)
+		{
+			$this->flash_sale_commission(); //秒杀返利
+		}
+
+
 		if($this->goodId==$this->tgoodsid )//是否特殊产品
 		{ return true;
 			$this->addhostmoney($user_info['user_id'],$parent_info);//店主推荐店主
@@ -673,7 +681,11 @@ class FanliLogic extends Model
       
 	}
 
+	/**
+	 * 秒杀返利
+	 */
 	private function set_flash_sale_commission($user_id,$commissioninfo,$status){
+
 		if(!$commissioninfo)return;
 		$desc = "下级秒杀".$this->goodNum.'件返利';
 		if($this->goodNum == 1){
@@ -707,7 +719,20 @@ class FanliLogic extends Model
 			return false;
 	}
 	
+
+	/**
+	 * 秒杀返利
+	 */
 	private function flash_sale_commission(){
+		//判断是否已经返利了
+		$con['log_type'] = array('egt',90);
+		$is_exits = M('account_log')->where(['order_id'=>$this->orderId])->where($con)->find();
+		if($is_exits){
+			//已经返利了
+			// exit;
+			return false;
+		}
+
 		//获取下单用户上级的级别
 		$UsersLogic = new \app\common\logic\UsersLogic();
 		$leader = $UsersLogic->getUserLevTop($this->userId,3);
