@@ -1452,6 +1452,8 @@ function fanli($order_id)
         $model = new FanliLogic($userId, $goodId, $goodNum, $orderSn, $order_id, $order['prom_type'], $order['prom_id']);
         $res = $model->fanliModel();
     }
+
+    return $res;
 }
 /**
  * 订单确认收货

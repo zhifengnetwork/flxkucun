@@ -28,7 +28,7 @@ class Distribut extends Base {
             $this->ajaxReturn($return);
         }
 
-        
+
         $con['log_type'] = array('egt',90);
         $is_exits = M('account_log')->where(['order_id'=>$order_id])->where($con)->select();
 
@@ -36,8 +36,14 @@ class Distribut extends Base {
             $return = ['status' => 0, 'msg' => '该订单已有返利,不能重复发放', 'result' => ''];
         }else{
             //返利
-            fanli($order_id);
-            $return = ['status' => 1, 'msg' => '补发返利成功'.$order_id, 'result' => $order_id];
+            $res = fanli($order_id);
+            $res = json_decode($res,true);
+            if($res['status'] == 0){
+                $return = ['status' => 0, 'msg' => $res['msg'], 'result' => ''];
+            }else{
+                $return = ['status' => 1, 'msg' => '补发返利成功'.$order_id, 'result' => $order_id];
+            }
+            
         }
 
         $this->ajaxReturn($return);

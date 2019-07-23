@@ -72,7 +72,7 @@ class FanliLogic extends Model
 
 		if($this->prom_type == 1)
 		{
-			$this->flash_sale_commission(); //秒杀返利
+			return $this->flash_sale_commission(); //秒杀返利
 		}
 
 
@@ -121,6 +121,8 @@ class FanliLogic extends Model
 			}     
 		}
 	}
+
+
 	//会员升级
 	public function checkuserlevel($user_id,$order_id)
 	{
@@ -724,19 +726,22 @@ class FanliLogic extends Model
 	 * 秒杀返利
 	 */
 	private function flash_sale_commission(){
+	
 		//判断是否已经返利了
 		$con['log_type'] = array('egt',90);
 		$is_exits = M('account_log')->where(['order_id'=>$this->orderId])->where($con)->find();
 		if($is_exits){
 			//已经返利了
+			// dump('already');
 			// exit;
-			return false;
+        	return json_encode(['status' => 0, 'msg' => '已经返利了' ],JSON_UNESCAPED_UNICODE );
 		}
-
+		
 		//获取下单用户上级的级别
 		$UsersLogic = new \app\common\logic\UsersLogic();
 		$leader = $UsersLogic->getUserLevTop($this->userId,3);
 		$FlashSaleCommission = M('flash_sale_commission');
+		
 		if(!$leader['user_id']){
 			$leader = $UsersLogic->getUserLevTop($this->userId,4);	
 			if(!$leader['user_id']){
@@ -752,7 +757,14 @@ class FanliLogic extends Model
 			}
 		}
 
+		//  dump($leader);exit;
+		//  array(2) {
+		// 		["user_id"] => int(3915)
+		// 		["level"] => int(1)
+		//   }
+
 		if(!$leader['user_id'])return;
+		
 		$commissioninfo = $FlashSaleCommission->where(['flash_sale_id'=>$this->prom_id,'level'=>$leader['level']])->find();
 		if($leader['level'] == 3){
 			$this->set_flash_sale_commission($leader['user_id'],$commissioninfo,90);
@@ -830,6 +842,11 @@ class FanliLogic extends Model
 			$this->next_lev_commission($commissioninfo,$leader,93,6);	
 		}
 		
+
+		if($leader['level'] <= 2){
+        	return json_encode(['status' => 0, 'msg' => '只返大于总代或总代以上级别的人' ],JSON_UNESCAPED_UNICODE );
+		}
+
 	}
 
 	
