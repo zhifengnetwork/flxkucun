@@ -267,7 +267,6 @@ class Cart extends MobileBase {
         
     }
 
-
     /**
      * ajax 获取订单商品价格 或者提交 订单
      */
@@ -323,6 +322,7 @@ class Cart extends MobileBase {
             $this->ajaxReturn(['status' => 0, 'msg' => $error, 'result' => '']);
         }
         $address = Db::name('user_address')->where("address_id", $address_id)->find();
+  
         $cartLogic = new CartLogic();
         $pay = new Pay();
         try {
@@ -373,10 +373,12 @@ class Cart extends MobileBase {
             elseif ($_REQUEST['act'] == 'kucun_submit_order') {
                 if($kuaidi_type == 2)$pay->setShippingPrice(0);
                 $placeOrder = new PlaceOrder($pay);
+
                 if(($type == 1) || $applyid){
                     $placeOrder->setUserNote($user_note)->setOrdertype()->setApplyid($applyid,$type)->setPayPsw($pay_pwd)->setSellerId($seller_id)->addNormalOrder();
                 }elseif($third_leader){ 
-                    $placeOrder->setThird_leader($third_leader)->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->setApplyid($applyid,$type)->setKuaiditype($kuaidi_type)->addNormalOrder();
+                    //补充地址 20190723 20:11
+                    $placeOrder->setUserAddress($address)->setThird_leader($third_leader)->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->setApplyid($applyid,$type)->setKuaiditype($kuaidi_type)->addNormalOrder();
                 }else{
                     $placeOrder->setUserAddress($address)->setUserNote($user_note)->setPayPsw($pay_pwd)->setSellerId($seller_id)->setApplyid($applyid,$type)->setKuaiditype($kuaidi_type)->addNormalOrder();
                 }
