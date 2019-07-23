@@ -1375,6 +1375,7 @@ class User extends MobileBase
             }
 
             if (M('withdrawals')->add($data)) {
+                Db::name('users')->where(['user_id'=>$data['user_id']])->setDec('user_money',$data['money']);
                 $this->ajaxReturn(['status'=>1,'msg'=>"已提交申请",'url'=>U('User/account',['type'=>2])]);
             } else {
                 $this->ajaxReturn(['status'=>0,'msg'=>'提交失败,联系客服!']);
