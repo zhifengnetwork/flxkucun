@@ -48,6 +48,24 @@ function get_first_leader_name($user_id){
 			return '<font color="red">没有关注公众号</font>';
 		}else{
 			
+			if($res['subscribe_scene'] == 'ADD_SCENE_QR_CODE'){
+				if(is_numeric($res['qr_scene_str']) == false){
+					return '<font color="blue">扫描旧海报关注</font>';
+				}else{
+					//绑定关系
+					if( (int)$res['qr_scene_str'] == (int)$user_id){
+						return '<font color="blue">自己扫自己的码</font>';
+					}
+
+					M('users')->where(['user_id'=>$user_id])->update(['first_leader'=>$res['qr_scene_str']]);
+
+					return M('users')->where(['user_id'=>$res['qr_scene_str']])->value('nickname');
+
+					//return '<font color="blue">扫描（'.$res['qr_scene_str'].'）二维码</font>';
+				}
+			}
+
+
 			//关注情况
 			if($res['subscribe_scene'] == 'ADD_SCENE_PROFILE_CARD'){
 				return '<font color="green">名片分享关注</font>';
