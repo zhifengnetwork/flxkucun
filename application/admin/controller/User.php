@@ -951,7 +951,7 @@ class User extends Base
         $id_arr = I('id/a');
        
         if(count($id_arr) > 1){
-            $this->ajaxReturn(array('status' => 0, 'msg' => "操作失败，请单选"), 'JSON');
+            $this->ajaxReturn(array('status' => 0, 'msg' => "一个一个来"), 'JSON');
             exit;
         }
 
@@ -1001,7 +1001,7 @@ class User extends Base
             $this->ajaxReturn(array('status' => 0, 'msg' => "操作失败，ID不能为空"), 'JSON');
             exit;
         }
-
+     
         // //写记录（扣钱）
         // $rr = accountLog($falg['user_id'], -$falg['money'], 0, '提现编号:'.$ids,0, 0 , 0);
         // if($rr == false){
@@ -1015,10 +1015,11 @@ class User extends Base
         if($falg['bank_name'] == '微信'){  
             //微信
             $result = $this->withdrawals_weixin($falg['id']);
+          
             if(isset($result['status'])){
                 // 发送公众号消息给用户
                 $wechat = new \app\common\logic\wechat\WechatUtil();
-                $wechat->sendMsg($user_find['openid'], 'text', '您提交的提现申请操作失败！');
+                $wechat->sendMsg($user_find['openid'], 'text', '您提交的提现申请操作失败！'.$result['msg']);
                 $this->ajaxReturn(array('status' => 0, 'msg' => $result['msg']), 'JSON');
                 exit;
             }else{
@@ -1037,7 +1038,7 @@ class User extends Base
             // ["payment_no"] => string(28) "1507131181201903296764930713"
             // ["payment_time"] => string(19) "2019-03-29 15:20:40"
         }
-		
+      
         $r = Db::name('withdrawals')->whereIn('id', $ids)->update($data);
         if ($r !== false) {
          
