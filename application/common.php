@@ -1260,7 +1260,7 @@ function update_pay_status($order_sn, $ext = array())
         if (!$order) {
             return false;
         }
-// 看看有没已经处理过这笔订单  支付宝返回不重复处理操作
+        // 看看有没已经处理过这笔订单  支付宝返回不重复处理操作
         M('AuctionDeposit')->where("order_sn", $order_sn)->save(array('status' => 1, 'pay_time' => $time));
         M('Auction')->where('id', 2)->setInc('buy_num');
         dump(8888);exit;
@@ -1327,12 +1327,12 @@ function update_pay_status($order_sn, $ext = array())
         $distribut_condition = tpCache('distribut.condition');
         //if($distribut_condition == 1)  // 购买商品付款才可以成为分销商
         //M('users')->where("user_id", $order['user_id'])->save(array('is_distribut'=>1));
-        change_role($order['order_id']);
+        //change_role($order['order_id']);
         fanli($order['order_id']);
 
         //奖金池
-        $BonusPoolLogic = new BonusPoolLogic();
-        $BonusPoolLogic->is_receive($order);
+        //$BonusPoolLogic = new BonusPoolLogic();
+        //$BonusPoolLogic->is_receive($order);
 
         //虚拟服务类商品支付
         if ($order['prom_type'] == 5) {
@@ -1449,7 +1449,7 @@ function fanli($order_id)
             }
         }
 
-        $model = new FanliLogic($userId, $goodId, $goodNum, $orderSn, $order_id, $order['prom_type'], $order['prom_id']);
+        $model = new FanliLogic($userId, $goodId, $goodNum, $orderSn, $order_id, $v['prom_type'], $v['prom_id']);
         $res = $model->fanliModel();
     }
 
