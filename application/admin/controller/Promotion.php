@@ -620,7 +620,7 @@ class Promotion extends Base
         if (IS_POST) {
             $data = I('post.');
             $data['start_time'] = strtotime($data['start_time'].' '.$data['start_time_h'].':0:0');
-            $data['end_time'] = $data['start_time']+7200;
+            $data['end_time'] = $data['start_time']+7200+7200;
             $flashSaleValidate = Loader::validate('FlashSale');
             if (!$flashSaleValidate->batch()->check($data)) {
                 $return = ['status' => 3, 'msg' => '操作失败', 'result' => $flashSaleValidate->getError()];
