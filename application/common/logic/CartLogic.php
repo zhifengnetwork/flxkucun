@@ -191,14 +191,20 @@ class CartLogic extends Model
         }
 
         if($this->goods['prom_type'] == 1){
+            //今天0点的时间戳
+            $beginToday = mktime(0,0,0,date('m'),date('d'),date('Y'));
+            
             $isBuyWhere = [
                 'og.goods_id'=>$this->goods['goods_id'],
                 'o.user_id'=>$this->user_id,
                 'o.deleted'=>0,
-                'o.order_status'=>['neq',3]
+                'o.order_status'=>['neq',3],
+                'o.add_time' => ['egt',$beginToday]
             ];
+            
             $isBuySum = Db::name('order_goods')->alias('og')->join('__ORDER__ o','og.order_id = o.order_id','LEFT')->where($isBuyWhere)->sum('og.goods_num');
             $buy_limit = M('flash_sale')->where(['id'=>$this->goods['prom_id']])->value('buy_limit');
+         
             if (($this->goodsBuyNum + $isBuySum) > $buy_limit) {
                 throw new TpshopException('立即购买',0,['status' => 0, 'msg' => '您已超过该商品的限制购买数 '.$buy_limit.'件', 'result' => '']);
             }
