@@ -197,7 +197,7 @@
 
                 <!-- 按钮 -->
                 <div class="tfoot">
-                    <button class="confirmBtn" onclick="skuHide()">确定</button>
+                    <button class="confirmBtn" id="confirmBtn">确定</button>
                 </div>
 
             </div>
@@ -240,6 +240,19 @@
 	<script src="__STATIC__/js/public/public.js"></script>
     <script src="__STATIC__/js/public/swiper.min.js"></script>
     <script src="__STATIC__/js/layer_mobile.js"></script>
+
+    <script>
+        $("#confirmBtn").click(function(){
+            skuHide();
+            var jifen = "{$goods.exchange_integral}" * $('#number').val();
+            if( "{$user.pay_points}" < jifen){
+                layer.open({type:0, content: '您的积分不足！当前积分：{$user.pay_points}，需要' + jifen + "积分", time: 6});
+                return false;
+            }
+            $("#buy_now").submit();
+        }) 
+    </script>
+
     <script>
         /*
         *主图轮播效果
@@ -262,14 +275,7 @@
             },
         });
 
-        $('.confirmBtn').click(function(){
-            if({$user.pay_points} < ({$goods.exchange_integral} * $('#number').val())){
-                layer.open({type:0, content: '您的积分不足', time: 5});
-				//alert('您的积分不足');
-                return;
-            }
-            $("#buy_now").submit();
-        }); 
+      
 
         /**
          * 分享
