@@ -34,6 +34,8 @@ class PayNotifyCallBack extends WxPayNotify
 	{
         Log::DEBUG("call back:" . json_encode($data));
 
+        write_log(json_encode($data));
+
         if (!array_key_exists("transaction_id", $data)) {
             $msg = "输入参数不正确";
             return false;
@@ -49,9 +51,14 @@ class PayNotifyCallBack extends WxPayNotify
         $attach = $data['attach']; //商家数据包，原样返回
         //file_put_contents('/web/tpshop2/c.html',print_r($data,true),FILE_APPEND);
         //20160316 JSAPI支付情况 去掉订单号后面的十位时间戳
+
+        write_log('notify line 55 order_sn : '.$order_sn);
+
         if (strlen($order_sn) > 18) {
             $order_sn = substr($order_sn, 0, 18);
         }
+
+        write_log('notify line 61 order_sn : '.$order_sn);
 
         //用户在线充值
         if (stripos($order_sn, 'recharge') !== false) {
@@ -66,8 +73,11 @@ class PayNotifyCallBack extends WxPayNotify
         }
 
         if ((string)($order_amount * 100) != (string)$data['total_fee']) {
+            write_log('notify line 76  金额验证失败 ');
             return false; //验证失败
         }
+
+        write_log('notify line 80 attach : '.$attach);
 
         update_pay_status($order_sn, array('attach'=>$attach,'transaction_id' => $data["transaction_id"])); // 修改订单支付状态
 		

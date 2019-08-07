@@ -1,17 +1,4 @@
 <?php
-/**
- * tpshop 微信支付插件
- * ============================================================================
- * 版权所有 2015-2027 广州滴蕊生物科技有限公司，并保留所有权利。
- * 网站地址: http://www.dchqzg1688.com
- * ----------------------------------------------------------------------------
- * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和使用 .
- * 不允许对程序代码以任何形式任何目的的再发布。
- * 如果商业用途务必到官方购买正版授权, 以免引起不必要的法律纠纷.
- * ============================================================================
- * Author: IT宇宙人
- * Date: 2015-09-09
- */
 
 /**
  * 支付 逻辑定义
@@ -51,7 +38,8 @@ class weixin
         $input = new WxPayUnifiedOrder();
         $input->SetBody($config['body']); // 商品描述
         $input->SetAttach("weixin"); // 附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
-        $input->SetOut_trade_no($order['order_sn'] . time()); // 商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
+		$input->SetOut_trade_no($order['order_sn']); // 商户系统内部的订单号,32个字符内、可包含字母, 其他说明见商户订单号
+		// . time()   去掉时间戳
         $input->SetTotal_fee($order['order_amount'] * 100); // 订单总金额，单位为分，详见支付金额
         $input->SetNotify_url($notify_url); // 接收微信支付异步通知回调地址，通知url必须为直接可访问的url，不能携带参数。
         $input->SetTrade_type("NATIVE"); // 交易类型   取值如下：JSAPI，NATIVE，APP，详细说明见参数规定    NATIVE--原生扫码支付
@@ -107,7 +95,7 @@ class weixin
         else 
             $input->SetAttach("weixin");
 
-        $input->SetOut_trade_no($order['order_sn'].time());
+        $input->SetOut_trade_no($order['order_sn']);//去掉时间戳  .time() 
         $input->SetTotal_fee($order['order_amount']*100);
         $input->SetTime_start(date("YmdHis"));
         $input->SetTime_expire(date("YmdHis", time() + 600));
@@ -136,7 +124,7 @@ class weixin
 				    location.href='$go_url';
 				 }else{
 				    $is_alert;
-				 	alert(res.err_code+res.err_desc+res.err_msg);
+				 	//alert(res.err_code+res.err_desc+res.err_msg);
 				    location.href='$back_url';
 				 }
 			}
@@ -275,8 +263,6 @@ EOF;
         }
     	$sContent = curl_exec($oCurl);  
         $aStatus = curl_getinfo($oCurl);
-        //dump(curl_error($oCurl)); exit;
-        //dump($sContent);dump($aStatus); exit;
     	curl_close($oCurl);
     	if (intval($aStatus["http_code"]) == 200) {
     		return $sContent;
@@ -287,8 +273,8 @@ EOF;
     
      // 微信订单退款原路退回
     public function payment_refund($data){
-    header("Content-type: text/html; charset=utf-8");
-exit("请联系DC环球直供网络客服购买高级版支持此功能");
+    	header("Content-type: text/html; charset=utf-8");
+		exit("不支持此功能");
     }
 
 }
