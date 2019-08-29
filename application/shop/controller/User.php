@@ -302,9 +302,6 @@ class User extends MobileBase
     // 上级仓库
     public function superior_store()
     {
-        header('Content-Type: text/html; charset=utf-8');
-        exit("进货功能已关闭");
-
         $logic = new UsersLogic();
         $data = $logic->get_info($this->user_id);
         $user = $data['result'];
@@ -316,6 +313,11 @@ class User extends MobileBase
         $goods_id = I('get.goods_id/d',0);
         $type = I('get.type/d',1);
         //if(!$goods_id)$this->error('参数错误');
+
+        if($type == 1){
+            header('Content-Type: text/html; charset=utf-8');
+            exit("进货功能已关闭");
+        }
 
         // 找配货上级
         $new_kucun = array();
