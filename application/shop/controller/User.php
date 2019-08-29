@@ -302,6 +302,9 @@ class User extends MobileBase
     // 上级仓库
     public function superior_store()
     {
+        header('Content-Type: text/html; charset=utf-8');
+        exit("进货功能已关闭");
+
         $logic = new UsersLogic();
         $data = $logic->get_info($this->user_id);
         $user = $data['result'];

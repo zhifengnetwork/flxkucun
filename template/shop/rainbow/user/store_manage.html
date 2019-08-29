@@ -104,22 +104,22 @@
         		<div class="BuyTake">
 					<if condition="$user.level elt 2 and $third_leader eq 0">
 						<!--进货按钮-->
-						<a class="buy_btn" href="{:U('User/superior_store',['third_leader'=>$third_leader,'type'=>1])}">进货</a>
+						<!--<a class="buy_btn" href="{:U('User/superior_store',['third_leader'=>$third_leader,'type'=>1])}">进货</a>-->
 					<elseif condition="$user.level gt 2 and $third_leader eq 0">
 						<!--进货按钮-->
-						<a class="buy_btn" href="{:U('User/superior_store',['third_leader'=>$third_leader,'type'=>1])}">进货</a>
+						<!--<a class="buy_btn" href="{:U('User/superior_store',['third_leader'=>$third_leader,'type'=>1])}">进货</a>-->
 						<!--取货按钮-->
 						<a class="take_btn" href="{:U('User/superior_store',['third_leader'=>$third_leader,'type'=>2])}">取货</a>
 						<!--发货按钮-->
 						<a class="goods_btn" href="{:U('Order/order_send')}">发货</a>
 					<elseif condition="$user.level elt 2 and $third_leader gt 0">
 							<!--进货按钮-->
-							<a class="buy_btn" href="{:U('User/superior_store',['third_leader'=>$third_leader,'type'=>1])}">进货</a>
+							<!--<a class="buy_btn" href="{:U('User/superior_store',['third_leader'=>$third_leader,'type'=>1])}">进货</a>-->
 							<!--取货按钮-->
 							<a class="take_btn" href="{:U('User/superior_store',['third_leader'=>$third_leader,'type'=>2])}">购买</a>
 					<elseif condition="$user.level gt 2 and $third_leader gt 0">
 							<!--进货按钮-->
-							<a class="buy_btn" href="{:U('User/superior_store',['third_leader'=>$third_leader,'type'=>1])}">进货</a>
+							<!--<a class="buy_btn" href="{:U('User/superior_store',['third_leader'=>$third_leader,'type'=>1])}">进货</a>-->
 					</if>
         		</div>
 	        </div>
